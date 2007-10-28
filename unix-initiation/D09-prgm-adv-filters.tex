@@ -1,0 +1,367 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{\label{adv-filters}Utilisation avanc{\'e}es de certains filtres}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Dans la section \ref{bcpts-filters}, nous avons d{\'e}j{\`a} examiner la
+syntaxe de quelques filtres. Nous allons maintenant regarder comment
+certains d'entre eux utilisent les expressions r{\'e}guli{\`e}res. Nous
+examinerons les filtres suivants~:
+\begin{itemize}
+	\item	<<~{\tt grep}~>>,
+	\item	<<~{\tt egrep}~>>,
+	\item	<<~{\tt fgrep}~>>.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Utilisation avanc{\'e}e de <<~{\tt grep}~>>, <<~{\tt egrep}~>>
+		et <<~{\tt fgrep}~>>}
+
+%%%%%%%%%%%%
+\subsection{Introduction - Rappels}
+
+Le filtre \index{grep@\texttt{grep}}<<~{\tt grep}~>> est utilis{\'e} pour rechercher, dans un fichier,
+les lignes qui contiennent une cha{\^\i}ne de caract{\`e}res pr{\'e}cise.
+
+\begin{definition}{Syntaxe~:}
+{\tt grep [{\sl options}] {\sl expression-r{\'e}guli{\`e}re} [{\sl liste-de-fichiers}]}
+\end{definition}
+
+<<~{\tt grep}~>> compare les lignes sur son entr{\'e}e standard ou dans le
+(les) fichier(s) {\`a} une expression r{\'e}guli{\`e}re plac{\'e}e sur la ligne de
+commande. Il envoie ensuite sur la sortie standard toutes les lignes en
+entr{\'e}e correspondant {\`a} l'expression r{\'e}guli{\`e}re. Si l'expression r{\'e}guli{\`e}re
+contient des caract{\`e}res pouvant {\^e}tre interpr{\'e}t{\'e}s par le Shell, elle doit
+{\^e}tre plac{\'e}e dans ce cas entre simple quotes <<~\verb='=~>> ou doubles quotes <<~\verb="=~>>.
+
+\begin{definition}{Principales options}
+\begin{tabular}{l@{\hspace{3ex}}p{10cm}}
+	{\tt -c}	&	donne uniquement le nombre d'occurrences trouv{\'e}es,\\[0.5ex]
+	{\tt -i}	&	ignore les majuscules/minuscules,\\[0.5ex]
+	{\tt -l}	&	donne uniquement le nom des fichiers en entr{\'e}e dans lesquels
+					au moins une occurrence a {\'e}t{\'e} trouv{\'e}e,\\[0.5ex]
+	{\tt -n}	&	affiche le num{\'e}ro de la ligne o{\`u} se trouve
+					l'occurrence,\\[0.5ex]
+	{\tt -v}	&	donne les lignes dans lesquelles aucune occurrence n'a pas
+					{\'e}t{\'e} trouv{\'e}e.\\
+\end{tabular}
+\end{definition}
+
+\begin{remarque}
+Les options <<~{\tt -c}~>>, <<~{\tt -v}~>> et <<~{\tt -n}~>> ne peuvent pas se
+combiner entre elles.
+\end{remarque}
+
+\begin{example}
+\begin{tabular}{l@{\hspace{2ex}}p{6cm}}
+	\verb=grep dulac /etc/passwd=	&
+		Recherche la chaine <<~{\tt dulac}~>> dans le fichier
+		<<~{\tt /etc/passwd}~>>.	\\[0.5ex]
+	\verb=grep '\\' albert=			&
+		Recherche la chaine <<~\verb=\\=~>> dans le fichier <<~{\tt albert}~>>
+		se trouvant dans le r{\'e}pertoire courant.	\\[0.5ex]
+	\verb=grep \' arthur=			&
+		Recherche la chaine <<~{\tt '}~>> dans le fichier <<~{\tt albert}~>>
+		se trouvant dans le r{\'e}pertoire courant.	\\[0.5ex]
+	\verb=grep "''" the.king=		&
+		Recherche la chaine <<~\verb=''=~>> dans le fichier <<~{\tt the.king}~>>
+		se trouvant dans le r{\'e}pertoire courant.	\\
+\end{tabular}
+\end{example}
+
+%%%%%%%%%%%%
+\subsection{Utilisation de <<~{\tt grep}~>>}
+
+\index{grep@\texttt{grep}!utilisation}<<~{\tt grep}~>> accepte un ensemble restreint d'expressions r{\'e}guli{\`e}res,
+en particulier, il n'accepte pas les symboles suivants~:\\
+\begin{center}
+\begin{tabular}{c@{\hspace{5ex}}c}
+	\verb=+=	&	\verb=?=	\\
+	\verb=|=	&	\verb=( )=	\\
+\end{tabular}
+\end{center}
+
+<<~{\tt grep}~>> renvoie au shell un statut sur le r{\'e}sultat de sa recherche.
+Les diff{\'e}rentes valeurs possibles sont~:
+
+\begin{center}
+\begin{tabular}
+	{|@{\hspace{0.5ex}}c@{\hspace{0.5ex}}|@{\hspace{0.5ex}}p{5cm}@{\hspace{0.5ex}}|}
+	\hline
+		Code	&	Description	\\
+	\hline \hline
+		0		&	une occurrence au moins a {\'e}t{\'e} trouv{\'e}e.	\\[0.5ex]
+		1		&	aucune occurrence n'a {\'e}t{\'e} trouv{\'e}e.		\\[0.5ex]
+		2		&	il y a une erreur de syntaxe ou bien un
+					des fichiers en entr{\'e}e n'est pas
+					accessible								\\
+	\hline
+\end{tabular}
+\end{center}
+
+\begin{remarque}
+Un statut <<~0~>> est {\'e}quivalent {\`a} <<~{\sl Vrai}~>>.\\
+Un statut non nul {\'e}quivaut {\`a} <<~{\sl Faux}~>>.
+\end{remarque}
+
+On peut donc utiliser ce code dans les scripts lors de tests. Par exemple,
+il est possible d'afficher un message lorsque la recherche a {\'e}t{\'e} fructueuse
+ou non. Pour cela, la sortie standard de la commande <<~{\tt grep}~>> sera
+redirig{\'e}e dans un fichier sp{\'e}cial et seul le statut d'ex{\'e}cution sera
+utilis{\'e}.
+
+\begin{example}
+\begin{alltt}
+if grep expression fichier >/dev/null 2>&1; then
+    echo "Gagn{\'e}"
+else
+    echo "Perdu"
+fi
+\end{alltt}
+Dans cet exemple, la commande <<~{\tt grep}~>> effectue sa recherche
+dans <<~{\tt fichier}~>>. Tout message d'erreur ou r{\'e}sultat d'affichage
+n'appara{\^i}tra pas {\`a} l'{\'e}cran. Si la recherche donne un r{\'e}sultat
+(<<~\verb,$? = 0,~>>), le message <<~{\tt Gagn{\'e}}~>> sera affich{\'e}. Si la
+recherche est infructueuse ou s'il se produit une erreur, <<~{\tt Perdu}~>>
+sera affich{\'e}.
+\end{example}
+
+\begin{example}
+\begin{verbatim}
+grep '^[0-9][0-9]' fichier
+\end{verbatim}
+Dans cet exemple, on fait appel {\`a} la notion d'expression r{\'e}guli{\`e}re
+(cf. \ref{reg-exp}). L'expression <<~\verb=^[0-9][0-9]=~>> se d{\'e}compose
+de la fa\c{c}on suivante~:\\[1ex]
+\begin{tabular}{l@{\hspace{2ex}}p{10cm}}
+	\verb=^=		&	D{\'e}but de ligne.	\\[0.5ex]
+	\verb=[0-9]=	&	Caract{\`e}re quelconque compris entre les codes
+						{\ASCII} de 0 et de 9. Ces caract{\`e}res sont~: 0, 1, 2,
+						3, 4, 5, 6, 7, 8, 9. Par cons{\'e}quent <<~\verb=[0-9]=~>>
+						repr{\'e}sente un chiffre quelconque. Celui-ci doit
+						appara{\^\i}tre une seule fois juste apr{\`e}s le d{\'e}but de
+						ligne	\\[0.5ex]
+	\verb=[0-9]=	&	Le second <<~\verb=[0-9]=~>> repr{\'e}sente lui-aussi
+						un chiffre quelconque. Celui-ci doit appara{\^\i}tre une
+						seule fois juste apr{\`e}s le pr{\'e}c{\'e}dent chiffre.
+\end{tabular}
+Cette expression r{\'e}guli{\`e}re permet de d{\'e}crire toute chaine de caract{\`e}res
+commencant par deux chiffres quelconque. La commande <<~{\tt grep}~>>
+va donc extraire de <<~{\tt fichier}~>>, toutes les lignes commencant
+par deux chiffres.
+\end{example}
+
+%%%%%%%%%%%%
+\section{\label{adv-fltrs-egrep}Utilisation de <<~{\tt egrep}~>>}
+
+\index{egrep@\texttt{egrep}}\index{grep@\texttt{grep}!egrep@\texttt{egrep}}La
+commande <<~{\tt egrep}~>> fonctionne comme la commande <<~{\tt grep}~>>.
+Par contre~:
+\begin{itemize}
+	\item	elle accepte la d{\'e}finition compl{\`e}te des expressions r{\'e}guli{\`e}res
+			y compris <<~\verb=+=~>>, <<~\verb=?=~>>, <<~\verb=|=~>>
+			et <<~\verb=( )=~>>.
+	\item	elle admet une option suppl{\'e}mentaire <<~{\tt -f}~>>.
+			Celle-ci permet de sp{\'e}cifier le nom d'un fichier contenant
+			l'ensemble des expressions r{\'e}guli{\`e}res {\`a} rechercher dans
+			les fichiers pr{\'e}sents sur la ligne de commande.
+\end{itemize}
+
+\begin{example}
+\begin{verbatim}
+egrep -f fic.expressions.regulieres fichier1 fichier2
+\end{verbatim}
+Cet exemple donne un apercu de l'utilisation de l'option <<~{\tt -f}~>>.
+Toutes les lignes de <<~{\tt fichier1}~>> et <<~{\tt fichier2}~>>
+satisfaisant les expressions r{\'e}guli{\`e}res contenues dans le fichier <<~{\tt
+fic.expressions.regulieres}~>> seront affich{\'e}es {\`a} l'{\'e}cran.
+\end{example}
+
+\begin{example}
+\begin{verbatim}
+ypcat -k aliases | egrep '^schmoll:.*$' | cut -d@ -f2
+\end{verbatim}
+\vspace{2ex}
+Cet exemple combine l'utilisation des filtres avec le symbole <<~\verb=|=~>>.
+La commande <<~{\tt ypcat(1)}~>> permet d'interroger le syst{\`e}me d'annuaire
+r{\'e}parti <<~{\sl NIS}\footnote{NIS = Network Information Service
+\cite{nfs-nis-automnt}}~>>. <<~{\tt ypcat -k aliases}~>> interroge les
+entr{\'e}es d{\'e}crivant les boites aux lettres du r{\'e}seau. Les r{\'e}ponses sont envoy{\'e}es
+sur la sortie standard et leur format est~:\\[1ex]
+\centerline{{\sl nom-utilisateur}{\tt :}{\sl boite aux lettres}}
+
+\vspace{2ex}
+La description des boites aux lettres ob{\'e}it {\`a} la syntaxe des adresses
+de courrier {\'e}lectronique SMTP\footnote{SMTP = Simple Mail Transfert
+Protocol.}~:\\[1ex]
+\centerline{{\sl nom}{\tt @}{\sl domaine}}
+
+\vspace{2ex}
+La commande <<~{\tt egrep}~>> r{\'e}cup{\`e}re la sortie standard de la commande
+<<~{\tt ypcat}~>> sur son entr{\'e}e standard et recherche les lignes
+satisfaisant l'expression r{\'e}guli{\`e}re <<~\verb=^schmoll:.*$=~>>. Celle-ci
+correspond {\`a} toute chaine commencant par <<~{\tt schmoll:}~>> suivit
+d'un nombre quelconque de n'importe quels caract{\`e}res.
+
+Le r{\'e}sultat de cette extraction sera donc toutes les lignes de la
+forme~:\\[1ex]
+\centerline{{\tt schmoll: {\sl nom}@{\sl domaine}}}
+
+\vspace{2ex}
+Ce r{\'e}sultat est redirig{\'e} sur l'entr{\'e}e standard de la commande <<~{\tt cut}~>>,
+qui devra extraire le second champ de chaque ligne, le caract{\`e}re d{\'e}limiteur
+{\'e}tant <<~{\tt @}~>>.
+
+Nous aurons donc, comme r{\'e}sultat, tous les domaines des adresses
+{\'e}lectroniques des boites aux lettres de <<~{\tt schmoll}~>>.
+\end{example}
+
+%%%%%%%%%%%%
+\section{Utilisation de <<~{\tt fgrep}~>>}
+
+\index{fgrep@\texttt{fgrep}}\index{grep@\texttt{grep}!fgrep@\texttt{fgrep}}La
+commande <<~{\tt fgrep}~>> fonctionne comme la commande <<~{\tt grep}~>>
+sauf qu'elle n'admet aucune expression r{\'e}guli{\`e}re. Par contre elle dispose
+de l'option <<~{\tt -f}~>> identique {\`a} la commande <<~{\tt egrep}~>>.
+
+Le fichier contiendra alors les cha{\^\i}nes de caract{\`e}res {\`a} rechercher sur
+les fichiers en entr{\'e}e.
+
+\begin{example}
+\begin{verbatim}
+fgrep "^[a-zA-Z]" fichier
+\end{verbatim}
+Cette commande permet de recherche la cha{\^\i}ne <<~\verb=[a-zA-Z]=~>>
+tr{\`e}s exactement sans chercher {\`a} la traiter comme une expression r{\'e}guli{\`e}re.
+\end{example}
+
+\begin{example}
+\begin{verbatim}
+fgrep -f liste fichier1 fichier2
+\end{verbatim}
+Cet exemple donne un apercu de l'utilisation de l'option <<~{\tt -f}~>>.
+Toutes les lignes dans <<~{\tt fichier1}~>> et <<~{\tt fichier2}~>>
+contenant les chaines pr{\'e}sentes dans le fichier <<~{\tt liste}~>> seront
+affich{\'e}es {\`a} l'{\'e}cran.
+\end{example}
+
+\begin{remarque}
+La commande <<~{\tt fgrep}~>> poss{\`e}de un algorithme plus rapide que les
+commandes <<~{\tt grep}~>> et <<~{\tt egrep}~>>. Elle permet de travailler
+sur de tr{\`e}s gros volumes de donn{\'e}es.
+\end{remarque}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{adv-filters-f}Remarque sur l'utilisation de l'option <<~{\tt -f}~>>}
+
+{\`A} la r{\`e}gle 10 explicit{\'e}e {\`a} la section \ref{pgm-intro-basic-rules}, nous
+avions pr{\'e}ciser que la premi{\`e}re ligne d'un script devait sp{\'e}cifier le nom
+de l'ex{\'e}cutable associ{\'e} au shell utiliser.
+
+Nous avons vu de m{\^e}me, que les commandes <<~{\tt egrep}~>> et <<~{\tt fgrep}~>>
+disposent de l'option
+<<~{\tt -f}~>>, permettant de pr{\'e}ciser un fichier de requ{\^e}tes de recherche.
+
+Si l'analogie est faite avec le shell, le processus charg{\'e} d'{\'e}valuer chaque
+ligne du fichier est l'ex{\'e}cutable sp{\'e}cifi{\'e} au niveau de la premi{\`e}re
+ligne du fichier contenant les instructions. Par cons{\'e}quent si le fichier
+contenant les requ{\^e}tes de recherche~:
+\begin{itemize}
+	\item	a comme premi{\`e}re ligne <<~\verb=#!/usr/bin/egrep=~>> ou
+			<<~\verb=#!/usr/bin/fgrep=~>>\footnote{Nous
+			consid{\'e}rons ici que les ex{\'e}cutables de <<~{\tt egrep}~>> et
+			<<~{\tt fgrep}~>> se trouvent dans
+			le r{\'e}pertoire <<~{\tt /usr/bin}~>>. Pour en conna{\^\i}tre la
+			localisation exacte sur votre syst{\`e}me, vous pouvez utiliser
+			la commande <<~{\tt which(1)}~>> ou <<~{\tt whereis(1)}~>>.},
+	\item	est accessible en ex{\'e}cution,
+\end{itemize}
+il peut {\^e}tre consid{\'e}r{\'e} comme un filtre ex{\'e}cutant les requ{\^e}tes de
+recherche associ{\'e} {\`a} <<~{\tt egrep}~>> ou <<~{\tt fgrep}~>> qu'il contient.
+
+Si nous prenons tout d'abord l'exemple de <<~{\tt egrep}~>>, l'exemple suivant
+permet de rechercher, sur l'entr{\'e}e standard (ou bien dans la liste de fichiers
+sp{\'e}cifi{\'e}e en argument), toutes les lignes satisfaisant les expressions r{\'e}guli{\`e}res
+suivantes~:
+\begin{itemize}
+	\item	<<~\verb=^[A-Z]=~>>, c'est-{\`a}-dire tout ligne commen\c{c}ant par une lettre
+			majuscule,
+	\item	<<~\verb=[0-9]$=~>>, c'est-{\`a}-dire toute ligne se terminant par un
+			chiffre,
+\end{itemize}
+et d'afficher le r{\'e}sultat sur la sortie standard.
+\begin{quote}
+\begin{verbatim}
+#!/usr/bin/egrep
+^[A-Z]
+[0-9]$
+\end{verbatim}
+\end{quote}
+
+Le r{\'e}sultat affich{\'e} seront toutes les lignes satisfaisant au moins l'un des
+deux crit{\`e}res. Si cet exemple est enregistr{\'e} dans le fichier <<~{\tt localise}~>>,
+et que celui-ci est accessible en ex{\'e}cution, il suffira de taper la commande
+suivante pour obtenir le r{\'e}sultat escompt{\'e}~:
+\begin{quote}
+{\tt localise~{\sl fichier $\cdots$}}
+\end{quote}
+ou bien, si la commande est utilis{\'e}e comme un filtre~:
+\begin{quote}
+{\sl commande\_envoyant\_sur\_la\_sortie\_standard}~\verb=| localise=~{\sl fichier $\cdots$}
+\end{quote}
+
+Le principe d'utilisation pour la commande <<~{\tt fgrep}~>> reste identique {\`a} la
+restriction pr{\`e}s que <<~{\tt fgrep}~>> recherche des cha{\^\i}nes sans aucune
+interpr{\'e}tation des expressions sp{\'e}cifi{\'e}es dans le fichier. Par cons{\'e}quent, si nous
+avons~:
+\begin{quote}
+\begin{verbatim}
+#!/usr/bin/fgrep
+^[A-Z]
+[0-9]$
+\end{verbatim}
+\end{quote}
+cette nouvelle commande, en supposant que le fichier soit enregistr{\'e} sous le nom
+<<~{\tt localise2}~>>, recherchera sur les fichiers sp{\'e}cifi{\'e}s en argument, ou
+bien sur l'entr{\'e}e standard, toutes les lignes contenant au moins l'une des deux
+chaines suivantes~:
+\begin{itemize}
+	\item	<<~\verb=^[A-Z]=~>>,
+	\item	<<~\verb=[0-9]$=~>>.
+\end{itemize}
+
+Tout comme la commande pr{\'e}c{\'e}dente, l'appel pourra se faire selon les deux
+m{\'e}thodes ci-apr{\`e}s~:
+\begin{quote}
+{\tt localise2~{\sl fichier $\cdots$}}
+\end{quote}
+ou bien, si la commande est utilis{\'e}e comme un filtre~:
+\begin{quote}
+{\sl commande\_envoyant\_sur\_la\_sortie\_standard}~\verb=| localise2=~{\sl fichier $\cdots$}
+\end{quote}

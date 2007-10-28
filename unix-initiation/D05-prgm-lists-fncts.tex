@@ -1,0 +1,284 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{\label{listfcts}Les listes de commandes et les fonctions}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les listes de commandes}
+
+Une \index{commande!liste}liste de commandes est une s{\'e}quence d'un
+ou plusieurs \index{pipe}pipes  ou commandes s{\'e}par{\'e}s par l'un
+des caract{\`e}res suivants~:
+
+\begin{longtable}{|l|p{10cm}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$} \\
+	\hline
+	\multicolumn{1}{|c|}{Caract{\`e}re}	&
+	\multicolumn{1}{|c|}{Signification}	\\
+	\hline
+\endhead
+	\hline
+	\multicolumn{1}{|c|}{Caract{\`e}re}	&
+	\multicolumn{1}{|c|}{Signification}	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$} \\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\index{;@\texttt{;}}\texttt{;}		&
+		Le shell attend que l{'}expression pr{\'e}c{\'e}dant le caract{\`e}re <<~\texttt{;}~>> soit termin{\'e}
+		pour passer {\`a} la suivante.
+		\\
+	\hline
+		\index{&@\texttt{\&}}\texttt{\&}	&
+		Le shell ex{\'e}cute l{'}expression pr{\'e}c{\'e}dent en arri{\`e}re plan et passe {\`a} la suivante.
+		\\
+	\hline
+		\index{&&@\texttt{\&\&}}\verb=&&=	&
+		Le shell ne passe que l{'}expression suivant seulement si le premier a
+		renvoyer une valeur nulle comme code de retour (code <<~\texttt{TRUE}~>>).
+		\\
+	\hline
+		\index{||@\texttt{||}}\verb=||=	&
+		Le shell ne passe qu'au {\sl pipe} suivant seulement si le premier a renvoy{\'e}
+		une valeur non nulle comme code de retour (code <<~\texttt{FALSE}~>>).
+		\\
+\end{longtable}
+
+\begin{example}
+\begin{verbatim}
+ls -lR | wc -l; more /usr/lib/sendmail/sendmail.cf
+ls /usr/bin; cat /etc/passwd
+find / -print >big.file & ls /usr/bin
+[ -f /etc/passwd] && cat /etc/passwd
+\end{verbatim}
+\end{example}
+
+Chaque liste de commandes peut {\^e}tre regroup{\'e}e de deux fa\c{c}ons~:\\[2ex]
+\begin{longtable}{|l|p{10cm}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$} \\
+	\hline
+	\multicolumn{1}{|c|}{Syntaxe}	&
+	\multicolumn{1}{|c|}{Signification}	\\
+	\hline
+\endhead
+	\hline
+	\multicolumn{1}{|c|}{Syntaxe}	&
+	\multicolumn{1}{|c|}{Signification}	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$} \\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\verb*=(liste)=		&
+		Ex{\'e}cute la liste dans un sous shell sans perturber le
+		contexte du shell courant.
+		\\
+	\hline
+		\verb*={liste ;}=	&
+		Ex{\'e}cute la liste dans le shell courant. Aucun sous shell n'est cr{\'e}{\'e}.
+		\\
+\end{longtable}
+
+\begin{example}
+L'exemple ci-apr{\`e}s permet de recopier le contenu d'un r{\'e}pertoire vers un autre.
+Pour cela, on utilise la commande <<~\texttt{tar(1)}~>>. L'option <<~\texttt{-c}~>> permet
+de cr{\'e}er une archive, l'option <<~\texttt{-x}~>> permet d'extraire les informations.
+Lorsque l'option <<~\texttt{-f}~>> est pr{\'e}cisi{\'e}e sur la ligne de commande, le
+premier argument de la commande <<~\texttt{tar}~>> est le nom du fichier o{\`u} l'archive doit
+{\^e}tre {\'e}crite ou lue. Le fichier sp{\'e}cifi{\'e} ici est <<~\texttt{-}~>> indiquant l'entr{\'e}e ou la
+sortie standart. Lors de la cr{\'e}ation d'une archive, la commande <<~\texttt{tar}~>>
+admet au moins un argument~: le fichier {\`a} sauvegarder ou bien le nom d'un r{\'e}pertoire
+contenant le point de l'arborescence {\`a} sauvegarder.
+
+\begin{verbatim}
+cd /home/users/schmoll; tar -cvf - . | (cd /tmp/trf; tar -xvf -)
+\end{verbatim}
+
+L'expression pr{\'e}c{\'e}dente peut se d{\'e}composer en trois {\'e}tapes~:
+\begin{enumerate}
+	\item	Changement de r{\'e}pertoire.
+	\item	Cr{\'e}ation d'un processus dans lequel la commande <<~\texttt{tar}~>>
+			doit s'ex{\'e}cuter. Celle-ci cr{\'e}e une archive contenant l'arborescence
+			du  r{\'e}pertoire courant (le r{\'e}pertoire <<~\texttt{/home/users/schmoll}~>>)
+			et l'envoie sur sa sortie standard.
+	\item	Cr{\'e}ation d'un nouveau processus dont l'entr{\'e}e standard est redirig{\'e}e sur
+			la sortie standard de la commande <<~\texttt{tar}~>> pr{\'e}c{\'e}dente. Ce sous processus
+			se d{\'e}place dans l'arborescence (r{\'e}pertoire <<~\verb=/tmp/trf=~>>) et
+			cr{\'e}e un  nouveau sous processus pour ex{\'e}cuter une autre commande
+			<<~\texttt{tar}~>> lisant le contenu de l'archive {\`a} extraire sur l'entr{\'e}e
+			standard.
+\end{enumerate}
+
+\begin{figure}[hbtp]
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(241,74)
+	\thinlines
+	\put(170,81){\framebox(0,1){cd /tmp/trf; tar -xvf -}}
+	\put(174,37){\circle{54}}
+	\put(64,37){\vector(1,0){83}}
+	\put(37,37){\circle{54}}
+	\put(51,-7){\framebox(0,0){cd /home/users/schmoll; tar -cvf - .}}
+\end{picture}
+\caption{\label{list-fncts-example}Encha{\^\i}nement de commandes et mod{\`e}le d'ex{\'e}cution}
+\end{figure}
+
+En conclusion, le premier membre de l'expression ({\`a} gauche du symbole
+<<~\verb=|=~>> prend le contenu du r{\'e}pertoire
+<<~\verb=/home/users/schmoll=~>> et l'envoie sur sa	sortie standard
+via le format d'archive <<~\texttt{tar}~>>. Le second membre change de r{\'e}pertoire et restaure
+le contenu de le r{\'e}pertoire courant. Cette expression se r{\'e}sume donc au sch{\'e}ma
+\ref{list-fncts-example}.
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{sh-functions}Les fonctions}
+
+%%%%%%%%%%%%
+\subsection{D{\'e}claration et utilisation des fonctions}
+
+\begin{definition}{Syntaxe}
+\begin{verbatim}
+nom_fonction ()
+{
+    liste
+}
+\end{verbatim}
+\end{definition}
+
+Une \index{fonction}fonction doit {\^e}tre d{\'e}crite avant tout appel. Elle g{\`e}re ses param{\`e}tres de la m{\^e}me fa\c{c}on qu'un
+shell script (variables <<~\texttt{0}~>> {\`a} <<~\texttt{9}~>>, commande <<~\texttt{shift}~>>, etc.).
+Elle n{'}est connu seulement que {\bf du process dans lequel elle a {\'e}t{\'e} d{\'e}finie}.
+
+L{'}utilisation des fonctions en Shell diff{\`e}re de celle que l{'}on peut en faire avec les langages {\'e}volu{\'e}s.
+Elles servent {\`a} effectuer un traitement {\'e}l{\'e}mentaire {\`a} l{'}int{\'e}rieur d{'}un script (connu de lui seul). Si le
+traitement doit {\^e}tre commun {\`a} un ensemble de proc{\'e}dure, il est pr{\'e}f{\'e}rable d{'}utiliser un script
+externe.
+
+Une fonction en Shell diff{\`e}re de celles que l'on peut trouver dans un langage {\'e}volu{\'e} comme
+le C ou le Fortran par le fait qu'elle ne sait renvoyer qu'un statut d'ex{\'e}cution. Elle
+ne permet donc  pas de remonter de valeurs au programme appelant, voire-m{\^e}me
+modifier des arguments qui lui seraient pass{\'e}s.
+
+\begin{remarque}
+Pour plus de clart{\'e}, il est pr{\'e}f{\'e}rable de faire pr{\'e}c{\'e}d{\'e} le nom de chaque fonction par le
+caract{\`e}re <<~\texttt{\_}~>> (underscore).
+\end{remarque}
+
+Une fonction s'ex{\'e}cute dans le shell courant,  c{'}est-{\`a}-dire dans le m{\^e}me processus. Par
+cons{\'e}quent, tout appel {\`a} la commande <<~\texttt{exit}~>> entra{\^\i}ne la fin du shell script.
+
+\begin{example}
+La fonction ci-apr{\`e}s va nous permettre de demander {\`a} l'utilisateur de r{\'e}pondre par
+<<~\texttt{O}~>> pour {\sl oui} ou <<~\texttt{N}~>> pour {\sl non}. A chaque fois que le
+script aura besoin de poser ce type de question, cette fonction sera appel{\'e}e. Elle
+va donc admettre les agurments suivants~:
+\begin{itemize}
+	\item	la question,
+	\item	la r{\'e}ponse par d{\'e}faut.
+\end{itemize}
+
+Sachant qu'une fonction ne peut renvoyer qu'un statut d'ex{\'e}cution, il faudra utiliser d'autres
+m{\'e}canismes si l'on veut retourner la r{\'e}ponse effectivement saisie~: {\sl le m{\'e}canisme des
+redirections d'entr{\'e}es/sorties}.
+
+Dans le cas qui nous interresse, tous les messages de la fonction seront redirig{\'e}s sur la sortie
+d'erreurs standard et la r{\'e}ponse saisie par l'utilisateur, sur la sortie standard.
+
+Nous aurons donc~:
+
+\begin{verbatim}
+_ask ()
+{
+    # Arg1 = message
+    # Arg2 = reponse par defaut
+
+    if [ $# -ne 2 ]; then
+        echo "Missing arguments in function \"ask\"." >&2
+        exit
+    fi
+    case "$2" in
+        o|O)
+            message="$1 ([o]/n):"
+            ;;
+        n|N)
+            message="$1 (o/[n]):"
+            ;;
+        *)
+            echo "Invalid default answer in function \"ask\"." >&2
+            exit
+            ;;
+    esac
+    while
+        echo "$message \c" >&2
+        read answer
+        [ "$answer" = "" ] && answer=$2
+        answer=`echo $answer | tr '[A-Z]' '[a-z]'`
+        [ "$answer" != "o" -a "$answer" != "n" ]
+    do
+        echo "Reponse invalide. Recommencez." >&2
+    done
+    echo $answer
+}
+
+rep=`_ask "Voulez-vous  vraiment poursuivre ce programme" "o"`
+
+if [ "$rep" = "n" ]; then
+    exit
+fi
+
+echo "Bonjour."
+echo "Voici un programme Shell."
+
+rep=`_ask "Est-ce que l'on continue" "o"`
+\end{verbatim}
+$\cdots$
+\end{example}
+
+%%%%%%%%%%%%
+\subsection{Commande <<~\texttt{return}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{verbatim}
+return [n]
+\end{verbatim}
+\end{definition}
+
+La commande interne \index{return@\texttt{return}}<<~\texttt{return}~>> permet de renvoyer un code de fin d'ex{\'e}cution au programme
+appelant dans la variable \index{variable!?@\texttt{?}}<<~\texttt{?}~>>.
+
+Si aucune valeur n'est sp{\'e}cifi{\'e}e apr{\`e}s la commande <<~\texttt{return}~>>, la valeur par d{\'e}faut sera le
+statut de la derni{\`e}re commande ex{\'e}cut{\'e}e {\`a} l'int{\'e}rieur de la fonction.
+

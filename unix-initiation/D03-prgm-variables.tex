@@ -1,0 +1,198 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{Les variables}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{variables-special-var}Les variables sp{\'e}ciales}
+
+La variable \index{variable!\#@\texttt{\#}}<<~\verb=#=~>>  renvoie le
+nombre d'arguments pass{\'e}s {\`a} la proc{\'e}dure.
+
+La variable \index{variable!*@\texttt{*}}<<~\verb=*=~>> renvoie la liste
+de tous les arguments pass{\'e}s {\`a} la proc{\'e}dure m{\^e}me s'ils
+sont plus de neuf.
+
+Le fait de lancer un programme shell cr{\'e}e un process dans lequel un
+shell s'ex{\'e}cute pour interpr{\'e}ter les commandes du Shell Script.
+La variable \index{variable!\$@\texttt{\$}}<<~\verb=$=~>> renvoie le PID
+du nouveau shell qui est lanc{\'e}.
+
+La variable \index{variable!\!@\texttt{\!}}<<~\verb=!=~>> renvoie le
+num{\'e}ro de process (PID) de la derni{\`e}re commande lanc{\'e}e en
+arri{\`e}re plan gr{\^a}ce au caract{\`e}re de terminaison
+<<~\verb=&=~>>. Cette variable peut {\^e}tre utile pour synchroniser  un
+script gr{\^a}ce {\`a} la commande interne
+\index{wait@\texttt{wait}}<<~\verb=wait=~>>.
+
+La variable \index{variable!-@\texttt{-}}<<~\verb=-=~>> renvoie la liste
+des options positionn{\'e}es pour le shell courant gr{\^a}ce {\`a} la
+commande interne \index{set@\texttt{set}}<<~{\tt set}~>> (cf. <<~{\tt
+sh(1)}~>>).
+
+La variable \index{variable!?@\texttt{?}}<<~\verb=?=~>> contient le code de retour de la derni{\`e}re commande qui
+a {\'e}t{\'e} ex{\'e}cut{\'e}e. De fa\c{c}on g{\'e}n{\'e}rale, une valeur nulle indique {\sl VRAI}, un retour
+non nul indique une erreur.
+
+\begin{definition}{En r{\'e}sum{\'e}}
+\begin{tabular}{|c|p{8cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Variable}			&
+		\multicolumn{1}{|c|}{Valeur retourn{\'e}e}	\\
+	\hline
+		{\tt \#}		&
+		Nombre d'arguments.	\\
+	\hline
+		{\tt *}		&
+		Liste des arguments du script.\\
+	\hline
+		{\tt \$}	&
+		Num{\'e}ro du process shell dans lequel s'ex{\'e}cute le script. \\
+	\hline
+		{\tt !}		&
+		Num{\'e}ro du process de la derni{\`e}re commande lanc{\'e}e en
+		arri{\`e}re plan (gr{\^a}ce au caract{\`e}re <<~\verb=&=~>>) \\
+	\hline
+		{\tt -}		&
+		Liste des options du shell positionn{\'e}es avec la commande
+		{\tt set}.\\
+	\hline
+		{\tt ?}		&
+		Code de retour de la derni{\`e}re commande ex{\'e}cut{\'e}e.\\
+	\hline
+\end{tabular}
+\end{definition}
+
+\begin{example}
+\begin{tabular}{l@{\hspace{3ex}}p{9cm}}
+	\multicolumn{2}{l}{{\tt \% nom\_prog arg1 arg2 arg3}}				\\[0.5ex]
+	\verb=echo $#=	&	affiche <<~{\tt 3}~>> dans le programme shell.	\\
+	\verb=echo $*=	&	affiche la chaine <<~\verb*=arg1 arg2 arg3=~>>
+						dans le programme shell, <<~\verb*= =~>>
+						repr{\'e}sentant \spacekey.	\\
+	\verb=echo $$=	&	affiche le num{\'e}ro du processus dans le programme shell
+						s'ex{\'e}cute.\\
+\end{tabular}
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{variables-manip}Manipulation sur les variables}
+
+Il est possible de combiner des appels {\`a} une variable avec une
+\index{variable!expression d'initialisation}expression qui sera
+{\'e}valu{\'e}e par le shell et, ainsi, renverra une valeur suivant le
+contexte.
+
+\begin{longtable}{|l|p{7cm}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente.} \\
+	\hline
+	\multicolumn{1}{|c|}{Expression}				&
+	\multicolumn{1}{|c|}{R{\'e}sultat de l'{\'e}valuation}	\\
+	\hline
+\endhead
+	\hline
+	\multicolumn{1}{|c|}{Expression}				&
+	\multicolumn{1}{|c|}{R{\'e}sultat de l'{\'e}valuation}	\\
+	\hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$} \\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\verb,${variable-chaine},	&
+		Si la variable est initialis{\'e}e, l'expression renvoie son contenu. Dans
+		le cas contraire, elle renvoie la cha{\^\i}ne de caract{\`e}res sp{\'e}cifi{\'e}e.	\\
+	\hline
+		\verb,${variable:-chaine},	&
+		Si la variable est initialis{\'e}e et est non vide (diff{\'e}rente de la cha{\^\i}ne
+		vide <<<<~), l'expression renvoie son contenu. Dans le cas contraire,
+		elle renvoie la cha{\^\i}ne de caract{\`e}res sp{\'e}cifi{\'e}e.	\\
+	\hline
+		\verb,${variable=chaine},	&
+		Si la variable est initialis{\'e}e, l'expression renvoie son contenu. Dans
+		le cas contraire, la variable est initialis{\'e}e avec la cha{\^\i}ne sp{\'e}cifi{\'e}e
+		dans l'expression. La valeur finale retourn{\'e}e au shell est le nouveau
+		contenu de la variable (donc la cha{\^\i}ne sp{\'e}cifi{\'e}e dans l'expression).	\\
+	\hline
+		\verb,${variable:=chaine},	&
+		Si la variable est initialis{\'e}e et est non vide (diff{\'e}rente de la cha{\^\i}ne
+		vide <<>>), l'expression renvoie son contenu. Dans le cas contraire, la
+		variable est initialis{\'e}e avec la cha{\^\i}ne sp{\'e}cifi{\'e}e dans l'expression. La
+		valeur finale retourn{\'e}e au shell est le nouveau contenu de la
+		variable (donc la cha{\^\i}ne sp{\'e}cifi{\'e}e dans l'expression).	\\
+	\hline
+		\verb,${variable?chaine},	&
+		Si la variable est initialis{\'e}e, l'expression renvoie son contenu. Dans
+		le cas contraire, le shell affiche un message d'erreur dont la forme
+		est~: <<~{\tt variable:~cha{\^\i}ne}~>>.	\\
+	\hline
+		\verb,${variable:?chaine},	&
+		Si la variable est initialis{\'e}e et est non vide (diff{\'e}rente de la cha{\^\i}ne
+		vide <<>>), l'expression renvoie son contenu. Dans le cas contraire, le
+		shell affiche un message d'erreur dont la forme est~: <<~{\tt variable:~cha{\^\i}ne}~>>.	\\
+	\hline
+		\verb,${variable+chaine},	&
+		Si la variable est initialis{\'e}e, l'expression renvoie la valeur de la
+		cha{\^\i}ne. Dans le cas contraire, on renvoie une cha{\^\i}ne nulle.\\
+	\hline
+		\verb,${variable:+chaine},	&
+		Si la variable est initialis{\'e}e et est non vide (diff{\'e}rente de la cha{\^\i}ne
+		vide <<>>), l'expression renvoie la valeur de la cha{\^\i}ne. Dans le cas
+		contraire, on renvoie une cha{\^\i}ne nulle.	\\
+	\hline
+\end{longtable}
+
+\vspace{3ex}
+\begin{example}
+\begin{verbatim}
+echo ${MY_VAR-"non defini"}
+echo ${HOME_ADM=/home/adm}
+echo ${MY_VAR?"Variable non initialis{\'e}e dans `basename $0`"}
+echo ${MY_VAR+"Ca roule, ma poule"}
+\end{verbatim}
+\end{example}
+
+\begin{remarque}
+{\bf Attention}, le contenu de la variable <<~{\tt *}~>> est le r{\'e}sultat
+de l'{\'e}vaulation de la ligne de commande. Par cons{\'e}quent, les espaces ou
+tabulations suppl{\'e}mentaires, d{\'e}limitant les arguments du script seront {\'e}limin{\'e}s.
+
+Par cons{\'e}quent, le programme appel{\'e} de la fa\c{c}on suivante sur la ligne de commandes~:
+\begin{sloppypar}
+\centering \verb*=% nom_prog arg1  arg2   arg3     arg4=
+\end{sloppypar}
+contiendra la valeur suivante dans la variable <<~{\tt *}~>>~:
+\begin{sloppypar}
+\centering \verb*=arg1 arg2 arg3 arg4=
+\end{sloppypar}
+{\bf et non pas}~:
+\begin{sloppypar}
+\centering \verb*=arg1  arg2   arg3     arg4=
+\end{sloppypar}
+\end{remarque}

@@ -1,0 +1,274 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{Introduction}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{D{\'e}finition}
+
+Un programme \index{shell!script}shell est un fichier r{\'e}gulier
+contenant des commandes {\Unix} ou bien des commandes
+<<~intrins{\`e}ques~>> du shell. Les permissions de ce fichier doivent
+au moins {\^e}tre lecture et ex{\'e}cution. Pour ex{\'e}cuter un
+programme shell, taper le nom du programme apr{\`e}s le prompt {\`a}
+condition que le programme shell se trouve dans un des r{\'e}pertoires
+sp{\'e}cifi{\'e}s dans la variable \index{variable!PATH@\texttt{PATH}}
+\texttt{PATH}. Nous verrons ce point plus en d{\'e}tail {\`a} la
+section{call-shell}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Historique des shells}
+
+Le premier Shell d{\'e}velopp{\'e} pour {\Unix} fut appel{\'e} le
+\index{shell!sh@\texttt{sh}}Bourne Shell, nom provenant du responsable
+de l'{\'e}quipe de d{\'e}veloppement ({\sl Steve Bourne}). Les personnes
+de l'universit{\'e} de Berkeley en Californie\footnote{University of
+California Berkeley = UCB.} trouv{\`e}rent des lacunes au Bourne Shell
+(d'apr{\`e}s eux, trop de donn{\'e}es devaient {\^e}tre saisies) et
+d{\'e}velopp{\`e}rent un nouveau Shell~: le
+\index{shell!csh@\texttt{csh}}<<~{\sl C Shell}~>> \footnote{C comme
+Californie et non pas comme le langage.}. Le <<~{\sl C Shell}~>> offrit
+de nouvelles caract{\'e}ristiques que n'avait pas le Bourne Shell~:
+\begin{itemize}
+	\item	Premi{\`e}rement, l'utilisateur pouvait rappeler les commandes et les {\'e}diter. La proc{\'e}dure
+			n'est pas tr{\`e}s ais{\'e}e\footnote{Les rappels des commandes avec le <<~{\sl C Shell}~>> consiste
+			{\`a} rappeler la derni{\`e}re commande commen\c{c}cant par une chaine de caract{\`e}res ou bien la $n^{e}$
+			commande saisie. Il suffit alors de faire pr{\'e}c{\'e}dent la chaine ou bien le num{\'e}ro de la
+			commande par le caract{\`e}re <<~{\tt !}~>>.} mais fonctionnait et avait, au moins, le m{\'e}rite d'exister
+			contrairement au Bourne Shell.
+	\item	En second, le <<~{\sl C shell}~>> permettait de d{\'e}finir diff{\'e}rents noms pour une
+			commande~: les <<~{\sl aliases}~>>.
+	\item	Troisi{\`e}mement, le <<~{\sl C shell}~>> permit la g{\'e}n{\'e}ration automatique
+			de fin de nom de fichier. Il permettait de terminer le nom du fichier en tapant
+			sur la touche <<~{\sl Escape}~>> du clavier.
+	\item	En fin, l'initialisation et la terminaision du contexte d'une session utilisateur
+			appelle un ou plusieurs fichiers de configuration, en fonction du mode d'appel.
+			Il a donc {\'e}t{\'e} distingu{\'e}~:
+			\begin{itemize}
+				\item[$\star$] l'initialisation d'une session interactive,
+				\item[$\star$] l'initialisation de l'environnement li{\'e} {\`a} une proc{\'e}dure ou
+								un {\it sous-shell}\footnote{Un {\it sous-shell} correspond
+								{\`a} un sous-processus associ{\'e} {\`a} un interpr{\'e}teur de commande
+								(ou {\it shell}), lanc{\'e} {\`a} partir d'une session interactive.},
+				\item[$\star$] la fin d'une session interactive.
+			\end{itemize}.
+			Par cons{\'e}quent, il est possible de param{\`e}trer son environnement plus finement.
+\end{itemize}
+
+Il pr{\'e}senta donc beaucoup d'autres avantages par rapport au Bourne Shell mais avait deux
+inconv{\'e}nients majeurs~:
+\begin{itemize}
+	\item	il n'{\'e}tait pas standard,
+	\item	il {\'e}tait incompatible avec les programmes Bourne Shell.
+\end{itemize}
+
+Finalement, David {\sc Korn} des laboratoires {\sc Bell} d'AT\&T e{\^u}t
+le dernier mot. Il {\'e}crivit le \index{shell!ksh@\texttt{ksh}}<<~{\sl
+Korn Shell}~>> (appel{\'e} K Shell) avec son {\'e}quipe de
+d{\'e}veloppeurs. Celui-ci poss{\`e}de les meilleures
+caract{\'e}ristiques du Bourne Shell, inclut celles du C Shell tout en
+{\'e}tant 100\% compatible avec le Bourne Shell. Il rajouta aussi un
+certain nombre de fonctionnalit{\'e}s pour la programmation de
+proc{\'e}dures de commandes. Enfin, pour {\sl concurencer} le <<~{\sl
+Korn Shell}~>>, son {\'e}quivalent fut d{\'e}velopp{\'e} avec les
+syntaxes du <<~{\sl C Shell}~>>~: le <<~{\tt tcsh}~>>. Ce dernier est un
+sur-ensemble du <<~{\sl C Shell}~>> avec un effort accrue sur la
+souplesse d'utilisation de l'interpr{\'e}teur de commande (utilisation
+plus {\it conviviale}, fonctionnalit{\'e}s pour les proc{\'e}dures de
+commandes accrues, etc.).
+
+Toutefois, l'{\'e}quipe du <<~{\sl Bourne Shell}~>> n'en resta pas
+l{\`a}. Ses fonctionnalit{\'e}s furent accrues avec le
+\index{shell!bash@\texttt{bash}}<<~{\tt bash}~>> signifiant <<~{\sl
+Bourne another Shell}~>>.
+
+\begin{definition}{En conclusion}
+Il existe deux grandes familles pour les syntaxes~:
+\begin{itemize}
+	\item	celle du <<~{\sl Bourne Shell}~>>, regroupant
+			le Bourne Shell, le Korn Shell et le {\tt bash},
+	\item	celle du <<~{\sl C Shell}~>>, regroupant
+			le C Shell et le {\tt tcsh}.
+\end{itemize}
+Nous ne parlerons dans ce document que du <<~{\sl Bourne Shell}~>>,
+premi{\`e}re {\'e}tape vers la cr{\'e}ation de proc{\'e}dures sous
+{\Unix}. La correspondance entre les syntaxes du <<~{\sl Bourne
+Shell}~>> et du <<~{\sl C Shell}~>> seront explicit{\'e}es {\`a}
+l'annexe \ref{ann-csh-sh}.
+\end{definition}
+
+\begin{remarque}
+Le Shell POSIX s'appuie sur le <<~{\sl Korn Shell}~>>. Donc si vous
+voulez rester dans la norme POSIX, exigez le <<~{\sl Korn Shell}~>>.
+\end{remarque}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Quelques r{\`e}gles et recommandations pour l'{\'e}criture des shells-scripts}
+
+\subsection{\label{pgm-intro-basic-rules}R{\`e}gles {\`a} observer}
+
+\begin{longtable}{l@{\hspace{0.2cm}}p{10cm}}
+	\multicolumn{2}{r}{{\sl Suite page suivante $\cdots$}} \\
+\endfoot
+	R{\`e}gle 1~:	&
+		Commentez abondamment et documentez syst{\'e}matiquement vos scripts avec une en-t{\^e}te comprenant~:
+		\begin{itemize}
+			\item	le nom de l'auteur,
+			\item	la date,
+			\item	une pr{\'e}sentation des fonctionnalit{\'e}s.
+		\end{itemize}
+		\\[0.2cm]
+	R{\`e}gle 2~:	&
+		V{\'e}rifier les param{\`e}tres d'appel, et indiquer l'usage si l'appel est incorrect.
+		\\[0.2cm]
+	R{\`e}gle 3~:	&
+		Assortir toute sortie anormale d'un message d'erreur et d'un appel {\`a} <<~{\tt exit}~>>
+		avec un num{\'e}ro d'erreur afin de pouvoir {\^e}tre test{\'e} dans tout script appelant.
+		\\[0.2cm]
+	R{\`e}gle 4~:	&
+		Adopter une approche modulaire avec usage de~:
+		\begin{itemize}
+			\item	fonctions internes,
+			\item	scripts externes,
+			\item	appel {\`a} des scripts existants.
+		\end{itemize}
+		\\[0.2cm]
+	R{\`e}gle 5~:	&
+		Utilisez les minuscules pour les noms de variables internes {\`a} un script ou
+		une fonction (hors environnement) et les majuscules pour les variables empil{\'e}es
+		dans ou h{\'e}rit{\'e}es de l'environnement.
+		\\[0.2cm]
+	R{\`e}gle 6~:	&
+		Si des param{\`e}tres d'environnement propres au d{\'e}roulement ou {\`a} l'encha{\^\i}nement
+		de scripts sont n{\'e}cessaires, les terminaisons normales et anormales doivent assurer
+		le d{\'e}pilement de ces param{\`e}tres, afin de ne pas polluer inutilement
+		l'environnement utilisateur au fur et {\`a} mesure des appels.
+		\\[0.2cm]
+	R{\`e}gle 7~:	&
+		Si un script fait r{\'e}f{\'e}rence {\`a} des ressources (fichiers) qu'il ne cr{\'e}e pas lui-m{\^e}me,
+		et/ou s'il atteint un certain volume (sup{\'e}rieur {\`a} une page par exemple), r{\'e}digez les
+		traces (jalonnement de <<~{\tt stdout}~>>) et des messages d'erreurs (<<~{\tt stderr}~>>)
+		sur un m{\^e}me fichier de {\sl log}, portant le m{\^e}me nom que le script avec l'extension
+		<<~{\tt .log}~>>.
+		\\[0.2cm]
+	R{\`e}gle 8~:	&
+		Si des messages et/ou des erreurs doivent {\^e}tre redirig{\'e}es sur la console\footnote{La console
+		est un terminal sp{\'e}cial du syst{\`e}me charg{\'e} d'afficher tous les messages syst{\`e}mes. En g{\'e}n{\'e}ral,
+		ce p{\'e}riph{\'e}que est connect{\'e} physiquement {\`a} la machine sous {\Unix}. Elle peut toutefois {\^e}tre
+		d{\'e}port{\'e}e de diff{\'e}rentes fa\c{c}ons.}, alors pr{\'e}fixez les du nom du script qui les g{\'e}n{\`e}rent.
+		\\[0.2cm]
+	R{\`e}gle 9~:	&
+		Tout fichier temporaire doit {\^e}tre cr{\'e}{\'e} dans un r{\'e}pertoire {\bf r{\'e}serv{\'e} et distinct} qui sera
+		identifi{\'e} par une variable d'environnement (<<~{\tt D\_TEMP}~>> par exemple). {\bf Ce r{\'e}pertoire
+		sera distinct de <<~{\tt /tmp}~>>}. La n{\'e}cessit{\'e} de plusieurs r{\'e}pertoires temporaires sera
+		satisfaite par la cr{\'e}ation de sous-r{\'e}pertoires dans celui-ci. Le <<~{\sl PID}~>>\footnote{{\sl
+		PID~: Process IDentifier.}} (accessible gr{\^a}ce {\`a} la variable <<~\verb=$$=~>>\footnote{cf. section
+		\ref{variables-special-var}.}) du script sera utilis{\'e} {\bf syst{\'e}matiquement} comme suffixe des noms de fichiers
+		temporaires g{\'e}n{\'e}r{\'e}s.
+		\\
+				&
+		Toutes les ressources temporaires (sous-r{\'e}pertoires et fichiers) seront {\'e}vacu{\'e}es
+		de cette zone par destruction (commande <<~{\tt rm}~>>) ou rang{\'e}es ailleurs (commande
+		<<~{\tt mv}~>>) lors des terminaisons.
+		\\[0.2cm]
+	R{\`e}gle 10~:	&
+		Tout script aura comme premi{\`e}re ligne, la description du Shell {\`a} lancer. On aura
+		donc~:
+		\\[0.2cm]
+				&
+		\begin{tabular}{|c|l|}
+			\hline
+			\multicolumn{1}{|c|}{Shell}	&
+			\multicolumn{1}{|c|}{Premi{\`e}re ligne}	\\
+			\hline \hline
+			Bourne Shell			&	\verb=#!/bin/sh=	\\
+			\hline
+			C Shell					&	\verb=#!/bin/csh=	\\
+			\hline
+			Korn Shell				&	\verb=#!/bin/ksh=	\\
+			\hline
+			TC Shell				&	\verb=#!/bin/tcsh=	\\
+			\hline
+			Bourne Another Shell	&	\verb=#!/bin/bash=	\\
+			\hline
+		\end{tabular}
+		\\[0.2cm]
+				&
+		{\bf La ch{\^a}ine de caract{\`e}re sp{\'e}cifiant le nom de l'ex{\'e}cutable doit {\^e}tre {\'e}crite
+		sans espaces et d{\`e}s la premi{\`e}re colonne.}
+		\\[0.2cm]
+\end{longtable}
+
+
+%%%%%%%%%%%%%%
+\subsection{Recommandations}
+
+Le premier souci du d{\'e}veloppeur de {\sl shell script} doit {\^e}tre la portabilit{\'e}.
+En effet, il est dispendieux d'avoir {\`a} r{\'e}adapter des proc{\'e}dures d'exploitation {\`a}
+chaque introduction d'une nouvelle machine. Les scripts d{\'e}velopp{\'e}s sur une
+architecture d'un constructeur sous le m{\^e}me syst{\`e}me d'exploitation ({\Unix}),
+doivent se comporter de fa\c{c}on identique sur {\sl SunOS}, {\sl Solaris}, {\sc
+HP--UX}, {\sl Irix}, {\sl Digital {\Unix}}, {\sl AIX}, etc. La normalisation POSIX
+est l{\`a} pour le permettre.
+
+Les d{\'e}veloppements ne doivent pas {\^e}tre des op{\'e}rations o{\`u} l'on red{\'e}couvre et reconstruit la roue.
+Un usage syst{\'e}matique des utilitaires ad-hoc (de la <<~{\sl section 1}~>>) est recommand{\'e}. Quand cela s'av{\`e}re
+n{\'e}cessaire pour les traitements de donn{\'e}es symboliques, on utilisera en priorit{\'e} les utilitaires de
+manipulation de fichiers.
+
+On limitera volontairement l'usage des utilitaires <<~{\tt sed}~>> et
+<<~{\tt awk}~>>  {\`a} des s{\'e}quences simples de traitement, d{\`e}s
+l'instant o{\`u} l'on a recours {\`a} des expressions
+r{\'e}guli{\`e}res. D{\'e}composez les traitements {\`a} effectuer.
+Exploitez la philosophie et les possibilit{\'e}s d'{\Unix}~:
+\begin{itemize}
+	\item	chaque commande s'ex{\'e}cute dans un sous process,
+	\item	{\Unix} dispose d'un ensemble de commande tr{\`e}s vastes, chacune ayant une fonction bien
+			pr{\'e}cise (t{\^a}che {\'e}l{\'e}mentaire).
+\end{itemize}
+
+Il est beaucoup plus {\'e}conomique d'utiliser plusieurs commandes qui s'encha{\^\i}nent (avec les
+m{\'e}canismes des {\sl pipes}) pour r{\'e}aliser une t{\^a}che complexe. Vous y gagnerez en simplicit{\'e} de
+raisonnement et de mise au point.
+
+N'oubliez pas que le {\sl C Shell}, le {\sl TC Shell}, le {\sl Bourne Another
+Shell} (ou {\tt bash}) et le Korn Shell ex{\'e}cutent, {\`a} chaque lancement, les
+fichiers suivants~:
+
+\begin{tabular}{|c|l|}
+	\hline
+	Shell						&	\multicolumn{1}{|c|}{Fichier}	\\
+	\hline \hline
+	C Shell						&	\verb=~/.cshrc=					\\
+	TC Shell					&	\verb=~/.tcshrc=				\\
+	Bourne Another Shell		&	\verb=~/.bashrc=				\\
+	Korn Shell					&	\verb=~/.kshrc=					\\
+	\hline
+\end{tabular}
+
+Par cons{\'e}quent, {\`a} chaque lancement d'un script {\sl C Shell}, {\sl TC Shell}, {\sl Bourne Another
+Shell} (ou {\tt bash}) ou Korn Shell, le fichier d'initialisation est
+ex{\'e}cut{\'e} par d{\'e}faut.

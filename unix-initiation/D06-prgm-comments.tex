@@ -1,0 +1,191 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{Les commentaires et les techniques d'ex{\'e}cution}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{commexec-comments}Les commentaires}
+
+\begin{definition}{Syntaxe}
+\begin{verbatim}
+# <ligne de commentaire>
+commande	# commentaire
+\end{verbatim}
+\end{definition}
+
+Le signe \index{#@\texttt{\#}}<<~\verb=#=~>> marque le d{\'e}but d{'}une zone de \index{commentaire}commentaire du script.
+Elle se termine {\`a} la fin de la ligne. Tout ce qui suit ce caract{\`e}re est donc ignor{\'e} par le shell.
+
+%%%%%%%%%%%%
+\section{Interpr{\'e}tation sp{\'e}ciale du signe <<~\texttt{\#}~>> sur la premi{\`e}re ligne d'un shell script}
+
+Si l'on satisfait les conditions suivantes~:
+\begin{itemize}
+	\item	le signe <<~\verb=#=~>> se trouve en premi{\`e}re ligne du fichier shell script {\bf et}
+			sur la premi{\`e}re colonne,
+	\item	il est suivi du caract{\`e}re <<~\verb=!=~>>,
+	\item	la s{\'e}quence <<~\verb=#!=~>> est suivie du nom de l'ex{\'e}cutable d'un shell (chemin absolu),
+\end{itemize}
+
+alors, cette ligne permettra d'avoir la description du shell {\`a} lancer au moment de l'ex{\'e}cution.
+
+Le processus mis en place est le suivant lorsqu'une telle ligne est trouv{\'e}e~:
+\begin{itemize}
+	\item	lancement du shell sp{\'e}cifi{\'e} sur la premi{\`e}re ligne,
+	\item	lecture du fichier et {\'e}valuation/ex{\'e}cution des commandes par le shell que l'on
+			vient le lancer.
+\end{itemize}
+
+Cette d{\'e}marche est obligatoire pour tout shell script (cf. r{\`e}gle 10 de la section \ref{pgm-intro-basic-rules}).
+
+Cette technique est donc utilis{\'e} pour l'ensemble des langages interpr{\'e}t{\'e}s sous {\Unix} comme~:
+\begin{itemize}
+	\item	les diff{\'e}rentes variantes du shell (Bourne Shell, C-Shell, Korn Shell, etc.),
+	\item	des utilitaires admettant des fichiers de requ{\^e}tes comme <<~\texttt{egrep}~>> (cf. section \ref{adv-fltrs-egrep}),
+			<<~\texttt{sed}~>> (cf. section \ref{adv-fltrs-sed}) et <<~\texttt{awk}~>> (cf. section \ref{adv-fltrs-awk}),
+	\item	des langages interpr{\'e}t{\'e}s comme <<~\texttt{perl}~>>\cite{learning-perl,programming-perl,advpgm-perl}.
+\end{itemize}
+
+Nous pourrons donc avoir les cas de figure suivants~:
+
+\begin{longtable}{|l|p{10cm}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$} \\
+	\hline
+	\multicolumn{1}{|c|}{Syntaxe}	&
+	\multicolumn{1}{|c|}{Signification}	\\
+	\hline
+\endhead
+	\hline
+	\multicolumn{1}{|c|}{Syntaxe}	&
+	\multicolumn{1}{|c|}{Signification}	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$} \\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\verb=#!/bin/sh=	&
+			Tout ce qui va suivre ob{\'e}it {\`a} la syntaxe Bourne Shell. Le processus
+			{\`a} lancer pour ex{\'e}cuter et {\'e}valuer les instructions suivantes ex{\'e}cutera le
+			programme <<~\verb=/bin/sh=~>>.
+			\\
+	\hline
+		\verb=#!/bin/csh=	&
+			Tout ce qui va suivre ob{\'e}it {\`a} la syntaxe C Shell. Le processus
+			{\`a} lancer pour ex{\'e}cuter et {\'e}valuer les instructions suivantes ex{\'e}cutera le
+			programme <<~\verb=/bin/csh=~>>.
+			\\
+	\hline
+		\verb=#!/bin/ksh=	&
+			Tout ce qui va suivre ob{\'e}it {\`a} la syntaxe Korn Shell. Le processus
+			{\`a} lancer pour ex{\'e}cuter et {\'e}valuer les instructions suivantes ex{\'e}cutera le
+			programme <<~\verb=/bin/ksh=~>>.
+			\\
+	\hline
+		\verb=#!/bin/egrep=	&
+			Tout ce qui va suivre ob{\'e}it {\`a} la syntaxe de la commande <<~/bin/egrep~>>. Le processus
+			{\`a} lancer pour ex{\'e}cuter et {\'e}valuer les instructions suivantes ex{\'e}cutera le
+			programme <<~\verb=/bin/egrep=~>>.
+			\\
+	\hline
+		\verb=#!/bin/sed=	&
+			Tout ce qui va suivre ob{\'e}it {\`a} la syntaxe de la commande <<~\texttt{/bin/sed}~>>. Le processus
+			{\`a} lancer pour ex{\'e}cuter et {\'e}valuer les instructions suivantes ex{\'e}cutera le
+			programme <<~\verb=/bin/sh=~>>.
+			\\
+	\hline
+		\verb=#!/bin/awk=	&
+			Tout ce qui va suivre ob{\'e}it {\`a} la syntaxe de l'utilitaire <<~\texttt{awk}~>>. Le processus
+			{\`a} lancer pour ex{\'e}cuter et {\'e}valuer les instructions suivantes ex{\'e}cutera le
+			programme <<~\verb=/bin/awk=~>>
+			\\
+	\hline
+		\verb=#!/usr/bin/perl=	&
+			Tout ce qui va suivre ob{\'e}it {\`a} la syntaxe de Perl. Le processus
+			{\`a} lancer pour ex{\'e}cuter et {\'e}valuer les instructions suivantes ex{\'e}cutera le
+			programme <<~\verb=/usr/bin/perl=~>>
+			\\
+	\hline
+		\multicolumn{2}{|l|}{etc.}
+		\\
+\end{longtable}
+
+%%%%%%%%%%%%
+\subsection{Les appels d'un shell script au niveau de la ligne de commandes}
+
+La notion expos{\'e}e ici s'applique {\`a} tout type de programmes
+\index{shell!script!appel, ex{\'e}cution}interpr{\'e}t{\'e}s sous {\Unix}. Nous ne traiterons ici que l'exemple
+du Bourne Shell (<<~\texttt{/bin/sh}~>>).
+
+\begin{definition}{Syntaxes}
+\begin{longtable}{|l|p{5cm}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+	\multicolumn{1}{|p{5cm}|}{Appel au niveau de la ligne de commande}	&
+	\multicolumn{1}{|c|}{Descriptions -- Restrictions}	\\
+	\hline
+\endhead
+	\hline
+	\multicolumn{1}{|p{5cm}|}{Appel au niveau de la ligne de commande}	&
+	\multicolumn{1}{|c|}{Descriptions -- Restrictions}	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente.}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+	\texttt{shell\_script [arguments-programme]}	&
+		<<~\texttt{shell\_script}~>> repr{\'e}sente le nom du fichier. Celui-ci doit {\^e}tre accessible en
+		lecture {\bf et en ex{\'e}cution}.
+		\\
+	\hline
+	\texttt{/bin/sh shell\_cript [arguments-programme]}	&
+		<<~\texttt{shell\_script}~>> repr{\'e}sente le nom du fichier. Celui-ci doit {\^e}tre accessible en
+		lecture {\bf uniquement}.
+		\\
+	\hline
+	\texttt{/bin/sh -vx shell\_script [arguments-programme]}	&
+		<<~\texttt{shell\_script}~>> repr{\'e}sente le nom du fichier. Celui-ci doit {\^e}tre accessible en
+		lecture. Chaque ligne du fichier est interpr{\'e}t{\'e}e et affich{\'e}e avant son ex{\'e}cution sur la
+		sortie d'erreurs standard.
+		\\
+\end{longtable}
+\end{definition}
+
+\begin{remarque}
+L'option <<~\texttt{-vx}~>> est propre au Bourne Shell, C Shell et Korn
+Shell. Pour d'autres outils comme
+\index{sed@\texttt{sed}}<<~\texttt{sed}~>>,
+\index{awk@\texttt{awk}}<<~\texttt{awk}~>> ou <<~\texttt{perl}~>>,
+reportez-vous {\`a} la page du manuel associ{\'e}e.
+\end{remarque}

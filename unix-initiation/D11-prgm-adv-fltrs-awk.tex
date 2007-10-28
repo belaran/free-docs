@@ -1,0 +1,1039 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{\label{adv-fltrs-awk}Utilisation de "{\tt awk}"}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+\index{awk@\texttt{awk}}"\texttt{awk}" est un processeur d'{\'e}l{\'e}ments syntaxiques qui~:
+\begin{itemize}
+	\item	sert {\`a} traiter, de mani{\`e}re non interactive, un texte au
+			niveau de ses {\'e}l{\'e}ments syntaxiques,
+	\item	travaille sur la base d'une ligne, et ligne apr{\`e}s ligne,
+	\item	permet de d{\'e}finir, analyser, transformer les mots ou {\'e}l{\'e}ments
+			syntaxiques qui composent chaque ligne.
+\end{itemize}
+
+"\texttt{awk}" traitera chaque ligne en entr{\'e}e comme un
+\index{awk@\texttt{awk}!enregistrement}enregistrement. C'est ce terme qui sera
+employ{\'e} par la suite. Chaque enregistrement est compos{\'e} de champs. Ces
+\index{awk@\texttt{awk}!champ}champs sont s{\'e}par{\'e}s, par d{\'e}faut, par un
+ou plusieurs espaces ou bien une ou plusieurs tabulations. C'est aussi un langage
+de programmation dont la fonction premi{\`e}re est de rechercher des cha{\^\i}nes
+de caract{\`e}res suivant certains crit{\`e}res et d'y appliquer des actions. On
+aura donc toujours un mod{\`e}le~: \centerline{\textsl{s{\'e}lection} +
+\textsl{action}}
+
+Le corps de chaque action est un bloc constitu{\'e} d'une ou plusieurs commandes,
+d{\'e}limit{\'e} par les caract{\`e}res "\verb={=" et <<\verb=}=". On aura
+alors~:
+\begin{center}
+{\tt s{\'e}lection \{ commande }$\cdots$\verb= }=
+\end{center}
+
+Pour la petite histoire, le nom "\texttt{awk}" est d{\'e}riv{\'e} des initiales de
+ses auteurs: Alfred V. \textsc{Aho}, Peter J. \textsc{Weinberger} et Brian W.
+\textsc{Kerninghan}.
+
+\begin{definition}{Syntaxe}
+\texttt{awk '}\textsl{corps du programme awk}\verb= ' [=\textsl{fichier}=$\cdots$\verb= ]=\\
+ou
+\texttt{awk -f }\textsl{fichier.programme}\verb= [=\textsl{fichier} $\cdots$\verb=]=
+\end{definition}
+
+Dans le premier cas de syntaxe, le corps du programme "\texttt{awk}"
+est appliqu{\'e} directement aux fichiers ou {\`a} l'entr{\'e}e standard. Dans le
+second cas de syntaxe, le programme "\texttt{awk}" est contenu dans un
+fichier et appliqu{\'e} aux fichiers ou {\`a} l'entr{\'e}e standard.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les s{\'e}lecteurs}
+
+%%%%%%%%%%%%
+\subsection{Introduction, D{\'e}finition}
+
+On a vu que chaque requ{\^e}te "\texttt{awk}" {\'e}tait constitu{\'e}e d'une
+s{\'e}lection et d'une action. Nous allons examiner dans ce paragraphe la
+syntaxe pour la sp{\'e}cification des s{\'e}lections. Les s{\'e}lections des lignes
+en entr{\'e}es sont d{\'e}crites par des \index{awk@\texttt{awk}!s{\'e}lecteur}s{\'e}lecteurs.
+
+Un s{\'e}lecteur est~:
+\begin{itemize}
+	\item	une expression r{\'e}guli{\`e}re,
+	\item	un mot clef.
+\end{itemize}
+
+Chaque fois que l'expression d{\'e}crite par un s{\'e}lecteur est vraie,
+l'action cor\-res\-pon\-dante est ex{\'e}cut{\'e}e. Les s{\'e}lecteurs et les actions
+peuvent faire appel {\`a} des variables, {\`a} des param{\`e}tres et {\`a} des
+expressions logiques. Les actions, elles, peuvent contenir des
+structures de contr{\^o}le ("\texttt{if}", "\texttt{while}", etc.).
+
+%%%%%%%%%%%%
+\subsection{Les s{\'e}lecteurs pr{\'e}d{\'e}fini}
+
+Les deux seuls s{\'e}lecteurs pr{\'e}d{\'e}finis dans "\texttt{awk}" sont~:
+\begin{itemize}
+	\item	\index{awk@\texttt{awk}!s{\'e}lecteur!BEGIN@\texttt{BEGIN}}\texttt{BEGIN}
+	\item	\index{awk@\texttt{awk}!s{\'e}lecteur!END@\texttt{BEGIN}}\texttt{END}
+\end{itemize}
+
+Le s{\'e}lecteur "\texttt{BEGIN}" est vrai avant le traitement du premier
+enregistrement. Ce s{\'e}lecteur est g{\'e}n{\'e}ralement utilis{\'e} pour initialiser
+des variables, d{\'e}finir des champs de saisie, etc.
+
+Le s{\'e}lecteur "\texttt{END}" est vrai apr{\`e}s le traitement du dernier
+enregistrement. Ce s{\'e}lecteur est g{\'e}n{\'e}ralement utilis{\'e} pour afficher les
+r{\'e}sultats finaux.
+
+\begin{example}
+L'exemple suivant permet d'afficher les noms de tous les fichiers du
+r{\'e}pertoire et leurs tailles.
+\begin{verbatim}
+ls -al | awk '
+    BEGIN {
+        totalsize = 0
+        print "Fichier(Taille) du r{\'e}pertoire courant."
+    }
+    {
+        totalsize += $5
+        printf ("%s (%d)\n", $9, $5)
+    }
+    END {
+        printf (Taille totale = %d octet(s).\n", totalsize)
+        print "Fin de la liste."
+    }
+'
+\end{verbatim}
+
+Pour rappel, la commande "\texttt{ls -al}" permet d'obtenir la liste de
+tous les fichiers dans le r{\'e}pertoire courant, y compris les fichiers
+cach{\'e}s. Le cinqui{\`e}me champ correspond {\`a} la taille du fichier, le neuvi{\`e}me
+{\`a} son nom (cf. section \ref{cmds-unix-ls}).
+
+Lors de l'ex{\'e}cution du s{\'e}lecteur "\texttt{BEGIN}", le programme
+"\texttt{awk}" initialise la variable "\texttt{totalsize}" {\`a} $0$,
+afin de pouvoir effectuer un cumul sur le cinqui{\`e}me champ, c'est-{\`a}-dire
+la taille des fichiers. Il affiche aussi un message avant ex{\'e}cution.
+
+Pour chaque enregistrement, c'est-{\`a}-dire pour chaque fichier,
+on cumule sur le cinqui{\`e}me champ ("\verb,totalsize += $5,")
+et on affiche les informations d{\'e}sir{\'e}es.
+
+Enfin, lors de l'ex{\'e}cution du s{\'e}lecteur "\texttt{END}", le
+programme "\texttt{awk}" affiche la valeur du cumul (variable
+"\texttt{totalsize}") et un message de fin.
+
+Par exemple, si la commande "\texttt{ls -al}" produit le r{\'e}sultat
+suivant~:
+\begin{verbatim}
+-rw-r----- 1 schmoll esme     102 Jul 12 10:00 .cshrc
+-rw-r----- 1 schmoll esme     123 Jul 12 10:00 .login
+-rw-r----- 1 schmoll esme     124 Jul 12 10:00 .logout
+-rw-r----- 1 schmoll esme      24 Jul 25 10:00 mes
+-rw-r--r-- 1 schmoll esme      12 Jul 25 12:00 fichiers
+-rwxr-xr-x 1 schmoll esme    1337 Jul 25 12:00 a
+-rw-r--r-- 1 schmoll esme 1221337 Jul 25 12:00 moi
+\end{verbatim}
+le programme "\texttt{awk}" produira la sortie suivante~:
+\begin{verbatim}
+Fichier(Taille) du r{\'e}pertoire courant.
+.cshrc (102)
+.login (123)
+.logout (124)
+mes (24)
+fichiers (12)
+a (1337)
+moi (1221337)
+Taille totale = 1223058 octet(s).
+\end{verbatim}
+\end{example}
+
+
+%%%%%%%%%%%%
+\subsection{Les r{\`e}gles de s{\'e}lection}
+
+Un s{\'e}lecteur est une expression r{\'e}guli{\`e}re  qui va {\^e}tre compar{\'e}e {\`a}
+l'enregistrement courant du fichier en entr{\'e}e. Si une correspondance est
+trouv{\'e}e entre l'expression r{\'e}guli{\`e}re et l'enregistrement, le s{\'e}lecteur
+devient vrai et l'action correspondante est ex{\'e}cut{\'e}e. Cette expression
+r{\'e}guli{\`e}re peut aussi s'appliquer seulement sur un ou plusieurs champs.
+
+%%%%%%%%%%%%
+\subsection{Les caract{\`e}res sp{\'e}ciaux pour la s{\'e}lection}
+
+\begin{longtable}{|l|p{6cm}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	Caract{\`e}re	&	Description	\\
+	\hline
+\endhead
+	\hline
+	Caract{\`e}re	&	Description	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\verb=/=		&
+			D{\'e}limiteur d'une expression r{\'e}guli{\`e}re.					\\[1ex]
+		\verb="=		&
+			D{\'e}limiteur d'une cha{\^\i}ne de caract{\`e}res.					\\[1ex]
+		\verb=\=		&
+			Permet de sp{\'e}cifier un caract{\`e}re sp{\'e}cial en tant que caract{\`e}re
+			normal. Par exemple "\verb=\/=" d{\'e}signe le caract{\`e}re "\verb=/=".
+			\\[1ex]
+		\verb=$=$n$		&
+			Repr{\'e}sente le $n^{i\grave{e}me}$ champ de l'enregistrement courant.
+			La valeur de "$n$" n'est limit{\'e}e que par le nombre de champs dans
+			l'enregistrement courant.								\\[1ex]
+		\verb=$0=		&
+			Repr{\'e}sente la totalit{\'e} de l'enregistrement en entr{\'e}e.	\\[1ex]
+\end{longtable}
+
+%%%%%%%%%%%%
+\subsection{Les expressions logiques pour la s{\'e}lection}
+
+\begin{longtable}{|@{\hspace{0.5ex}}l@{\hspace{0.5ex}}|@{\hspace{0.5ex}}p{6cm}@{\hspace{0.5ex}}|}
+
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	Op{\'e}rateur	&	Description	\\
+	\hline
+\endhead
+	\hline
+	Op{\'e}rateur	&	Description	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\verb=<=	&	Inf{\'e}rieur {\`a}			\\[1ex]
+		\verb=>=	&	Sup{\'e}rieur {\`a}			\\[1ex]
+		\verb,==,	&	{\'E}galit{\'e}				\\[1ex]
+		\verb,!=,	&	Diff{\'e}rent			\\[1ex]
+		\verb=&&=	&	\textsl{ET} logique	\\[1ex]
+		\verb=||=	&	\textsl{OU} logique	\\[1ex]
+		\verb=~=	&	Permet de comparer l'expression r{\'e}guli{\`e}re
+						{\`a} un champ pr{\'e}cis.	\\[1ex]
+\end{longtable}
+
+%%%%%%%%%%%%
+\subsection{Syntaxe des s{\'e}lecteurs}
+
+La syntaxe des \index{awk@\texttt{awk}!s{\'e}lecteur!syntaxe}s{\'e}lecteur peut s'exprimer de trois fa\c{c}ons~:
+\begin{itemize}
+	\item	s{\'e}lection en fonction d'une expression r{\'e}guli{\`e}re,
+	\item	s{\'e}lection en fonction d'expression logiques,
+	\item	s{\'e}lection en utilisant les deux formats pr{\'e}c{\'e}dents.
+\end{itemize}
+
+Dans le premier cas de figure, si aucun champ n'est sp{\'e}cifi{\'e} dans le s{\'e}lecteur,
+l'expression r{\'e}guli{\`e}re s'applique {\`a} l'ensemble de l'enregistrement. On aura donc
+les syntaxes suivantes~:
+\begin{quote}
+\verb=/=expression$_{r\acute{e}guli\grave{e}re}$\verb=/=\\
+\verb=$=champ~\verb=~ /=expression$_{r\acute{e}guli\grave{e}re}$\verb=/=
+\end{quote}
+
+Dans le second cas de figure, on peut {\'e}crire une expression logique en utilisant
+les op{\'e}rateurs logiques pr{\'e}c{\'e}demment d{\'e}crits. On pourra donc avoir, par exemple~:
+\begin{quote}
+\begin{verbatim}
+$1 == $2
+$2 < $3
+$2 != $3
+( $2 < $3 ) && ($2 > $4)
+(($2 > 100) || ( $2 == $3*50)) && ($4 > 10)
+\end{verbatim}
+\end{quote}
+
+Il est {\'e}videmment possible d'utiliser les op{\'e}rateurs logiques pour relier les
+expressions correspondant au premier cas de figure. On pourra donc avoir~:
+\begin{quote}
+\begin{verbatim}
+($1 ~ /[a-z]/) && ($2 ~ /[0-9]/)
+($1 ~ /[a-z]/) && ($2 ~ /[0-9]/) && ($2 < 10)
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les variables}
+
+\index{awk@\texttt{awk}!variables}"\texttt{awk}" permet l'utilisation de
+variables internes. Ces variables peuvent {\^e}tre de type num{\'e}rique ou bien
+alphanum{\'e}rique.
+
+Il poss{\`e}de aussi un certain nombre de variables pr{\'e} d{\'e}finies permettant de
+param{\`e}trer l'environnement de "\texttt{awk}" ou bien d'obtenir des informations
+sur le contexte courant. Ces \index{awk@\texttt{awk}!variables pr{\'e} d{\'e}finies}variables sont~:
+
+\begin{tabular}{|l|p{10cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Variable}		&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+		\index{awk@\texttt{awk}!variables!FILENAME@\texttt{FILENAME}}\texttt{FILENAME}	&
+		nom du fichier courant en entr{\'e}e.	\\
+	\hline
+		\index{awk@\texttt{awk}!variables!NR@\texttt{NR}}\texttt{NR}					&
+		num{\'e}ro de l'enregistrement courant.	\\
+	\hline
+		\index{awk@\texttt{awk}!variables!NF@\texttt{NF}}\texttt{NF}					&
+		nombre de champs dans l'enregistrement courant.	\\
+	\hline
+		\index{awk@\texttt{awk}!variables!FS@\texttt{FS}}\texttt{FS}					&
+		caract{\`e}re s{\'e}parateur de champs.		\\
+	\hline
+		\index{awk@\texttt{awk}!variables!RS@\texttt{RS}}\texttt{RS}					&
+		caract{\`e}re de s{\'e}paration d'enregistrements.	\\
+	\hline
+		\index{awk@\texttt{awk}!variables!\$0@\texttt{\$0}}\verb=$0=						&
+		l'enregistrement courant.			\\
+	\hline
+		\index{awk@\texttt{awk}!variables!\$i@\texttt{\$}\textit{i}}\verb=$=\textit{n}	&
+		le $n^{i\grave{e}me}$ champ de l'enregistrement courant.	\\
+	\hline
+		\index{awk@\texttt{awk}!variables!IFS@\texttt{IFS}}\texttt{IFS}					&
+		caract{\`e}re s{\'e}parateur de champs en entr{\'e}e.	\\
+	\hline
+		\index{awk@\texttt{awk}!variables!IRS@\texttt{IRS}}\texttt{IRS}					&
+		caract{\`e}re de s{\'e}paration d'enregistrements en entr{\'e}e.	\\
+	\hline
+		\index{awk@\texttt{awk}!variables!OFS@\texttt{OFS}}\texttt{OFS}					&
+		caract{\`e}re s{\'e}parateur de champs en sortie.	\\
+	\hline
+		\index{awk@\texttt{awk}!variables!ORS@\texttt{ORS}}\texttt{ORS}					&
+		caract{\`e}re de s{\'e}paration d'enregistrements en sortie.	\\
+	\hline
+		\index{awk@\texttt{awk}!variables!OFMT@\texttt{OFMT}}\texttt{OFMT}				&
+		format de sortie pour les chiffres.	\\
+	\hline
+\end{tabular}
+
+\begin{example}
+Commande~:
+\begin{quote}
+\begin{verbatim}
+awk '
+    BEGIN {
+        print "Liste du fichier ", FILENAME
+        print
+        printf ("N.L.\tUID"\t|\tNom de login\n")
+        FS=":"
+        OFS="\t|\t"
+    }
+    {
+        printf ("%03d:\t",NR)
+        print $3,$1
+    }
+' /etc/passwd
+\end{verbatim}
+\end{quote}
+
+Le programme "\texttt{awk}" pr{\'e}c{\'e}dent s'applique au fichier "\texttt{/etc/passwd}",
+contenant la liste des utilisateurs autoris{\'e}s {\`a} se connecter au syst{\`e}me. Ce fichier
+se compose des champs suivants s{\'e}par{\'e}s par le caract{\`e}re "\texttt{:}"~:
+\begin{itemize}
+	\item	le nom de connexion ou "\textsl{logname}",
+	\item	le mot de passe crypt{\'e} de l'utilisateur,
+	\item	son identifiant num{\'e}rique unique, l'UID,
+	\item	son identifiant num{\'e}rique de groupe, le GID,
+	\item	un champ de commentaires, appel{\'e} "GCOS", contenant usuellement
+			le pr{\'e}nom et le nom complet de l'utilisateur,
+	\item	son r{\'e}pertoire de connexion, c'est-{\`a}-dire le r{\'e}pertoire qu'il aura
+			par d{\'e}faut lorsqu'il se connectera au syst{\`e}me\footnote{Ce r{\'e}pertoire
+			est celui utilis{\'e} par d{\'e}faut par la commande "\texttt{cd}", cf.
+			section \ref{cmds-pwd-cd}.}
+	\item	le nom de l'ex{\'e}cutable correspondant {\`a} son interpr{\'e}teur de commandes.
+\end{itemize}
+Pour plus de renseignements sur ce fichiers, reportez-vous {\`a} "\texttt{passwd(5)}".
+
+Ce programme se d{\'e}compose en deux parties~:
+\begin{enumerate}
+	\item	Le s{\'e}lecteur "\texttt{BEGIN}" permet d'afficher un texte pr{\'e}limaire
+			indiquant~:
+			\begin{itemize}
+				\item	la liste des utilisateurs du fichier trait{\'e} (r{\'e}f{\'e}renc{\'e} par la
+						variable "\texttt{FILENAME}",
+				\item	une ligne blanche (commande "\texttt{print}" sans arguments),
+				\item	la premi{\`e}re ligne du tableau g{\'e}n{\'e}r{\'e} par le programme.
+			\end{itemize}
+			L'initialisation de la variable "\texttt{FS}" permet de sp{\'e}cifier la nouvelle
+			valeur du s{\'e}parateur de champ. Celui-ci devient le caract{\`e}re "\texttt{:}".
+			L'initialisation de la variable "\texttt{OFS}" permet de sp{\'e}cifier
+			le nouveau format d'affichage de la commande "\texttt{print}". Chaque
+			argument de cette commande sera s{\'e}par{\'e} par le caract{\`e}re "\verb=|="
+			pr{\'e}c{\'e}d{\'e} et suivi d'une tabulation.\\[0.5cm]
+	\item	Le second s{\'e}lecteur ne poss{\`e}de aucun crit{\`e}re, les actions qui y sont pr{\'e}sentes
+			s'appliquent {\`a} chaque enregistrement du fichier c'est-{\`a}-dire {\`a} chaque
+			ligne. Les deux actions pr{\'e}sentes ont les fonctions suivantes~:
+			\begin{itemize}
+				\item	la premi{\`e}re affiche le num{\'e}ro de l'enregistrement courant sur
+						trois chiffres\footnote{Les formats utilis{\'e}s
+						par la commande "\texttt{printf}" de "\texttt{awk}" sont
+						identiques {\`a} ceux de la fonction "\texttt{printf(3)}".}
+						gr{\^a}ce {\`a} la variable "\texttt{NR}",
+				\item	la seconde affiche le troisi{\`e}me et le premier champ en utilisant
+						le format de sortie contenu dans la variable "\texttt{OFS}".
+			\end{itemize}
+\end{enumerate}
+
+Le r{\'e}sultat obtenu sera donc~:
+\begin{quote}
+\begin{verbatim}
+liste du fichier /etc/passwd
+
+N.L.	UID	|	Nom de login
+001:	0	|	root
+\end{verbatim}
+etc.
+\end{quote}
+\end{example}
+
+
+La d{\'e}finition des variables utilisateur est dynamique. Par cons{\'e}quent, leur
+d{\'e}claration se fait {\`a} la premi{\`e}re utilisation et leur type s'adapte en fonction
+de la valeur {\`a} laquelle elle a {\'e}t{\'e} initialis{\'e}e. Le type d'une variable d{\'e}pend de
+son utilisation. Il peut {\^e}tre~:
+\begin{itemize}
+	\item	num{\'e}rique (virgule flottante ou enti{\`e}re)
+	\item	alphanum{\'e}rique
+\end{itemize}
+
+Les variables sont d{\'e}clar{\'e}es de fa\c{c}on globale {\`a} tous les blocs action de toutes
+les requ{\^e}tes "\texttt{awk}". Par cons{\'e}quent, une variable cr{\'e}{\'e}e dans la requ{\^e}te
+"\texttt{BEGIN}", sera accessible par toutes les requ{\^e}tes "\texttt{awk}".
+
+
+%%%%%%%%%%%%
+\subsection{Les tableaux}
+
+\index{awk@\texttt{awk}!tableaux}"\texttt{awk}" sait aussi g{\'e}rer des
+tableaux. Les types disponibles pour ces tableaux sont les m{\^e}mes que les
+variables. On a donc les types suivants~:
+\begin{itemize}
+	\item	type num{\'e}rique (virgule flottante ou entier),
+	\item	alphanum{\'e}rique.
+\end{itemize}
+
+La dimension d'un tableau est dynamique. Il n'y a donc pas besoin de d{\'e}clarer
+sa dimension  avant de l'utiliser, il suffit de l'initialiser. Les indices
+peuvent {\^e}tre num{\'e}riques ou bien alphanum{\'e}riques, c'est-{\`a}-dire
+qu'un {\'e}l{\'e}ment du tableau peut {\^e}tre repr{\'e}sent{\'e} par un indice
+num{\'e}rique ou bien par un indice symbolis{\'e} par une cha{\^\i}ne de
+caract{\`e}res. Ce deuxi{\`e}me cas correspond aux tableaux
+"\textsl{associatifs}". Tout comme les variables, les tableaux sont communs
+{\`a} tous les blocs "\textsl{action}" de toutes les requ{\^e}tes
+"\texttt{awk}"~: ils sont d{\'e}clar{\'e}s "\textsl{en global}".
+
+\begin{example}
+Indi\c{c}age de tableaux~:
+\begin{quote}
+\begin{verbatim}
+array[0]="ABC"
+other_array[schmoll]="bidule"
+\end{verbatim}
+\end{quote}
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les actions}
+
+Les \index{awk@\texttt{awk}!action}actions sont des blocs constituant une
+requ{\^e}te "\texttt{awk}". Ils d{\'e}crivent les op{\'e}rations {\`a}
+effectuer lorsque la s{\'e}lection d{\'e}crite en t{\^e}te de requ{\^e}te est
+v{\'e}rifi{\'e}e. Les gens connaissant le langage C retrouveront la plupart des
+fonctions standards avec des syntaxes identiques. On trouvera aussi un ensemble
+de fonctions sp{\'e}cifiques.
+
+Les \index{awk@\texttt{awk}!op{\'e}rateurs arithm{\'e}tiques}op{\'e}rateurs
+arithm{\'e}tiques autoris{\'e}s dans ces blocs sont explicit{\'e}s dans le
+tableau suivant~:
+
+\begin{longtable}{|l|p{10cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{Op{\'e}rateur}		&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{Op{\'e}rateur}		&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\texttt{=}	&	affectation						\\
+	\hline
+		\texttt{+}	&	addition binaire				\\
+	\hline
+		\texttt{++}	&	incr{\'e}mentation de $1$		\\
+	\hline
+		\texttt{+=}	&	addition unaire					\\
+	\hline
+		\texttt{-}	&	soustraction binaire			\\
+	\hline
+		\verb=--=	&	d{\'e}cr{\'e}mentation de $1$	\\
+	\hline
+		\texttt{-=}	&	soustraction unaire				\\
+	\hline
+		\verb=*=	&	multiplication binaire			\\
+	\hline
+		\verb,*=,	&	multiplication unaire			\\
+	\hline
+		\verb=/=	&	division binaire				\\
+	\hline
+		\verb,/=,	&	division unaire					\\
+	\hline
+		\verb=%=	&	modulo							\\
+\end{longtable}
+
+
+
+La concat{\'e}nation de champs se fait sans op{\'e}rateur sp{\'e}cifique. Il suffit
+de lister les cha{\^\i}nes {\`a} concat{\'e}ner.
+
+\begin{example}
+\begin{tabular}{l@{\hspace{1cm}}p{6cm}}
+	\verb,cumul=0,						&	\\
+	\verb,taux=$2,						&	\\
+	\verb,nom=$1 "du genoux" $2,		&	\\
+	\verb,nom=$1 $2,					&	\\
+	\verb,cumul=cumul + 10,				&	\\
+	\verb,ttc=$4 + $5,					&	\\
+	\verb,cumul ++,						&	identique {\`a}	"\texttt{cumul = cumul + 1}"\\
+	\verb,cumul += $2,					&	identique {\`a}	"\texttt{cumul = cumul + \$2}"\\
+	\verb,cumul = cumul - $2,			&	\\
+	\verb,ht = ttc - tva,				&	\\
+	\verb,cumul --,						&	identique {\`a}	"\texttt{cumul = cumul - 1}"\\
+	\verb,cumul -= $2,					&	identique {\`a}	"\texttt{cumul = cumul - \$2}"\\
+	\verb,total = cumul * 100,			&	\\
+	\verb,carre = $1 * $1,				&	\\
+	\verb,cumul *= $2,					&	identique {\`a}	"\texttt{cumul = cumul * \$2}"\\
+	\verb,pourcent = $2 / cumul * 100,	&	\\
+	\verb,cumul /= $2,					&	identique {\`a}	"\texttt{cumul = cumul / \$2}"\\
+	\verb,reste = cumul % 3,			&	\\
+\end{tabular}
+\end{example}
+
+%%%%%%%%%%%%
+\subsection{Les fonctions pr{\'e}d{\'e}finies}
+
+La liste des \index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies}fonctions
+suivantes n'est pas exhaustive. Elle donne celles qui sont usuellement
+utilis{\'e}es. Les tableaux explicitent ces fonctions. Le tableau
+\ref{tab-awk-fct-num} donne une liste de fonctions acceptant un argument de type
+num{\'e}rique, le tableau \ref{tab-awk-fct-str} donne une liste de fonctions
+acceptant un argument de type "\textsl{cha{\^\i}ne de caract{\`e}res}".
+
+\begin{table}[hbtp]
+\begin{tabular}{|l|p{10cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Fonction}			&
+		\multicolumn{1}{|c|}{Description}		\\
+	\hline \hline
+		\index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies!sqrt@\texttt{sqrt}}\texttt{sqrt(\textsl{arg})}	&
+			renvoie la racine carr{\'e} de l'argument.							\\
+	\hline
+		\index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies!log@\texttt{log}}\texttt{log(\textsl{arg})}		&
+			renvoie le logarithme n{\'e}p{\'e}rien de l'argument.				\\
+	\hline
+		\index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies!exp@\texttt{exp}}\texttt{exp(\textsl{arg})}		&
+			renvoie l'exponentiel de l'argument.								\\
+	\hline
+		\index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies!int@\texttt{int}}\texttt{int(\textsl{arg})}		&
+			renvoie la partie enti{\`e}re\footnote{C'est-{\`a}-dire
+			la fonction math{\'e}matique $E(x)$.} de l'argument..				\\
+	\hline
+\end{tabular}
+\caption{\label{tab-awk-fct-num}Fonctions acceptant un argument de type num{\'e}rique.}
+\end{table}
+
+\begin{table}[hbtp]
+\begin{tabular}{|l|p{8cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Fonction}					&
+		\multicolumn{1}{|c|}{Description}				\\
+	\hline \hline
+		\index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies!length@\texttt{length}}\texttt{length}\footnote{L'appel {\`a} "\texttt{length}" ne poss{\`e}de aucun argument.}
+														&
+		renvoie la longueur de l'enregistrement courant.		\\
+	\hline
+		\texttt{length(\textsl{arg})}							&
+		renvoie la longueur de la chaine pass{\'e}e en argument.	\\
+	\hline
+		\index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies!substr@\texttt{substr}}\texttt{substr(\textsl{arg},\textsl{m}[,\textsl{n}])}		&
+		renvoie la sous cha{\^\i}ne de la chaine "\textsl{arg}" commen\c{c}ant
+		{\`a} la position "\textsl{m}" et de longueur "\textsl{n}". Le premier caract{\`e}re
+		est {\`a} la position "$1$"\footnote{Alors qu'en langage C, le premier
+		caract{\`e}re d'une chaine est {\`a} la position "$0$".}. Si "\textsl{n}" n'est pas
+		sp{\'e}cifi{\'e}, la fonction "\texttt{substr}" renvoie la fin de l'argument {\`a} partir
+		de la position "\textsl{m}".							\\
+	\hline
+		\index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies!index@\texttt{index}}\texttt{index($str_1$,$str_2$)}					&
+		renvoie la position de "$str_2$" dans la cha{\^\i}ne "$str_1$". Si
+		"$str_1$" ne contient pas la cha{\^\i}ne "$str_2$", "\texttt{index}"
+		renvoie "$0$"\footnote{$0$ ne correspond {\`a} aucune position dans une chaine
+		puisque, dans "\texttt{awk}", le premier caract{\`e}re d'une chaine a la position
+		"$1$", \textbf{ce qui n'est pas le cas en langage C.}}.	\\
+	\hline
+		\index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies!print@\texttt{print}}\texttt{print [$arg_1$[,$arg_2$],$\cdots$] [> \textsl{dest}]}	&
+		affiche les arguments "$arg_1$", "$arg_1$", $\cdots$ sur
+		la sortie standard sans les formater. Avec l'option "\texttt{>~\textsl{dest}}",
+		l'affichage est redirig{\'e} sur le fichier "\textsl{dest}" au lieu de la
+		sortie standard.										\\
+	\hline
+		\index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies!printf@\texttt{printf}}\texttt{printf(\textsl{format},$arg_1$,$arg_2$,$\cdots$)	[> \textsl{dest}]}	&
+		affiche les arguments $arg_1$, $arg_2$, $\cdots$ sur la sortie standard apr{\`e}s
+		les avoir format{\'e}s {\`a} l'aide de la cha{\^\i}ne de contr{\^o}le "\textsl{format}". Avec
+		l'option "\texttt{> \textsl{dest}}", l'affichage est redirig{\'e} sur le fichier
+		"\textsl{dest}" au lieu de la sortie standard.			\\
+	\hline
+		\index{awk@\texttt{awk}!fonctions pr{\'e}d{\'e}finies!sprintf@\texttt{sprintf}}\texttt{sprintf(\textsl{format},$arg_1$,$arg_2$,$\cdots$)}	&
+		renvoie une cha{\^\i}ne de caract{\`e}res format{\'e}e int{\'e}grant $arg_1$, $arg_2$, $\cdots$
+		correspondant aux instruction de formatage en fonction de la
+		cha{\^\i}ne de contr{\^o}le "\textsl{format}". \textbf{Attention}, cette fonction a un
+		comportement diff{\'e}rent de celui de la fonction "\texttt{sprintf(3)}".	\\
+	\hline
+\end{tabular}
+\caption{\label{tab-awk-fct-str}Fonctions acceptant des arguments de type alphanum{\'e}rique.}
+\end{table}
+
+\begin{remarque}
+Pour plus de pr{\'e}cisions sur les instructions de formatage, reportez-vous
+{\`a} l'annexe \ref{ann-format}.
+\end{remarque}
+
+\begin{example}
+\noindent \textsl{Exemple d'utilisation des fonctions pr{\'e}d{\'e}finies~:}\\
+\begin{verbatim}
+if (length > 80 ) {
+    print "la ligne no: ", NR, " du fichier ",FILENAME, \
+        "est trop longue"
+}
+lentexte += length ($2)
+val=sqrt (cumul)
+val = log(sqrt(cumul))
+val = exp(log(cumul))
+modulo = int(cumul/100) * 100
+codepostal = substr("75006 Paris",1,5)
+pos = index("75006 Paris","Paris")      renvoie 7
+print $1,$2,cumul
+print "resultats", cumul > /tmp/result.tmp
+print "cumuls", $1+$2 > $3
+nom = sprintf ("%10.10s %10.10s .", nom, prenom)
+\end{verbatim}
+\end{example}
+
+%%%%%%%%%%%%
+\subsection{Les fonctions utilisateur}
+
+En plus des fonctions pr{\'e}d{\'e}finies, l'utilisateur peut d{\'e}finir ses
+propres \index{awk@\texttt{awk}!fonctions utilisateur}fonctions. Ces fonctions
+peuvent se trouver n'importe o{\`u} dans le corps du programme
+"\texttt{awk}". La d{\'e}claration d'une fonction se fait de la fa\c{c}on
+suivante~:
+\begin{quote}
+\begin{verbatim}
+function nom_fonction (arguments)
+{
+    instructions
+}
+\end{verbatim}
+\end{quote}
+
+La fonction peut {\^e}tre appel{\'e}e dans n'importe quel bloc action d'une
+requ{\^e}te "\texttt{awk}". Il suffit de la r{\'e}f{\'e}rencer par son nom. Les
+fonctions utilisateurs peuvent {\^e}tre r{\'e}cursives.
+
+\begin{example}
+\begin{verbatim}
+function factoriel (num)
+{
+    if (num == 0) return 1
+    return (num * factoriel(num - 1))
+}
+
+$1 ~ /^Factoriel$/ { print factoriel($2) }
+$1 ~ /^Minimum$/        { print minimum ($2, $3) }
+
+function minimum (n,m) {
+    return (m < n ? m : n)
+}
+\end{verbatim}
+\end{example}
+
+%%%%%%%%%%%%
+\subsection{Les structures de contr{\^o}le}
+
+L'ensemble des \index{awk@\texttt{awk}!structures de contr{\^o}le}structures de contr{\^o}le de "\texttt{awk}" fonctionnent
+comme celles du langage C. Nous allons donc ne faire qu'un bref rappel
+sur la syntaxe des diff{\'e}rentes structures de contr{\^o}les disponibles.
+
+Dans toute la suite de ce paragraphe, le terme instruction d{\'e}signe un
+ensemble d'instructions "\texttt{awk}" s{\'e}par{\'e}es par le caract{\`e}re
+"\texttt{;}" ou "\returnkey"et encadr{\'e}es par des "\{","\}".
+
+\index{awk@\texttt{awk}!structures de contr{\^o}le!if@\texttt{if}}
+\index{if@\texttt{if}}
+\textsl{Structure de contr{\^o}le "\texttt{if}, \texttt{else}"~:}
+\begin{quote}
+\begin{verbatim}
+if (condition)
+    instruction
+else
+    instruction
+\end{verbatim}
+\end{quote}
+
+\index{awk@\texttt{awk}!structures de contr{\^o}le!while@\texttt{while}}
+\index{while@\texttt{while}}
+\textsl{Structure de contr{\^o}le "\texttt{while}"~:}
+\begin{quote}
+\begin{verbatim}
+while (condition)
+    instruction
+\end{verbatim}
+\end{quote}
+
+\index{awk@\texttt{awk}!structures de contr{\^o}le!for@\texttt{for}}
+\index{for@\texttt{for}}
+\textsl{Structure de contr{\^o}le "\texttt{for}"~:}
+\begin{quote}
+\begin{verbatim}
+for (init;condition;it{\'e}ration)
+    instruction
+\end{verbatim}
+\end{quote}
+
+\index{awk@\texttt{awk}!structures de contr{\^o}le!break@\texttt{break}}
+\index{break@\texttt{break}}
+\noindent \textsl{Instruction "\texttt{break}"~:}
+\begin{quote}
+L'instruction "\texttt{break}" provoque la sortie du niveau courant d'une
+boucle "\texttt{while}" ou "\texttt{for}".
+\end{quote}
+
+\index{awk@\texttt{awk}!structures de contr{\^o}le!continue@\texttt{continue}}
+\index{continue@\texttt{continue}}
+\noindent \textsl{Instruction "\texttt{continue}"~:}
+\begin{quote}
+L'instruction "\texttt{continue}" provoque l'it{\'e}ration suivante au niveau
+courant d'une boucle "\texttt{while}" ou "\texttt{for}".
+\end{quote}
+
+\index{awk@\texttt{awk}!structures de contr{\^o}le!next@\texttt{next}}
+\index{next@\texttt{next}}
+\noindent \textsl{Instruction "\texttt{next}"~:}
+L'instruction "\texttt{next}" force "\texttt{awk}" {\`a} passer {\`a} la ligne
+suivante du fichier en entr{\'e}e.
+
+\index{awk@\texttt{awk}!exit@\texttt{exit}}
+\index{exit@\texttt{exit}}
+\noindent \textsl{Instruction "\texttt{exit}"~:}
+\begin{quote}
+L'instruction "\texttt{exit}" force "\texttt{awk}" \textbf{{\`a} interrompre} la lecture
+du fichier d'entr{\'e}e comme si la fin avait {\'e}t{\'e} atteinte.
+\end{quote}
+
+\begin{example}
+\begin{verbatim}
+if ($3 == foo*5) {
+    a = $6 % 2;
+    print $5, $6, "total", a;
+    b = 0;
+}
+else {
+    next
+}
+while ( i <= NF) {
+    print $i;
+    i ++;
+}
+for (i=1; ( i<= NF) && ( i <= 10); i++) {
+    if ( i < 0 ) break;
+    if ( i == 5) continue;
+    print $i;
+}
+\end{verbatim}
+\end{example}
+
+\begin{remarque}
+Ces structures de contr{\^o}les et les instructions qui y sont li{\'e}es , bien
+que leur nom soit identique {\`a} celui utilis{\'e} pour les structures du shell
+sont diff{\'e}rentes en de multiples points~:
+\begin{itemize}
+	\item	tout d'abord, leur syntaxe est diff{\'e}rente,
+	\item	les structures de contr{\^o}les pour "\texttt{awk}" s'ex{\'e}cutent dans
+			le processus li{\'e} {\`a} cet utilitaire,
+	\item	les structures de contr{\^o}les du shell sont ex{\'e}cut{\'e}es dans le processus
+			li{\'e} au script ou bien {\`a} l'interpr{\'e}teur de commandes actif.
+\end{itemize}
+\textbf{Par cons{\'e}quent, l'utilisation d'un "\texttt{if}" peut {\^e}tre li{\'e} au
+shell ou bien {\`a} un utilitaire comme "\texttt{awk}".}
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Trucs et astuces}
+
+%%%%%%%%%%%%
+\subsection{Commentaires}
+
+Le caract{\`e}re permettant d'introduire des commentaires dans un programme
+"\texttt{awk}" est le caract{\`e}re "\verb=#=". Tout ce qui suit ce caract{\`e}re
+est ignor{\'e}. La notion de commentaires n'a d'int{\'e}r{\^e}t que lorsque le
+programme "\texttt{awk}" se trouve dans un fichier s{\'e}par{\'e}.
+
+%%%%%%%%%%%%
+\subsection{Passage de param{\`e}tres du shell vers le programme "\texttt{awk}"}
+
+La notion de passage d'arguments n'a d'int{\'e}r{\^e}t que lorsque le programme
+"\texttt{awk}" se trouve dans un fichier s{\'e}par{\'e}. Elle n'est aussi
+utilisable que si "\texttt{awk}" re\c{c}oit les donn{\'e}es sur son entr{\'e}e
+standard. Dans ce cas, "\texttt{awk}" maintient deux variables~:
+\begin{itemize}
+	\item	\index{awk@\texttt{awk}!ARGC@\texttt{ARGC}}"\texttt{ARGC}" contenant le nombre d'arguments,
+	\item	\index{awk@\texttt{awk}!ARGV@\texttt{ARGV}}"\texttt{ARGV}" tableau contenant la liste des arguments pass{\'e}s au
+			programme "\texttt{awk}".
+\end{itemize}
+
+\begin{example}
+\begin{verbatim}
+cat mon.fichier | awk -f program.awk a v=4 b "autre arg"
+\end{verbatim}
+
+Dans ce cas, on aura~:\\
+\begin{tabular}{|c|c|}
+	\hline
+		Variable	&
+		Valeur		\\
+	\hline \hline
+		\texttt{ARGC}		&	5					\\
+		\verb=ARGV[0]=	&	\texttt{awk}			\\
+		\verb=ARGV[1]=	&	\texttt{a}				\\
+		\verb=ARGV[2]=	&	\verb,v=4,			\\
+		\verb=ARGV[3]=	&	\texttt{b}				\\
+		\verb=ARGV[4]=	&	\verb*,autre arg,	\\
+	\hline
+\end{tabular}
+\end{example}
+
+%%%%%%%%%%%%
+\subsection{Utilisation de variables du Shell dans le corps du programme
+				"\texttt{awk}"}
+
+Cette notion n'est applicable que si "\texttt{awk}" est appel{\'e} {\`a}
+l'int{\'e}rieur d'un Shell script et que le corps du programme "{\tt
+awk}" ne se trouve pas dans un fichier s{\'e}par{\'e}. Dans ce cas, on aura~:
+\begin{quote}
+\begin{verbatim}
+awk '
+    corps du programme awk
+' [fichier]
+\end{verbatim}
+\end{quote}
+
+Pour pouvoir utiliser des variables Shell ou bien le r{\'e}sultat de
+commandes, il suffit de les ins{\'e}rer entre deux simples quotes (caract{\`e}re
+"\texttt{'}") {\`a} condition que le bloc programme de "awk" soit compris
+entre deux simples quotes, ce qui est pr{\'e}f{\'e}rable par rapport aux doubles
+quotes (caract{\`e}re """).
+
+\begin{example}
+\begin{verbatim}
+#!/bin/sh
+echo "Entrez une chaine :\c"
+read answer
+echo $answer | awk '
+    BEGIN {
+        status=0;
+        today='`date +%H%M`'
+    }
+    NR > 1 { status=1}
+    $1 ~ /[0-9].*/ {
+        printf ("La chaine %s comprend une partie num{\'e}rique: %d\n",
+            '$answer', $1);
+    }
+    END {
+        printf ("Execut{\'e}e le %s\n", today)
+    }
+'
+\end{verbatim}
+\end{example}
+
+\noindent{\Large \textbf{ATTENTION}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{adv-fltrs-awk-ex}Exemple}
+
+Soit le fichier "\texttt{donjon}"~:
+\begin{quote}
+\begin{tabular}{|l|}
+	\hline
+	\verb=LANCELOT:DULAC:chevalier:200=	\\
+	\verb=GODEFROY:DE BOUILLON:chevalier:300=	\\
+	\verb=ARTHUR::roi:150=	\\
+	\verb=MERLIN:L'ENCHANTEUR:magicien:0=	\\
+	\verb=GODEFROY:DE BOUILLON:chevalier:400=	\\
+	\verb=LANCELOT:DULAC:chevalier:300=	\\
+	\hline
+\end{tabular}
+\end{quote}
+
+Soit le fichier programme "\texttt{cumul.awk}"~:
+\begin{quote}
+\begin{verbatim}
+BEGIN {
+    FS=":"
+    print "Statistiques sur le nombre de sarrasins occis"
+    nb=0
+}
+
+$1 ~ /[a-zA-Z]/ {
+    cumul[$1] += $4
+    for (i=1; (i <= nb) && (list[i] != $1; i++)
+    if ( i > nb) {
+        nb ++
+        list[nb]=$1 $2
+    }
+}
+END {
+    printf ("%.20s\t%.20s \n","Zigoto", "Cumul")
+    for (i=1; i <= nb; i++)
+        printf ("%.20s\t%.20s \n",
+             list[i], cumul[list[i]])
+}
+\end{verbatim}
+\end{quote}
+
+La commande
+\begin{center}
+\begin{verbatim}
+awk -f cumul.awk donjon
+\end{verbatim}
+\end{center}
+produit le r{\'e}sultat suivant~:
+\begin{quote}
+\begin{verbatim}
+Statistiques sur le nombre de sarrasins occis
+Zigoto                  Cumul
+LANCELOT DULAC          500
+GODEFROY DE BOUILLON    700
+ARTHUR                  150
+MERLIN L'ENCHANTEUR     0
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{adv-fltrs-awk-f}Remarque sur l'utilisation de l'option "\texttt{-f}"}
+
+{\`A} la r{\`e}gle 10 explicit{\'e}e {\`a} la section \ref{pgm-intro-basic-rules}, nous
+avions pr{\'e}ciser que la premi{\`e}re ligne d'un script devait sp{\'e}cifier le nom
+de l'ex{\'e}cutable associ{\'e} au shell utiliser.
+
+Nous avons vu de m{\^e}me, que la commande "\texttt{awk}" dispose de l'option
+"\texttt{-f}", permettant de pr{\'e}ciser un fichier de requ{\^e}tes "\texttt{awk}".
+
+Si l'analogie est faite avec le shell, le processus charg{\'e} d'{\'e}valuer chaque
+ligne du fichier est l'ex{\'e}cutable sp{\'e}cifi{\'e} au niveau de la premi{\`e}re
+ligne du fichier contenant les instructions. Par cons{\'e}quent si le fichier
+contenant les requ{\^e}tes "\texttt{awk}"~:
+\begin{itemize}
+	\item	a comme premi{\`e}re ligne "\verb=#!/usr/bin/awk="\footnote{Nous
+			consid{\'e}rons ici que l'ex{\'e}cutable de "\texttt{awk}" se trouve dans
+			le r{\'e}pertoire "\texttt{/usr/bin}". Pour en conna{\^\i}tre la
+			localisation exacte sur votre syst{\`e}me, vous pouvez utiliser
+			la commande "\texttt{which(1)}" ou "\texttt{whereis(1)}".},
+	\item	est accessible en ex{\'e}cution,
+\end{itemize}
+il peut {\^e}tre consid{\'e}r{\'e} comme un filtre ex{\'e}cutant les requ{\^e}tes "\texttt{awk}"
+qu'il contient.
+
+Par exemple, si cette notion est appliqu{\'e}e au fichier d{\'e}crit dans l'exemple
+de la section \ref{adv-fltrs-awk-ex}, le contenu du fichier
+"\texttt{cumul.awk}"~:
+\begin{quote}
+\begin{verbatim}
+#!/usr/bin/awk
+BEGIN {
+    FS=":"
+    print "Statistiques sur le nombre de sarrasins occis"
+    nb=0
+}
+
+$1 ~ /[a-zA-Z]/ {
+    cumul[$1] += $4
+    for (i=1; (i <= nb) && (list[i] != $1; i++)
+    if ( i > nb) {
+        nb ++
+        list[nb]=$1 $2
+    }
+}
+END {
+    printf ("%.20s\t%.20s \n","Zigoto", "Cumul")
+    for (i=1; i <= nb; i++)
+        printf ("%.20s\t%.20s \n",
+             list[i], cumul[list[i]])
+}
+\end{verbatim}
+\end{quote}
+
+La commande qui sera saisie deviendra~:
+\begin{quote}
+\begin{verbatim}
+cumul.awk donjon
+\end{verbatim}
+\end{quote}
+
+Si nous voulons utiliser le programme "\texttt{cumul.awk}" comme un filtre,
+il sera alors possible de saisir la commande suivante~:
+\begin{quote}
+\begin{verbatim}
+cat donjon | cumul.awk
+\end{verbatim}
+\end{quote}
+
+Dans tous les cas, le r{\'e}sultat obtenu sur la sortie standard sera identique {\`a}
+celui montr{\'e} {\`a} la section \ref{adv-fltrs-awk-ex}.

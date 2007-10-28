@@ -1,0 +1,2332 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{\label{adv-programming}Programmation avanc{\'e}e de Shell Scripts}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Ce chapitre a pour vocation de pr{\'e}senter un certain nombre de commandes
+en utilisant des exemples complexes.
+
+Les exemples que nous aborderons, auront les fonctionnalit{\'e}s suivantes~:
+\begin{description}
+    \item[Exemple 1~:]\mbox{}\\
+        Cet exemple se chargera de trier le fichier "{\tt /etc/hosts}"
+        par adresse IP.
+    \item[Exemple 2~:]\mbox{}\\
+        Cet exemple devra localiser le dernier "UID" disponible
+        dans une plage de valeurs pr{\'e}d{\'e}finies.
+    \item[Exemple 3~:]\mbox{}\\
+        Cet exemple se chargera de cr{\'e}er toutes les entr{\'e}es n{\'e}cessaires
+        pour cr{\'e}er des comptes "utilisateur" {\`a} partir de fichiers de
+        donn{\'e}es. Cet exemple est utilis{\'e} dans un cas r{\'e}el~: cr{\'e}ation
+        des comptes utilisateur {\Unix} {\`a} partir des d{\'e}finitions
+        des comptes {\OpenVMS}.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{adv-programming-ex1}Tri par adresse IP du fichier
+	"{\tt /etc/hosts}"}
+
+%%%%%%%%%%%%
+\subsection{{\'E}tude des fonctionnalit{\'e}s}
+
+Le fichier "{\tt hosts(5)}" permet au syst{\`e}me {\Unix} d'associ{\'e} une
+adresse r{\'e}seau IP {\`a} un ou plusieurs noms de machine.En se reportant au
+manuel du fichier "{\tt hosts(5)}", le format utilis{\'e} est le
+suivante~:
+\begin{itemize}
+	\item	Le fichier peut contenir des commentaires, tout caract{\`e}re
+			saisi apr{\`e}s le caract{\`e}re "\verb=#=" est ignor{\'e},
+	\item	Chaque ligne d{\'e}crivant l'association "{\sl adresse IP},{\sl noms
+			de machine}" est compos{\'e}e d'au moins deux champs s{\'e}par{\'e}s par un
+			ou plusieurs espaces ou tabulations. Le premier champ est l'adresse
+			IP de la machine sous sa forme usuelle (format d{\'e}cimal), le second
+			est le nom officiel de la machine, c'est-{\`a}-dire celui qui lui
+			sera vraiment affect{\'e}. Les autres champs, s{\'e}par{\'e}s de la m{\^e}me fa\c{c}on
+			sont les noms non-officiels, c'est-{\`a}-dire une s{\'e}rie de noms
+			qu'il sera possible d'utiliser pour la joindre.
+\end{itemize}
+
+Le probl{\`e}me est donc de faire un tri {\bf num{\'e}rique} sur les quatre champs
+de l'adresse IP (chacun {\'e}tant s{\'e}par{\'e} par le caract{\`e}re "{\tt .}" sachant
+que le s{\'e}parateur de champ du fichier "{\tt hosts}" est diff{\'e}rent et que
+les champs le constituant sont diff{\'e}rents. De plus, le caract{\`e}re "{\tt .}"
+peut {\^e}tre utilis{\'e} dans les noms de machines, en particulier lorsque les domaines
+Bind/DNS sont pr{\'e}cis{\'e}s (cf. \cite{dns-bind}).
+
+%%%%%%%%%%%%
+\subsection{M{\'e}thode utilis{\'e}e}
+
+Comme il l'a {\'e}t{\'e} explicit{\'e} pr{\'e}c{\'e}demment, le probl{\`e}me r{\'e}side essentiellement
+dans les points suivants~:
+\begin{itemize}
+	\item	le s{\'e}parateur de champ pour le fichier "{\tt hosts(5)}" est
+			diff{\'e}rent de celui qui pourrait nous servir pour faire le tri
+			sur les champs de l'adresse IP,
+	\item	le nom d'une machine, si son domaine est sp{\'e}cifi{\'e}, peut comporter
+			un certain nombre de "{\tt .}", lui-m{\^e}me s{\'e}parateur de champs
+			pour l'adresse IP (cf \cite{dns-bind}),
+	\item	le tri doit {\^e}tre effectu{\'e} en num{\'e}rique uniquement sur les champs
+			de l'adresse IP.
+\end{itemize}
+
+Il est clair, que la commande {\`a} utiliser pour faire ce tri, est la commande
+"{\tt sort(1)}". Par contre, nous devrons faire en sorte que l'entr{\'e}e
+du tri comporte cinq champs~:
+\begin{itemize}
+	\item	le premier champ num{\'e}rique de l'adresse IP,
+	\item	le second champ num{\'e}rique de l'adresse IP,
+	\item	le troisi{\`e}me champ num{\'e}rique de l'adresse IP,
+	\item	le quatri{\`e}me champ num{\'e}rique de l'adresse IP,
+	\item	le ou les noms de la machine.
+\end{itemize}
+Il suffira alors de faire un tri num{\'e}rique sur les quatre premiers champs.
+Le r{\'e}sultat {\`a} afficher devra reformater de telle sorte qu'il ob{\'e}isse
+au format du fichier "{\tt hosts(5)}".
+
+Nous aurons donc les {\'e}tapes suivantes~:
+\begin{enumerate}
+	\item	convertir le fichier "{\tt hosts(5)}" de telle sorte que l'on
+			dispose des cinq champs explicit{\'e}s pr{\'e}c{\'e}demment,
+	\item	effectuer le tri,
+	\item	reformater le r{\'e}sultat du tri pour ob{\'e}ir au format usuel et
+			l'afficher sur la sortie standard.
+\end{enumerate}
+
+Or, un nom de machine peut utiliser le caract{\`e}re "{\tt .}" afin d'identifier
+son domaine DNS. Par cons{\'e}quent, il faudra utiliser un autre caract{\`e}re pour
+s{\'e}parer
+
+%%%%%%%%%%%%
+\subsection{D{\'e}veloppement}
+
+Comme tout script {\Unix}, le but est de n'utiliser, dans la mesure du possible,
+aucun fichier temporaire. Comme il l'a {\'e}t{\'e} d{\'e}velopp{\'e} au paragraphe pr{\'e}c{\'e}dent,
+il est clair que les r{\'e}sultats s'enchainent les uns aux autres. Nous utiliserons
+donc les m{\'e}canismes de redirection d'entr{\'e}e/sortie et des filtres.
+
+Apr{\`e}s les commentaires d'ent{\^e}te d'usage, la premi{\`e}re chose {\`a}
+faire est de reformater le fichier "{\tt hosts(5)}" pour
+l'{\sl envoyer} {\`a} la commande de tri "{\tt sort(1)}". Pour cela, nous
+utiliserons la commande "{\tt sed(1)}". Celle-ci nous servira, dans
+un premier temps, {\`a} supprimer les {\'e}ventuels commentaires du fichier
+(pour plus de d{\'e}tails, cf. \ref{adv-fltrs-sed-ex3}). Nous aurons donc~:
+\begin{quote}
+\begin{verbatim}
+sed -e '/^#.*/d' -e 's/#.*$//' /etc/hosts
+\end{verbatim}
+\end{quote}
+
+Dans un deuxi{\`e}me temps, la commande "{\tt sed(1)}" va nous servir
+{\`a} reformater l'adresse IP, afin de substituer le caract{\`e}re "{\tt .}"
+par le caract{\`e}re "{\tt :}". Sachant que le format d'une telle
+adresse est compos{\'e} de quatre nombres s{\'e}par{\'e}s par "{\tt .}", l'expression
+r{\'e}guli{\`e}re suivante la d{\'e}crit parfaitement~:
+\begin{quote}
+\begin{center}
+\begin{verbatim}
+[0-9]{3}\.[0-9]{3}\.[0-9]{3}\.[0-9]{3}
+\end{verbatim}
+\end{center}
+\end{quote}
+Par cons{\'e}quent, toute ligne du fichier "{\tt host(5)}" peut {\^e}tre d{\'e}crite
+par l'expression suivante~:
+\begin{quote}
+\begin{verbatim}
+\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\(.*$\)
+\end{verbatim}
+Ce qui nous permet d'avoir les r{\'e}f{\'e}rences suivantes pour l'expression
+r{\'e}guli{\`e}re~:\\
+\begin{tabular}{|c|p{7cm}|}
+	\hline
+		\multicolumn{1}{|c|}{R{\'e}f{\'e}rence}								&
+		\multicolumn{1}{|c|}{Description}							\\
+	\hline \hline
+		\verb=\1=	&	Premier champ num{\'e}rique de l'adresse IP.	\\
+		\verb=\2=	&	Second champ num{\'e}rique de l'adresse IP.		\\
+		\verb=\3=	&	Troisi{\`e}me champ num{\'e}rique de l'adresse IP.	\\
+		\verb=\4=	&	Quatri{\`e}me champ num{\'e}rique de l'adresse IP.	\\
+		\verb=\5=	&	Noms de la machine.							\\
+	\hline
+\end{tabular}
+\end{quote}
+Nous pourrons donc {\'e}crire la requ{\^e}te de substitution suivante~:
+\begin{quote}
+\begin{verbatim}
+s/\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\(.*$\)/\1:\2:\3:\4:\5/
+\end{verbatim}
+\end{quote}
+Ce qui nous donne~:
+\begin{quote}
+\begin{verbatim}
+sed -e '/^#.*/d' -e 's/#.*$//' /etc/hosts    |\
+  sed -e \
+    's/\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\(.*$\)/\1:\2:\3:\4:\5/'
+\end{verbatim}
+\end{quote}
+
+Il ne reste plus qu'{\`a} effectuer le tri sachant que~:
+\begin{itemize}
+	\item	le tri doit s'effectuer par ordre num{\'e}rique croissant sur les
+			quatre premiers champs,
+	\item	chaque champ est s{\'e}par{\'e} par le caract{\`e}re "{\tt :}".
+\end{itemize}
+Nous obtenons~:
+\begin{quote}
+\begin{verbatim}
+sed -e '/^#.*/d' -e 's/#.*$//' /etc/hosts    |\
+  sed -e \
+    's/\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\(.*$\)/\1:\2:\3:\4:\5/' |\
+  sort -t: +n
+\end{verbatim}
+\end{quote}
+
+Il faut maintenant reformater le r{\'e}sultat pour obtenir celui qui est conforme
+au fichier "{\tt hosts(5)}". Nous allons ici utiliser lLa commande "{\tt awk(1)}".
+Celle-ci recevra donc des lignes (ou enregistrements) s{\'e}par{\'e}s par le caract{\`e}re "{\tt :}"
+et devra effectuer le traitement suivant pour chacunes~:
+\begin{itemize}
+	\item	afficher le premier champ,
+	\item	afficher le caract{\`e}re "{\tt .}",
+	\item	afficher le second champ,
+	\item	afficher le caract{\`e}re "{\tt .}",
+	\item	afficher le troisi{\`e}me champ,
+	\item	afficher le caract{\`e}re "{\tt .}",
+	\item	afficher le quatri{\`e}me champ,
+	\item	afficher le cinqui{\`e}me ,
+	\item	ins{\'e}rer un retour {\`a} la ligne pour marquer la fin de l'enregistrement obtenu
+			en r{\'e}sultat.
+\end{itemize}
+Nous avons donc~:
+\begin{quote}
+\begin{verbatim}
+awk '
+    BEGIN { FS=":" }
+    {
+        printf ("%d.%d.%d.%d%s\n", ^$1, $2, $3, $4, $5)
+    }
+  '
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%
+\subsection{Programme obtenu}
+
+\begin{verbatim}
+#!/bin/sh
+#
+# Description : Tri du fichier /etc/hosts par adresse IP
+#
+# Appel du programme : sorthost
+#
+# Fichiers externes : Non
+#
+sed -e '/^#.*/d' -e 's/#.*$//' /etc/hosts    |\
+  sed -e 's/\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\(.*$\)/\1:\2:\3:\4:\5/' |\
+  sort -t: +n |\
+  awk '
+    BEGIN { FS=":" }
+    {
+        printf ("%d.%d.%d.%d%s\n", ^$1, $2, $3, $4, $5)
+    }
+  '
+\end{verbatim}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{adv-programming-ex2}Recherche des UID et GID disponibles}
+
+%%%%%%%%%%%%
+\subsection{\label{adv-programming-ex2-fcnt}{\'E}tude des fonctionnalit{\'e}s}
+
+La proc{\'e}dure que nous voulons mettre en place doit permettre de cr{\'e}er
+de nouvelles entr{\'e}es dans le fichier "{\tt passwd(5)}". Pour rappel,
+ce fichier permet d{\'e}finir la liste des utilisateurs pouvant se connecter au
+syst{\`e}me. Comme il l'a {\'e}t{\'e} pr{\'e}cis{\'e} {\`a} la section \ref{cmds-unix-id}, chaque
+utilisateur sous {\Unix} doit poss{\'e}der un identifiant num{\'e}rique unique et
+un num{\'e}ro de groupe. Ce num{\'e}ro doit {\^e}tre unique {\bf par groupe et non pas
+par utilisateur}.
+
+Par cons{\'e}quent, en se fixant une valeur de d{\'e}part, il faudra chercher dans
+le fichier "{\tt passwd}" le dernier identifiant non attribu{\'e} {\`a} partir
+de la valeur de d{\'e}part. Le but de ce programme n'est donc pas de prendre
+le dernier num{\'e}ro attribu{\'e} et de l'incr{\'e}menter de 1 mais bien de d{\'e}terminer
+le premier num{\'e}ro disponible sup{\'e}rieur {\`a} la valeur de d{\'e}part. Il faudra
+proc{\'e}der de m{\^e}me pour pouvoir ins{\'e}rer une nouvelle entr{\'e}e dans
+le fichier "{\tt group(5)}". Il en r{\'e}sulte que nous allons introduire
+une option dans le lancement de notre proc{\'e}dure qui, en fonction de celle-ci,
+d{\'e}terminera le dernier UID ou GID disponible. Nous aurons donc les options
+suivantes~:
+\begin{center}
+\begin{tabular}{|l|p{5cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Option}	&
+		\multicolumn{1}{|c|}{Action}	\\
+	\hline \hline
+		{\tt -u}	&	D{\'e}termination du dernier UID disponible.	\\
+	\hline
+		{\tt -g}	&	D{\'e}termination du dernier GID disponible.	\\
+	\hline
+\end{tabular}
+\end{center}
+
+Pour pouvoir utiliser le r{\'e}sultat de cette proc{\'e}dure, nous afficherons la
+valeur ad{\'e}quate sur la sortie standard. Ainsi, si notre proc{\'e}dure
+s'appelle "{\tt searchid}", nous pourrons r{\'e}cuperer le r{\'e}sultat
+de la fa\c{c}on suivante~:
+\begin{quote}
+\begin{verbatim}
+variable=`searchid -u`
+\end{verbatim}
+ou bien
+\begin{verbatim}
+variable=`searchid -g`
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%
+\subsection{\label{adv-programming-ex2-meth}M{\'e}thode utilis{\'e}e}
+
+La m{\'e}thode utilis{\'e}e est, de partir de cette valeur de base, stock{\'e}e dans
+la variable d'environnement "{\tt START\_UID}" pour les identifiants
+d'utilisateur ou "{\tt START\_GID}" pour les identifiants de groupe,
+de parcourir le fichier ad{\'e}quat et ainsi de localiser la valeur.
+
+Si nous nous r{\'e}f{\'e}rons au manuel des fichiers "{\tt passwd(5)}" et
+"{\tt group(5)}", la valeur de l'UID ou du GID est le troisi{\`e}me champ,
+sachant que chaque champ est s{\'e}par{\'e} par le caract{\`e}re "{\tt :}".
+
+Nous allons donc~:
+\begin{enumerate}
+	\item	extraire ce champ de tous les enregistrements,
+	\item	trier cette s{\'e}rie de nombre par ordre croissant,
+	\item	n'en extraire que les valeurs sup{\'e}rieures ou {\'e}gales {\`a} la borne
+			inf{\'e}rieure (contenue dans la variable d'environnement
+			"{\tt START\_UID}" ou "{\tt START\_GID}" en fonction
+			de l'option sp{\'e}cifi{\'e}e),
+	\item	d{\'e}terminer, dans cette s{\'e}rie, le premier num{\'e}ro disponible
+			sup{\'e}rieur {\`a} la borne inf{\'e}rieure.
+\end{enumerate}
+
+Par cons{\'e}quent, nous utiliserons les commandes suivantes~:
+\begin{itemize}
+	\item	"{\tt cut}" pour l'extraction des champs,
+	\item	"{\tt sort}" pour l'op{\'e}ration de tri,
+	\item	"{\tt awk}" pour faire une s{\'e}lection sur les valeurs,
+	\item	"{\tt awk}" pour calculer le premier num{\'e}ro disponible.
+\end{itemize}
+
+Notre proc{\'e}dure disposera des codes de retour suivants~:
+\begin{center}
+\begin{tabular}{|l|p{3cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Retour}		&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+		0					&	Retour sans erreur.	\\
+		valeur non nulle	&	Erreur d'ex{\'e}cution.	\\
+	\hline
+\end{tabular}
+\end{center}
+
+%%%%%%%%%%%%
+\subsection{D{\'e}veloppement}
+
+Apr{\`e}s les commentaires d'ent{\^e}te d'usage, la premi{\`e}re chose
+{\`a} faire est d'initia\-liser les variables d'environnement
+n{\'e}cessaires au programme. Toutefois, sachant qu'elles peuvent
+{\^e}tre d{\'e}finies au niveau du shell, les valeurs sp{\'e}cifi{\'e}es
+ici seront les valeurs par d{\'e}faut. Pour cela, nous utiliserons la
+syntaxe
+\begin{center}
+"\verb,VARIABLE=${VARIABLE:=valeur},"
+\end{center}
+ (cf. section \ref{variables-manip}). Nous aurons donc~:
+\begin{quote}
+\begin{verbatim}
+TMP_DIR=${TMP_DIR:=/home/adm/tmp}
+START_UID=${START_UID:=1000}
+START_GID=${START_GID:=1000}
+PASSWD=${PASSWD:=/etc/passwd}
+GROUP=${GROUP:=/etc/group}
+AWK=${AWK:=/usr/ucb/gawk}
+
+export TMP_DIR START_UID START_GID PASSWD GROUP AWK
+\end{verbatim}
+\end{quote}
+
+\begin{remarque}
+Nous utilisons ici une extension de la commande "{\tt awk}"~: "{\tt gawk}".
+Les fonctionnalit{\'e}s et les syntaxes vues {\`a} la section \ref{adv-fltrs-awk} sont
+identiques. Par contre, ses possibilit{\'e}s sont {\'e}tendues et les options disponibles
+sur la ligne de commande sont plus importantes. Pour assurer l'ind{\'e}pendance du
+script, nous utiliserons une variable d'environnement "{\tt AWK}" r{\'e}f{\'e}ren\c{c}ant
+l'ex{\'e}cutable "{\sl awk}" {\`a} prendre en compte.
+\end{remarque}
+
+En cas d'erreur de syntaxe, il est de r{\`e}gle de pr{\'e}ciser {\`a} l'utilisateur
+le format de la commande, ainsi que les options. Pour cela, nous allons cr{\'e}er
+une fonction qui affichera la syntaxe {\`a} utiliser sur la sortie d'erreur standard,
+canal {\`a} utiliser pour tout affichage de messages d'erreur. Nous aurons donc~:
+\begin{quote}
+\begin{verbatim}
+_usage()
+{
+    echo "Usage: `basename $0` -u|-g" >&2
+}
+\end{verbatim}
+\end{quote}
+
+Maintenant, nous allons voir si le nombre d'arguments sp{\'e}cifi{\'e}s sur la ligne de
+commandes est conforme. D'apr{\`e}s le format explicit{\'e} au paragraphe
+\ref{adv-programming-ex2-fcnt}, ce script doit avoir un et un seul argument
+sur la ligne de commande qui est l'option sp{\'e}cifiant si la recherche
+doit s'effectuer pour les UID ou les GID. Par cons{\'e}quent, la valeur
+de la variable "\verb=#=" doit {\^e}tre {\'e}gal {\`a} 1. Dans tous les autres
+cas, l'appel de cette proc{\'e}dure est incorrect. Nous aurons donc~:
+\begin{quote}
+\begin{verbatim}
+if [ $# -lt 1 ]; then
+    _usage
+    exit 1
+fi
+\end{verbatim}
+\end{quote}
+
+Nous devons maintenant~:
+\begin{itemize}
+	\item	analyser l'argument pass{\'e} sur la ligne de commande,
+	\item	m{\'e}moriser le fichier sur lequel les informations sont {\`a} prendre
+			(stocker dans la variable locale "{\tt map}"),
+	\item	m{\'e}moriser quelle sera la valeur de la borne inf{\'e}rieure (stock{\'e}e
+			dans la variable "{\tt start\_id}" {\`a} partir de la variable
+			d'environnement ad{\'e}quate,
+	\item	afficher un message d'erreur si l'option sp{\'e}cifi{\'e}e n'est pas
+			connue.
+\end{itemize}
+Nous utiliserons donc l'instruction "{\tt case}" permettant de faire
+des branchements conditionnels {\`a} partir de la valeur contenue dans
+le seul et unique argument, pr{\'e}sent dans la variable "{\tt 1}" (dont le
+contenu est obtenu par la s{\'e}quence "\verb=$1="). Nous avons donc~:
+\begin{quote}
+\begin{verbatim}
+case $1 in
+    -u)
+        map=$PASSWD
+        start_id=$START_STUDENT_UID
+        ;;
+
+    -g)
+        map=$GROUP
+        start_id=$START_PROJECT_GID
+        ;;
+    *)
+        _usage
+        exit 1
+        ;;
+esac
+\end{verbatim}
+\end{quote}
+
+Sachant que les informations seront extraites {\`a} partir du fichier dont le
+nom est contenu dans la variable locale "{\tt map}", avant toute op{\'e}ration
+de traitement de fichier, il est pr{\'e}f{\'e}rable de v{\'e}rifier que celui-ci existe.
+Si c'est le cas, aucun probl{\`e}me. Par contre, s'il n'existe pas, on peut consid{\'e}rer
+que nous sommes en train d'en cr{\'e}er un nouveau de toute pi{\`e}ce. Par cons{\'e}quent,
+la premi{\`e}re valeur {\`a} affecter est la borne inf{\'e}rieure. Nous avons donc~:
+\begin{quote}
+\begin{verbatim}
+if [ ! -f $map ]; then
+    echo $start_id
+    exit 0
+fi
+\end{verbatim}
+\end{quote}
+
+{\`A} ce point du programme,
+\begin{itemize}
+	\item	nous sommes s{\^u}r de la pr{\'e}sence des informations dans les fichiers
+			ad{\'e}quats,
+	\item	nous connaissons la valeur de la borne inf{\'e}rieure,
+	\item	nous connaissons le type d'information {\`a} communiquer (UID ou GID).
+\end{itemize}
+
+Comme nous l'avons vu au paragraphe \ref{adv-programming-ex2-meth}, la m{\'e}thode
+utilis{\'e}e pour calculer cette donn{\'e}e repose sur~:
+\begin{enumerate}
+	\item	l'extraction de tous les valeurs d{\'e}j{\`a} affect{\'e}es,
+	\item	le tri de ces valeurs,
+	\item	la s{\'e}lection des valeurs d{\'e}j{\`a} allou{\'e}es sup{\'e}rieures ou {\'e}gales {\`a} la
+			borne inf{\'e}rieure,
+	\item	le calcul de la premi{\`e}re valeur disponible.
+\end{enumerate}
+
+Pour extraire les donn{\'e}es, il suffit d'utiliser la commande "{\tt cut}"
+{\`a} partir des informations contenues dans le fichier dont le nom est
+stock{\'e} dans la valriable locale "{\tt map}". Sachant que le champ UID
+du fichier "{\tt passwd(5)}" et le champ GID du fichier "{\tt group(5)}"
+est, dans les deux cas, le troisi{\`e}me champ et que le s{\'e}parateur de champ
+est le caract{\`e}re "{\tt :}", il nous suffit d'{\'e}crire~:
+\begin{quote}
+\begin{verbatim}
+cut -f3 -d: $map
+\end{verbatim}
+\end{quote}
+Le r{\'e}sultat est donc envoy{\'e} sur la sortie standard, r{\'e}sultat {\`a} traiter pour
+l'{\'e}tape suivante.
+
+Le tri de ces valeurs doit se faire dans l'ordre num{\'e}rique. La commande
+"{\tt sort}" est don,c utilis{\'e}e avec l'option "{\tt -n}". Ici, nous n'avons
+pas {\`a} sp{\'e}cifier de s{\'e}parateur de champs, ni m{\^e}me de champs sur lesquels le tri est
+effectu{\'e}. En effet, chaque enregistrement (c'est-{\`a}-dire chaque ligne arrivant
+sur l'entr{\'e}e standard), n'est compos{\'e}e que d'un seul champ~: le r{\'e}sultat de
+la commande "{\tt cut}". Nous avons donc~:
+\begin{quote}
+\begin{verbatim}
+cut -f3 -d: $map	|\
+    sort -n -u
+\end{verbatim}
+\end{quote}
+L'option "{\tt -u}" de "{\tt sort}" permet d'{\'e}liminer les {\'e}ventuels
+doublons\footnote{Il existe des techniques d'administrations sous {\Unix}
+affectant le m{\^e}me UID {\`a} deux utilisateurs diff{\'e}rents dans un soucis d'exploitation.
+Nous ne rentrerons pas dans ces d{\'e}tails. Sachez uniquement que cette
+possibilit{\'e} existe.}
+Le r{\'e}sultat est donc envoy{\'e} sur la sortie standard, r{\'e}sultat {\`a} traiter pour
+l'{\'e}tape suivante.
+
+L'{\'e}tape suivante consiste {\`a} ne s{\'e}lectionner les informations dont la
+valeur est sup{\'e}rieure ou {\'e}gale {\`a} la borne inf{\'e}rieure contenue dans la
+variable locale "{\tt start\_id}". Nous allons, pour cela, utiliser
+"{\tt awk}". {\`A} partir de la ligne de commande, on initialise une
+variable interne {\`a} "{\tt awk}", la variable "{\tt min\_id}", {\`a}
+partir de la valeur contenue dans la variable "{\tt start\_id}" du
+shell. Si le contenu du premier champ (voire m{\^e}me de la totalit{\'e} de
+l'enregistrement) est sup{\'e}rieur ou {\'e}gal {\`a} la variable "{\tt min\_id}",
+alors l'enregistrement est affich{\'e} sur la sortie standard. Nous obtenons
+donc~:
+\begin{quote}
+\begin{verbatim}
+cut -f3 -d: $map                            |\
+    sort -n -u                              |\
+    $AWK -v min_id=$start_id '$1 >= min_id { print $0}'
+\end{verbatim}
+\end{quote}
+Comme pour les {\'e}tapes pr{\'e}c{\'e}dentes, le r{\'e}sultat obtenu est dirig{\'e} sur la sortie
+standard, canal par d{\'e}faut pour le filtre "{\tt awk}".
+
+\begin{remarque}
+Comme il l'a {\'e}t{\'e} pr{\'e}cis{\'e} pr{\'e}c{\'e}demment, la variable d'environnement
+"{\tt AWK}" permet de r{\'e}f{\'e}rencer l'ex{\'e}cutable "{\tt awk}" souhait{\'e}.
+\end{remarque}
+
+
+La derni{\`e}re {\'e}tape consiste {\`a} prendre les donn{\'e}es pr{\'e}c{\'e}dentes et de d{\'e}terminer
+quelle est la premi{\`e}re valeur disponible. Pour cela, nous allons utiliser {\`a} nouveau
+la commande "{\tt awk}" (ou plus pr{\'e}cisemment celle contenue dans la variable
+d'environnement "{\tt AWK}"). Comme pr{\'e}c{\'e}demment, les donn{\'e}es arrivant
+sur l'entr{\'e}e standard sont une suite de nombres, chacun sur une ligne distincte.
+Nous allons proc{\'e}der de la fa\c{c}on suivante~:
+\begin{itemize}
+	\item	On initialise une variable interne {\`a} "{\tt awk}", la variable
+			"{\tt min\_id}", {\`a} partir de la variable du shell
+			"{\tt start\_id}".
+	\item	Avant tout traitement des enregistrements, on enregistre cette
+			valeur dans une variable "{\tt awk}", la variable
+			"{\tt affected\_id}", qui nous permettra par la suite de comparer
+			la valeur de l'enregistrement courrant {\`a} celle contenue dans cette
+			variable.
+	\item	Chaque enregistrement, dont les valeurs sont ordonn{\'e}es, est compar{\'e}
+			{\`a} la valeur courrante de la variable "{\tt affected\_id}".
+			\begin{itemize}
+				\item	S'il y a {\'e}galit{\'e}, la valeur contenue dans
+						"{\tt affected\_id}" est donc
+						d{\'e}j{\`a} enregistr{\'e}e dans le fichier de donn{\'e}es.
+						Il faut donc prendre une valeur sup{\'e}rieure, pour cela elle
+						est incr{\'e}ment{\'e}e de "1".
+				\item	Dans le cas, contraire, cette valeur est disponible. Par
+						cons{\'e}quent, elle reste inchang{\'e}e. Tous les enregistrements
+						suivants auront donc une valeur diff{\'e}rente de celle contenue
+						dans la variable "{\tt affected\_id}".
+			\end{itemize}
+	\item	En fonction de l'algorithme d{\'e}crit pr{\'e}c{\'e}demment, lorsque le dernier
+			enregistrement est trait{\'e}, nous avons deux cas de figure possibles~:
+			\begin{enumerate}
+				\item	Une valeur interm{\'e}diaire a {\'e}t{\'e} localis{\'e}e. Dans ce cas,
+						la variable "{\tt awk}", "{\tt affected\_id}",
+						contient cette valeur.
+				\item	Aucune valeur interm{\'e}diaire n'a {\'e}t{\'e} localis{\'e}e. Dans ce
+						cas, la variable "{\tt affected\_id}" a {\'e}t{\'e}
+						syst{\'e}matiquement incr{\'e}ment{\'e}e de "1". Elle contient
+						donc la plus grande valeur enregistr{\'e}e dans le fichier
+						de donn{\'e}es incr{\'e}ment{\'e}e de "1".
+			\end{enumerate}
+			Par cons{\'e}quent, lorsque le dernier enregistrement est trait{\'e}, la
+			variable "{\tt affected\_id}" contient la valeur ad{\'e}quate. Il suffit
+			donc d'en afficher le contenu sur la sortie standard.
+\end{itemize}
+Nous obtenons donc~:
+\begin{quote}
+\begin{verbatim}
+cut -f3 -d: $map                            |\
+    sort -n -u                              |\
+    $AWK -v min_id=$start_id '$1 >= min_id { print $0}' |\
+    $AWK -v min_id=$start_id '
+        BEGIN {
+            affected_id=min_id
+        }
+        {
+            if ( $1 == affected_id )
+                affected_id ++
+        }
+        END {
+            print affected_id
+        }'
+\end{verbatim}
+\end{quote}
+
+Sachant que nous voulons r{\'e}cup{\'e}rer ce r{\'e}sultat dans une variable, il suffit
+de faire en sorte que l'{\'e}valuation de l'expression pr{\'e}c{\'e}dente serve {\`a} initialiser
+une variable. Or nous avons vu que le r{\'e}sultat de l'{\'e}valuation {\'e}tait dirig{\'e} sur
+la sortie standard. Gr{\^a}ce {\`a} la syntaxe examin{\'e}e {\`a} la section \ref{multi-task-backq},
+le r{\'e}sultat d'une commande affich{\'e}e sur la sortie standard peut {\^e}tre m{\'e}moris{\'e}e
+dans une variable de la fa\c{c}on suivante~:
+\begin{quote}
+\begin{center}
+\verb,variable=`expression`,
+\end{center}
+\end{quote}
+Par cons{\'e}quent, si le r{\'e}sultat de l'expression pr{\'e}c{\'e}dente doit {\^e}tre m{\'e}moris{\'e}e dans
+la variable {\sl shell} "{\tt no\_id}", il suffit d'{\'e}crire~:
+\begin{quote}
+\begin{verbatim}
+no_id=` cut -f3 -d: $map                    |\
+    sort -n -u                              |\
+    $AWK -v min_id=$start_id '$1 >= min_id { print $0}' |\
+    $AWK -v min_id=$start_id '
+        BEGIN {
+            affected_id=min_id
+        }
+        {
+            if ( $1 == affected_id )
+                affected_id ++
+        }
+        END {
+            print affected_id
+        }'`
+\end{verbatim}
+\end{quote}
+
+
+Il ne reste plus qu'{\`a} afficher la valeur de la variable sur la
+sortie standard et terminer avec un code de sortie {\'e}quivalent {\`a}
+un bon d{\'e}roulement des op{\'e}rations. Nous avons donc~:
+\begin{quote}
+\begin{verbatim}
+echo $no_id
+exit 0
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%
+\subsection{Programme obtenu}
+
+\begin{verbatim}
+#!/bin/sh
+#
+#
+#   SERVICE DES ADMINISTRATEURS:
+#       Administration des utilisateurs
+#       Recherche pour l'affectation d'un UID ou d'un GID
+#
+#   Programme: $DIR_USERS_BIN/searchid
+#
+#   Codes de retour:
+#       OK          0
+#       ERREUR      1
+#       Autre       2,...
+#
+#   Exemples: searchid -u     Retourne le prochaine uid libre
+#             searchid -g     Retourne le prochaine gid libre
+#
+#   Creation: S. Baudry
+#
+#   Modifications:
+#
+
+#-----------------------------------------------------------
+# Initialisation
+#
+TMP_DIR=${TMP_DIR:=/home/adm/tmp}
+START_UID=${START_UID:=1000}
+START_GID=${START_GID:=1000}
+PASSWD=${PASSWD:=/etc/passwd}
+GROUP=${GROUP:=/etc/group}
+AWK=${AWK:=/usr/ucb/gawk}
+
+export TMP_DIR START_UID START_GID PASSWD GROUP AWK
+
+#-----------------------------------------------------------
+# Fonctions locales
+#
+_usage()
+{
+    echo "Usage: `basename $0` -u|-g" >&2
+    exit 1
+}
+
+#-----------------------------------------------------------
+# Analyse de la ligne de commande
+#
+#
+# Teste le passage de parametre
+#
+if [ $# -lt 1 ]; then
+    _usage
+    exit 1
+fi
+
+case $1 in
+    -u)
+        map=$PASSWD
+        start_id=$START_STUDENT_UID
+        ;;
+
+    -g)
+        map=$GROUP
+        start_id=$START_PROJECT_GID
+        ;;
+    *)
+        _usage
+        exit 1
+        ;;
+esac
+
+#-----------------------------------------------------------
+# Corps du programme
+#
+
+if [ ! -f $map ]; then
+	echo $start_id
+    exit 0
+fi
+
+#
+# Calcul du numero a creer
+#
+
+no_id=` cut -f3 -d: $map                    |\
+    sort -n -u                              |\
+    $AWK -v min_id=$start_id '$1 >= min_id { print $0}' |\
+    $AWK -v min_id=$start_id '
+        BEGIN {
+            affected_id=min_id
+        }
+        {
+            if ( $1 == affected_id )
+                affected_id ++
+        }
+        END {
+            print affected_id
+        }'`
+
+#-----------------------------------------------------------
+# Fin du programme
+#
+
+echo $no_id
+exit 0
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{adv-programming-ex3}Traduction de fichiers d'informations}
+
+%%%%%%%%%%%%
+\subsection{\label{adv-programming-ex3-fcts}{\'E}tude des fonctionnalit{\'e}s}
+
+Le but de cet exemple met en {\'e}vidence comment, avec une {\sl simple} proc{\'e}dure, il
+est possible de mettre en place des outils puissants de conversion.
+
+Le but de cet exemple est de transformer la base compl{\`e}te des comptes utilisateurs
+et projets sur un syst{\`e}me {\OpenVMS} vers un syst{\`e}me {\Unix}. Nous consid{\'e}rerons
+qu'{\'e}ventuellement, une partie des ces comptes sont d{\'e}j{\`a} existants sur la machine
+{\Unix} et, par cons{\'e}quent, l'entr{\'e}e d{\'e}j{\`a} existante doit {\^e}tre prise en
+compte. En effet, si nous consid{\'e}rons que~:
+\begin{itemize}
+	\item	tout {\'e}l{\`e}ve de l'ann{\'e}e "$n$" doit poss{\'e}der un compte
+			sur la machine {\Unix},
+	\item	seulement une partie des {\'e}l{\`e}ves de l'ann{\'e}e "$n+1$" doit
+			poss{\'e}der un compte sur la machine {\Unix},
+	\item	tous les {\'e}l{\`e}ves de toutes les ann{\'e}es poss{\`e}dent un compte sur
+			{\OpenVMS},
+	\item	le nom du compte {\OpenVMS} fait au plus douze caract{\`e}res,
+	\item	le nom du compte {\Unix} fait au plus huit caract{\`e}res,
+	\item	le nom du compte {\OpenVMS} est de la forme
+			"{\sl nom}{\tt \_}{\sl initiale\_pr{\'e}nom}" en majuscules,
+	\item	le nom du compte {\Unix} est de la forme "{\sl nom}" en minuscules,
+	\item	le nom des groupes projets sur {\OpenVMS} est de la forme
+			"{\sl projet}",
+	\item	le nom des groupes projets sur {\Unix} est de la forme
+			"{\tt p}{\sl projet}".
+\end{itemize}
+
+Nous supposons que nous disposons d'un ensemble de fichiers donnant les
+caract{\'e}ristiques des utilisateurs {\`a} cr{\'e}er. Dans le cas
+pr{\'e}sent nous disposons des informations d{\'e}crites au tableau
+\ref{adv-programming-ex3-filelink}.
+
+\begin{table}[hbtp]
+\begin{center}
+\begin{tabular}{|p{3cm}|p{10cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Fichier}		&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+		{\tt lcluaf.txt}	&
+			Contient la liste des noms des groupes de projets sur
+			{\OpenVMS}. Chaque ligne est compos{\'e}e de deux champs s{\'e}par{\'e}s
+			par le caract{\`e}re "{\tt :}" avec~:
+			\begin{itemize}
+				\item	le nom du groupe projet sur {\OpenVMS},
+				\item	la liste des noms de compte {\OpenVMS} appartenant {\`a}
+						ce projet, chaque nom {\'e}tant s{\'e}par{\'e} par le caract{\`e}re
+						"{\tt ,}".
+			\end{itemize}
+			\\
+	\hline
+		{\tt list.txt}		&
+			La liste de tous les noms de compte {\OpenVMS} devant poss{\'e}der un acc{\`e}s
+			sur la machine {\Unix}.
+			\\
+	\hline
+		{\tt who.txt}		&
+			Toutes les informations sur les utilisateurs {\OpenVMS}. Nous aurons le
+			pr{\'e}nom, le nom et la classe en toute lettre. Le format de ce fichier est
+			le suivant~:
+			\begin{itemize}
+				\item	le nom du compte {\OpenVMS},
+				\item	un nombre quelconque d'espaces,
+				\item	le caract{\`e}re "{\tt !}",
+				\item	un espace,
+				\item	le pr{\'e}nom et le nom
+				\item	un espace,
+				\item	le caract{\`e}re "{\tt -}",
+				\item	un espace,
+				\item	la classe
+			\end{itemize}
+			\\
+	\hline
+		{\tt passwd}		&
+			La base des utilisateurs {\Unix} actuels.
+			\\
+	\hline
+\end{tabular}
+\end{center}
+\caption{\label{adv-programming-ex3-filelink}Description des fichiers
+	en entr{\'e}e ou en sortie pour la converions des utilisateurs {\OpenVMS}
+	vers {\Unix}.}
+\end{table}
+
+\begin{remarque}
+Le fichier "{\tt list.txt}" est facilement d{\'e}duisible du fichier
+"{\tt lcluaf.txt}". Afin de ne pas surchager cet exemple, nous consid{\`e}rerons
+qu'un utilitaire en amont a g{\'e}n{\'e}r{\'e} le premier {\`a} partir du second.
+\end{remarque}
+
+\begin{remarque}
+Le fichier "{\tt who.txt}" est le r{\'e}sultat de la commande {\OpenVMS} "{\tt WHO}"
+pour l'ensemble des comptes dont il faut une entr{\'e}e sur {\Unix}.
+\end{remarque}
+
+La cr{\'e}ation des bases utilisateur sur le syst{\`e}me {\Unix} n{\'e}cessite la cr{\'e}ation
+de plusieurs fichiers~:
+\begin{itemize}
+	\item	un fichier ob{\'e}issant au format du fichier "{\tt passwd(5)}"
+			donnant la liste des nouveaux utilisateurs du syst{\`e}me,
+	\item	un fichier ob{\'e}issant au format du fichier "{\tt group(5)}"
+			contenant la liste des nouveaux groupes associ{\'e}s chacun {\`a} un
+			projet, sur chaque ligne, on trouvera aussi les membres de ce
+			projets (les noms seront les noms des comptes utilisateur
+			{\Unix}),
+	\item	un fichier ob{\'e}issant au format du fichier "{\tt shadow(5)}"
+			associ{\'e} {\`a} la liste des nouveaux utilisateurs afin d'assurer la
+			gestion du vieillissement des mots de passe,
+	\item	un fichier permettant de faire la liaison entre le nom du r{\'e}pertoire
+			pour le compte personnel et le serveur de disque ad{\'e}quat (ce fichier
+			sera utilis{\'e} par le processus "{\tt autofs(8)}" {\Unix}),
+	\item	un fichier permettant de faire la liaison entre le nom du r{\'e}pertoire
+			associ{\'e} au projet et le serveur de disque ad{\'e}quat (ce fichier
+			sera utilis{\'e} par le processus "{\tt autofs(8)}" {\Unix}),
+	\item	un fichier de compte-rendu sur les op{\'e}rations effectu{\'e}es avec~:
+			\begin{itemize}
+				\item	le nom du compte {\Unix},
+				\item	le nom du compte {\OpenVMS},
+				\item	le num{\'e}ro d'utilisateur {\Unix} (UID),
+				\item	le projet auquel appartient cet utilisateur.
+			\end{itemize}
+\end{itemize}
+
+Nous consid{\`e}rerons ici que l'ensemble des fichiers en entr{\'e}e se trouvent dans un
+r{\'e}pertoire donn{\'e} et que les fichiers r{\'e}sultats se trouveront dans un autre r{\'e}pertoire.
+
+\begin{remarque}
+L'ancien fichier des mots de passe contient la classe de l'ann{\'e}e pass{\'e}e. Par cons{\'e}quent,
+lors de la reprise des anciennes entr{\'e}es, il faudra {\'e}liminer cette information pour
+la remplacer par celle correspondant {\`a} l'ann{\'e}e en cours.
+\end{remarque}
+
+%%%%%%%%%%%%
+\subsection{\label{adv-programming-ex3-meth}M{\'e}thode utilis{\'e}e}
+
+Comme dans tout script de cette importance, deux autres fichiers y sont syst{\'e}matiquement
+attach{\'e}s~:
+\begin{itemize}
+	\item	un fichier initialisant l'ensemble des variables d'environnement, dont le
+			nom, par convention, se termine par "{\tt .define}",
+	\item	un fichier contenant l'ensemble des fonctions shell qui seront utilis{\'e}es, dont
+			le nom, par convention, se termine par "{\tt .functions}".
+\end{itemize}
+{\`A} ce programme est attach{\'e} un autre script v{\'e}rifiant la pr{\'e}sence de tous les fichiers
+n{\'e}cessaires, c'est-{\`a}-dire~:
+\begin{itemize}
+	\item	l'ensemble des fichiers en entr{\'e}e,
+	\item	les fichiers en sortie,
+	\item	l'ensemble des scripts ou programmes externes n{\'e}cessaires pour g{\'e}n{\'e}rer les
+			informations.
+\end{itemize}
+
+De m{\^e}me, la convention utilis{\'e}e dans l'{\'e}criture des scripts veut que {\bf seulement
+certaines} variables d'environnements permettant de g{\'e}n{\'e}rer l'ensemble de l'envi\-ron\-nement,
+donc, dans le cas pr{\'e}sent, de charger le fichier des d{\'e}finitions. De m{\^e}me, il convient, en
+g{\'e}n{\'e}ral, de d{\'e}finir une variable d'environnement donnant le r{\'e}pertoire de base, et,
+ensuite, de s'en servir pour initialiser les valeurs de toutes les autres.
+
+Si, par hasard, le script n{\'e}cessite des fichiers ex{\'e}cutables binaires, c'est-{\`a}-dire
+de programmes g{\'e}n{\'e}r{\'e}s {\`a} partir d'un programme source, il convient de pouvoir le
+reg{\'e}n{\'e}rer {\`a} partir d'un fichier "{\tt Makefile}\footnote{cf. commande
+"{\tt make(1)}".}".
+
+La premi{\`e}re {\'e}tape de d{\'e}veloppement consiste {\`a} g{\'e}n{\'e}rer un fichier
+temporaire {\`a} partir des anciennes entr{\'e}es du fichier des mots de passe,
+en supprimant l'information de la classe. Celle-ci occupe les cinq
+derniers caract{\`e}res du champ "{\sl GCOS}\footnote{Cinqui{\`e}me champ du
+fichier.}" du fichier "{\tt passwd(5)}". C'est ce fichier
+temporaire qui sera utilis{\'e} dans toute la suite. Ce fichier sera
+r{\'e}f{\'e}renc{\'e} gr{\^a}ce {\`a} la variable d'environnement "{\tt PASSWD\_REF}".
+
+La seconde {\'e}tape consiste {\`a} g{\'e}n{\'e}rer l'{\'e}quivalent {\`a} partir du fichier
+"{\tt who.txt}" (r{\'e}f{\'e}renc{\'e} gr{\^a}ce {\`a} la variable "{\tt WHO}").
+Le r{\'e}sultat sera stock{\'e} dans un fichier temporaire dont le nom
+sera contenu dans la variable d'environnement "{\tt WHO\_REF}".
+C'est celui-ci qui sera utilis{\'e} par la suite.
+
+Pour chaque nouvel utilisateur {\`a} cr{\'e}er, connu gr{\^a}ce {\`a} la liste contenue
+dans le fichier "{\tt list.txt}", il suffit ex{\'e}cuter les {\'e}tapes
+suivantes~:
+\begin{enumerate}
+	\item	d{\'e}terminer les nouvelles entr{\'e}es {\`a} cr{\'e}er en fonction des anciens
+			utilisateurs d{\'e}j{\`a} enregistr{\'e}s et la liste compl{\`e}te des comptes {\`a} cr{\'e}er,
+	\item	pour chaque utilisateur {\`a} cr{\'e}er (nouveaux comme anciens), g{\'e}n{\'e}rer
+			toutes les informations n{\'e}cessaires et {\'e}viter les {\'e}ventuels doublons (en
+			effet, la d{\'e}finition des comptes utilisateurs sous {\OpenVMS} se
+			fait sur 12 caract{\`e}res alors que sous {\Unix} seulement 8 sont
+			significatifs),
+	\item	supprimer les anciens r{\'e}pertoires, associ{\'e}s aux comptes {\`a} supprimer
+			(on supposera qu'une sauvegarde aura {\'e}t{\'e} faite au pr{\'e}alable),
+	\item	cr{\'e}er les entr{\'e}es n{\'e}cessaires pour la gestion des comptes
+			"{\sl projet}" gr{\^a}ce au fichier "{\tt group(5)}",
+	\item	cr{\'e}er l'ensemble des r{\'e}pertoires n{\'e}cessaires (utilisateurs et projets)
+			en y affectant les droits d'acc{\`e}s ad{\'e}quat.
+\end{enumerate}
+
+
+%%%%%%%%%%%%
+\subsection{\label{adv-programming-ex3-devl}D{\'e}veloppement}
+
+Nous ne d{\'e}taillerons ici que le corps du script principal. En effet, les
+fichiers associ{\'e}s {\`a} la d{\'e}finition des variables d'environnement et {\`a} la
+v{\'e}rification de la pr{\'e}sence des donn{\'e}es, ne pr{\'e}sentent aucune difficult{\'e}
+majeure. Le fichier contenant les diff{\'e}rentes fonctions reprennent les
+exemples vus pr{\'e}c{\'e}demment.
+
+Pour chaque fichier de donn{\'e}es en entr{\'e}e (d{\'e}crits au tableau
+\ref{adv-programming-ex3-filelink}) et en sortie, pour les fichiers
+temporaires et les ex{\'e}cutables ou scripts externes, nous d{\'e}finirons les
+variables d'environnements suivantes~:
+\begin{center}
+\begin{longtable}{|l|l|p{7cm}|}
+	\hline
+		\multicolumn{3}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	\hline
+		\multicolumn{1}{|c|}{Fichier}		&
+		\multicolumn{1}{|c|}{Variable}		&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{Fichier}		&
+		\multicolumn{1}{|c|}{Variable}		&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline
+\endfirsthead
+	\hline
+		\multicolumn{3}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{3}{|c|}{Fichiers en entr{\'e}e}	\\
+	\hline
+		{\tt lcluaf.txt}	&
+		{\tt LCLUAF}		&
+			Contient la liste des noms des groupes de projets sur
+			{\OpenVMS}.
+			\\
+	\hline
+		{\tt list.txt}		&
+		{\tt LIST}			&
+			La liste de tous les noms de compte {\OpenVMS} devant poss{\'e}der un acc{\`e}s
+			sur la machine {\Unix}.
+			\\
+	\hline
+		{\tt who.txt}		&
+		{\tt WHO}			&
+			Toutes les informations sur les utilisateurs {\OpenVMS}.
+			\\
+	\hline
+		{\tt passwd}		&
+		{\tt PASSWD}		&
+			La base des utilisateurs {\Unix} actuels.
+			\\
+	\hline \hline
+		\multicolumn{3}{|c|}{Fichiers temporaires}	\\
+	\hline
+		{\tt passwd.}{\sl num}	&
+		{\tt PASSWD\_REF}		&
+			R{\'e}f{\'e}rence utilis{\'e}e pour la d{\'e}finition des utilisateurs actuels.
+		\\
+	\hline
+		{\tt who.}{\sl num}	&
+		{\tt WHO\_REF}	&
+			R{\'e}f{\'e}rence utilis{\'e}e pour la correspondance entre les
+			"{\sl username}s" {\OpenVMS} et le pr{\'e}nom/nom de l'utilisateur.
+		\\
+	\hline \hline
+		\multicolumn{3}{|c|}{Fichiers en sortie}	\\
+	\hline
+		{\tt passwd.new}	&
+		{\tt PASSWD\_NEW}	&
+			R{\'e}sultat obtenu pour les nouvelles entr{\'e}es utilisateur. Ce fichier
+			viendra compl{\`e}ter ou remplacer les d{\'e}finitions des utilisateurs
+			sur le syst{\`e}me. Il ob{\'e}ira {\`a} la syntaxe d{\'e}finie dans "{\tt passwd(5)}".
+		\\
+	\hline
+		{\tt group.new}	&
+		{\tt GROUP\_NEW}	&
+			R{\'e}sultat obtenu pour les nouvelles entr{\'e}es utilisateur. Ce fichier
+			viendra compl{\`e}ter ou remplacer les d{\'e}finitions des utilisateurs
+			sur le syst{\`e}me. Il ob{\'e}ira {\`a} la syntaxe d{\'e}finie dans "{\tt group(5)}".
+		\\
+	\hline
+		{\tt shadow.new}	&
+		{\tt SHADOW\_NEW}	&
+			R{\'e}sultat obtenu pour les nouvelles entr{\'e}es utilisateur. Ce fichier
+			viendra compl{\`e}ter ou remplacer les d{\'e}finitions des utilisateurs
+			sur le syst{\`e}me. Il ob{\'e}ira {\`a} la syntaxe d{\'e}finie dans "{\tt shadow(5)}".
+		\\
+	\hline
+		{\tt users.infos}	&
+		{\tt USERS\_INFO\_FILE}	&
+			R{\'e}sultat obtenu pour les nouvelles entr{\'e}es utilisateur. Ce fichier
+			viendra compl{\`e}ter ou remplacer les d{\'e}finitions des utilisateurs
+			sur le syst{\`e}me. Il ob{\'e}ira au format suivant~:
+			\begin{itemize}
+				\item	Chaque ligne repr{\'e}sentera un enregistrement m{\'e}morisant les
+						caract{\'e}ristiques des utilisateurs cr{\'e}{\'e}s.
+				\item	Chaque champ sera d{\'e}limit{\'e} par le caract{\`e}re "{\tt :}".
+				\item	Le premier champ correspond au "{\sl logname}" {\Unix}.
+				\item	Le second champ est le "{\sl username}" {\OpenVMS}.
+				\item	Le troisi{\`e}me champ contient le mot de passe non crypt{\'e} par d{\'e}faut.
+				\item	Le quatri{\`e}me champ est l'"UID" {\Unix}.
+				\item	Le cinqui{\`e}me champ est le nom du groupe associ{\'e} au projet.
+			\end{itemize}
+		\\
+	\hline
+		{\tt auto.projects}	&
+		{\tt AUTO\_PROJECTS}	&
+			R{\'e}sultat obtenu pour les nouvelles entr{\'e}es utilisateur. Ce fichier
+			viendra compl{\`e}ter ou remplacer les d{\'e}finitions des utilisateurs
+			sur le syst{\`e}me.  Il ob{\'e}ira {\`a} la syntaxe d{\'e}finie dans "{\tt autofs(8)}"
+			ou "{\tt automount(8)}".
+		\\
+	\hline
+		{\tt auto.students}	&
+		{\tt AUTO\_USERS}	&
+			R{\'e}sultat obtenu pour les nouvelles entr{\'e}es utilisateur. Ce fichier
+			viendra compl{\`e}ter ou remplacer les d{\'e}finitions des utilisateurs
+			sur le syst{\`e}me. Il ob{\'e}ira {\`a} la syntaxe d{\'e}finie dans "{\tt autofs(8)}"
+			ou "{\tt automount(8)}".
+		\\
+	\hline \hline
+		\multicolumn{3}{|c|}{Scripts ou ex{\'e}cutables externes}	\\
+	\hline
+		{\tt searchid}	&
+		{\tt SEARCHID}	&
+			Script permettant de localiser le dernier "UID" disponible
+			(cf. section \ref{adv-programming-ex2}).
+		\\
+	\hline
+		{\tt buildpasswd}	&
+		{\tt BUILDPASSWD}	&
+			Ex{\'e}cutable permettant de g{\'e}n{\'e}rer un mot de passe crypt{\'e} {\`a} partir
+			d'une chaine de caract{\`e}res pass{\'e}e en argument.
+		\\
+	\hline
+		{\tt /bin/echo}	&
+		{\tt ECHO}		&
+			Ex{\'e}cutable "{\tt echo}" utilis{\'e}.
+		\\
+	\hline
+		{\tt /usr/ucb/gawk}	&
+		{\tt AWK}			&
+			Ex{\'e}cutable "{\tt awk}" utilis{\'e}.
+		\\
+\end{longtable}
+\end{center}
+
+La localisation de ces fichiers sera r{\'e}f{\'e}renc{\'e}e par une variable
+d'environnement~:
+\begin{itemize}
+	\item	"{\tt IN\_DIR}" pour les fichiers en entr{\'e}e,
+	\item	"{\tt OUT\_DIR}" pour les fichiers en sortie,
+	\item	"{\tt TMP\_DIR}" pour les fichiers temporaires,
+	\item	"{\tt BIN\_DIR}" pour certains scripts ou ex{\'e}cutables externes.
+\end{itemize}
+
+Nous allons donc examiner les m{\'e}thodes de d{\'e}veloppement pour les diff{\'e}rentes
+parties~:
+\begin{itemize}
+	\item	D{\'e}termination des entr{\'e}es de r{\'e}f{\'e}rence par rapport aux informations
+			d{\'e}j{\`a} existante.
+	\item	Extraction des anciennes entr{\'e}es et mise-{\`a}-jour afin de correspondre
+			au profil courrant.
+	\item	Cr{\'e}ation des nouvelles entr{\'e}es "{\sl utilisateur}", c'est-{\`a}-dire
+			celles dont le compte n'existait pas auparavant (contrairement
+			aux anciennes qu'il a fallu modifier).
+	\item	Suppression de anciens r{\'e}pertoires qui n'ont plus lieu d'{\^e}tre. Par
+			exemple, si une entr{\'e}e utilisateur est supprim{\'e}e, les r{\'e}pertoires
+			associ{\'e}s doivent {\^e}tre effac{\'e}s. Nous supposerons toutefois qu'une
+			sauvegarde des donn{\'e}es aura {\'e}t{\'e} faite au pr{\'e}alable.
+	\item	Cr{\'e}ation des entr{\'e}es n{\'e}cessaires pour la gestion des comptes
+			"{\sl projet}" gr{\^a}ce au fichier "{\tt group(5)}".
+	\item	Cr{\'e}ation l'ensemble des r{\'e}pertoires n{\'e}cessaires. Ces r{\'e}pertoires
+			correspondront aux r{\'e}pertoires personnels et aux r{\'e}pertoires
+			"{\sl projet}". Il est clair que les droits d'acc{\`e}s devront
+			{\^e}tre, par la m{\^e}me occasion, positionn{\'e}s de telle sorte que les
+			utilisateurs puissent travailler correctement.
+\end{itemize}
+
+%%%%%%%%%%%%%%
+\subsubsection{\label{adv-programming-ex3-devlref}D{\'e}termination des entr{\'e}es de r{\'e}f{\'e}rence}
+
+Les entr{\'e}es de r{\'e}f{\'e}rences correspondent aux anciennes informations, modifi{\'e}es
+de telle sorte qu'elles puissent {\^e}tre exploitable directement. En effet, la
+convention adopt{\'e}e par exemple, pour le champ "{\sl informations}" ou
+"{\sl GCOS}" du fichier "{\tt passwd(5)}", est la suivante~:
+\begin{itemize}
+	\item	le pr{\'e}nom
+	\item	le nom en majuscules,
+	\item	le caract{\`e}re "{\tt -}" d{\'e}limit{\'e} par un espace de chaque c{\^o}t{\'e},
+	\item	la classe.
+\end{itemize}
+Par cons{\'e}quent, d'une ann{\'e}e sur l'autre, la classe peut changer. L'ancienne
+information n'est donc plus valable dans sa globalit{\'e}, mais par contre
+la totalit{\'e} de ce champ sans l'information "{\sl classe}" est valide et
+permet, en plus, de localiser un enregistrement de fa\c{c}on unique.
+
+Il nous faut donc prendre l'ancien fichier "{\tt passwd(5)}" et enlever
+l'information "{\sl classe}". Ceci est effectu{\'e} en supprimant les cinq
+derniers caract{\`e}res du cinqui{\`e}me champ (le champ "{\sl GCOS}" du fichier
+"{\tt passwd(5)}". Le r{\'e}sultat nous servira donc de r{\'e}f{\'e}rence pour tout
+traitement exploitant les anciennes entr{\'e}es du fichier de d{\'e}finition des
+utilisateurs, car nous serons s{\^u}r que toutes les renseignements pr{\'e}sents seront
+valides. Nous obtenons donc la requ{\^e}te suivante~:
+\begin{quote}
+\begin{verbatim}
+$AWK '
+    BEGIN { FS=":"}
+    {
+        field = substr ($5, 1, length($5) - 5)
+        printf ("%s:%s:%s:%s:%s:%s:%s\n",
+            $1, $2, $3, $4, field, $6, $7)
+    }
+' $PASSWD > $PASSWD_REF
+\end{verbatim}
+\end{quote}
+
+Il en va de m{\^e}me pour le fichier associant "{\sl username} {\OpenVMS}" avec
+le pr{\'e}nom, le nom et la classe de la personne. Le format de ce fichier est~:
+\begin{itemize}
+	\item	le {\sl username} {\OpenVMS},
+	\item	le caract{\`e}re "{\tt -}" d{\'e}limit{\'e} par un espace de chaque c{\^o}t{\'e},
+	\item	la classe avec, {\'e}ventuellement, l'option.
+\end{itemize}
+Par cons{\'e}quent, nous ne connaissons par la longueur de la chaine repr{\'e}sentant
+la classe. Par contre, l'information "{\sl classe}", y compris le d{\'e}limiteur,
+peut {\^e}tre repr{\'e}sent{\'e} par l'expression r{\'e}guli{\`e}re suivante~:
+\begin{center}
+\begin{verbatim*}
+ - [0-9][ABC].*$
+\end{verbatim*}
+\end{center}
+L'op{\'e}ration {\`a} effectuer est donc de supprimer tout ce qui correspond {\`a} cette
+expression, ou bien remplacer tout le texte associ{\'e} {\`a} cette expression par
+"{\sl rien}".La commande la plus appropri{\'e}e est "{\tt sed(1)}". En
+effet, la notion de champ n'intervient pas, il suffit d'effectuer
+une substitution sur chaque ligne. La commande associ{\'e}e est donc~:
+\begin{quote}
+\begin{verbatim}
+sed -e 's/ - [0-9][ABC].*$//' $WHO > $WHO_REF
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%
+\subsubsection{\label{adv-programming-ex3-devlext}Extraction des anciennes entr{\'e}es
+		et mise-{\`a}-jour}
+
+Les anciennes entr{\'e}es sont localisables gr{\^a}ce {\`a} l'intersection de l'ensemble
+des anciens utilisateurs et celui des utilisateurs {\`a} cr{\'e}er. L'op{\'e}ration se
+sch{\'e}matise comme suit.
+\begin{displaymath}
+\begin{array}{l@{\quad}l@{\;=\;}l}
+	\mbox{Soit}	&
+		\mathcal{U}_{\mbox{{\Unix}}} 		&	\mbox{utilisateur {\Unix}.} 	\\[2ex]
+				&
+		\mathcal{U}_{\mbox{{\OpenVMS}}} 	&	\mbox{utilisateur {\OpenVMS}.}	\\[2ex]
+				&
+		\mathcal{E}_{\mbox{{\OpenVMS}}}		&	\mbox{liste des utilisateurs
+					{\OpenVMS} devant poss{\'e}der un compte sous {\Unix}.}			\\[2ex]
+\end{array}
+\end{displaymath}
+\\
+\begin{displaymath}
+\begin{array}{l@{\;=\;}l}
+	\mathcal{E}_{ancien}		&
+		\left\{ \mathcal{U}_{\mbox{{\Unix}}} \; \mbox{d{\'e}j{\`a} existants} \right\}
+		\\[2ex]
+	\mathcal{E}_{nouveau}	&
+		\left\{ \mathcal{U}_{\mbox{{\Unix}}} \; tq. \;
+			\exists \; \mathcal{U}_{\mbox{{\OpenVMS}}} \: \in \: \mathcal{E}_{\mbox{{\OpenVMS}}}
+			\right\}
+		\\[2ex]
+	\mathcal{E}_{1}			&
+		\mathcal{E}_{ancien} \cap \mathcal{E}_{nouveau}
+		\\[2ex]
+\end{array}
+\end{displaymath}
+Or cette derni{\`e}re liste ne contient que les "{\sl username}s"
+{\OpenVMS}. Par cons{\'e}quent, {\`a} partir du "{\sl username}", nous
+allons extraire son pr{\'e}nom et son nom. Gr{\^a}ce {\`a} cette information, nous
+pourrons rechercher dans "{\tt PASSWD\_REF}", en fonction du contenu
+du cinqui{\`e}me champ, la pr{\'e}sence {\'e}ventuelle de l'ancienne d{\'e}finition.
+
+Nous allons donc faire une boucle de lecture sur chaque enregistrement
+du fichier "{\tt LIST}", la valeur sera stock{\'e}e dans la variable
+locale "{\tt username}". Nous obtenons~:
+\begin{quote}
+\begin{verbatim}
+cat $LIST |\
+while
+    read username
+do
+\end{verbatim}
+$\cdots$
+\begin{verbatim}
+done
+\end{verbatim}
+\end{quote}
+
+L'extraction du pr{\'e}nom et du nom se fait gr{\^a}ce~:
+\begin{itemize}
+	\item	une recherche en fonction du "{\sl username}" dans le fichier
+			"{\tt WHO\_REF}" avec la commande "{\tt grep}",
+	\item	un extraction du second champ, avec la commande "{\tt cut}"
+			utilisant comme d{\'e}limiteur le caract{\`e}re "\verb=!=",
+	\item	la suppression des deux premiers espaces, donc des deux premiers
+			caract{\`e}res, avec la commande "{\tt cut}".
+\end{itemize}
+Pour obtenir le "{\sl login}" {\Unix}, il suffira d'utiliser "{\tt awk}".
+La condition du s{\'e}lecteur du programme "{\tt awk}" sera l'identit{\'e} entre
+le cinqui{\`e}me champ du fichier "{\tt PASSWD\_REF}" et le nom obtenu gr{\^a}ce
+{\`a} la pr{\'e}c{\'e}dente requ{\^e}te.
+Nous aurons donc~:
+\begin{quote}
+\begin{verbatim}
+name=`grep $username $WHO_REF  | cut -d! -f2 | cut -c2-`
+is_user=`$AWK -v name="$name" '
+    BEGIN { FS=":" }
+    $5 == name { print $0 }
+' $PASSWD_REF`
+\end{verbatim}
+\end{quote}
+
+Par cons{\'e}quent, si la variable "{\tt is\_user}" est vide, le bloc action
+associ{\'e} au s{\'e}lecteur "\verb,$5 == name," n'a jamais {\'e}t{\'e} ex{\'e}cut{\'e}. Il n'y
+a donc aucun utilisateur actuel qui satisfait ce crit{\`e}re~: {\bf cet utilisateur
+n'est pas d{\'e}j{\`a} d{\'e}fini}~. Par contre, si cette variable est non vide,
+{\bf l'utilisateur courrant est d{\'e}j{\`a} enregistr{\'e}}. Dans ce cas, il ne restera plus
+qu'{\`a} g{\'e}n{\'e}rer les informations ad{\'e}quates en fonction des deux informations clef~:
+le "{\sl username}" {\OpenVMS} et le "{\sl logname}" {\Unix} de
+l'utilisateur en train d'{\^e}tre trait{\'e}.
+
+Pour plus d'information sur les fichiers concern{\'e}s et leurs formats, reportez-vous
+aux pages de manuels ad{\'e}quates. Pour le d{\'e}tail concernant la g{\'e}n{\'e}ration
+des informations, reportez-vous {\`a} la section \ref{adv-programming-ex3-pgmpgm}.
+
+\begin{remarque}
+La variable "{\tt is\_user}" contiendra alors l'ancienne d{\'e}finition
+associ{\'e}e au compte {\Unix} (extraite de "{\tt PASSWD\_REF}") pour
+cet utilisateur.
+\end{remarque}
+
+
+%%%%%%%%%%%%%%
+\subsubsection{\label{adv-programming-ex3-devlextn}Cr{\'e}ation des nouvelles entr{\'e}es utilisateur}
+
+Tout comme les anciennes entr{\'e}es, les nouvelles sont d{\'e}tect{\'e}es en excluant l'ensemble
+des utilisateurs existants {\`a} celui contenant l'ensemble des utilisateurs {\`a} cr{\'e}er. L'op{\'e}ration
+se sch{\'e}matise comme suit.
+\begin{displaymath}
+\begin{array}{l@{\quad}l@{\;=\;}l}
+	\mbox{Soit}	&
+		\mathcal{U}_{\mbox{{\Unix}}} 		&	\mbox{utilisateur {\Unix}.} 	\\[2ex]
+				&
+		\mathcal{U}_{\mbox{{\OpenVMS}}} 	&	\mbox{utilisateur {\OpenVMS}.}	\\[2ex]
+				&
+		\mathcal{E}_{\mbox{{\OpenVMS}}}		&	\mbox{liste des utilisateurs
+					{\OpenVMS} devant poss{\'e}der un compte sous {\Unix}.}			\\[2ex]
+\end{array}
+\end{displaymath}
+\\
+\begin{displaymath}
+\begin{array}{l@{\;=\;}l}
+	\mathcal{E}_{ancien}		&
+		\left\{ \mathcal{U}_{\mbox{{\Unix}}} \; \mbox{d{\'e}j{\`a} existants} \right\}
+		\\[2ex]
+	\mathcal{E}_{nouveau}	&
+		\left\{ \mathcal{U}_{\mbox{{\Unix}}} \; tq. \;
+			\exists \; \mathcal{U}_{\mbox{{\OpenVMS}}} \: \in \: \mathcal{E}_{\mbox{{\OpenVMS}}}
+			\right\}
+		\\[2ex]
+	\mathcal{E}_{2}			&
+		\mathcal{E}_{nouveau} - \left( \mathcal{E}_{ancien} \cap \mathcal{E}_{nouveau} \right)
+		\\[2ex]
+\end{array}
+\end{displaymath}
+
+Le principe adopt{\'e} repose sur le m{\^e}me principe que celui d{\'e}crit {\`a} la section
+{adv-programming-ex3-devlext}. {\`A} partir de la liste des nouveaux utilisateurs, seuls
+ceux qui disposent d'une entr{\'e}e dans "{\tt USERS\_INFO\_FILE}" sont trait{\'e}s,
+c'est-{\`a}-dire ceux dont le second champ de ce fichier est {\'e}gal {\`a} l'entr{\'e}e trait{\'e}e
+du fichier "{\tt LIST}". Nous utiliserons "{\tt awk(1)}". La condition du
+s{\'e}lecteur du programme associ{\'e} sera l'identit{\'e} entre le second champ de
+"{\tt USERS\_INFO\_FILE}" et le contenu de la variable "{\tt username}". Le
+r{\'e}sultat de "{\tt awk(1)}" sera stock{\'e} dans la variable "{\tt is\_defined}".
+Si cette variable est non vide, il faudra pass{\'e} {\`a} l'enregistrement suivant. Sinon, le
+traitement devra se poursuivre. Nous aurons donc~:
+\begin{quote}
+\begin{verbatim}
+cat $LIST |\
+while
+    read username
+do
+    is_defined=`$AWK -v username="$username" -F: '
+        $2 == username { print $0 }
+        ' $USERS_INFO_FILE `
+    [ "$is_defined" != "" ] && continue
+\end{verbatim}
+$\cdots$
+\begin{verbatim}
+done
+\end{verbatim}
+\end{quote}
+
+Le "{\sl logname}" {\Unix} ob{\'e}ira au format suivant~:
+\begin{itemize}
+	\item	le "{\sl logname}" correspond au nom de l'utilisateur,
+	\item	s'il d{\'e}passe huits caract{\`e}res, il sera tronqu{\'e} {\`a} huit,
+	\item	si ce nom est d{\'e}j{\`a} attribu{\'e}, il sera demand{\'e} manuellement {\`a} l'administrateur
+			d'en attribuer un.
+\end{itemize}
+Il ne restera plus qu'{\`a} g{\'e}n{\'e}rer les informations compl{\'e}mentaires. Nous obtenons~:
+\begin{quote}
+\begin{verbatim}
+login=`echo $username | tr '[A-Z]' '[a-z]'  | cut -d_ -f1`
+new_who=`grep $username $WHO | cut -d! -f2 | cut -c2-`
+
+login=`echo $login | cut -c-8`
+
+status=0
+while
+    is_allocated=`grep "^${login}:" $PASSWD_NEW`
+    [ "$is_allocated" != "" ]
+do
+    echo "" >&2
+    echo "`basename $0`: login $login deja alloue pour $username" >&2
+    $ECHO "`basename $0`: Quel login : \c" >&2
+    read login < /dev/tty
+    status=1
+done
+[ $status -eq 1 ] && $ECHO "Creation des nouvelles entrees dans passwd : \c"
+
+project="p`grep $username $LCLUAF | cut -d: -f1 | tr '[A-Z]' '[a-z]'`"
+
+new_passwd=`echo $login | cut -c-4``date +%M%S`
+crypt_passwd="`$BUILDPASSWD $new_passwd`"
+uid=`$SEARCHID -u`
+gid=$STUDENT_GID
+student_home=${HOME_STUDENT}/$login
+
+output="${login}:${crypt_passwd}:${uid}:${gid}"
+echo "${output}:${new_who}:${student_home}:${LOGIN_SHELL}" >> $PASSWD_NEW
+echo "${login}  ${FS_SERVER}:${FS_STUDENTS}/${login}" >> $AUTO_USERS
+output="${login}:${crypt_passwd}:0:${PASSWD_WILL_CHANGE}"
+echo "${output}:${PASSWD_EXPIRATION_TIME}:${PASSWD_WILL_EXPIRE}::" \
+    >> $SHADOW_NEW
+echo "${login}:${username}:${new_passwd}:${uid}:${project}" >> $USERS_INFO_FILE
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%
+\subsubsection{\label{adv-programming-ex3-devlrm}Suppression des r{\'e}pertoires inutiles}
+
+La d{\'e}tection des anciens r{\'e}pertoires se fait {\`a} partir de "{\tt PASSWD\_REF}". Il
+suffira de v{\'e}rifier que l'entr{\'e}e courrante n'a pas {\'e}t{\'e} conserv{\'e}e gr{\^a}ce {\`a}
+"{\tt USERS\_INFO\_FILE}". En effet, s'il existe un enregistrement dans ce
+fichier avec le m{\^e}me "{\sl logname}", le r{\'e}pertoire doit {\^e}tre conserv{\'e}. Dans
+le cas contraire, il doit {\^e}tre supprim{\'e}.
+
+Par cons{\'e}quent, nous allons faire une boucle de lecture sur chaque enregistrement
+du fichier "{\tt PASSWD\_REF}", la valeur sera stock{\'e}e dans la variable
+locale "{\tt line}". Pour chacun d'entre eux,
+\begin{itemize}
+	\item	nous extrairons le "{\sl logname}" (premier champ) gr{\^a}ce {\`a} la commande
+			"{\tt cut(1)}", le s{\'e}parateur {\'e}tant le caract{\`e}re "{\tt :}",
+	\item	nous v{\'e}rifierons la pr{\'e}sence dans "{\tt USERS\_INFO\_FILE}" avec
+			la commande "{\tt awk(1)}" en cherchant une {\'e}quivalence entre le
+			premier champ et la valeur du "{\sl logname}",
+	\item	si une occurence est trouv{\'e}e, il suffira d'effacer le r{\'e}pertoire avec
+			tout son contenu gr{\^a}ce {\`a} la commande "{\tt rm(1)}".
+\end{itemize}
+Nous obtenons~:
+\begin{quote}
+\begin{verbatim}
+cat $PASSWD_REF |\
+while
+    read line
+do
+    old_login=`echo $line | cut -d: -f1`
+    is_present=`$AWK -F: -v old_login="$old_login" '
+        $1 == old_login { print $1 }
+        ' $USERS_INFO_FILE`
+    if [ "$is_present" = "" ]; then
+        [ -d $FS_STUDENTS/$old_login ] && \
+            rm -rf $FS_STUDENTS/$old_login 2>&/dev/null
+    fi
+done
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%
+\subsubsection{\label{adv-programming-ex3-devlmkprj}Cr{\'e}ation des nouvelles entr{\'e}es
+	"{\sl projet}"}
+
+La cr{\'e}ation des nouvelles entr{\'e}es "{\sl projet}" se fait gr{\^a}ce aux
+informations contenues dans "{\tt LCLUAF}". Comme pour les {\'e}tapes
+pr{\'e}c{\'e}dentes, nous allons effectuer une boucle de lecture sur ce fichier. Ce qui donne~:
+\begin{quote}
+\begin{verbatim}
+cat $LCLUAF |\
+while
+    read line
+do
+\end{verbatim}
+$\cdots$
+\begin{verbatim}
+done
+\end{verbatim}
+\end{quote}
+
+Pour rappel (cf. tableau \ref{adv-programming-ex3-filelink}), le format utilis{\'e} ici
+est~:
+\begin{itemize}
+	\item	chaque champ est s{\'e}par{\'e} par le caract{\`e}re "{\tt :}",
+	\item	le premier champ contient le nom du projet sur {\OpenVMS} (donc en
+			majuscules),
+	\item	le second champ contient la liste des "{\sl username}s" {\OpenVMS}
+			membres de ce projet s{\'e}par{\'e}s par "{\tt ,}".
+\end{itemize}
+La transformation du nom de projet {\OpenVMS} vers le nom {\Unix} sera effectu{\'e}
+gr{\^a}ce {\`a} la combinaison des commandes "{\tt echo(1)}", "{\tt cut(1)}" et
+"{\tt tr(1)}". L'affectation du "GID" se fera avec "{\tt SEARCHID}"
+(cf. exemple \ref{adv-programming-ex2}). Nous avons~:
+\begin{quote}
+\begin{verbatim}
+vms_project="`echo $line | cut -d: -f1 | tr '[A-Z]' '[a-z]'`"
+unix_project="p${vms_project}"
+project_gid=`$SEARCHID -g`
+$ECHO "${unix_project}:*:${project_gid}:\c" >> $GROUP_NEW
+\end{verbatim}
+\end{quote}
+
+\begin{remarque}
+La terminaison par "\verb=\c=" de la commande "{\tt ECHO}" nous permettra
+de compl{\'e}ter la ligne qui, pour l'instant, n'est pas encore compl{\`e}te. En effet, il
+manque encore les membres de ce groupe, c'est-{\`a}-dire la liste des "{\sl logname}"
+{\Unix} ad{\'e}quats.
+\end{remarque}
+
+Une liste, sous {\Unix} est compos{\'e}e chaines de caract{\`e}res s{\'e}par{\'e}es par
+un ou plusieurs espaces, il faudra donc substituer "{\tt ,}" par un
+espace. Cette op{\'e}ration sera r{\'e}alis{\'e}e par la commande
+"{\tt sed(1)}". Il faudra toutefois, extraire au pr{\'e}alable l'information de
+l'enregistrement courrant avec la commande "{\tt cut(1)}". La liste
+des membres pour le projet courrant sera stock{\'e} dans la variable locale
+"{\tt members}". Elle contient les "{\sl username}s" {\OpenVMS}
+associ{\'e}s. Il ne reste plus alors qu'{\`a} rechercher le "{\sl logname}"
+{\Unix} correspondant. Pour cela, il suffit de faire une boucle sur
+chaque membre de la liste contenue dans "{\tt members}", d'extraire
+l'enregistrement correspondant dans "{\tt USERS\_INFO\_FILE}" et
+d'en afficher que le premier champ. Ceci sera effectu{\'e} gr{\^a}ce {\`a} la commande
+"{\tt awk}". Le r{\'e}sultat sera m{\'e}moris{\'e} dans la variable locale
+"{\tt group\_members}".
+
+Le format de "{\tt group(5)}" demande une liste de "{\sl logname}s" s{\'e}par{\'e}s
+par "{\tt ,}". Par commodit{\'e}, le programme "{\tt awk(1)}" affichera donc
+syst{\'e}matiquement le "{\sl logname}" suivi de "{\tt ,}". Il ne restera donc
+qu'{\`a} supprimer la derni{\`e}re virgule. Ce crit{\`e}re correspond {\`a} l'expression r{\'e}guli{\`e}re
+"\verb=,$=". Il suffira d'appliquer une substition avec la commande "{\tt sed(1)}"
+sur le contenu de la variable "{\tt group\_members}" et lui r{\'e}affecter le r{\'e}sultat.
+Il ne restera plus qu'{\`a} compl{\'e}ter l'entr{\'e}e dans "{\tt GROUP}" et g{\'e}n{\'e}rer l'entr{\'e}e
+associ{\'e}e {\`a} ce projet dans "{\tt AUTO\_PROJECTS}".
+
+Nous obtenons donc~:
+\begin{quote}
+\begin{verbatim}
+members="`echo $line | cut -d: -f2 | sed -e 's/,/ /g'`"
+group_members=`for this_member in $members
+    do
+        awk -F: -v  this_member=$this_member '
+            $2 == this_member { printf ("%s,",$1) }
+            ' $USERS_INFO_FILE
+    done`
+echo "$group_members" | sed -e 's/,$//' >> $GROUP_NEW
+echo "${unix_project}   ${FS_SERVER}:${FS_PROJECTS}/${unix_project}" \
+    >> $AUTO_PROJECTS
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%
+\subsubsection{\label{adv-programming-ex3-devlmkdir}Cr{\'e}ation des r{\'e}pertoires utilisateurs et "{\sl projet}"}
+
+Que ce soit pour les r{\'e}pertoires utilisateurs ou "{\sl projet}", la m{\'e}thode reste la
+m{\^e}me. Nous partons du fichier contenant les descriptions des r{\'e}pertoires sur le serveur
+(fichiers "{\tt AUTO\_USERS}" et "{\tt AUTO\_PROJECTS}"), nous en extrayons les
+informations, c'est-{\`a}-dire le r{\'e}pertoire {\`a} cr{\'e}er {\'e}ventuellement, et nous y appliquons
+les op{\'e}rations suivantes~:
+\begin{itemize}
+	\item	d{\'e}termination du propri{\'e}taire et du groupe,
+	\item	cr{\'e}ation du r{\'e}pertoire s'il n'existe pas,
+	\item	copie de certains fichiers n{\'e}cessaires {\`a} l'environnement utilisateur,
+	\item	affectation des droits d'acc{\`e}s.
+\end{itemize}
+
+Par convention, le nom d'un r{\'e}pertoire utilisateur ou "{\sl projet}" est justement
+celui affect{\'e} {\`a} cet utilisateur ou ce projet. Par cons{\'e}quent, il suffit d'utiliser
+la commande "{\tt basename}\footnote{La commande "{\tt basename(1)}" permet
+d'extraire le nom d'un fichier en fonction du chemin absolu ou relatif pass{\'e} en
+argument.}" avec comme argument, le nom du r{\'e}pertoire. L'"UID"
+correspond au troisi{\`e}me champ du fichier "{\tt PASSWD\_REF}", sachant que le premier
+champ doit {\^e}te identique {\`a} l'utilisateur trait{\'e} (le nom est connu gr{\^a}ce {\`a} la commande
+"{\tt basename}". Cette op{\'e}ration est donc effectu{\'e}e de la fa\c{c}on suivante~:
+\begin{quote}
+\begin{verbatim}
+owner=`basename $directory`
+uid=`awk -F: -v owner=$owner '
+    $1 == owner { print $3 }
+    ' $PASSWD_NEW`
+\end{verbatim}
+\end{quote}
+o{\`u} "{\tt directory}" correspond au r{\'e}pertoire en cours de traitement. Il ne restera plus
+qu'{\`a} copier les fichiers de profil n{\'e}cessaires et mettre {\`a} jour les droits d'acc{\`e}s.
+
+La technique est rigoureusement identique pour les r{\'e}pertoires associ{\'e}s aux projets. Le
+fichier permettant de conna{\^\i}tre les "GIDs" est "{\tt GROUP\_REF}".
+
+Nous obtenons donc, pour cette partie, les instructions suivantes~:
+\begin{quote}
+\begin{verbatim}
+cat $AUTO_USERS | cut -d: -f2 |\
+while
+    read directory
+do
+    owner=`basename $directory`
+    uid=`awk -F: -v owner=$owner '
+        $1 == owner { print $3 }
+        ' $PASSWD_NEW`
+    if [ ! -d $directory ]; then
+        mkdir -p $directory
+        cp $HOME_PROTOTYPE/.[a-z]* $HOME_PROTOTYPE/.[A-Z]*      \
+            $HOME_PROTOTYPE/* $FS_STUDENTS/$newname 2>/dev/null
+        chown -R ${uid}.${STUDENT_GID} $directory
+    fi
+done
+
+cat $AUTO_PROJECTS | cut -d: -f2 |\
+while
+    read directory
+do
+    group=`basename $directory`
+    gid=`awk -F: -v group=$group '
+        $1 == group { print $3 }
+        ' $GROUP_NEW`
+    if [ ! -d $directory ]; then
+        mkdir -p $directory
+        chown -R root.${gid} $directory
+    fi
+done
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%
+\subsection{\label{adv-programming-ex3-pgm}Programmes obtenus}
+
+Comme il l'a {\'e}t{\'e} sp{\'e}cifi{\'e} pr{\'e}c{\'e}demment, nous disposons ici de quatre fichiers
+pour remplir les fonctionnalit{\'e}s~:\\
+\begin{longtable}{|l|c|p{7cm}|}
+	\hline
+		\multicolumn{3}{|r|}{Suite page de la page pr{\'e}c{\'e}dente.}		\\
+	\hline \hline
+		\multicolumn{1}{|c|}{Nom du fichier}	&
+		\multicolumn{1}{|c|}{R{\'e}f.}	&
+		\multicolumn{1}{|c|}{Description}		\\
+	\hline
+\endhead
+	\hline
+		\multicolumn{2}{|c|}{Nom du fichier}	&
+		\multicolumn{1}{|c|}{Description}		\\
+	\hline
+\endfirsthead
+	\hline
+		\multicolumn{3}{|r|}{Suite page suivante $\cdots$}		\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+		{\tt mkpasswd.define}	&
+		section \ref{adv-programming-ex3-pgmdef}, p. \pageref{adv-programming-ex3-pgmdef}	&
+		D{\'e}finition de l'ensemble des variables d'environnement n{\'e}cessaire au
+		programme. Les valeurs d{\'e}finies dans le script {\sl principal} seront
+		reprises ou bien seront initialis{\'e}es si aucune affectation n'a {\'e}t{\'e}
+		faite au pr{\'e}alable.
+		\\[3ex]
+		{\tt mkpasswd.functions}	&
+		section \ref{adv-programming-ex3-pgmfct}, p. \pageref{adv-programming-ex3-pgmfct}	&
+		D{\'e}finition de l'ensemble des fonctions n{\'e}cessaires au programme. Comme
+		il l'a {\'e}t{\'e} pr{\'e}cis{\'e} {\`a} la section \ref{sh-functions}, les fonctions
+		sont l'{\'e}quivalent de {\sl macros} d'un langage de programmation. Nous
+		d{\'e}finirons ici trois fonctions~:
+		\begin{itemize}
+			\item	"{\tt \_waiting\_chars}" permet de faire une {\sl animation}
+					pendant l'ex{\'e}cution de certaines {\'e}tapes,
+			\item	"{\tt \_ask}" g{\`e}re la r{\'e}ponse des questions de type
+					"{\sl Oui}/{\sl Non}",
+			\item	les intructions {\`a} ex{\'e}cuter lors d'une interruption.
+		\end{itemize}
+		\\[3ex]
+		{\tt mkpasswd.check}	&
+		section \ref{adv-programming-ex3-pgmchk}, p. \pageref{adv-programming-ex3-pgmchk}	&
+		V{\'e}rification de l'ensemble des fichiers en entr{\'e}e et de la pr{\'e}sence
+		des scripts externes. De plus nous faisons appel {\`a} un ex{\'e}cutable
+		"{\tt buildpasswd}" qui sera {\'e}ventuellement reconstruit {\`a} partir de
+		ses sources.
+		\\[3ex]
+		{\tt mkpasswd}	&
+		section \ref{adv-programming-ex3-pgmpgm}, p. \pageref{adv-programming-ex3-pgmpgm}	&
+		Le script {\`a} proprement parl{\'e}.
+		\\[3ex]
+	\hline
+\end{longtable}
+
+%%%%%%%%%%%%
+\subsubsection{\label{adv-programming-ex3-pgmdef}Fichier "{\tt mkpasswd.define}"}
+
+\begin{verbatim}
+#!/bin/sh
+#
+#
+#   SERVICE DES ADMINISTRATEURS:
+#       Traduction des bases OpenVMS vers Unix.
+#       Definition des parametres
+#
+#   Fichier: $BIN_DIR/mkpasswd.define
+#
+#   Creation: S. Baudry
+#
+#   Modifications:
+#
+#-----------------------------------------------------------
+#
+# Repertoires
+#
+#-----------------------------------------------------------
+
+MKPASSD_DIR=${MKPASSD_DIR:=/home/adm/users/convert}
+export MKPASSD_DIR
+
+IN_DIR=${IN_DIR:=$MKPASSD_DIR/in}
+OUT_DIR=${OUT_DIR:=$MKPASSD_DIR/out}
+TMP_DIR=${TMP_DIR:=$MKPASSD_DIR/tmp}
+BIN_DIR=${BIN_DIR:=$MKPASSD_DIR/bin}
+export IN_DIR OUT_DIR TMP_DIR BIN_DIR
+
+#-----------------------------------------------------------
+#
+# Scripts/executables externes par defaut
+#
+#-----------------------------------------------------------
+
+SEARCHID=$BIN_DIR/searchid
+BUILDPASSWD=$BIN_DIR/buildpasswd
+
+export SEARCHID BUILDPASSWD
+
+ECHO=/bin/echo
+AWK=/usr/ucb/gawk
+
+export ECHO AWK
+
+
+#-----------------------------------------------------------
+#
+# Fichiers en entree
+#
+#-----------------------------------------------------------
+
+LCLUAF=$IN_DIR/lcluaf.txt
+LIST=$IN_DIR/list.txt
+WHO=$IN_DIR/who.txt
+PASSWD=$IN_DIR/passwd
+
+export LCLUAF LIST WHO PASSWD
+
+#-----------------------------------------------------------
+#
+# Fichiers temporaires
+#
+#-----------------------------------------------------------
+
+PASSWD_REF=$TMP_DIR/passwd.$$
+WHO_REF=$TMP_DIR/who.$$
+
+export PASSWD_REF WHO_REF
+
+#-----------------------------------------------------------
+#
+# Fichiers en sortie
+#
+#-----------------------------------------------------------
+
+PASSWD_NEW=$OUT_DIR/passwd.new
+GROUP_NEW=$OUT_DIR/group.new
+SHADOW_NEW=$OUT_DIR/shadow.new
+USERS_INFO_FILE=$OUT_DIR/users.infos
+AUTO_PROJECTS=$OUT_DIR/auto.projects
+AUTO_USERS=$OUT_DIR/auto.students
+
+export PASSWD_NEW GROUP_NEW SHADOW_NEW USERS_INFO_FILE
+export AUTO_PROJECTS AUTO_USERS
+
+#-----------------------------------------------------------
+#
+# Parametres
+#
+#-----------------------------------------------------------
+
+PASSWD_EXPIRATION_TIME=60
+PASSWD_WILL_EXPIRE=7
+PASSWD_WILL_CHANGE=`expr $PASSWD_EXPIRATION_TIME - $PASSWD_WILL_EXPIRE`
+export PASSWD_EXPIRATION_TIME PASSWD_WILL_EXPIRE PASSWD_WILL_CHANGE
+
+START_PROJECT_GID=2000
+STUDENT_GID=1001
+START_STUDENT_UID=2000
+export START_PROJECT_GID STUDENT_GID START_STUDENT_UID
+
+HOME_STUDENT=/home/students
+HOME_PROJECT=/home/projects
+HOME_PROTOTYPE=/home/adm/users/convert/etc/prototypes
+FS_SERVER=ampere.esme.fr
+FS_STUDENTS=/export/home/disk3/students
+FS_PROJECTS=/export/home/disk3/projects
+export HOME_STUDENT HOME_PROTOTYPE FS_SERVER FS_STUDENTS FS_PROJECTS
+
+PROTO_STUDENT_QUOTA="-p nobody"
+PROTO_PROJECT_QUOTA="-p nogroup"
+export PROTO_STUDENT_QUOTA PROTO_PROJECT_QUOTA
+
+LOGIN_SHELL=/bin/csh
+export LOGIN_SHELL
+\end{verbatim}
+
+%%%%%%%%%%%%
+\subsubsection{\label{adv-programming-ex3-pgmfct}Fichier "{\tt mkpasswd.functions}"}
+
+\begin{verbatim}
+#!/bin/sh
+#
+#
+#   SERVICE DES ADMINISTRATEURS:
+#       Traduction des bases OpenVMS vers Unix.
+#       Fonctions internes
+#
+#   Fichier: $BIN_DIR/mkpasswd.functions
+#
+#   Creation: S. Baudry
+#
+#   Modifications:
+#
+#-----------------------------------------------------------
+
+_waiting_chars()
+{
+    tmp_index=`expr $1 % 8`
+    case $tmp_index in
+        0) $ECHO "-\b\c";;
+        1) $ECH0 "\\ \b\b\c";;
+        2) $ECHO "|\b\c";;
+        3) $ECHO "/\b\c";;
+        4) $ECHO "-\b\c";;
+        5) $ECHO "\\ \b\b\c";;
+        6) $ECHO "|\b\c";;
+        7) $ECHO "/\b\c";;
+    esac
+}
+
+#-----------------------------------------------------------
+
+_ask ()
+{
+    while
+        case "$2" in
+            y|Y) $ECHO "$1 ([y]/n) : \c" >&2 ;;
+            n|N) $ECHO "$1 (y/[n]) : \c" >&2 ;;
+        esac
+        read answer
+        [ "$answer" = "" ] && answer=$2
+        answer=`echo $answer | tr '[A-Z]' '[a-z]'`
+        [ "$answer" != "y" -a "$answer" != "n" ]
+    do
+        echo "Invalid answer, check validity." >&2
+    done
+    echo $answer
+}
+
+#-----------------------------------------------------------
+
+_stop_exec ()
+{
+    echo "Arret en cours ..."
+    [ -f $PASSWD_REF ] && rm $PASSWD_REF
+    [ -f $WHO_REF ] && rm $WHO_REF
+    exit 1
+}
+\end{verbatim}
+
+%%%%%%%%%%%%
+\subsubsection{\label{adv-programming-ex3-pgmchk}Fichier "{\tt mkpasswd.check}"}
+
+\begin{verbatim}
+#!/bin/sh
+#
+#
+#   SERVICE DES ADMINISTRATEURS:
+#       Traduction des bases OpenVMS vers Unix.
+#       Verification des donnees
+#
+#   Fichier: $BIN_DIR/mkpasswd.check
+#
+#   Creation: S. Baudry
+#
+#   Modifications:
+#
+#-----------------------------------------------------------
+#-----------------------------------------------------------
+#
+# Verifie la presence des scripts ou executables externes
+#
+#-----------------------------------------------------------
+
+if [ ! -x $SEARCHID ]; then
+    echo "`basename $1`: impossible de trouver  $SEARCHID" >&2
+    echo "`basename $1`: execution avortee" >&2
+    exit 1
+fi
+
+if [ ! -x $BUILDPASSWD ]; then
+    if [ ! -f ${BUILDPASSWD}.c ]; then
+        echo "`basename $1`: impossible de construire  $BUILDPASSWD" >&2
+        echo "`basename $1`: execution avortee" >&2
+        exit 1
+    fi
+    ( cd `dirname $BUILDPASSWD`; make `basename $BUILDPASSWD` ) \
+        >/dev/null 2>&1
+    if [ ! -x $BUILDPASSWD ]; then
+        echo "`basename $1`: impossible de trouver  $BUILDPASSWD" >&2
+        echo "`basename $1`: execution avortee" >&2
+        exit 1
+    fi
+fi
+
+if [ ! -x $ECHO ]; then
+    echo "`basename $1`: impossible de trouver  $ECHO" >&2
+    echo "`basename $1`: execution avortee" >&2
+    exit 1
+fi
+
+if [ ! -x $AWK ]; then
+    echo "`basename $1`: impossible de trouver  $AWK" >&2
+    echo "`basename $1`: execution avortee" >&2
+    exit 1
+fi
+
+#-----------------------------------------------------------
+#
+# Verifie la presence des fichiers en entree
+#
+#-----------------------------------------------------------
+
+if [ ! -f $LCLUAF ]; then
+    echo "`basename $1`: fichier en entree $LCLUAF manquant" >&2
+    echo "`basename $1`: execution avortee" >&2
+    exit 1
+fi
+
+if [ ! -f $LIST ]; then
+    echo "`basename $1`: fichier en entree $LIST manquant" >&2
+    echo "`basename $1`: execution avortee" >&2
+    exit 1
+fi
+
+if [ ! -f $WHO ]; then
+    echo "`basename $1`: fichier en entree $WHO manquant" >&2
+    echo "`basename $1`: execution avortee" >&2
+    exit 1
+fi
+
+if [ ! -f $PASSWD ]; then
+    echo "`basename $1`: fichier en entree $PASSWD manquant" >&2
+    echo "`basename $1`: execution avortee" >&2
+    exit 1
+fi
+
+#-----------------------------------------------------------
+#
+# Verifie la presence des fichiers en sortie
+#
+#-----------------------------------------------------------
+
+if [ -f $PASSWD_NEW ]; then
+    echo "`basename $1`: fichier en sortie $PASSWD_NEW deja existant." >&2
+    echo "`basename $1`: $PASSWD_NEW supprime." >&2
+    rm -f $PASSWD_NEW
+fi
+
+if [ -f $GROUP_NEW ]; then
+    echo "`basename $1`: fichier en sortie $GROUP_NEW deja existant." >&2
+    echo "`basename $1`: $GROUP_NEW supprime." >&2
+    rm -f $GROUP_NEW
+fi
+
+if [ -f $SHADOW_NEW ]; then
+    echo "`basename $1`: fichier en sortie $SHADOW_NEW deja existant." >&2
+    echo "`basename $1`: $SHADOW_NEW supprime." >&2
+    rm -f $SHADOW_NEW
+fi
+
+if [ -f $USERS_INFO_FILE ]; then
+    echo "`basename $1`: fichier en sortie $USERS_INFO_FILE deja existant." >&2
+    echo "`basename $1`: $USERS_INFO_FILE supprime." >&2
+    rm -f $USERS_INFO_FILE
+fi
+
+if [ -f $AUTO_PROJECTS ]; then
+    echo "`basename $1`: fichier en sortie $AUTO_PROJECTS deja existant." >&2
+    echo "`basename $1`: $AUTO_PROJECTS supprime." >&2
+    rm -f $AUTO_PROJECTS
+fi
+
+if [ -f $AUTO_USERS ]; then
+    echo "`basename $1`: fichier en sortie $AUTO_USERS deja existant." >&2
+    echo "`basename $1`: $AUTO_USERS supprime." >&2
+    rm -f $AUTO_USERS
+fi
+
+exit 0
+\end{verbatim}
+
+%%%%%%%%%%%%
+\subsubsection{\label{adv-programming-ex3-pgmpgm}Fichier "{\tt mkpasswd}"}
+
+\begin{verbatim}
+#!/bin/sh
+#
+#
+#   SERVICE DES ADMINISTRATEURS:
+#       Traduction des bases OpenVMS vers Unix.
+#
+#   Fichier: $BIN_DIR/mkpasswd
+#
+#   Creation: S. Baudry
+#
+#   Modifications:
+#
+#-----------------------------------------------------------
+
+$ECHO "`basename $0`: chargement en cours ...\c"
+
+#-----------------------------------------------------------
+#
+# Repertoires par defaut
+#
+#-----------------------------------------------------------
+MKPASSD_DIR=${MKPASSD_DIR:=/home/adm/users/convert}
+export MKPASSD_DIR
+
+BIN_DIR=${BIN_DIR:=$MKPASSD_DIR/bin}
+export BIN_DIR
+
+#-----------------------------------------------------------
+#
+# Chargement des definitions
+#
+#-----------------------------------------------------------
+
+if [ ! -f $BIN_DIR/`basename $0`.define ]; then
+	message="impossible de trouver le fichier de definition"
+    echo "`basename $0`: $message $BIN_DIR/`basename $0`.define" >&2
+    echo "`basename $0`: execution avortee" >&2
+    exit
+fi
+
+. $BIN_DIR/`basename $0`.define
+
+#-----------------------------------------------------------
+#
+# Chargement des fonctions
+#
+#-----------------------------------------------------------
+
+if [ ! -f $BIN_DIR/`basename $0`.functions ]; then
+	message="impossible de trouver le fichier de definition"
+    echo "`basename $0`: $message $BIN_DIR/`basename $0`.functions" >&2
+    echo "`basename $0`: execution avortee" >&2
+    exit
+fi
+
+. $BIN_DIR/`basename $0`.functions
+
+$ECHO " Ok."
+
+#-----------------------------------------------------------
+#
+# Verification du contexte
+#
+#-----------------------------------------------------------
+$ECHO "`basename $0`: Verifications ..."
+
+if [ ! -x $BIN_DIR/`basename $0`.check ]; then
+	message="impossible d'executer le fichier de controle"
+    echo "`basename $0`: $message $BIN_DIR/`basename $0`.check" >&2
+    echo "`basename $0`: execution avortee" >&2
+    exit
+fi
+
+$BIN_DIR/`basename $0`.check `basename $0`
+[ $? -ne 0 ] && exit
+
+$ECHO "`basename $0`: verifications Ok."
+
+trap "_stop_exec; exit" 1 9 15
+
+#-----------------------------------------------------------
+#
+# Creation du fichier temporaire PASSWD_REF
+#
+#-----------------------------------------------------------
+$ECHO "`basename $0`: creation de l'espace de travail ...\c"
+
+$AWK '
+    BEGIN { FS=":"}
+    {
+        field = substr ($5, 1, length($5) - 5)
+        printf ("%s:%s:%s:%s:%s:%s:%s\n",
+            $1, $2, $3, $4, field, $6, $7)
+    }
+' $PASSWD > $PASSWD_REF
+
+#-----------------------------------------------------------
+#
+# Creation du fichier temporaire WHO_REF
+#
+#-----------------------------------------------------------
+
+sed -e 's/ - [0-9][ABC].*$//' $WHO > $WHO_REF
+
+$ECHO " Ok."
+
+#-----------------------------------------------------------
+#
+# Extraction des anciennes entrees
+#
+#-----------------------------------------------------------
+
+$ECHO "Extraction des anciennes entrees dans passwd : \c"
+index=1
+
+cat $LIST |\
+while
+    read username
+do
+    _waiting_chars $index
+    name=`grep $username $WHO_REF  | cut -d! -f2 | cut -c2-`
+    is_user=`$AWK -v name="$name" '
+        BEGIN { FS=":" }
+        $5 == name { print $0 }
+    ' $PASSWD_REF`
+    if [ "$is_user" != "" ]; then
+        new_who=`grep $username $WHO`
+        login=`echo $is_user | cut -d: -f1`
+        new_who=`echo $new_who | cut -d! -f2 | cut -c2-`
+        project="p`grep $username $LCLUAF | cut -d: -f1 | tr '[A-Z]' '[a-z]'`"
+        uid=`echo $is_user | cut -d: -f3`
+        gid=`echo $is_user | cut -d: -f4`
+        part2=`echo $is_user | cut -d: -f6-`
+        new_passwd=`echo $login | cut -c-4``date +%M%S`
+        crypt_passwd="`$BUILDPASSWD $new_passwd`"
+        echo "${login}:${crypt_passwd}:${uid}:${gid}:${new_who}:$part2" \
+            >> $PASSWD_NEW
+        echo "${login}  ${FS_SERVER}:${FS_STUDENTS}/${login}" >> $AUTO_USERS
+        output="${login}:${crypt_passwd}:0:${PASSWD_WILL_CHANGE}"
+        echo "${output}:${PASSWD_EXPIRATION_TIME}:${PASSWD_WILL_EXPIRE}::" \
+            >> $SHADOW_NEW
+        echo "${login}:${username}:${new_passwd}:${uid}:${project}" \
+            >> $USERS_INFO_FILE
+    fi
+    index=`expr $index + 1`
+done
+echo " Ok."
+
+#-----------------------------------------------------------
+#
+# Creation des nouvelles entrees dans passwd
+#
+#-----------------------------------------------------------
+
+$ECHO "Creation des nouvelles entrees dans passwd : \c"
+index=1
+
+cat $LIST |\
+while
+    read username
+do
+    _waiting_chars $index
+
+    is_defined=`$AWK -v username="$username" -F: '
+        $2 == username { print $0 }
+        ' $USERS_INFO_FILE `
+    [ "$is_defined" != "" ] && continue
+
+    login=`echo $username | tr '[A-Z]' '[a-z]'  | cut -d_ -f1`
+    new_who=`grep $username $WHO | cut -d! -f2 | cut -c2-`
+
+    login=`echo $login | cut -c-8`
+
+    status=0
+    while
+        is_allocated=`grep "^${login}:" $PASSWD_NEW`
+        [ "$is_allocated" != "" ]
+    do
+        echo "" >&2
+        echo "`basename $0`: login $login deja alloue pour $username" >&2
+        $ECHO "`basename $0`: Quel login : \c" >&2
+        read login < /dev/tty
+        status=1
+    done
+    [ $status -eq 1 ] && $ECHO "Creation des nouvelles entrees dans passwd : \c"
+
+    project="p`grep $username $LCLUAF | cut -d: -f1 | tr '[A-Z]' '[a-z]'`"
+
+    new_passwd=`echo $login | cut -c-4``date +%M%S`
+    crypt_passwd="`$BUILDPASSWD $new_passwd`"
+    uid=`$SEARCHID -u`
+    gid=$STUDENT_GID
+    student_home=${HOME_STUDENT}/$login
+
+    output="${login}:${crypt_passwd}:${uid}:${gid}"
+    echo "${output}:${new_who}:${student_home}:${LOGIN_SHELL}" >> $PASSWD_NEW
+    echo "${login}  ${FS_SERVER}:${FS_STUDENTS}/${login}" >> $AUTO_USERS
+    output="${login}:${crypt_passwd}:0:${PASSWD_WILL_CHANGE}"
+    echo "${output}:${PASSWD_EXPIRATION_TIME}:${PASSWD_WILL_EXPIRE}::" \
+        >> $SHADOW_NEW
+    echo "${login}:${username}:${new_passwd}:${uid}:${project}" >> $USERS_INFO_FILE
+
+    index=`expr $index + 1`
+done
+echo " Ok."
+
+
+#-----------------------------------------------------------
+#
+# Suppression des anciens repertoires
+#
+#-----------------------------------------------------------
+$ECHO "Suppression des anciens repertoires: \c"
+index=1
+
+cat $PASSWD_REF |\
+while
+    read line
+do
+    old_login=`echo $line | cut -d: -f1`
+    is_present=`$AWK -F: -v old_login="$old_login" '
+        $1 == old_login { print $1 }
+        ' $USERS_INFO_FILE`
+    if [ "$is_present" = "" ]; then
+        [ -d $FS_STUDENTS/$old_login ] && \
+            rm -rf $FS_STUDENTS/$old_login 2>&/dev/null
+    fi
+    index=`expr $index + 1`
+done
+
+echo " Ok."
+
+#-----------------------------------------------------------
+#
+# Creation des nouvelles entrees dans group
+#
+#-----------------------------------------------------------
+
+$ECHO "Creation des nouvelles entrees dans group : \c"
+index=1
+
+cat $LCLUAF |\
+while
+    read line
+do
+    _waiting_chars $index
+
+    vms_project="`echo $line | cut -d: -f1 | tr '[A-Z]' '[a-z]'`"
+    unix_project="p${vms_project}"
+    project_gid=`$SEARCHID -g`
+    $ECHO "${unix_project}:*:${project_gid}:\c" >> $GROUP_NEW
+    members="`echo $line | cut -d: -f2 | sed -e 's/,/ /g'`"
+    group_members=`for this_member in $members
+    do
+        awk -F: -v  this_member=$this_member '
+            $2 == this_member { printf ("%s,",$1) }
+            ' $USERS_INFO_FILE
+    done`
+    echo "$group_members" | sed -e 's/,$//' >> $GROUP_NEW
+    echo "${unix_project}   ${FS_SERVER}:${FS_PROJECTS}/${unix_project}" \
+        >> $AUTO_PROJECTS
+
+    index=`expr $index + 1`
+
+done
+
+echo " Ok."
+
+#-----------------------------------------------------------
+#
+# Creation des repertoires
+#
+#-----------------------------------------------------------
+
+$ECHO "Creation des repertoires : \c"
+index=1
+
+cat $AUTO_USERS | cut -d: -f2 |\
+while
+    read directory
+do
+    _waiting_chars $index
+
+    owner=`basename $directory`
+    uid=`awk -F: -v owner=$owner '
+        $1 == owner { print $3 }
+        ' $PASSWD_NEW`
+    if [ ! -d $directory ]; then
+        mkdir -p $directory
+        cp $HOME_PROTOTYPE/.[a-z]* $HOME_PROTOTYPE/.[A-Z]*      \
+            $HOME_PROTOTYPE/* $FS_STUDENTS/$newname 2>/dev/null
+        chown -R ${uid}.${STUDENT_GID} $directory
+    fi
+    index=`expr $index + 1`
+done
+
+cat $AUTO_PROJECTS | cut -d: -f2 |\
+while
+    read directory
+do
+    _waiting_chars $index
+
+    group=`basename $directory`
+    gid=`awk -F: -v group=$group '
+        $1 == group { print $3 }
+        ' $GROUP_NEW`
+    if [ ! -d $directory ]; then
+        mkdir -p $directory
+        chown -R root.${gid} $directory
+    fi
+    index=`expr $index + 1`
+done
+
+echo " Ok."
+
+#-----------------------------------------------------------
+#
+# Fin du programme
+#
+#-----------------------------------------------------------
+
+trap '' 1 9 15
+[ -f $PASSWD_REF ] && rm $PASSWD_REF
+[ -f $WHO_REF ] && rm $WHO_REF
+\end{verbatim}

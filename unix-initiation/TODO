@@ -1,0 +1,12 @@
+Makefile
+--------
+
+Trouver un moyen de retrouver le numéro de version à partir des sources
+latex et l'ajouter au titre du pdf, pour la tâche 'release'. Ce n'est
+pas 'critique', mais ça permettra de faire des 'release' propre.
+
+Latex compilation troubles:
+---------------------------
+
+Couverture : 
+

@@ -1,0 +1,548 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{Les tests et les boucles}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les tests}
+
+%%%%%%%%%%%%%%%
+\subsection{La commande <<~\texttt{test}~>>}
+
+La commande \index{tests}\index{test@\texttt{test}}<<~\texttt{test}~>> {\'e}value l'expression sp{\'e}cifi{\'e}e en argument et positionne la valeur de retour~:
+\begin{itemize}
+	\item	{\`a} 0 si l'expression est vraie,
+	\item	{\`a} une valeur non nulle si l'expression est fausse.
+\end{itemize}
+
+\begin{definition}{Syntaxe}
+\verb*=[ =\textit{expression}\verb*= ]=\\
+ou\\
+\verb*=test =\textit{expression}\\[1ex]
+Les espaces doivent {\^e}tre respect{\'e}s avant et apr{\`e}s les <<~\verb=[=~>>, <<~\verb=]=~>>.
+\end{definition}
+
+\begin{remarque}
+La commande <<~\texttt{test}~>> est une commande externe au Shell.
+\end{remarque}
+
+La commande <<~\texttt{test}~>> est utilis{\'e}e pour {\'e}valuer si une expression est vraie
+ou fausse. Elle sera alors utilis{\'e}e par d'autres commandes du shell permettant
+d'effectuer~:
+\begin{itemize}
+	\item	des branchements conditionnels (<<~\texttt{if}~>>),
+	\item	des boucles,
+	\item	etc.
+\end{itemize}
+
+%%%%%%%%%%%%%%%
+\subsection{Tests sur les fichiers}
+
+\begin{definition}{Syntaxe}
+\verb*=[ option fichier ]=\\
+ou \\
+\verb*=test option fichier=
+\end{definition}
+
+\index{tests!sur les fichiers}Les options usuelles sont~:\\[2ex]
+\begin{longtable}
+{|@{\hspace{1ex}}p{2.5cm}@{\hspace{1ex}}|@{\hspace{1ex}}p{10cm}@{\hspace{1ex}}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	\multicolumn{1}{|c|}{Options}	&
+	\multicolumn{1}{|c|}{Actions}	\\
+	\hline
+\endhead
+	\hline
+	\multicolumn{1}{|c|}{Options}	&
+	\multicolumn{1}{|c|}{Actions}	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{1}{|c|}{\texttt{-f}}	&
+		Vrai si le fichier est de type ordinaire (type <<~\texttt{-}~>>).	\\
+	\hline
+		\multicolumn{1}{|c|}{\texttt{-r}}	&
+		Vrai si le fichier existe et est accessible en lecture.			\\
+	\hline
+		\multicolumn{1}{|c|}{\texttt{-w}}	&
+		Vrai si le fichier existe et est accessible en {\'e}criture.		\\
+	\hline
+		\multicolumn{1}{|c|}{\texttt{-x}}	&
+		Vrai si le fichier existe et est accessible en ex{\'e}cution.		\\
+	\hline
+		\multicolumn{1}{|c|}{\texttt{-d}}	&
+		Vrai si le fichier existe et est un r{\'e}pertoire.					\\
+	\hline
+		\multicolumn{1}{|c|}{\texttt{-s}}	&
+		Vrai si le fichier existe et est de taille non nulle.			\\
+	\hline
+		\multicolumn{1}{|c|}{\texttt{-c}}	&
+		Vrai si le fichier existe et est un fichier p{\'e}riph{\'e}rique de
+			type <<~\textsl{raw device}~>>.								\\
+	\hline
+		\multicolumn{1}{|c|}{\texttt{-b}}	&
+		Vrai si le fichier existe et est un fichier p{\'e}riph{\'e}rique de
+			type <<~\textsl{block device}~>>.								\\
+\end{longtable}
+
+%%%%%%%%%%%%%%%
+\subsection{Tests sur les cha{\^\i}nes de caract{\`e}res}
+
+\begin{definition}{Syntaxe}
+\begin{tabular}{l@{\hspace{2ex}}c@{\hspace{3ex}}c}
+	\multirow{5}{3ex}{ou}
+	&	Est \'{E}gal	&	N'est pas \'{E}gal	\\
+	&	\verb*,[ chaine1 = chaine2 ],	&	\verb*,[ chaine1 != chaine2 ],	\\[2ex]
+	&	Est \'{E}gal	&	N'est pas \'{E}gal	\\
+	&	\verb*,test chaine1 = chaine2,	&	\verb*,test chaine1 != chaine2,	\\
+\end{tabular}
+\end{definition}
+
+\index{tests!cha{\^\i}nes de caract{\`e}res}Quand un test est
+effectu{\'e} sur une variable shell, il est judicieux de penser que
+celle-ci peut tr{\`e}s bien ne rien contenir. Par exemple,
+consid{\'e}rons le test suivant~:
+\begin{center}
+\verb,[ $XX = oui ],
+\end{center}
+
+Si la variable <<~\texttt{XX}~>> n'est pas initialis{\'e}e, c'est {\`a} dire si
+<<~\texttt{XX}~>> est nulle, le shell r{\'e}alisera la substitution de
+variable et tentera d'ex{\'e}cuter le test suivant~:
+\begin{center}
+\verb,[  = oui ],
+\end{center}
+qui est incorrect au niveau syntaxe et promet un message d'erreur. Le
+moyen simple pour pallier {\`a} ce probl{\`e}me est de pr{\'e}ciser le nom de
+variable entre double quotes (<<~\verb="=~>>) ce qui assure l'affectation de la
+variable m{\^e}me si celle-ci est \texttt{NULL}. Soit~:
+\begin{center}
+\verb,[ "$XX" = oui ],
+\end{center}
+ce qui donne apr{\`e}s {\'e}valuation du shell~:
+\begin{center}
+\verb,[ "" = oui ],
+\end{center}
+
+Remarquez {\'e}galement que si la variable est susceptible de contenir des
+caract{\`e}res blancs, il est int{\'e}ressant d'entourer celle-ci de double
+quotes.
+
+%%%%%%%%%%%%%%%
+\subsection{Les test num{\'e}riques}
+
+\begin{definition}{Syntaxe}
+\begin{verbatim*}
+test nombre relation nombre
+\end{verbatim*}
+ou
+\begin{verbatim*}
+[ nombre relation nombre ]
+\end{verbatim*}
+\end{definition}
+
+\index{tests!num{\'e}riques}Les relations support{\'e}es sont~:
+\begin{center}
+\begin{longtable}
+	{|@{\hspace{1ex}}c@{\hspace{1ex}}|@{\hspace{1ex}}p{7cm}@{\hspace{1ex}}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	Relation	&	Signification	\\
+	\hline
+\endhead
+	\hline
+	Relation	&	Signification	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\texttt{-lt}	&	Strictement inf{\'e}rieur {\`a}	\\[1.5ex]
+		\texttt{-le}	&	Inf{\'e}rieur ou {\'e}gal {\`a}	\\[1.5ex]
+		\texttt{-gt}	&	Strictement sup{\'e}rieur {\`a}	\\[1.5ex]
+		\texttt{-ge}	&	Sup{\'e}rieur ou {\'e}gal {\`a}	\\[1.5ex]
+		\texttt{-eq}	&	{\'E}gal {\`a}					\\[1.5ex]
+		\texttt{-ne}	&	Diff{\'e}rent de				\\[0.5ex]
+	\hline
+\end{longtable}
+\end{center}
+
+%%%%%%%%%%%%%%%
+\subsection{Autres op{\'e}rations}
+
+\begin{longtable}
+	{|@{\hspace{1ex}}c@{\hspace{1ex}}|@{\hspace{1ex}}p{10cm}@{\hspace{1ex}}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	Op{\'e}ration	&	Signification	\\
+	\hline
+\endhead
+	\hline
+	\index{tests!op{\'e}rateurs logiques}Op{\'e}ration	&	Signification	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\texttt{-o}		&	OU logique				\\[1.5ex]
+		\texttt{-a}		&	ET logique				\\[1.5ex]
+		\texttt{!}			&	N{\'e}gation logique	\\[1.5ex]
+		\verb*=\( \)=	&	Regroupement (les parenth{\`e}ses
+						doivent {\^e}tre pr{\'e}c{\'e}d{\'e}es de back slash <<~\verb=\=~>>)
+													\\[0.5ex]
+	\hline
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{La construction <<~\texttt{if}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{longtable}{|p{2.5cm}|@{\hspace{1ex}}p{8cm}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	\textsl{Syntaxe}		&	\textsl{Ex{\'e}cution}	\\
+	\hline
+\endhead
+	\hline
+	\textsl{Syntaxe}		&	\textsl{Ex{\'e}cution}	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+	\index{if@\texttt{if}}\texttt{if}	&					\\
+	\hspace{0.5cm}\textsl{liste A}		&	<<~\textsl{liste A}~>> est ex{\'e}cut{\'e}e.	\\
+	\texttt{then}						&					\\[1.5ex]
+	\hspace{0.5cm}\textsl{liste B}		&
+		Si la valeur de retour de la derni{\`e}re commande de <<~\textsl{liste A}~>>
+		est nulle (vrai), le shell ex{\'e}cute <<~\textsl{liste B}~>>, puis saute
+		{\`a} la premi{\`e}re instruction apr{\`e}s <<~\texttt{fi}~>>.	\\[1.5ex]
+	\texttt{elif}						&	Optionnel.		\\[1.5ex]
+	\hspace{0.5cm}\textsl{liste C}		&
+		Si le code retour de la derni{\`e}re commande de <<~\textsl{liste A}~>> est non nul
+		(faux), on ex{\'e}cute <<~\textsl{liste C}~>>.			\\
+	\texttt{then}						&					\\[1.5ex]
+	\hspace{0.5cm}\textsl{liste D}		&
+		Si le code retour de la derni{\`e}re commande de <<~\textsl{liste C}~>> est nul,
+		le shell ex{\'e}cute <<~\textsl{liste D}~>>, puis saute {\`a} la premi{\`e}re instruction
+		apr{\`e}s le <<~\texttt{fi}~>>.						\\[1.5ex]
+	\textsl{etc.}						&					\\[1.5ex]
+	\texttt{else}						&	Optionnel.		\\[1.5ex]
+	\hspace{0.5cm}\textsl{liste E}		&
+		Si le code retour de la derni{\`e}re commande de <<~\textsl{liste C}~>> est non nul,
+		le shell ex{\'e}cute <<~\textsl{liste E}~>> puis saute {\`a} la premi{\`e}re instruction apr{\`e}s
+		le <<~\texttt{fi}~>>.								\\
+	\texttt{fi}						&					\\
+	\hline
+\end{longtable}
+\end{definition}
+
+Une liste de commandes (\textsl{liste A}, \textsl{liste B}, etc.) est une
+s{\'e}quence de commandes shell s{\'e}par{\'e}es par des points virgule (<<~\texttt{;}~>>) ou bien
+par un retour chariot (\returnkey).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{La construction <<~\texttt{case}~>>}
+
+La construction \index{case@\texttt{case}}<<~\texttt{case}~>> est
+utilis{\'e}e pour des branchements multiples.
+
+\begin{definition}{Syntaxe}
+\begin{longtable}{|p{3cm}@{\hspace{1ex}}|@{\hspace{1ex}}p{8cm}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	\textsl{Syntaxe}		&	\textsl{Ex{\'e}cution}	\\
+	\hline
+\endhead
+	\hline
+	\textsl{Syntaxe}		&	\textsl{Ex{\'e}cution}	\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+	\texttt{case} \textsl{mot} \texttt{in}		&				\\
+	\hspace{0.5cm}\textsl{choix1}\texttt{)}		&
+			Le mot est compar{\'e} {\`a} <<~\textsl{choix1}~>>.	\\
+
+	\hspace{1cm}\textsl{liste A}				&
+		S'il correspond, <<~\textsl{liste A}~>> est ex{\'e}cut{\'e}e puis
+		le shell se branche {\`a} la premi{\`e}re instruction suivant le
+		<<~\texttt{esac}~>>.								\\
+	\hspace{1cm}{\verb=;;=}						&			\\[1.5ex]
+	\hspace{0.5cm}\textsl{choix2}\texttt{)}		&			\\
+	\hspace{1cm}\textsl{liste B}				&
+		Si <<~\textsl{choix1}~>> ne correspond pas, le mot est
+		compar{\'e} {\`a} <<~\textsl{choix2}~>> et ainsi de suite. S'il n'y a
+		aucune correspondance, on continue.					\\
+	\hspace{1cm}{\verb=;;=}						&			\\[1.5ex]
+	\texttt{esac}								&			\\
+	\hline
+\end{longtable}
+\end{definition}
+
+Les choix sont construits {\`a} partir des caract{\`e}res du shell de g{\'e}n{\'e}ration
+de nom de fichiers. Il est {\'e}galement possible d'utiliser le caract{\`e}re
+<<~\texttt{|}~>> signifiant <<~\textsl{OU logique}~>>.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{La boucle <<~\texttt{while}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{tabular}{l}
+	\index{while@\texttt{while}}\texttt{while}	\\
+		\hspace{0.5cm}\textsl{liste A}			\\
+	\texttt{do}									\\
+		\hspace{0.5cm}\textsl{liste B}			\\
+	\texttt{done}								\\
+\end{tabular}
+\end{definition}
+
+\begin{definition}{Ex{\'e}cution}
+\begin{description}
+	\item[{\'e}tape 1~:] <<~\textsl{liste A}~>> est ex{\'e}cut{\'e}e.
+	\item[{\'e}tape 2~:] Si la valeur de retour de la derni{\`e}re commande de
+		<<~\textsl{liste A}~>> est nulle (vrai), <<~\textsl{{``}liste B}~>> est ex{\'e}cut{\'e}e et
+		retourne {\`a} l'{\'e}tape 1.
+	\item[{\'e}tape 3~:] Si la valeur de retour de la derni{\`e}re commande de
+		<<~\textsl{liste A}~>> est non nulle (faux),
+		le shell se branche {\`a} la premi{\`e}re instruction suivant <<~\texttt{done}~>>.
+\end{description}
+\end{definition}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{La boucle <<~\texttt{until}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{tabular}{l}
+	\index{until@\texttt{until}}\texttt{until}	\\
+		\hspace{0.5cm}\textsl{liste A}			\\
+	\texttt{do}									\\
+		\hspace{0.5cm}\textsl{liste B}			\\
+	\texttt{done}								\\
+\end{tabular}
+\end{definition}
+
+\begin{definition}{Ex{\'e}cution}
+\begin{description}
+	\item[{\'e}tape 1~:] <<~\textsl{liste A}~>> est ex{\'e}cut{\'e}e.
+	\item[{\'e}tape 2~:] Si la valeur de retour de la derni{\`e}re commande de
+		<<~\textsl{liste A}~>> est non nul (faux), <<~\textsl{{``}liste B}~>> est ex{\'e}cut{\'e}e et
+		retourne {\`a} l'{\'e}tape 1.
+	\item[{\'e}tape 3~:] Si la valeur de retour de la derni{\`e}re commande de
+		<<~\textsl{liste A}~>> est nulle (vrai),
+		le shell se branche {\`a} la premi{\`e}re instruction suivant <<~\texttt{done}~>>.
+\end{description}
+\end{definition}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{La boucle <<~\texttt{for}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{tabular}{l}
+	\index{for@\texttt{for}}\texttt{for} \textsl{var} \texttt{in} \textsl{liste}	\\
+	\texttt{do}										\\
+		\hspace{0.5cm}\textsl{liste A}				\\
+	\texttt{done}									\\
+\end{tabular}
+\end{definition}
+
+<<~\textsl{var}~>> est une variable du shell et <<~\textsl{liste}~>> est une
+liste de cha{\^\i}nes de caract{\`e}res d{\'e}limit{\'e}es par des espaces ou des
+tabulations. \textbf{Le nombre de cha{\^\i}nes de caract{\`e}res de la liste d{\'e}termine le
+nombre d'occurrence de la boucle}.
+
+\begin{definition}{Ex{\'e}cution}
+\begin{description}
+	\item[{\'e}tape 1~:] <<~\textsl{var}~>> est positionn{\'e} {\`a} la valeur de la premi{\`e}re cha{\^\i}ne de
+			caract{\`e}res de la liste.
+	\item[{\'e}tape 2~:] <<~\textsl{liste A}~>> est ex{\'e}cut{\'e}e.
+	\item[{\'e}tape 3~:] <<~\textsl{var}~>> est positionn{\'e}e {\`a} la valeur de la seconde cha{\^\i}ne
+			de caract{\`e}res de la liste, puis reprise {\`a} l'{\'e}tape 2.
+	\item[{\'e}tape 4~:] R{\'e}p{\'e}tition jusqu'{\`a} ce que toutes les cha{\^\i}nes de caract{\`e}res aient
+			{\'e}t{\'e} utilis{\'e}es.
+\end{description}
+\end{definition}
+
+\begin{remarque}
+Toute cha{\^\i}ne de caract{\`e}res comprises entre les caract{\`e}res <<~\texttt{"}~>> et <<~\texttt{'}~>>
+comptent pour une it{\'e}ration pour la boucle <<~{\t for}~>>.
+Par cons{\'e}quent~:\\
+\begin{tabular}{|l@{\hspace{5ex}}p{5cm}|}
+	\hline
+	\verb*=for var in "Ceci est une cha{\^\i}ne"=	&	compte 1 it{\'e}ration.		\\
+	\verb*=do=									&							\\
+	$\cdots$									&							\\
+	\verb*=done=								&							\\
+	\hline \hline
+	\verb*=for var in Ceci est une cha{\^\i}ne=	&	compte 4 it{\'e}ration.		\\
+	\verb*=do=									&							\\
+	$\cdots$									&							\\
+	\verb*=done=								&							\\
+	\hline
+\end{tabular}
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{test-loop-break}Les commandes <<~\texttt{break}~>>, <<~\texttt{continue}~>> et <<~\texttt{exit}~>>}
+
+\begin{tabular}{l@{\hspace{3ex}}p{10cm}}
+	\index{break@\texttt{break}}\texttt{break}~[\textsl{n}]		&
+		Provoque la fin de la n$^{e}$ boucle pour les boucles imbriqu{\'e}es.	\\[1.5ex]
+	\index{continue@\texttt{continue}}\texttt{continue}~[\textsl{n}]	&
+		Reprise {\`a} la n$^{e}$ boucle pour les boucles imbriqu{\'e}es.				\\[1.5ex]
+	\index{exit@\texttt{exit}}\texttt{exit}~[\textsl{n}]		&
+		Stoppe l'ex{\'e}cution du programme shell et positionne le code retour {\`a} la
+		valeur <<~\textsl{n}~>>.												\\[1.5ex]
+\end{tabular}
+
+Pour l'une quelconque des trois boucles (<<~\index{while@\texttt{while}}\texttt{while}~>>,
+\index{until@\texttt{until}}<<~\texttt{until}~>>, et \index{for@\texttt{for}}<<~\texttt{for}~>>),
+vous pouvez utiliser les commandes <<~\texttt{break}~>> et
+<<~\texttt{continue}~>> pour en modifier le d{\'e}roulement.
+
+La commande <<~\texttt{break}~>> provoquera la fin de la boucle et le saut {\`a} la premi{\`e}re
+commande suivant <<~\texttt{done}~>>.
+
+La commande <<~\texttt{continue}~>> est l{\'e}g{\`e}rement diff{\'e}rente. Les
+commandes suivantes du corps de la boucle seront ignor{\'e}es et l'ex{\'e}cution
+reprendra au d{\'e}but de la liste d'initialisation dans le cas des boucles
+<<~\texttt{while}~>> et <<~\texttt{until}~>>. Utilis{\'e}e dans une boucle <<~\texttt{for}~>>,
+les commandes suivantes du corps de la boucle seront ignor{\'e}es et la
+variable sera positionn{\'e}e {\`a} la valeur suivante de la liste.
+
+Par d{\'e}faut, le nombre de boucles consid{\'e}r{\'e}es par les commandes <<~\texttt{break}~>>
+et <<~\texttt{continue}~>> est 1.
+
+La commande <<~\texttt{exit}~>> provoquera \textbf{l'arr{\^e}t d{\'e}finitif du
+programme shell} et le positionnement du code de retour de ce programme
+shell {\`a} la valeur de l'argument s'il est sp{\'e}cifi{\'e}. Si aucun n'est
+sp{\'e}cifi{\'e}, le code de retour du programme shell sera positionn{\'e} {\`a} la
+valeur de retour de la derni{\`e}re commande ex{\'e}cut{\'e}e juste avant <<~\texttt{exit}~>>.
+
+\begin{remarque}
+Comme nous l'avons vu, la commande <<~\texttt{exit}~>> provoque l'arr{\^e}t d{\'e}finitif du
+programme shell. Par extension, elle provoque l'arr{\^e}t de l'interpr{\'e}teur de commandes
+courant. Elle permet donc de se d{\'e}connecter (cf. section \ref{bcpts-login}).
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Signaux et traps}
+
+%%%%%%%%%%%%
+\subsection{D{\'e}finition des signaux et des traps}
+
+%%%%%%%%%%%%
+\subsubsection{Les signaux}
+
+Certains {\'e}v{\'e}nement g{\'e}n{\`e}rent des \index{signal}signaux
+qui sont envoy{\'e}s au processus.
+
+Par exemple~:
+\begin{itemize}
+	\item	lors d'une d{\'e}connexion, le signal $1$ est envoy{\'e} aux processes lanc{\'e}s en
+			arri{\`e}re plan,
+	\item	la pression de \control{C} envoie un signal $2$ aux
+			processes en avant plan,
+	\item	la commande <<~\index{kill@\texttt{kill}}\texttt{kill}~>> envoie, par d{\'e}faut, le signal 15 aux processus
+			sp{\'e}cifi{\'e}s en argument (cf. section \ref{multi-task-kill}).
+\end{itemize}
+
+%%%%%%%%%%%%
+\subsubsection{Les \textsl{traps}}
+
+Un \index{signal!trap@\textsl{trap} (d{\'e}finition)}\textsl{trap} est un <<~pi{\`e}ge~>> pour <<~attraper~>> un signal. Il est alors possible de lui
+associer l'ex{\'e}cution de quelques actions.
+
+Un \textsl{trap} est une fa\c{c}on d'interrompre le d{\'e}roulement normal d'un
+processus pour r{\'e}pondre {\`a} un signal en ex{\'e}cutant une action pr{\'e}vue {\`a} cet
+effet. Cette action est appel{\'e}e <<~\textsl{action de gestion d'interruption}~>>
+\footnote{Interrupt Service Routine.}. Elle ne sera ex{\'e}cut{\'e}e que dans le cas o{\`u}
+une interruption sp{\'e}cifique surviendrait. Il est possible d'avoir
+plusieurs actions distinctes en r{\'e}ponse {\`a} plusieurs signaux distincts.
+
+Le signal $9$ correspond {\`a} l'interruption absolue. Il ne pourra pas {\^e}tre ignor{\'e} ni
+\textsl{trapp{\'e}} comme les autres.
+
+%%%%%%%%%%%%
+\subsubsection{La commande <<~\texttt{trap}~>>}
+
+\begin{definition}{Syntaxe}
+\verb*=trap 'commande' signo [signo ...]=
+\end{definition}
+
+\index{signal!trap@\texttt{trap} (commande)}\index{trap@\texttt{trap}}
+<<~\texttt{trap}~>> permettra d'ex{\'e}cuter des commandes si le signal
+<<~\textsl{signo}~>> survient.
+
+La plupart du temps, la r{\'e}ception d'un signal quelconque provoquera
+l'arr{\^e}t du process qui le re\c{c}oit. La commande <<~\texttt{trap}~>> pourra
+{\^e}tre utilis{\'e}e dans des programmes shell pour pi{\'e}ger des signaux avant
+qu'ils n'interrompent le process g{\'e}n{\'e}r{\'e} par l'ex{\'e}cution du programme.
+Ceci permet au programmeur de pr{\'e}voir une r{\'e}ponse pour certains signaux.
+
+Les commandes <<~\texttt{trap}~>> sont, en g{\'e}n{\'e}ral, plac{\'e}es au d{\'e}but des
+programmes shell, mais elles peuvent {\^e}tre plac{\'e}es n'importe o{\`u} de fa\c{c}on
+{\`a} contr{\^o}ler au mieux le d{\'e}roulement d'un processus. \`{A} la lecture des
+commandes <<~\texttt{trap}~>>, le shell positionne des pi{\`e}ges {\`a} signaux qui seront
+activ{\'e}s lors de la venue des dits signaux.
+
+Les signaux {\`a} pi{\'e}ger sp{\'e}cifi{\'e}s dans la commande <<~\texttt{trap}~>> le sont
+par leur num{\'e}ro (\textsl{signo}). Pour ignorer des signaux, il suffit de taper la
+commande (ou de l'ins{\'e}rer dans un shell script)~:
+\begin{center}
+\verb*=$ trap '' signo [signo ...]=
+\end{center}
+
+<<~\texttt{trap}~>> ne d{\'e}finit les pi{\`e}ges que pour le process courant et tous les sous processus.
+<<~\texttt{trap}~>> est une commande interne au shell.

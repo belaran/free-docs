@@ -1,0 +1,359 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+\documentclass[titlepage,twoside,a4paper]{book}
+
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{frenchle}
+
+\usepackage{makeidx}
+\usepackage{longtable}
+\usepackage{multirow}
+
+\usepackage{fancybox}
+\usepackage{fancyhdr}
+\usepackage{graphics}
+
+% En utilisant le package Hyperref on a automatiquement des liens cliquable
+% dans le PDF pour TOC et toutes références
+\usepackage[pdftex,colorlinks=true,urlcolor=blue]{hyperref}
+
+
+% verbatim avances :
+\usepackage{alltt}
+\usepackage{fancyvrb}
+
+\usepackage{graphicx}
+\graphicspath{{_Images/}}
+
+\pagestyle{fancy}
+
+
+\makeindex						%% Generation des indexs
+
+\input epsf
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\newcounter{remarque-cnt}
+\setcounter{remarque-cnt}{1}
+
+\newcounter{example-cnt}
+\setcounter{example-cnt}{1}
+
+\renewcommand{\chaptermark}[1]{
+	\markboth{\chaptername\  \thechapter. #1}{}
+}
+\renewcommand{\sectionmark}[1]{
+	\markright{\thesection. #1}{}
+}
+
+\setlongtables
+\setlength{\parskip}{1.5ex}
+\setlength{\topsep}{0cm}
+\setlength{\partopsep}{0cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Version du document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\docversion}{4.0}			% Version actuelle
+\newcommand{\docdate}{Septembre 2007}		% Date de publication
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macros specifiques du document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\key}[1]{\fbox{#1}}
+\newcommand{\seqkey}[2]{\fbox{#1}--\fbox{#2}}
+\newcommand{\control}[1]{\fbox{\textsc{ctrl}}--\fbox{#1}}
+\newcommand{\escape}[1]{\fbox{\textsc{esc}}--\fbox{#1}}
+\newcommand{\ctrlkey}{\key{\textsc{ctrl}}\ }
+\newcommand{\esckey}{\key{\textsc{esc}}\ }
+\newcommand{\altkey}{\key{\textsc{alt}}\ }
+\newcommand{\shiftkey}{\key{\textsc{shift}}\ }
+\newcommand{\tabkey}{\key{\textsc{tab}}\ }
+\newcommand{\returnkey}{\key{\textsc{return}}\ }
+\newcommand{\spacekey}{\key{\textsc{space}}\ }
+
+\newcommand{\Unix}{\textsc{Unix}}
+\newcommand{\Linux}{\textsc{Linux}}
+\newcommand{\OpenVMS}{Open\textsc{Vms}}
+\newcommand{\DOS}{\textsf{MS-DOS}}
+\newcommand{\MacOS}{\textsf{MacOS}}
+\newcommand{\Windows}{\textsf{Windows}}
+\newcommand{\WindowsNT}{\textsf{Windows--NT}}
+\newcommand{\ASCII}{\texttt{ASCII}}
+
+\newcommand{\myparttitle}{}
+\newcommand{\mypart}[1]{
+	{
+		\pagestyle{empty}
+		\part{#1}
+	}
+	\renewcommand{\myparttitle}{#1 -- }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Entete et pied de page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\lhead[\leftmark]{\rightmark}
+\chead{}
+\rhead[]{}
+\lfoot[\thepage]
+	{S. \textsc{Baudry}, \myparttitle v\docversion}
+\cfoot{}
+\rfoot[S. \textsc{Baudry}, \myparttitle v\docversion]
+	{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Page de garde
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+	Introduction {\`a} {\Unix} et {\`a} la programmation Shell
+}
+\author{
+	Sylvain \textsc{Baudry}\\[3ex]
+	ESME-Sudria\thanks{T{\'e}l: +33 (0)  56 20 62 00}\\
+	\textsl{D{\'e}partement Informatique}\\
+	38 rue Moli{\`e}re
+	94200 \textsc{Ivry sur Seine}\\[3ex]
+	Version \docversion
+}
+\date{\docdate}
+
+\makeindex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Declaration du document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\newenvironment{example}{
+	\begin{sloppypar}
+	\noindent
+	\textbf{Exemple~{\thechapter}.\arabic{example-cnt}~:}\\
+	\hspace*{\fill} \linebreak \vspace{-7ex}
+	\begin{quote}
+}
+{	\end{quote}
+	\stepcounter{example-cnt}
+	\end{sloppypar}
+}
+
+\newenvironment{remarque}{
+	\begin{sloppypar}
+	\noindent
+	\textbf{Remarque~{\thechapter}.\arabic{remarque-cnt}~:}\\
+	\hspace*{\fill} \linebreak \vspace{-7ex}
+	\begin{quote}\it
+}
+{
+	\end{quote}
+	\stepcounter{remarque-cnt}
+	\end{sloppypar}
+}
+
+\newenvironment{definition}[1]{
+	\begin{sloppypar}
+	\noindent
+	\textbf{#1~:}\\
+	\hspace*{\fill} \linebreak \vspace{-7ex}
+	\begin{quote}
+}
+{	\end{quote}
+	\end{sloppypar}
+}
+
+
+\maketitle						%% Page de garde
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preface
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter
+
+\lhead[Pr{\'e}face]{}
+\chead{}
+\rhead[]{Pr{\'e}face}
+\include{A01-preface}				%% Pr{\'e}face
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table des matieres
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage						%% Table des mati{\`e}res
+\newpage
+\lhead[\contentsname]{}
+\chead{}
+\rhead[]{\contentsname}
+
+\tableofcontents
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Partie 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+\lhead[\leftmark]{\rightmark}
+\chead{}
+\rhead[]{}
+
+\mypart{Introduction {\`a} {\Unix}}
+
+\include{B01-int-base-concepts}	%% Ok, index
+
+\include{B02-int-cmds-unix}		%% Ok, index
+
+\include{B03-int-cmds-network}	%% Ok, index
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Partie 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mypart{Introduction au shell}
+
+\include{C01-shell-basic-notions}	%% Ok, index
+
+\include{C02-shell-multi-task}	%% Ok, index
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Partie 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mypart{\label{prgm-shell}Introduction {\`a} la programmation Bourne Shell}
+
+\include{D01-prgm-intro}		%% Ok, index
+
+\include{D02-prgm-arguments}	%% Ok, index
+
+\include{D03-prgm-variables}	%% Ok, index
+
+\include{D04-prgm-adv-cmds}		%% Ok, index
+
+\include{D05-prgm-lists-fncts}	%% Ok, index
+
+\include{D06-prgm-comments}		%% Ok, index
+
+\include{D07-prgm-test-loop}	%% Ok, index
+
+\include{D08-prgm-reg-exp}		%% Ok, index
+
+\include{D09-prgm-adv-filters}	%% Ok, index
+
+\include{D10-prgm-adv-fltrs-sed}	%% Ok, index
+
+\include{D11-prgm-adv-fltrs-awk}	%% Ok, index
+
+\include{D12-prgm-adv-programming}	%% Ok, index
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Partie 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%TODO: Vide, est-ce volontaire ? Est ce juste mal placé ?
+%\mypart{\label{prgm-languages}Programmation en language {\'e}volu{\'e} sous {\Unix}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Annexes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mypart{Annexes}
+\begin{appendix}
+
+\include{F01-ann-format}		%% Ok, index
+
+\include{F02-ann-ex-regexp}		%% Ok, index
+
+\include{F03-ann-csh-sh}		%% Ok, index
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{Utilisation des {\'e}diteurs de texte sous {\Unix}}
+
+\include{F04-ann-edt-intro}		%% Ok, index
+
+\include{F05-ann-edt-vi}		%% Ok, index
+
+\include{F06-ann-edt-emacs}		%% Ok, index
+
+\chapter{Licence associ{\'e}e {\`a} ce document}
+\include{gpl-2.0}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliographie
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+\renewcommand{\myparttitle}{\bibname -- }
+\include{G01-biblio}			%% Ok, index
+
+\end{appendix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Conventions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\lhead[Conventions]{}
+\chead{}
+\rhead[]{Conventions}
+\include{A02-conventions}			%% Ok
+
+\clearpage						%% Corps du document
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Index
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+\printindex
+\renewcommand{\myparttitle}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Liste des figures
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\lhead[\listfigurename]{}
+\chead{}
+\rhead[]{\listfigurename}
+
+\listoffigures
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Liste des tableaux
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\lhead[\listtablename]{}
+\chead{}
+\rhead[]{\listtablename}
+
+\listoftables
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Fin
+%
+\end{document}

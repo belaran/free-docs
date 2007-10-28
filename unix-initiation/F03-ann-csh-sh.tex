@@ -1,0 +1,1150 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+\chapter{\label{ann-csh-sh}Correspondances entre le Bourne Shell et le C Shell}
+\renewcommand{\arraystretch}{1.5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Manipulation des variables}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{\index{shell!csh@\texttt{csh}}C Shell}	&
+		\multicolumn{1}{|c|}{\index{shell!sh@\texttt{sh}}Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+	\index{set@\texttt{set}}\verb*,set ,\textsl{variable}\verb*,=,\textsl{valeur}		&
+		\textsl{variable}\texttt{=}\textsl{valeur}		\\
+	\verb*,unset ,\textsl{variable}						&
+		\verb*,unset ,\textsl{variable}		\\[2ex]
+	\hline \hline
+		\multicolumn{2}{|c|}{Remarques}	\\
+	\hline
+		\begin{itemize}
+			\item	Les variables peuvent {\^e}tre de type caract{\`e}re ou num{\'e}rique entier.
+			\item	Un nombre quelconque d'espaces entre les mots et les s{\'e}parateurs est autoris{\'e}.
+			\item	On peut utiliser des tableaux dont le dimensionnement est d{\'e}fini {\`a} 
+					l'initialisation. La num{\'e}rotation commence {\`a} 1.
+		\end{itemize}
+		&
+		\begin{itemize}
+			\item	Les variables peuvent {\^e}tre de type caract{\`e}re ou num{\'e}rique entier.
+			\item	Pas d'espace de part et d'autre du signe "\texttt{=}".
+			\item	Adoptez les traitements orient{\'e}s liste (non born{\'e}e) en alternative aux tableaux.
+		\end{itemize}				\\
+	\hline \hline
+		\multicolumn{2}{|c|}{Exemples}	\\
+	\hline
+		\index{set@\texttt{set}}\verb*,set a="toto",	&	\verb*,a="toto",				\\
+		\verb*,set b = titi,							&	\verb*,b=titi,					\\
+		\verb*,set liste=nom1 nom2 nom3,				&	\verb*,liste="nom1 nom2 nom3",	\\
+		\verb*,set x="5",								&	\verb*,x="5",					\\
+		\verb*,set i=1,									&	\verb*,i=1,						\\
+		\verb*,set tab=(1 2 3 4 5 6 7 8 9),				&
+			pas d'{\'e}quivalent en local, mais on peut allouer une liste de valeurs
+			dans l'environnement par "\verb*,set 1 2 3 4 5 6 7 8 9,", ces valeurs {\'e}tant 
+			r{\'e}cup{\'e}rables via les param{\`e}tres positionnels \verb=$1= {\`a} \verb=$9=.	\\
+		"\verb,$tab[6]," contient le caract{\`e}re "\texttt{6}"	&
+		"\verb,$6," contient le caract{\`e}re "\texttt{6}", au del{\`a} de 9 
+		param{\`e}tres, il est n{\'e}cessaire d'utiliser la commande "\texttt{shift}".	\\
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{{\'E}valuation de variables}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\index{\$@\texttt{\$}}\verb,$,\textsl{variable}			&	\verb,$,\textsl{variable}			\\
+		\verb,${,\textsl{variable}\verb,},	&	\verb,${,\textsl{variable}\verb,},	\\
+		\verb,${?,\textsl{variable}\verb,}, vaut "\texttt{1}" si "\textsl{variable}" est initialis{\'e}e,
+			"\texttt{0}" sinon.		&
+			Pas d'{\'e}quivalent.							\\
+		\verb,$,\textsl{variable}\verb,[,\textsl{indice}\verb,],		&	Pas d'{\'e}quivalent.	\\
+		\verb,${,\textsl{variable}\verb,[,\textsl{indice}\verb,]},	&	Pas d'{\'e}quivalent	\\
+	\hline \hline
+		\multicolumn{2}{|c|}{Remarques}	\\
+	\hline
+		Pr{\'e}f{\'e}rez la notation avec les accolades <<\verb={}=" afin 
+		d'{\'e}viter les probl{\`e}mes lors des concat{\'e}nations.
+		En effet, "\verb,${var}_extension," est diff{\'e}rent 
+		de "\verb,$var_extension,".
+		&
+		Pr{\'e}f{\'e}rez la notation avec les accolades <<\verb={}=" afin 
+		d'{\'e}viter les probl{\`e}mes lors des concat{\'e}nations.
+		En effet, "\verb,${var}_extension," est diff{\'e}rent 
+		de "\verb,$var_extension,".	\\
+	\hline \hline
+		\multicolumn{2}{|c|}{Exemples}	\\
+	\hline
+		\verb*,set rep1=~/essai,	&	\verb*,rep1=$HOME/essai,	\\
+		\verb*,cat ${rep1}/fichier,	&	\verb*,cat ${rep1}/fichier,	\\
+\end{longtable}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Expression arithm{\'e}tiques}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\verb*,set ,\textsl{variable}\texttt{=}\textsl{expression}			&
+			\textsl{variable}\texttt{=}\textsl{expression}					\\
+		\verb*,@,\textsl{variable}\texttt{=}\textsl{expression}				&
+			\index{expr@\texttt{expr}}\textsl{variable}\verb*,=`expr ,\textsl{expression}\verb,`,	\\
+		\verb*,@,\textsl{variable}\verb,[,\textsl{indice}\verb,]=,\textsl{expression}	&
+			Pas d'{\'e}quivalent.			\\
+	\hline
+		\multicolumn{2}{|c|}{Op{\'e}rations arithm{\'e}tiques et assignations}	\\
+	\hline
+		\verb,+,	addition		&	\verb,+,	addition	\\
+		\verb,-,	soustraction	&	\verb,-,	soustraction	\\
+		\verb,*,	multiplication	&	\verb,*,	multiplication	\\
+		\verb,/,	division		&	\verb,/,	division		\\
+		\verb,%,	reste			&	\verb,%,	reste	\\
+		\verb,(),	pour forcer l'ordre d'{\'e}valuation	&
+		\verb,\(\),	pour forcer l'ordre d'{\'e}valuation	\\
+	\hline \hline
+		\multicolumn{2}{|c|}{Remarques}	\\
+	\hline
+		\begin{itemize}
+			\item	Le symbole "\verb=@=" est synonyme de "\texttt{set}".
+			\item	Ne pas oublier un espace autour de chaque op{\'e}ration arithm{\'e}tique.
+			\item	L'indice est lui-m{\^e}me une variable enti{\`e}re.
+		\end{itemize}
+		&
+		\begin{itemize}
+			\item	\textbf{Attention}, c'est la commande \index{expr@\texttt{expr}}"\texttt{expr}" qui 
+					assure l'{\'e}valuation de l'expression arithm{\'e}tique.
+					Aussi pour lever l'ambigu{\"\i}t{\'e} d'interpr{\'e}tation de certains 
+					caract{\`e}res sp{\'e}ciaux, l'usage du "\verb=\=" sert {\`a} les prot{\'e}ger.
+		\end{itemize}			\\
+	\hline \hline
+		\multicolumn{2}{|c|}{Exemples}	\\
+	\hline
+		\verb*,@i += 1, ou \verb*,@i ++,	&
+		\verb*,i=`expr $i + 1`,				\\
+		\verb*,@a = $b + $c,				&
+		\verb*,$a=`expr $b + $c`,			\\
+		\verb*,@x = 5 * 4,					&
+		\verb*,x=`expr 5 \* 4`,				\\
+		\verb*,set c = (300 4),				&
+		\verb*,set 300 4,					\\
+		\verb*,set i = $#c,					&
+		\verb*,i=$#,						\\
+		\verb*,@j = $i - 1,					&
+		\verb*,rel=`echo \$$i`,				\\
+		\verb*,@f = ($c[$i] * $c[$j]) + $x,	&
+		\verb*,c2=`eval $rel`,				\\
+											&
+		\verb*,j=`expr $i - 1`,				\\
+											&
+		\verb*,rel=`echo \$$j`,				\\
+											&
+		\verb*,c1=`eval $rel`,				\\
+											&
+		\verb*,f=`expr \($c1 \* $c2\) + $x`,\\
+		"\texttt{f}" vaut 1220				&
+		"\texttt{f}" vaut 1220				\\
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Variables formelles}
+
+\begin{longtable}{|p{1.5cm}|p{5cm}|p{1.5cm}|p{5cm}|}
+	\hline
+		\multicolumn{4}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{2}{|c|}{C Shell}	&
+		\multicolumn{2}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{2}{|c|}{C Shell}	&
+		\multicolumn{2}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{4}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{4}{|c|}{Syntaxe}	\\
+	\hline
+		\verb,$$,	&	PID du processus courant	&
+		\index{variable!\$@\texttt{\$}}\verb,$$,	&	PID du processus courant	\\
+	\hline
+		\verb,$0, {\`a} \verb,$n,	&	Arguments ( peut {\^e}tre sup{\'e}rieur {\`a} 9)	&
+		\verb,$0, {\`a} \verb,$n,	&	Arguments (avec $n \le 9$)	\\
+	\hline
+		\verb,$,\textsl{n}	&	$n^e$ argument	&
+		\verb,$,\textsl{n}	&	$n^e$ argument	\\
+	\hline
+		\verb,$argv[,\textsl{n}\verb,],	&	$n^e$  argument	&
+		\multicolumn{2}{|p{6.5cm}|}{}	\\
+	\hline
+		\verb,$#argv[*],	&	nombre d'arguments	&
+		\index{variable!#@\texttt{\#}}\verb,$#,			&	nombre d'arguments	\\
+	\hline
+		\verb,$*, ou \verb,$argv[*],	&	liste des arguments	&
+		\index{variable!*@\texttt{*}}\verb,$*,			&	liste des arguments	\\
+	\hline
+		\verb,$<,			&	ligne courante en entr{\'e}e	&
+		\index{read@\texttt{read}}\verb,read,			&	ligne courante en entr{\'e}e	\\
+	\hline
+		\verb,$status,		&	{\'e}tat de la derni{\`e}re commande	&
+		\index{variable!?@\texttt{?}}\verb,$?,			&	{\'e}tat de la derni{\`e}re commande	\\
+	\hline \hline
+		\multicolumn{4}{|c|}{Remarques}	\\
+	\hline
+		\multicolumn{2}{|p{6.5cm}|}{Attention, l'usage de "\texttt{set noglob}" inhibe la substitution des
+		noms de fichiers et donc la prise en compte des m{\'e}tacaract{\`e}res associ{\'e}s.}
+		&
+		\multicolumn{2}{|p{6.5cm}|}{Attention, l'usage de "\texttt{-f}" {\`a} l'invocation du Bourne Shell
+		("\texttt{\#!/bin/sh -f}" ou "\texttt{set -f}") inhibe la substitution des
+		noms de fichiers et donc la prise en compte des m{\'e}tacaract{\`e}res associ{\'e}s.}
+		\\
+\end{longtable}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Exemples}	\\
+	\hline
+		\verb*,set reponse=$<,					&
+		\verb*,read reponse,					\\
+		\verb*,ls *.data,						&
+		\verb*,ls *.data,						\\
+		\verb*,echo $status,					&
+		\verb*,echo $?,							\\
+		\verb*,set nb_params = $#argv,			&
+		\verb*,nb_params=$#,					\\
+		\verb*,set premier = $argv[1],			&
+		\verb*,premier=$1,						\\
+		\verb*,set deuxieme=$argv[2],			&
+		\verb*,deuxieme=$2,						\\
+		\verb*,set dernier=$argv[$nb_params],	&
+		\verb*,shift $#,						\\
+		&
+		\verb*,dernier=$1,		\\
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Environnement}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Empilement de variables}
+
+\begin{tabular}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\index{setenv@\texttt{setenv}}\verb*,setenv ,\textsl{variable}\verb*, ,\textsl{valeur}	&
+		\textsl{variable}\texttt{=}\textsl{valeur}			\\
+		&
+		\index{export@\texttt{export}}\index{export@\texttt{export}}\verb*,export ,\textsl{variable}			\\
+	\hline
+		\multicolumn{2}{|c|}{Exemple}	\\
+	\hline
+		\verb*,setenv REPERTOIRE ../source,	&
+		\verb*,REPERTOIRE="../source",		\\
+		&
+		\verb*,export REPERTOIRE,			\\
+	\hline
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Variables d'environnement}
+
+\begin{longtable}{|c|p{5.3cm}|c|p{5.3cm}|}
+	\hline
+		\multicolumn{4}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{2}{|c|}{C Shell}	&
+		\multicolumn{2}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{2}{|c|}{C Shell}	&
+		\multicolumn{2}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{4}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\texttt{PATH}	&	chemin d'acc{\`e}s aux commandes	&
+	\index{variable!PATH@\texttt{PATH}}\texttt{PATH}	&	chemin d'acc{\`e}s aux commandes	\\
+	\hline
+	\texttt{path}	&	chemin d'acc{\`e}s aux commandes	& &	\\
+	\hline
+	\texttt{TERM}	&	type de terminal	&
+	\index{variable!TERM@\texttt{TERM}}\texttt{TERM}	&	type de terminal	\\
+	\hline
+	\texttt{term}	&	type de terminal	& &	\\
+	\hline
+	\texttt{MAIL}	&	r{\'e}pertoire pour la bo{\^\i}te aux lettres	&
+	\index{variable!MAIL@\texttt{MAIL}}\texttt{MAIL}	&	r{\'e}pertoire pour la bo{\^\i}te aux lettres	\\
+	\hline
+	\texttt{USER}	&	nom de l'utilisateur	&
+	\index{variable!USER@\texttt{USER}}\texttt{USER}	&	nom de l'utilisateur	\\
+	\hline
+	\texttt{HOME}	&	r{\'e}pertoire de connexion	&
+	\index{variable!HOME@\texttt{HOME}}\texttt{HOME}	&	r{\'e}pertoire de connexion	\\
+	\cline{1-2}
+	\texttt{home}	&	r{\'e}pertoire de connexion	&
+				&							\\
+	\hline
+	\texttt{DISPLAY}	&	{\'e}cran pour X-Window	&
+	\index{variable!DISPLAY@\texttt{DISPLAY}}\texttt{DISPLAY}	&	{\'e}cran pour X-Window	\\
+	\hline
+	\texttt{TZ}	&	fuseau horaire	&
+	\index{variable!TZ@\texttt{TZ}}\texttt{TZ}	&	fuseau horaire	\\
+	\hline
+	\texttt{LANG}	&	langue nationale	&
+	\index{variable!LANG@\texttt{LANG}}\texttt{LANG}	&	langue nationale	\\
+	\hline
+	\texttt{status}	&	{\'e}tat de la derni{\`e}re commande	&
+	\index{variable!?@\texttt{?}}\texttt{?}			&	{\'e}tat de la derni{\`e}re commande	\\
+	\hline
+	\texttt{prompt}	&	caract{\`e}re d'invite ("\textsl{prompt}")	&
+	\index{variable!PS1@\texttt{PS1}}\texttt{PS1}		&	caract{\`e}re d'invite ("\textsl{prompt}")	\\
+	\hline
+	\texttt{EXINIT}	&	nom du fichier d'initialisation de "\texttt{vi}"	&
+	\index{variable!EXINIT@\texttt{EXINIT}}\texttt{EXINIT}	&	nom du fichier d'initialisation de "\texttt{vi}"	\\
+	\hline
+	\texttt{cwd}	&	nom du r{\'e}pertoire courant	&
+	\multicolumn{2}{|p{7cm}|}{pas d'{\'e}quivalent en Bourne Shell. Cependant
+		il existe la variable "\texttt{PWD}" en Korn Shell donnant la
+		m{\^e}me information.}	\\
+	\hline
+	\multicolumn{2}{|l|}{etc.}	&
+	\multicolumn{2}{|l|}{etc.}	\\
+	\hline \hline
+		\multicolumn{4}{|c|}{Remarques}	\\
+	\hline
+	\multicolumn{2}{|p{7cm}|}{Ces variables sont initialis{\'e}es au d{\'e}marrage de la 
+		session. Chaque script peut y acc{\'e}der y 
+		faisant r{\'e}f{\'e}rence en la faisant pr{\'e}c{\'e}der du caract{\`e}re
+		"\texttt{\$}". Elles sont modifiables et connues de tous les scripts de la
+		session.
+		La variable "\texttt{path}" et "\texttt{PATH}" ont la m{\^e}me
+		fonctionnalit{\'e} \textbf{mais ob{\'e}issent {\`a} des syntaxes de sp{\'e}cification
+		diff{\'e}rentes}.
+		Les variables "\texttt{path}" et "\texttt{term}" s'initialisent
+		comme des variables \textbf{locales} et non pas comme des variables
+		d'environnement.}
+		&
+	\multicolumn{2}{|p{7cm}|}{Elles sont initialis{\'e}es au d{\'e}marrage de la 
+		session. Elles sont par convention en majuscules. Chaque script peut y acc{\'e}der 
+		y faisant r{\'e}f{\'e}rence en la faisant pr{\'e}c{\'e}der du caract{\`e}re "\texttt{\$}".
+		Elles sont modifiables et connues de tous les scripts de la session.}
+		\\
+	\hline \hline
+		\multicolumn{4}{|c|}{|Exemples|}	\\
+	\hline
+		\multicolumn{2}{|p{7cm}|}{\texttt{echo \$HOME}}					&
+		\multicolumn{2}{|p{7cm}|}{\texttt{echo \$HOME}}					\\
+		\multicolumn{2}{|p{7cm}|}{\texttt{set prompt="<>"}}				&
+		\multicolumn{2}{|p{7cm}|}{\texttt{PS1="<>"}}					\\
+		\multicolumn{2}{|p{7cm}|}{\texttt{setenv DISPLAY myhost:0.0}}	&
+		\multicolumn{2}{|p{7cm}|}{\texttt{DISPLAY=myhost:0.0}}			\\
+		\multicolumn{2}{|p{7cm}|}{}									&
+		\multicolumn{2}{|p{7cm}|}{\texttt{export DISPLAY}}				\\
+		\multicolumn{2}{|p{7cm}|}{\texttt{setenv TERM vt100}}			&
+		\multicolumn{2}{|p{7cm}|}{\texttt{TERM=vt100; export TERM}}		\\
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Entr{\'e}es/Sorties et redirections}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Entr{\'e}e en ligne}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\textsl{commande}\verb*, << ,\textsl{borne}	&
+		\textsl{commande}\verb*, << ,\textsl{borne}	\\
+	\hline
+		\multicolumn{2}{|c|}{Exemple}	\\
+	\hline
+		\begin{minipage}[t]{6.5cm}
+		\begin{verbatim}
+cat << EOF
+     1- choix1
+     2- choix2
+EOF
+		\end{verbatim}
+		\end{minipage}	&
+		\begin{minipage}[t]{6.5cm}
+		\begin{verbatim}
+cat << EOF
+     1- choix1
+     2- choix2
+EOF
+		\end{verbatim}
+		\end{minipage}	\\
+		
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{S{\'e}paration, regroupement des sorties (standard et d'erreurs)}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\verb,(,\textsl{commande}\verb*, > ,\textsl{fichier.sortie}\verb*, >& ,\textsl{fichier.err}	&
+		\textsl{commande}\verb*, 2> ,\textsl{fichier.err}						\\
+		Le seul moyen de s{\'e}parer les sorties n{\'e}cessite un sous shell (utilisation de
+		"\texttt{(}" et de "\texttt{)}").					&
+		\verb*,commande > fichier.log 2>fichier.err,		\\
+	\hline \hline
+		\multicolumn{2}{|c|}{Regroupement}	\\
+	\hline
+		\verb*,commande >& fichier.trace,	&
+		\verb*,commande 1>fichier.trace 2>&1,	\\
+	\hline \hline
+		\multicolumn{2}{|c|}{Exemple}	\\
+	\hline
+		\begin{minipage}[t]{6.5cm}
+		\begin{verbatim*}
+(cc -c source.c) >& source.err
+(f77 -v -u source.f > source.lst ) \
+>& warnings
+./mon.script >& result
+		\end{verbatim*}
+		\end{minipage}	&
+		\begin{minipage}[t]{6.5cm}
+		\begin{verbatim*}
+cc -c source.c 2>source.err
+f77 -v -u source.f > source.lst \
+2> warnings
+./mon.script 1>result 2>&1
+		\end{verbatim*}
+		\end{minipage}	\\		
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les fonctions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Les fonctions internes (\textsl{built in})}
+
+Nous n'expliciterons dans ce paragraphe que les principales commandes internes du
+C Shell ayant un {\'e}quivalent en Bourne Shell.
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\verb*,cd ,\textsl{r{\'e}pertoire}		&	\verb*,cd ,\textsl{r{\'e}pertoire}		\\[1ex]
+		\verb*,echo ,\textsl{texte}		&	\verb*,echo ,\textsl{texte}		\\[1ex]
+		\verb*,eval ,\textsl{argument}		&	\verb*,eval ,\textsl{argument}		\\[1ex]
+		\verb*,exec ,\textsl{commande}		&	\verb*,exec ,\textsl{commande}		\\[1ex]
+		\verb*,shift,					&	\verb*,shift,					\\[1ex]
+		\verb*,source \textsl{script},		&	\verb*,. ,\textsl{script}			\\[1ex]
+		\verb*,time,					&	\verb*,times,					\\[1ex]
+		\verb*,wait,					&	\verb*,wait,					\\[1ex]
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Les fonctions externes}
+
+Le C Shell \textbf{ne supporte pas} la notion de fonctions, par contre on peut simuler leur avec la 
+commande "\texttt{goto}".
+Le Bourne Shell, par contre, supporte les fonctions. Pour plus de renseignements, reportez vous {\`a}
+la section \ref{sh-functions}.
+
+\begin{example}
+\begin{verbatim}
+#!/bin/sh
+#appel de fonctions externes
+_f1()
+{
+    echo "execution fonction f1"
+    return
+}
+
+_f2 ()
+{
+    echo "execution fonction f2"
+    return
+}
+
+_main ()
+{
+    # appel fonctions
+    f1
+    echo "retour en s{\'e}quence"
+    f2
+    echo "retour en s{\'e}quence"
+    exit 0
+}
+
+_main
+\end{verbatim}
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les structures de contr{\^o}le}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Les tests ("\texttt{if}")}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\verb*,if ( ,\textsl{expression}\verb*, ) then,	&	\index{if@\texttt{if}}\verb*,if [ ,\textsl{expression}\verb*, ],		\\
+		\hspace{1cm}$\cdots$							&	\verb*,then,								\\
+		\verb*,else if ( ,\textsl{expression}\verb*, ),	&	\hspace{1cm}$\cdots$						\\
+		\hspace{1cm}$\cdots$							&	\verb*,elif [ ,\textsl{expression}\verb*, ],	\\
+		\verb*,else,									&	\verb*,then,								\\
+		\hspace{1cm}$\cdots$							&	\hspace{1cm}$\cdots$						\\
+		\verb*,endif,									&	\verb*,else,								\\
+														&	\hspace{1cm}$\cdots$						\\
+														&	\verb*,fi,									\\
+	\hline
+		\multicolumn{2}{|c|}{Remarque}	\\
+	\hline
+		Les instructions et les {\'e}valuations de tests sont internes au C Shell.
+		&
+		Un espace est \textbf{indispensable} entre les crochets
+		("\verb=[=", "\verb=]=") et l'expression.
+		
+		L'{\'e}valuation des tests est externe au Bourne Shell.
+		\\
+\end{longtable}
+
+\begin{longtable}{|c|p{6cm}||c|p{6cm}|}
+	\hline
+		\multicolumn{4}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{2}{|c|}{C Shell}	&
+		\multicolumn{2}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{2}{|c|}{C Shell}	&
+		\multicolumn{2}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{4}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{4}{|c|}{Op{\'e}rateurs}	\\
+	\hline
+		\verb,!,	&	n{\'e}gation			&
+		\verb,!,	&	n{\'e}gation			\\
+	\hline
+		\verb,==,	&	{\'e}gal				&
+		\verb,=,	&	{\'e}gal (cha{\^\i}nes)		\\
+	\cline{3-4}
+					&						&
+		\verb,-eq,	&	{\'e}gal (nombres)		\\
+	\hline
+		\verb,!=,	&	diff{\'e}rent			&
+		\verb,!=,	&	diff{\'e}rent (cha{\^\i}nes)	\\
+	\cline{3-4}
+					&						&
+		\verb,-ne,	&	diff{\'e}rent (nombres)	\\
+	\hline
+		\verb,<,	&	inf{\'e}rieur			&
+		\verb,-lt,	&	inf{\'e}rieur			\\
+	\hline
+		\verb,<=,	&	inf{\'e}rieur ou {\'e}gal	&
+		\verb,-le,	&	inf{\'e}rieur ou {\'e}gal	\\
+	\hline
+		\verb,>,	&	sup{\'e}rieur			&
+		\verb,-gt,	&	sup{\'e}rieur			\\
+	\hline
+		\verb,>=,	&	sup{\'e}rieur ou {\'e}gal	&
+		\verb,-ge,	&	sup{\'e}rieur ou {\'e}gal	\\
+	\hline
+		\verb,&&,	&	et (logique)		&
+		\verb,-a,	&	et (logique)		\\
+	\hline
+		\verb,||,	&	ou (logique)		&
+		\verb,-o,	&	ou (logique)		\\
+	\hline
+		\multicolumn{4}{|c|}{Remarque}	\\
+	\hline
+		\multicolumn{2}{|p{7cm}|}{cf. "\texttt{csh(1)}" pour les op{\'e}rateurs sur les fichiers.}	&
+		\multicolumn{2}{|p{7cm}|}{cf. "\texttt{test(1)}" pour les op{\'e}rateurs sur les fichiers.}	\\
+\end{longtable}
+
+\begin{longtable}{|p{7cm}||p{7cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}	&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+	\hline
+		\multicolumn{2}{|c|}{Exemple}	\\
+	\hline
+		\begin{minipage}[t]{7cm}
+		\begin{verbatim*}
+if (-x $dir/$file) then
+   source $dir/$file
+endif
+		\end{verbatim*}
+		\end{minipage}	&
+		\begin{minipage}[t]{7cm}
+		\begin{verbatim*}
+if [ -x $dir/$file ]
+then
+   . $dir/$file
+fi
+		\end{verbatim*}
+		\end{minipage}	\\
+		\begin{minipage}[t]{7cm}
+		\begin{verbatim*}
+set system=`uname -a | \
+   cut -d' ' -f1`
+if ( "$system" == "Irix") then
+   setenv MACHINE SGI
+endif
+		\end{verbatim*}
+		\end{minipage}	&
+		\begin{minipage}[t]{7cm}
+		\begin{verbatim*}
+system=`uname -a | \
+   cut -d' ' -f1`
+if [ "$system" == "Irix"]; then
+   MACHINE=SGI
+   export MACHINE
+fi
+		\end{verbatim*}
+		\end{minipage}	\\
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Choix multiples (\texttt{case}, \texttt{switch})}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\verb*,switch (,\textsl{nom}\verb,),					&	\index{case@\texttt{case}}\verb*,case ,\textsl{nom}\verb*, in,			\\
+		\hspace{0.5cm}\verb*,case ,\textsl{label1}\verb,:,		&	\hspace{0.5cm}\textsl{label1}\verb,),			\\
+		\hspace{1cm}\textsl{commandes}							&	\hspace{1cm}\textsl{commandes}					\\
+		\hspace{1cm}$\cdots$									&	\hspace{1cm}$\cdots$						\\
+		\hspace{1cm}\verb*,breaksw,								&	\hspace{1cm}\verb*,;;,						\\
+		\hspace{0.5cm}\verb*,case ,\textsl{label2}\verb,:,		&	\hspace{0.5cm}\textsl{label2}\verb,),			\\
+		\hspace{1cm}\textsl{commandes}							&	\hspace{1cm}\textsl{commandes}					\\
+		\hspace{1cm}$\cdots$									&	\hspace{1cm}$\cdots$						\\
+		\hspace{1cm}\verb*,breaksw,								&	\hspace{1cm}\verb*,;;,						\\
+		\hspace{0.5cm}\verb*,default:,							&	\hspace{0.5cm}\verb*,*),					\\
+		\hspace{1cm}\verb,# tous les autres cas,				&	\hspace{1cm}\verb,# tous les autres cas,	\\
+		\hspace{1cm}\textsl{commandes}								&	\hspace{1cm}\textsl{commandes}					\\
+		\hspace{1cm}$\cdots$									&	\hspace{1cm}$\cdots$						\\
+		\hspace{1cm}\verb*,breaksw,								&	\hspace{1cm}\verb*,;;,						\\
+		\verb*,endsw,											&	\verb*,esac,								\\
+	\hline
+		\multicolumn{2}{|c|}{Remarques}	\\
+	\hline
+		Les labels suivant le "\texttt{case}" peuvent exprimer une alternative de type 
+		"\textit{ou}" avec la notation "\verb,[],", ainsi~:
+		"\verb*,case [oO][uU][iI]:," accepte "\textit{oui}" et "\textit{OUI}" ainsi que
+		toutes les combinaisons possibles avec les minuscules et les majuscules.
+		&
+		Les labels de chaque cas peuvent exprimer un alternative de type "\textit{ou}" en 
+		{\'e}tant s{\'e}par{\'e}s par le caract{\`e}re "\verb,|,", ainsi "\verb*,oui|OUI),"
+		accepte seulement les deux combinaisons suivantes~: "\textit{oui}" et "\textit{OUI}".
+		\\
+		Le branchement s'effectue sur une clause "\texttt{case}" en fonction de la valeur
+		sp{\'e}cifi{\'e}e entre parenth{\`e}ses {\`a} l'instruction "\texttt{switch}". Les instructions
+		sont ex{\'e}cut{\'e}es jusqu'{\`a} ce que "\texttt{breaksw}" (ou "\texttt{endsw}") soit localis{\'e}.
+		&
+		Le branchement s'effectue sur une clause "\texttt{label)}" en fonction de la valeur
+		sp{\'e}cifi{\'e}e entre les mots clef "\texttt{case}" et "\texttt{in}". Les instructions
+		sont ex{\'e}cut{\'e}es jusqu'{\`a} ce que "\texttt{;;}" (ou "\texttt{esac}") soit localis{\'e}.
+		\\
+	\hline
+	\hline
+		\multicolumn{2}{|c|}{Exemple}	\\
+	\hline
+		\verb,#!/bin/csh,								&
+			\verb,#!/bin/sh,								\\
+		\verb,switch ($MACHINE),						&
+			\verb,case $MACHINE in,							\\
+		\hspace{0.5cm}\verb,case "SUN":,				&
+			\hspace{0.5cm}\verb,"SUN"),						\\
+		\hspace{1cm}\verb,echo "Je suis sur Sun",		&
+			\hspace{1cm}\verb,echo "Je suis sur Sun.",		\\
+		\hspace{1cm}\verb,breaksw,						&
+			\hspace{1cm}\verb,;;,							\\
+		\hspace{0.5cm}\verb,case "SGI":,				&
+			\hspace{0.5cm}\verb,"SGI"),						\\
+		\hspace{1cm}\verb,echo "Je suis sur Silicon",	&
+			\hspace{1cm}\verb,echo "Je suis sur Silicon.",	\\
+		\hspace{1cm}\verb,breaksw,						&
+			\hspace{1cm}\verb,;;,							\\
+		\hspace{0.5cm}\verb,case "DEC":,				&
+			\hspace{0.5cm}\verb,"DEC"|"HP"|"IBM"),			\\
+		\hspace{0.5cm}\verb,case "HP":,					&
+			\hspace{1cm}\verb,echo "Je suis sur DEC",		\\
+		\hspace{0.5cm}\verb,case "IBM":,				&
+			\hspace{1cm}\verb,echo "Peut-etre ou HP",		\\
+		\hspace{1cm}\verb,echo "Je suis sur DEC",		&
+			\hspace{1cm}\verb,echo "Ou bien encore IBM.",	\\
+		\hspace{1cm}\verb,echo "Peut-etre ou HP",		&
+			\hspace{1cm}\verb,;;,							\\
+		\hspace{1cm}\verb,echo "Ou bien encore IBM.",	&
+			\hspace{0.5cm}\verb,*),							\\
+		\hspace{0.5cm}\verb,default:,					&
+			\hspace{1cm}\verb,echo "Je suis en SH",			\\
+		\hspace{1cm}\verb,echo "Je suis en CSH",		&
+			\verb,esac,										\\
+		\verb,endsw,									&	\\
+\end{longtable}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Les boucles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Boucle du type "\texttt{for}"}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\verb*,foreach ,\textsl{variable}\verb*, (,\textsl{liste}\verb,),	&
+			\index{for@\texttt{for}}\verb*,for ,\textsl{variable}\verb*, in ,\textsl{liste}	\\
+		\hspace{0.5cm}\textsl{commandes}		&	\verb*,do,						\\
+		\verb*,end,							&	\hspace{0.5cm}\textsl{commandes}	\\
+											&	\verb*,done, 					\\
+	\hline
+		\multicolumn{2}{|c|}{Exemple}	\\
+	\hline
+		\verb*,set nom="part",						&	\verb*,nom="part",							\\
+		\verb*,foreach fichier (`ls $nom.?a`),		&	\verb*,for fichier in `ls $nom.?a`,			\\
+		\hspace{0.5cm}\verb*,pr $fichier | lp -,	&	\verb*,do,									\\
+		\verb*,end,									&	\hspace{0.5cm}\verb*,pr $fichier | lp -,	\\
+													&	\verb*,done,								\\
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Boucle du type "\texttt{while}"}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\verb*,while (,\textsl{expression}\verb,),	&	\index{while@\texttt{while}}\verb*,while [ ,\textsl{expression}\verb*, ],	\\
+		\hspace{0.5cm}\textsl{commandes}			&	\verb*,do,						\\
+		\verb*,end,									&	\hspace{0.5cm}\textsl{commandes}	\\
+													&	\verb*,done,					\\
+	\hline
+				&	\multicolumn{1}{|c|}{Remarque}	\\
+				&	\textbf{Ne pas oublier les espaces} pour s{\'e}parer "\textsl{expression}" 
+					des crochets ("\verb,[],").	\\
+
+	\hline
+		\multicolumn{2}{|c|}{Exemple}	\\
+	\hline
+		\verb*,while ($#argv),				&	\verb*,while [ $# -gt 0 ],		\\
+		\hspace{0.5cm}\verb*,echo $argv[1],	&	\verb*,do,						\\
+		\hspace{0.5cm}\verb*,shift,			&	\hspace{0.5cm}\verb*,echo $1,	\\
+		\verb*,end,							&	\hspace{0.5cm}\verb*,shift,		\\
+											&	\verb*,done,					\\
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tableaux et listes}
+
+Le Bourne Shell ne conna{\^\i}t pas les tableaux. Par contre, il traite les listes ais{\'e}ment. On 
+peut donc simuler les tableaux gr{\^a}ce {\`a} elles.
+
+\begin{example}
+\begin{verbatim}
+#!/bin/sh
+for script in `ls ex?.sh
+do
+    . ./$script
+done
+exit 0
+\end{verbatim}
+\end{example}
+
+Les tableaux existent en C Shell. Ils doivent {\^e}tre r{\'e}serv{\'e}s aux manipulation de variables 
+num{\'e}riques. On peut toutefois y mettre d'autres objets comme des noms de fichiers comme le 
+montre l'exemple ci-dessous.
+
+\begin{example}
+\begin{verbatim}
+#!/bin/csh
+set liste_fic=`ls ex?.csh`
+set tableau=($liste_fic)
+set num=$#liste_fic
+@i=1
+while ($i <= $num)
+    source $tableau[$i]
+    @i++
+end
+exit 0
+\end{verbatim}
+
+La solution ci-dessous est pr{\'e}f{\'e}rable (car plus lisible).
+
+\begin{verbatim}
+#!/bin/csh
+foreach script (`ls ex?.csh`)
+    source $script
+end
+exit 0
+\end{verbatim}
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Interruptions, d{\'e}routements sur signaux}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\verb*,onintr [-l ,\textsl{label}\verb*,],	&
+			\index{trap@\texttt{trap}}\verb*,trap [,\textsl{liste commandes}\verb*,] [,\textsl{liste signaux}\verb*,],	\\
+	\cline{1-1}
+		\multicolumn{1}{|c|}{Remarque}	&	\\
+		Seul le signal "\textsl{9}" ne peut {\^e}tre masqu{\'e}.	&	\\
+	\hline
+		\multicolumn{2}{|c|}{Exemple}	\\
+	\hline
+		\verb*,onintr -,		&	\verb*,trap '' 0 1 2 3 15,				\\
+		\hspace{0.5cm}$\rightarrow$~Ignorer toute interruption.	&
+			\hspace{0.5cm}$\rightarrow$~Ignorer toute interruption.		\\[2ex]
+		\verb*,onintr sortie,	&	\verb*,trap commande_on_exit 0 1 3,	\\
+		\hspace{0.5cm}$\rightarrow$~Aller au label "\texttt{sortie}" du 
+			script courant.		&
+		\hspace{0.5cm}$\rightarrow$~Ex{\'e}cute la commande "\texttt{commande\_on\_exit}"
+			lorsque le processus re\c{c}oit les signaux 0, 1, 3 et 15.			\\[2ex]
+		\verb*,onintr,			&	\verb*,trap 0 1 2 3 15,				\\
+		\hspace{0.5cm}$\rightarrow$~Restaure le comportement par d{\'e}faut pour tous les signaux.	&
+			\hspace{0.5cm}$\rightarrow$~Restaure le comportement par d{\'e}faut pour tous les signaux.	\\
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Les retours}
+
+\begin{longtable}{|p{6.5cm}|p{6.5cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{C Shell}		&
+		\multicolumn{1}{|c|}{Bourne Shell}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+		\multicolumn{2}{|c|}{Syntaxe}	\\
+	\hline
+		\verb*,exit (,\textsl{expression}\verb,),	&	\verb*,exit ,\textsl{valeur}	\\
+						&	\verb*,return ,\textsl{valeur}							\\
+		\index{exit@\texttt{exit}}\verb,exit,		&	\verb,exit,	\\
+	\hline
+		\multicolumn{2}{|c|}{Remarques}	\\
+	\hline
+		La valeur par d{\'e}faut, envoy{\'e}e par la commande "\texttt{exit}" 
+		est celle de la variable "\texttt{status}". Sa valeur est nulle
+		si la derni{\`e}re commande s'est ex{\'e}cut{\'e}e sans erreurs, elle est non-nulle
+		dans le cas contraire.
+		&
+		La valeur par d{\'e}faut, envoy{\'e}e par la commande "\texttt{exit}" 
+		est celle de la variable "\texttt{status}". Sa valeur est nulle
+		si la derni{\`e}re commande s'est ex{\'e}cut{\'e}e sans erreurs, elle est non-nulle
+		dans le cas contraire.
+
+		"\texttt{return}" a la m{\^e}me fonctionnalit{\'e} que "\texttt{exit}" \textbf{mais
+		seulement pour des fonctions}. En cons{\'e}quence, "\texttt{return}" permet de sortir
+		d'une fonction sans quitter le script. "\texttt{exit}" termine le processus courrant
+		(donc le script courrant). 
+		\\	 
+	\hline
+		\multicolumn{2}{|c|}{Exemple}						\\
+	\hline
+		\verb*,set machine=$1,							&
+			\verb*,machine=$1,								\\
+		\verb*,if ($machine =="") then,					&
+			\verb*,if [ -z "$machine" ],					\\
+		\hspace{0.5cm}\verb*,echo "Oubli de param{\`e}tre",	&
+			\verb*,then,									\\
+		\hspace{0.5cm}\verb*,exit (1),					&
+			\hspace{0.5cm}\verb*,echo "Oubli de param{\`e}tre",	\\
+		\verb*,endif,									&
+			\hspace{0.5cm}\verb*,exit 1,					\\
+														&
+			\verb*,fi,										\\
+\end{longtable}

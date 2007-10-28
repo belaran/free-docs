@@ -1,0 +1,220 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{Commandes {\'e}volu{\'e}es pour les scripts}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{advcmds-shift}La commande <<~\texttt{shift}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{verbatim}
+shift [n]
+\end{verbatim}
+\end{definition}
+
+La commande \index{shift@\texttt{shift}}<<~\texttt{shift}~>> permet de g{\'e}rer les arguments pass{\'e}s {\`a} un
+script au niveau de la ligne de commandes. Les actions effectu{\'e}es sont~:
+\begin{itemize}
+	\item	d{\'e}calage de toutes les cha{\^\i}nes de la variable <<~\texttt{*}~>>
+			de <<~\texttt{n}~>> positions vers la gauche,
+	\item	d{\'e}cr{\'e}mentation de la variable <<~\texttt{\#}~>> de <<~\texttt{n}~>>.
+\end{itemize}
+Par d{\'e}faut, <<~\texttt{n}~>> est positionn{\'e} {\`a} 1.
+
+La commande <<~\texttt{shift}~>> est une commande \textbf{interne du Shell}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{La commande <<~\texttt{read}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{verbatim}
+read variable [variable...]
+\end{verbatim}
+\end{definition}
+
+La commande \index{read@\texttt{read}}<<~\texttt{read}~>> est utilis{\'e}e pour lire les informations sur
+l{'}entr{\'e}e standard. S'il y a plus de variables dans la commande
+<<~\texttt{read}~>> que de valeurs r{\'e}ellement saisies\footnote{N'oubliez pas
+l'espace ou <<~\spacekey{}~>> est s{\'e}parateur au niveau de la ligne
+de commandes.}, les variables les plus {\`a} droites sont assign{\'e}es {\`a}
+<<~\texttt{NULL}~>> (cha{\^\i}ne vide).
+
+Si l'utilisateur saisit plus de mots qu'il n'y a de variables, toutes les donn{\'e}es
+de droite sont affect{\'e}es {\`a} la derni{\`e}re variable de la liste.
+Une fois positionn{\'e}es, celles-ci sont acc{\'e}d{\'e}es comme les autres.
+
+La commande <<~\texttt{read}~>> est une commande \textbf{interne du Shell}.
+
+\begin{example}
+On suppose qu'un script contient la commande suivante~:
+\begin{sloppypar}
+\centering \verb=read var1 var2 var3=
+\end{sloppypar}
+
+\begin{description}
+	\item[\textsl{Premier cas}~:]\mbox{}\\
+		L'utilisateur saisit la cha{\^\i}ne suivante~:
+		\begin{sloppypar}
+		\centering \verb*=chaine1 chaine2 chaine3=
+		\end{sloppypar}
+		Dans ce cas, les variables contiendront~:\\[1.5ex]
+		\begin{tabular}{|c|l|}
+			\hline
+			Variable	&	Valeur			\\
+			\hline \hline
+			\texttt{var1}	&	\texttt{chaine1}	\\
+			\texttt{var2}	&	\texttt{chaine2}	\\
+			\texttt{var3}	&	\texttt{chaine3}	\\
+			\hline
+		\end{tabular}
+	\item[\textsl{Deuxi{\`e}me cas}~:]\mbox{}\\
+		L'utilisateur saisit la cha{\^\i}ne suivante~:
+		\begin{sloppypar}
+		\centering \verb*=chaine1 chaine2=
+		\end{sloppypar}
+		Dans ce cas, les variables contiendront~:\\[1.5ex]
+		\begin{tabular}{|c|l|}
+			\hline
+			Variable	&	Valeur			\\
+			\hline \hline
+			\texttt{var1}	&	\texttt{chaine1}	\\
+			\texttt{var2}	&	\texttt{chaine2}	\\
+			\texttt{var3}	&	\texttt{NULL}		\\
+			\hline
+		\end{tabular}
+	\item[\textsl{Troisi{\`e}me cas}~:]\mbox{}\\
+		L'utilisateur saisit la cha{\^\i}ne suivante~:
+		\begin{sloppypar}
+		\centering \verb*=chaine1 chaine2 chaine3 chaine4 chaine 5=
+		\end{sloppypar}
+		Dans ce cas, les variables contiendront~:\\[1.5ex]
+		\begin{tabular}{|c|l|}
+			\hline
+			Variable	&	Valeur			\\
+			\hline \hline
+			\texttt{var1}	&	\texttt{chaine1}	\\
+			\texttt{var2}	&	\texttt{chaine2}	\\
+			\texttt{var3}	&	\verb*=chaine3 chaine4 chaine 5=	\\
+			\hline
+		\end{tabular}
+\end{description}
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{La commande <<~\texttt{expr}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{verbatim}
+expr expression
+\end{verbatim}
+\end{definition}
+
+Les arguments de la commande \index{expr@\texttt{expr}}<<~\texttt{expr}~>> sont consid{\'e}r{\'e}s comme une expression.
+La commande <<~\texttt{expr}~>> {\'e}value ses arguments et {\'e}crit le r{\'e}sultat sur
+la sortie standard. <<~\texttt{expr}~>>, comme toutes les commandes {\Unix},
+doit avoir ses arguments \textbf{s{\'e}par{\'e}s par des espaces}.
+La premi{\`e}re utilisation de <<~\texttt{expr}~>> concerne les op{\'e}rations arithm{\'e}tiques
+simples. Les op{\'e}rateurs \verb=+=, \verb=-=, \verb=*= et \verb=/= correspondent
+respectivement {\`a} l'addition, {\`a} la soustraction, {\`a} la multiplication et
+{\`a} la division.
+
+La seconde utilisation de la commande <<~\texttt{expr}~>> concerne la comparaison et
+la gestion des cha{\^\i}nes de caract{\`e}res gr{\^a}ce {\`a} l'op{\'e}rateur <<~\verb=:=~>>.
+Celui-ci permet de compter combien de fois appara{\^\i}t, dans l'expression plac{\'e}e
+en premier membre, \index{expression r{\'e}guli{\`e}re}l'expression r{\'e}guli{\`e}re sp{\'e}cifi{\'e}e en second membre.
+Pour plus de renseignements, reportez vous au chapitre \ref{reg-exp}.
+
+Il est possible d'effectuer des regroupements gr{\^a}ce {\`a} des parenth{\`e}ses, comme
+dans toute op{\'e}ration arithm{\'e}tique.
+
+\begin{definition}{{\large Attention}}
+Ne pas oublier que le processus \index{shell!m{\'e}canisme
+d'{\'e}valuation}d'{\'e}valuation du shell effectue ses op{\'e}rations
+avant de passer le contr{\^o}le {\`a} la commande <<~\texttt{expr}~>>.
+Par cons{\'e}quent, les caract{\`e}res <<~\verb=*=~>>, <<~\verb=(=~>> et
+<<~\verb=)=~>> risquent d'{\^e}tre {\'e}valu{\'e}s par le shell et non
+pas pass{\'e} en argument {\`a} la commande <<~\texttt{expr}~>>. Il
+faudra donc les faire pr{\'e}c{\'e}der du caract{\`e}re <<~\verb=\=~>>
+(cf. sections \ref{basic-metacars} et \ref{listfcts}).
+\end{definition}
+
+
+\begin{example}
+Exemples valides~:
+\begin{verbatim}
+% X=3; Y=5
+% Z=`expr $X + 4 `
+% echo $Z
+7
+% Z=`expr \( $Z + $X \) \* $Y`
+% echo $Z
+50
+% X=abcdef
+% Z=`expr $X : '.*' `
+% echo $Z
+6
+% Z=`expr \( $X : '.*' \) + $Y`
+% echo $Z
+11
+\end{verbatim}
+
+Exemples non valides~:\\[2ex]
+\begin{longtable}{l@{\hspace{2ex}}p{8cm}}
+	\verb*,Z=`expr $X+4`,		& \\
+	\multicolumn{2}{@{\hspace{4ex}}p{8cm}}{
+	Tout d'abord, le shell cherche une variable dont le nom est <<~\texttt{X+4}~>>.
+	En supposant qu'elle n'existe pas, la commande <<~\texttt{expr}~>> ne re\c{c}oit
+	qu'un seul argument~:l'expression <<~\texttt{X+4}~>>, ce qui n'a aucun sens.
+	}
+	\\
+	\verb*,Z=`expr $X * $Y`,	&	\\
+	\multicolumn{2}{@{\hspace{4ex}}p{10cm}}{
+	Les variables <<~\texttt{X}~>> et <<~\texttt{Y}~>> existent bien et contiennent
+	des valeurs num{\'e}riques. Par cons{\'e}quent, le r{\'e}sultat de l'{\'e}valuation de
+	<<~\texttt{\$X}~>> et <<~\texttt{\$Y}~>> est valide. Par contre, <<~\texttt{*}~>>
+	est un m{\'e}tacaract{\`e}re valide du shell (cf. section \ref{basic-metacars}). Il
+	doit donc {\^e}tre remplac{\'e} par les fichiers correspondants, c'est-{\`a}-dire tous
+	les fichiers du r{\'e}pertoire courant. L'expression devient alors~:
+	}
+	\\
+	\hspace{4ex}\verb*,Z=`expr 3 fic1 fic2 fic3 fic4 fic5 fic6 4`,	&
+	\\
+	\multicolumn{2}{@{\hspace{4ex}}p{10cm}}{
+	en supposant que les variables <<~\texttt{X}~>> et <<~\texttt{Y}~>> contiennent
+	respectivement les valeurs <<~\texttt{3}~>> et <<~\texttt{4}~>> et que le
+	r{\'e}pertoire courant contient les fichiers <<~\texttt{fic1}~>>, <<~\texttt{fic2}~>>,
+	<<~\texttt{fic3}~>>, <<~\texttt{fic4}~>>, <<~\texttt{fic5}~>> et <<~\texttt{fic6}~>>.
+	}
+	\\
+	\verb*,Z=`expr ( $X \* $Y ) + $Z`,	&	\\
+	\multicolumn{2}{@{\hspace{4ex}}p{10cm}}{
+	Ici, les caract{\`e}res <<~\texttt{(}~>> et <<~\texttt{)}~>> sont pris en compte
+	par le m{\'e}canisme d'{\'e}valuation du shell~: ils indiquent une expression {\`a} ex{\'e}cuter
+	dans un processus s{\'e}par{\'e} (cf. section \ref{listfcts}). Il appara{\^\i}t que, ne serait-ce que pour la syntaxe,
+	cette expression est invalide pour le shell. C'est donc le shell qui renverra une erreur
+	et non pas la commande <<~\texttt{expr}~>>.
+	}
+\end{longtable}
+\end{example}

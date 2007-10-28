@@ -1,0 +1,642 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\section{Commandes de base de l'{\'e}diteur {\tt emacs}}
+\renewcommand{\arraystretch}{1.5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Introduction}
+
+\index{emacs@\texttt{emacs}}"{\tt emacs}" est un {\'e}diteur {\sl pleine page} utilisable notamment sur
+{\Unix}, {\OpenVMS}, {\DOS}, {\Windows}, {\MacOS}, etc.
+
+Il fournit des fonctionnalit{\'e}s puissantes~:
+\begin{itemize}
+	\item	par des combinaisons de touches (notamment par emploi des touches
+			"\ctrlkey" et "\esckey",
+	\item	des menus d{\'e}roulants accessibles via la souris, sur des terminaux
+			graphiques ou par une s{\'e}quence de touches, sur les terminaux
+			{\ASCII}.
+\end{itemize}
+
+Par exemple, "{\tt emacs}" permet la recherche ou le remplacement
+d'une cha{\^\i}ne de caract{\`e}res dans un programme ou la
+visualisation de plusieurs fichiers en m{\^e}me temps par utilisation
+de cl{\'e}s de fonctions pr{\'e}d{\'e}finies.
+
+Le tableau \ref{emacs-cmds-base} donne une liste des commandes de base
+de l'{\'e}diteur.
+
+\begin{table}[hbtp]
+\begin{tabular}{|p{6cm}|l|}
+	\hline
+		\multicolumn{1}{|c|}{Fonctionnalit{\'e}}		&
+		\multicolumn{1}{|c|}{Commande / Touches}	\\
+	\hline \hline
+		Appel de "{\tt emacs}"			&
+			{\tt emacs {\sl fichier}}		\\
+	\hline
+		Quitter "{\tt emacs}"			&
+			\control{x} \control{c}			\\
+	\hline
+		Sauvegarder le fichier courant sous le m{\^e}me nom		&
+			\control{x} \control{s}\footnote{cf. remarque \ref{emacs-control-s}} 		\\
+											&
+			ou \control{x} \control{w} 		\\
+											&
+			puis \returnkey					\\
+	\hline
+	Sauvegarder le fichier courant sous un nom diff{\'e}rent	&
+		\control{x} \control{w} {\sl nouveau\_nom}			\\
+															&
+		puis \returnkey										\\
+	\hline
+	Documentation en ligne		&
+		\control{h}				\\
+	\hline
+\end{tabular}
+\caption{\label{emacs-cmds-base}Commandes de base de "{\tt emacs}"}
+\end{table}
+
+\begin{remarque}
+Si un fichier sauvegard{\'e} {\'e}crase un fichier pr{\'e}{\'e}xistant,
+ce dernier sera automatiquement sauvegard{\'e} sous un fichier
+de m{\^e}me nom suivi du caract{\`e}re "\verb=~=".
+\end{remarque}
+
+\begin{remarque}
+Quand un enregistrement du fichier en entr{\'e}e est plus long
+que la ligne d'{\'e}cran, la ligne courante se termine par
+le caract{\`e}re "\verb=\=" et l'enregistrement continue sur la ligne
+suivante.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Organisation de l'{\'e}cran}
+
+L'organisation de l'{\'e}cran d'"{\tt emacs}" se d{\'e}compose de la fa\c{c}on suivante~:
+\begin{description}
+	\item[{\rm Position du curseur}]\mbox{}\\
+		C'est {\`a} partir de ce point que seront execut{\'e}es les commandes "{\tt emacs}".
+	\item[{\sl Echo area}]\mbox{}\\
+		Zone en bas de l'{\'e}cran o{\`u} sont affich{\'e}s les messages relatifs {\`a} des commandes
+		(sauvegarde, messages d'erreur, intervention utilisateur). Cette zone
+		correspond au {\sl buffer} "{\tt LSE\$MESSAGE}" de l'{\'e}diteur "{\tt LSEDIT}"
+		d'{\OpenVMS}.
+	\item[{\rm Affichage du {\sl buffer}}]\mbox{}\\
+		Cette ou ces zones permettent de visualiser le contenu du ou des fichiers
+		{\`a} {\'e}diter. Elles correspondent aux {\sl buffers} associ{\'e}s {\`a} des fichiers
+		de l'{\'e}diteur "{\tt LSEDIT}" d'{\OpenVMS}.
+\end{description}
+
+La barre associ{\'e}e {\`a} un {\sl buffer} contient les informations suivantes~:
+\begin{itemize}
+	\item	Elle indique si le {\sl buffer} courrant a {\'e}t{\'e} modifi{\'e} ou non.
+			Si le buffer n'a pas {\'e}t{\'e} modifi{\'e}, elle commencera par~:\\[2ex]
+			\begin{center}
+			\fbox{{\tt -----Emacs:} {\sl fichier}}
+			\end{center}
+			Dans le cas contraire, elle commencera par~:\\[2ex]
+			\begin{center}
+			\fbox{{\tt --**-Emacs:} {\sl fichier}}
+			\end{center}
+	\item	Chaque {\sl buffer} peut {\^e}tre associ{\'e} {\`a} un langage de programmation.
+			Cette op{\'e}ration est effectu{\'e}e automatiquement lors de
+			l'ouverture du fichier apr{\`e}s son analyse par
+			"{\tt emacs}". Si tel est le cas, le langage associ{\'e}
+			sera affich{\'e} sous la forme suivante~:\\[2ex]
+			\begin{center}
+			\fbox{{\tt (language)}}
+			\end{center}
+	\item	Enfin, "{\tt emacs}" indiquera la position courrante
+			du curseur dans le fichier (num{\'e}ro de ligne et
+			de colonne) et sa position relative (en pourcentage).
+\end{itemize}
+Pour plus de pr{\'e}cisions sur la notion de "{\sl buffers}", reportez-vous
+{\`a} la section \ref{emacs-buffers}.
+			
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cl{\'e}s de Fonction}
+
+Une cl{\'e} de fonction peut {\^e}tre~:
+\begin{itemize}
+	\item	une combinaison simple de la forme \control{{\sl x}};
+			par exemple \control{r} pour une recherche arri{\`e}re.
+
+	\item	une combinaison multiple de la forme \control{{\sl x}} \control{{\sl y}};
+			par exemple, pour quitter "{\tt emacs}", il faudra faire la s{\'e}quence
+			de touches suivante "\control{x}" puis "\control{c}". Par convention,
+			les cl{\'e}s de fonction multiples commencent par l'une des
+			s{\'e}quences suivantes~:
+			\begin{itemize}
+				\item	\control{x}
+				\item	\control{c}
+				\item	\control{h}
+			\end{itemize}
+\end{itemize}
+
+Tout d{\'e}but de commande multiple (ou passage d'argument) peut {\^e}tre annul{\'e} en cours
+de saisie par la commande \control{g}. Ceci est aussi valable lors du passage
+d'arguments par l'utilisateur.
+
+\begin{remarque}
+\label{emacs-control-s}
+Il existe un certain nombre de cl{\'e}s de fonctions pr{\'e}d{\'e}finies,
+mais l'utilisateur peut d{\'e}finir ses propres cl{\'e}s
+de fonctions, soit parce que la fonctionnalit{\'e} n'existe
+pas sous "{\tt emacs}", soit parce que la s{\'e}quence de touche {\`a}
+laquelle elle est normalement attribu{\'e}e est inaccessible
+sur certaines types de terminaux passifs, par exemple \control{s} pour
+une recherche, est inaccessible sur les consoles VT).
+\end{remarque}
+
+"{\tt emacs}" est dot{\'e} d'un certain nombre de fonctions pr{\'e}d{\'e}finies,
+qui sont en fait des associations entre des touches de fonctions
+et des fonctions standards reconnus par l'{\'e}diteur de texte, par
+exemple "{\tt scroll-down}", "{\tt kill-word}", "{\tt search-forward}", etc.
+Il existe un fichier d'initialisation, o{\`u} "{\tt emacs}" va
+lire les d{\'e}finitions utilisateurs avant toute entr{\'e}e
+dans l'{\'e}diteur. Ce fichier s'appelle "{\tt .emacs}" et est
+situ{\'e} dans votre r{\'e}pertoire de connexion. Il est bas{\'e} sur le langage "{\it lisp}",
+langage de programmation utilis{\'e} pour l'ensemble des fichiers de configuration d'"{\tt emacs}".
+Ce langage {\'e}tait, {\`a} l'origine, associ{\'e} {\`a} l'intelligence artificielle et a {\'e}t{\'e} le pr{\'e}curseur
+de la programmation objet.
+
+\begin{example}
+{\sl Exemple de fichier "{\tt .emacs}"}
+\begin{quote}
+\begin{verbatim}
+(define-key global-map "\C-xf" 'isearch-forward)
+(define-key global-map "\C-xl" 'goto-line)
+\end{verbatim}
+\end{quote}
+La premi{\`e}re ligne associe la s{\'e}quence \control{x} \key{f} {\`a} "{\it recherche avant}".
+La seconde ligne associe la s{\'e}quence \control{x} \key{l} {\`a} "{\it positionnement {\`a} une ligne}".
+\end{example}
+
+\begin{definition}{{\bf Attention}}
+Si la cl{\'e} de fonction est d{\'e}j{\`a} affect{\'e} par le syst{\`e}me
+{\`a} une autre fonction, l'affectation pr{\'e}c{\'e}dente
+est {\'e}cras{\'e}e par l'affectation utilisateur.
+\end{definition}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{emacs-buffers}Notion de buffers}
+
+
+%%%%%%%%%%%%
+\subsubsection{Introduction}
+
+Chaque fichier {\'e}dit{\'e} est stock{\'e} dans un buffer,
+et au cours d'une session peut {\^e}tre rappel{\'e} {\`a}
+tout moment, par menu d{\'e}roulant ou par la commande \control{x}
+\key{b} {\sl nom\_de\_buffer}. Un buffer a en g{\'e}n{\'e}ral le m{\^e}me
+nom que le fichier qu'il repr{\'e}sente.
+
+La commande permettant de conna{\^\i}tre la liste des buffers
+est \control{x} \control{b}. Une commande peut {\^e}tre pass{\'e}e
+en t{\^e}te de chaque ligne pour s{\'e}lectionner un buffer
+(mode pleine-page, mode fen{\^e}tre, etc.). Une ast{\'e}risque
+en colonne 1 indique que le buffer correspondant a {\'e}t{\'e}
+modifi{\'e}, un "\verb=%=" indique un acc{\`e}s en mode lecture uniquement.
+Pour avoir la liste des fonctionnalit{\'e}s disponibles, taper
+\key{?} en t{\^e}te de ligne.
+
+La commande permettant de supprimer un buffer est \control{x} \key{k}. Pour
+supprimer plusieurs buffers, activer la liste des buffers (commande
+\control{X} \control{B}), taper \key{d} au d{\'e}but des lignes indiquant les
+buffers {\`a} supprimer. La commande sera effective lorsque
+vous taperez \key{x}.
+
+Si vous cr{\'e}ez un nouveau buffer (\control{x} \key{b}), il n'y aura aucun lien
+entre le buffer ouvert et un {\'e}ventuel fichier disque portant le m{\^e}me nom. Encore
+une fois, un buffer ne repr{\'e}sente qu'un espace de travail.
+
+\begin{remarque}
+Supprimer un buffer
+n'entra{\^\i}ne pas suppression du fichier disque. Seule la copie
+du fichier dans l'espace de travail "{\tt emacs}" est supprim{\'e}e.
+\end{remarque}
+
+%%%%%%%%%%%%
+\subsubsection{Les "{\sl mini-buffers}"}
+
+Le "{\sl mini-buffer}" est une facilit{\'e} "{\tt emacs}" pour lire les arguments
+d'une commande (nom de fichier, commande interactive n{\'e}cessitant
+une r{\'e}ponse de l'utilisateur, etc.). Il est par exemple utilis{\'e}
+lorsque l'utilisateur d{\'e}sire ouvrir un nouveau "{\sl buffer}" associ{\'e} {\`a}
+un fichier d{\'e}j{\`a} existant (commande \control{x} \key{f}). Un nom de fichier
+devrait suivre cette commande. Or, si l'utilisateur saisit simplement
+\control{x} \key{f}, "{\tt emacs}" r{\'e}clame le nom de fichier dans
+la ligne d'{\'e}tat situ{\'e} en bas de l'{\'e}cran.
+
+En cas d'h{\'e}sitation sur l'argument {\`a} entrer dans
+le "{\sl mini-buffer}", une assistance permet d'aiguiller l'utilisateur~:
+\begin{itemize}
+	\item	"\verb=?=" affiche l'utilisation des noms possibles compte tenu de
+			ce qui a d{\'e}j{\`a} {\'e}t{\'e} saisi. La fen{\^e}tre affich{\'e}e est
+			accessible et les commandes "{\tt emacs}" sont actives ({\it scrolling} par
+			exemple) ainsi que les commandes de s{\'e}lection de "{\sl buffer}"
+			vues pr{\'e}c{\'e}demment.
+	\item	\tabkey compl{\`e}te le texte dans la mesure du possible.
+	\item	\spacekey compl{\`e}te le texte dans la mesure du possible mais limit{\'e} {\`a} un seul mot.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Utilisation de l'aide}
+
+L'aide est activ{\'e} par  \control{H} suivi d'une  lettre ou d'un signe d{\'e}terminant
+la nature de l'aide.
+
+Le tableau \ref{emacs-help} liste les principales commandes acc{\'e}dant
+aux rubriques de l'aide.
+
+\begin{table}
+\begin{tabular}{|l|p{10cm}|}
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Rubrique / Fonction}	\\
+	\hline \hline
+		\control{h} \key{?}		&
+		Liste des rubriques d'aide.			\\
+	\hline \hline
+		\control{H} {\sl cha{\^\i}ne} \key{A}	&
+		Liste des commandes contenant le mot "{\sl cha{\^\i}ne}".	\\
+	\hline
+		\control{h} \key{b}	&
+		Liste des raccourcis clavier disponibles.	\\
+	\hline
+		\control{h} \key{f} {\sl fonction}		&
+		Description d'une fonction "{\tt emacs}".	\\
+	\hline
+		\control{h} \key{n}	&
+		Nouveaut{\'e}s de la version actuelle d'"{\tt emacs}".	\\
+	\hline
+		\control{h} \key{t}	&
+		Tutoriel\\
+	\hline
+\end{tabular}
+\caption{\label{emacs-help}Principales commandes acc{\'e}dant aux rubriques d'aide d'"{\tt emacs}".}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Utilisation de quelques commandes}
+
+%%%%%%%%%%%%%%
+\subsubsection{D{\'e}placement dans le "buffer"~}
+
+\begin{longtable}{|l|p{10cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+		\control{a}		&	D{\'e}but de ligne						\\
+		\control{e}		&	Fin de ligne						\\
+		\control{f}		&	D{\'e}placement un caract{\`e}re {\`a} droite	\\
+		\control{b}		&	D{\'e}placement un caract{\`e}re {\`a} gauche	\\
+		\escape{f}		&	D{\'e}placement un mot {\`a} droite			\\
+		\escape{b}		&	D{\'e}placement un mot {\`a} gauche			\\
+		\control{n}		&	D{\'e}placement une ligne en dessous	\\
+		\control{p}		&	D{\'e}placement une ligne au dessus		\\
+		\escape{$<$}	&	D{\'e}placement d{\'e}but de fichier		\\
+		\escape{$>$}	&	D{\'e}placement fin de fichier			\\
+		\control{v}		&	D{\'e}placement d'une page vers le bas	\\
+		\escape{v}		&	D{\'e}placement d'une page vers le haut	\\
+		\escape{a}		&	D{\'e}placement d{\'e}but phrase courante	\\
+		\escape{e}		&	D{\'e}placement fin phrase courante		\\
+		\escape{k}		&	Destruction jusqu'{\`a} la fin de la phrase courante.	\\
+\end{longtable}
+
+%%%%%%%%%%%%%%
+\subsubsection{Recherche / Remplacement de caract{\`e}res}
+
+\begin{longtable}{|l|p{10cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+		\control{s}	&	Recherche vers le bas	\\
+		\control{r}	&	Recherche vers le haut	\\
+		\escape{\%}	&	Remplacement par une cha{\^\i}ne (vers le bas).	\\
+\end{longtable}
+
+%%%%%%%%%%%%%%
+\subsubsection{R{\'e}ponses possibles pour la recherche et le remplacement de caract{\`e}res}
+
+\begin{longtable}{|l|p{10cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\spacekey	&	Remplacement de l'occurrence courante, positionnement {\`a} l'occurence
+ 					suivante.	\\
+	\key{{\sc del}}	&	Positionnement {\`a} l'occurence suivante, sans remplacement.	\\
+	\key{.} 		&	Remplacement occurrence courante et arr{\^e}t du processus.		\\
+	\key{!}			&	Remplacement occurences restant jusqu'{\`a} la fin du texte.	\\
+	\key{?}			&	Affichage des r{\'e}ponses possibles.							\\
+\end{longtable}
+
+%%%%%%%%%%%%%%
+\subsubsection{Couper / Copier / Coller}
+\begin{description}
+	\item[{\rm Marquage de la r{\'e}gion}]\mbox{}\\
+		Quelques commandes de "{\tt emacs}" g{\`e}rent sur une portion ({\`a}
+		d{\'e}finir) du buffer. Par exemple, la copie ou suppression
+		d'un bloc de texte n{\'e}cessite pr{\'e}alablement de d{\'e}finir
+		le texte {\`a} couper. La r{\'e}gion sera l'espace entre
+		le point du d{\'e}but de marquage et la position actuelle du
+		curseur.\\[3ex]
+	\item[{\rm D{\'e}finition du bloc de texte sur lequel va s'op{\'e}rer la commande}]\mbox{}\\
+		\begin{tabular}{|l|p{6cm}|}
+			\hline
+			\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+			\multicolumn{1}{|c|}{Description}	\\
+			\hline \hline
+				\control{{\sc space}}	&
+				Marquage de d{\'e}but de bloc	\\
+				 ou \control{0}			&	\\
+			\hline
+				\control{x} \control{x}	&
+				Passage position curseur / D{\'e}but de marquage	\\
+			\hline
+				\control{x} \key{h}	&
+				Activer le buffer entier comme r{\'e}gion.			\\
+			\hline
+				\escape{h}	&
+				Activer le paragraphe courant comme r{\'e}gion.		\\
+			\hline
+		\end{tabular}\\[3ex]
+	\item[{\rm Couper / Coller sur une r{\'e}gion}]\mbox{}\\
+		\begin{tabular}{|l|p{6cm}|}
+			\hline
+			\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+			\multicolumn{1}{|c|}{Description}	\\
+			\hline \hline
+				\control{w}	&	Destruction de la r{\'e}gion.	\\
+				\control{y}	&	Insertion du texte coup{\'e}. Le curseur est positionn{\'e} apr{\`e}s le
+								texte ins{\'e}r{\'e}.				\\
+				\control{u} \control{y}	&
+								Insertion texte coup{\'e}. Le curseur est positionn{\'e}; avant
+								le texte ins{\'e}r{\'e}.			\\
+			\hline
+		\end{tabular}\\[3ex]
+	\item[{\rm Couper / Coller sur d'autres {\'e}l{\'e}ments}]\mbox{}\\
+		\begin{tabular}{|l|p{6cm}|}
+			\hline
+			\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+			\multicolumn{1}{|c|}{Description}	\\
+			\hline \hline
+				\control{d}		&	Suppression du caract{\`e}re sous le curseur.	\\
+				\key{{\sc del}}	&	Suppression caract{\`e}re avant le curseur.		\\
+				\control{k}		&	Suppression jusqu'{\`a} la fin de la ligne.		\\
+				\control{u} {\sl n} \control{k}	&
+									Suppression de "{\sl n}" lignes .		\\
+				\escape{d}		&	Suppression jusqu'{\`a} la fin du mot.			\\
+				\escape{k}		&	Suppression jusqu'{\`a} la fin de la phrase.	\\
+			\hline
+		\end{tabular}\\[3ex]
+	\item[{\rm Autres op{\'e}rations sur une r{\'e}gion}]\mbox{}\\
+		\begin{tabular}{|l|p{6cm}|}
+			\hline
+			\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+			\multicolumn{1}{|c|}{Description}	\\
+			\hline \hline
+				\control{x} \control{u}	&	Conversion de la r{\'e}gion en majuscules.	\\
+				\control{x} \control{l}	&	Conversion de la r{\'e}gion en minuscules.	\\
+				\control{x} \tabkey		&	Indentation d'une r{\'e}gion.				\\
+			\hline
+		\end{tabular}
+\end{description}
+
+\begin{definition}{{\bf ATTENTION}}
+\begin{itemize}
+	\item	Il existe un seul espace de stockage des textes coup{\'e}s
+			pour l'ensemble des buffers. C'est ce qui permet, entre autres,
+			de copier un bloc de texte d'un buffer et le dupliquer dans un
+			autre buffer.\\[2ex]
+	\item	Si plusieurs commandes de coupure de texte s'encha{\^\i}nent
+			sans qu'une autre commande ne vienne interf{\'e}rer, les textes
+			coup{\'e}s seront stock{\'e}s ensemble, et une commande
+			\control{Y} ins{\`e}rera l'ensemble des textes coup{\'e}s successifs.
+			Par contre, si une commande a {\'e}t{\'e} execut{\'e}e
+			entre deux coupures, y compris un d{\'e}placement, la prochaine
+			insertion de texte concernera le dernier texte coup{\'e}.\\[2ex]
+	\item	Un texte coup{\'e} pr{\'e}c{\'e}demment peut {\^e}tre
+			ins{\'e}r{\'e}, m{\^e}me si ce n'est pas le dernier texte
+			coup{\'e}. La proc{\'e}dure {\`a} suivre est la suivante~:
+			\begin{enumerate}
+				\item	\control{Y}
+				\item	\escape{y} jusqu'{\`a} ce que le texte d{\'e}sir{\'e}
+						soit ins{\'e}r{\'e} {\`a} l'{\'e}cran. \\
+						{\large ou} \\
+						\control{u} {\sl n} \control{Y} (Insertion du texte coup{\'e} "{\sl n}" fois
+						pr{\'e}c{\'e}demment).
+			\end{enumerate}	
+\end{itemize}
+\end{definition}
+
+%%%%%%%%%%%%%%
+\subsubsection{Op{\'e}rations sur les fen{\^e}tres}
+
+"{\tt emacs}" peut partager l'{\'e}cran en deux ou plusieurs fen{\^e}res qui
+affichent plusieurs parties d'un m{\^e}me buffer ou de plusieurs buffers. Il n'y a
+pas identification entre fen{\^e}tre et buffer. Une fen{\^e}tre peut {\^e}tre d{\'e}truite, et le
+buffer correspondant {\^e}tre encore actif.
+
+Si un m{\^e}me buffer apparait dans plusieurs fen{\^e}tres, les modifications effectu{\'e}es
+dans une fen{\^e}tre sont r{\'e}percut{\'e}es dans les autres. Les commandes les plus fr{\'e}quentes
+sont explicit{\'e}es dans le tableau suivant.
+
+\begin{longtable}{|l|p{10cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+		\control{x} \key{2}	&
+		Partage la fen{\^e}tre courante en 2 fen{\^e}tres horizontales.	\\
+	\hline
+		\control{x} \key{o}	&
+		S{\'e}lection d'une autre fen{\^e}tre.	\\
+	\hline
+		\esckey \control{v}	&
+		S{\'e}lection de la fen{\^e}tre suivante. \\
+	\hline 
+		\control{x} \key{4} \key{b} {\sl buffer}	&
+		S{\'e}lection d'un buffer dans une autre fen{\^e}tre. \\
+	\hline 
+		\control{x} \key{4} \key{f} {\sl buffer}	&
+		S{\'e}lection d'un fichier dans une autre fen{\^e}tre. \\
+	\hline 
+		\control{x} \key{4} \key{d} {\sl directory}	&
+		S{\'e}lection du contenu d'un r{\'e}pertoire dans une autre fen{\^e}tre. \\
+	\hline 
+		\control{x} \key{\^{ }}	&
+		Agrandissement de la fen{\^e}tre courante. \\
+	\hline 
+		\control{x} \key{0}	&
+		Suppression de la fen{\^e}tre courante. \\
+	\hline 
+		\control{x} \key{1}	&
+		Suppression toutes fen{\^e}tres sauf la fen{\^e}tre courante. \\
+\end{longtable}
+
+
+%%%%%%%%%%%%%%
+\subsubsection{Autres commandes diverses}
+
+\begin{longtable}{|l|p{10cm}|}
+	\hline
+		\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+\endhead
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+		\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\control{l}	&	Rafraichissement {\'e}cran.	\\
+	\hline
+	\escape{!}	&	Execution d'une commande shell. Le r{\'e}sultat apparaitra dans une
+					fen{\^e}tre "{\tt emacs}".	\\
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Macros}
+
+Une s{\'e}quence de traitements "{\tt emacs}" peut {\^e}tre m{\'e}moris{\'e}e
+afin d'{\^e}tre rejou{\'e}e une ou plusieurs fois ult{\'e}rieurement.
+Cette s{\'e}quence peut {\^e}tre nomm{\'e}e, sauvegard{\'e}e
+et restaur{\'e}e au cours d'une autre session "{\tt emacs}".
+
+\begin{quote}
+{\tt \control{X} (}\\
+{\sl D{\'e}finition de la macro}\\
+{\sl liste des traitements emacs}\\
+{\tt \control{X} )}
+\end{quote}
+
+\begin{tabular}{|l|p{7cm}|}
+	\hline
+		\multicolumn{1}{|c|}{S{\'e}quence de touche}	&
+		\multicolumn{1}{|c|}{Description}	\\
+	\hline \hline
+		\control{x} \key{e}	&	Execution de la derni{\`e}re macro cr{\'e}{\'e}e.	\\
+	\hline
+		\multicolumn{1}{|p{5cm}|}{\control{u} {\sl n} \control{x} \key{e} \returnkey}		&
+		Execution {\sl n} fois de la derni{\`e}re macro cr{\'e}{\'e}e.	\\
+	\hline
+		\escape{x} {\sl name-last-kbd-macro}	&
+		Association d'un nom {\`a} la macro derni{\`e}rement d{\'e}finie.	\\
+	\hline
+\end{tabular}
+
+Pour pouvoir r{\'e}utiliser cette macro au cours d'une autre
+session, on peut~:
+\begin{itemize}
+	\item	Soit sauver sa d{\'e}finition dans un fichier externe qu'il
+			faudra recharger avant utilisation (commande "\escape{x}~{\tt load-file}").
+	\item	Soit sauver sa d{\'e}finition dans le fichier d'initialisation
+			"{\tt .emacs}". Il suffit de l'ouvrir, de s'y positionner,
+			et d'entrer la commande~:
+			\begin{quote}
+			\escape{x}~{\tt insert-kbd-macro}~\returnkey
+			{\sl nom\_de\_macro}~\returnkey
+			\end{quote}
+			Lors d'une prochaine session "{\tt emacs}", la macro sera execut{\'e}e
+			par la commande\escape{x} {\sl nom\_de\_macro}.
+\end{itemize}
+
+\begin{remarque}
+Pour annuler une modification de texte, il existe la commande "{\tt undo}" ( repr{\'e}sent{\'e}e par
+\control{x} \key{u}). Cette modification de texte est li{\'e}e {\`a} un
+buffer. Elle peut {\^e}tre r{\'e}p{\'e}t{\'e}e plusieurs fois (manuellement ou par la sequence
+\control{u} {\sl n} \control{x} \key{u}). Les modifications de texte sont m{\'e}morisables dans la limite
+de 8000 caract{\`e}res par buffer.
+\end{remarque}
+
+\renewcommand{\arraystretch}{1}
+

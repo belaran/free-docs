@@ -1,0 +1,115 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\section{Exercices d'utilisation des expressions r{\'e}guli{\`e}res}
+
+Soit le tableau de cha{\^\i}nes suivant~:
+
+\begin{longtable}{|c|p{7cm}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	\multicolumn{1}{|c|}{Num{\'e}ro}	&
+	\multicolumn{1}{|c|}{Cha{\^\i}ne}	\\
+	\hline \hline
+\endhead
+	\hline
+	\multicolumn{1}{|c|}{Num{\'e}ro}	&
+	\multicolumn{1}{|c|}{Cha{\^\i}ne}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\textit{a}	&	\verb*,abc,								\\
+	\textit{b}	&	\verb*,zzzz xx,							\\
+	\textit{c}	&	\verb*,abcdef,							\\
+	\textit{d}	&	\verb*,123456 7890 abcaziuz,			\\
+	\textit{e}	&	\verb*,yyyy,							\\
+	\textit{f}	&	\verb*,xyz stuv abc,					\\
+	\textit{g}	&	\verb*,xx abcxxxxxxxxx,					\\
+	\textit{h}	&	\verb*,xAb*  12345,						\\
+	\textit{i}	&	\verb*,xAB*  45678,						\\
+	\textit{j}	&	\verb*,98745 xaB* 23654,				\\
+	\textit{k}	&	\verb*,abc$!k;,							\\
+	\textit{l}	&	\verb*,567,								\\
+	\textit{m}	&	\verb*,5666777,							\\
+	\textit{n}	&	\verb*,57,								\\
+	\textit{o}	&	\verb*,Suite... du paragraphe,			\\
+	\textit{p}	&	\verb*,Suite... de l'histoire,			\\
+	\textit{q}	&	\verb*,la suite...,						\\
+	\textit{r}	&	\verb*,Suite.. au prochain numero.,		\\
+\end{longtable}
+
+Pour chaque expression r{\'e}guli{\`e}res ci dessous, trouver la ou les cha{\^\i}nes
+du tableau ci-dessus satisfaisant {\`a} l'expression r{\'e}guli{\`e}re~:
+
+\begin{longtable}{|c|p{7cm}|c|}
+	\hline
+	\multicolumn{3}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	\multicolumn{2}{|c|}{Expression R{\'e}guli{\`e}re}		&
+	\multicolumn{1}{|c|}{Cha{\^\i}nes correspondantes}	\\
+	\hline \hline
+\endhead
+	\hline
+	\multicolumn{2}{|c|}{Expression R{\'e}guli{\`e}re}		&
+	\multicolumn{1}{|c|}{Cha{\^\i}nes correspondantes}	\\
+	\hline \hline
+\endfirsthead
+	\hline
+	\multicolumn{3}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\textit{1}	&	\verb*,c$,								&	\\
+	\textit{2}	&	\verb*,c\$,								&	\\
+	\textit{3}	&	\verb*,^abc,							&	\\
+	\textit{4}	&	\verb*,abc$,							&	\\
+	\textit{5}	&	\verb*,^abc$,							&	\\
+	\textit{6}	&	\verb*,^abc.,							&	\\
+	\textit{7}	&	\verb*,45,								&	\\
+	\textit{8}	&	\verb*,^56[67],							&	\\
+	\textit{9}	&	\verb*,.56[67],							&	\\
+	\textit{10}	&	\verb*,x[Aa][Bb],						&	\\
+	\textit{11}	&	\verb*,x[^Aa],							&	\\
+	\textit{12}	&	\verb*,[Aa][^b],						&	\\
+	\textit{13}	&	\verb*,abcd*,							&	\\
+	\textit{14}	&	\verb*,566?7,							&	\\
+	\textit{15}	&	\verb*,[r-v],							&	\\
+	\textit{16}	&	\verb*,56*7*,							&	\\
+	\textit{17}	&	\verb*,56+7+,							&	\\
+	\textit{18}	&	\verb*,56?7?,							&	\\
+	\textit{19}	&	\verb*,566?7,							&	\\
+	\textit{20}	&	\verb*,987|789,							&	\\
+	\textit{21}	&	\verb*,abc|[def],						&	\\
+	\textit{22}	&	\verb*,.*[Aa][Bb].*12.*,				&	\\
+	\textit{23}	&	\verb*,.*12.*[Aa][Bb],					&	\\
+	\textit{24}	&	\verb*,.*[Aa]b.*12.*|.*12.*[Aa]b.*,		&	\\
+	\textit{25}	&	\verb*,.*([Aa]b.*12.*|.*12.*[Aa]b).*,	&	\\
+	\textit{26}	&	\verb*,abc[def][m-x]*,					&	\\
+	\textit{27}	&	\verb*,^[Ss]uite\.\.\..*,				&	\\
+\end{longtable}

@@ -1,0 +1,944 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{\label{adv-fltrs-sed}Utilisation de <<~{\tt sed}~>>}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+La commande \index{sed@\texttt{sed}}<<~{\tt sed}~>> est un {\'e}diteur non interactif (comme peuvent
+l'{\^e}tre <<~\index{vi@\texttt{vi}}{\tt vi(1)}~>> et <<~{\tt ed(1)}~>>). Elle est utilis{\'e}e
+g{\'e}n{\'e}ralement comme filtre.
+
+\begin{definition}{Syntaxe}
+\verb=sed [-n requ{\^e}te] [-e requ{\^e}te]=~$\cdots$~\verb=[-f fichier.requ{\^e}tes] [fichiers]=~$\cdots$
+\end{definition}
+
+\begin{definition}{Description des options}
+\begin{tabular}{l@{\hspace{2ex}}p{8cm}}
+	{\tt -e} {\it requ{\^e}te}	&
+		Cette option indique que la requ{\^e}te fait partie de la ligne de
+		commandes. Il est possible de faire appel plusieurs fois {\`a} cette
+		option pour un m{\^e}me appel {\`a} la commande <<~{\tt sed}~>>.
+		Les requ{\^e}tes seront trait{\'e}es s{\'e}quentiellement pour chaque ligne
+		lues sur l'entr{\'e}e standard ou sur les fichiers sp{\'e}cifi{\'e}s en
+		argument.	\\[1ex]
+	{\tt -f} {\it fichier.requ{\^e}tes}	&
+		Cette option permet d'utiliser un fichier comme texte de
+		requ{\^e}tes.	\\[1ex]
+	{\tt -n} {\it requ{\^e}te}	&
+		Cette option permet d'emp{\^e}cher l'impression des lignes trait{\'e}es.
+					\\[1ex]
+\end{tabular}
+\end{definition}
+
+\begin{remarque}
+Les requ{\^e}tes sp{\'e}cifi{\'e}es avec les options <<~{\tt -n}~>> ou <<~{\tt -e}~>>
+peuvent {\^e}tre prot{\'e}g{\'e}es gr{\^a}ce aux caract{\`e}res <<~{\tt "}~>> et <<~{\tt '}~>>
+pour {\'e}viter l'interpr{\'e}tation par le Shell.
+\end{remarque}
+
+\begin{example}
+\begin{verbatim}
+sed -e 'requ1' -e 'req2' fichier.in > fichier.out
+\end{verbatim}
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{sed-fonct}Mode de fonctionnement}
+
+La commande \index{sed@\texttt{sed}!fonctionnement}<<~{\tt sed}~>> permet de copier les fichiers indiqu{\'e}s sur la
+sortie standard en l'{\'e}ditant en fonction du texte de requ{\^e}tes.
+Si aucun fichier n'est pr{\'e}cis{\'e} en entr{\'e}e, <<~{\tt sed}~>> lit sur son entr{\'e}e
+standard.
+
+La sortie standard peut {\^e}tre redirig{\'e}e sur un fichier avec les
+m{\'e}canismes classiques du Shell (cf. section \ref{redirect-io}). Les
+requ{\^e}tes de la commande <<~{\tt sed}~>> dont identiques {\`a} celles de la
+commande <<~{\tt ed(1)}~>>. La r{\'e}p{\'e}tition des requ{\^e}tes globales de
+substitution est plus efficace avec <<~{\tt sed}~>> qu'avec <<~{\tt
+ed}~>>.
+
+Pendant son ex{\'e}cution, la commande <<~{\tt sed}~>> proc{\`e}de de la fa\c{c}on
+suivante~:
+\begin{enumerate}
+	\item	Chaque ligne s{\'e}lectionn{\'e}e par les adresses est copi{\'e}e dans un
+			espace de travail (<<~{\sl pattern space}~>>) et toutes les
+			commandes lui sont appliqu{\'e}es.
+	\item	Lorsque toutes les commandes ont {\'e}t{\'e} appliqu{\'e}es, le contenu
+			de l'espace de travail modifi{\'e} est envoy{\'e} sur la sortie
+			standard. Le contenu de l'espace de travail est supprim{\'e} afin
+			de recevoir un nouveau contenu.
+	\item	En plus de l'espace de travail, <<~{\tt sed}~>> dispose d'un espace m{\'e}moire
+			(<<~{\sl hold space}~>>) o{\`u} peut {\^e}tre stock{\'e} temporairement
+			le contenu de l'espace de travail. L'utilisation de cet espace
+			est utilis{\'e} par les commandes <<~{\tt g}~>>, <<~{\tt G}~>>,
+			<<~{\tt h}~>> et <<~{\tt H}~>> d{\'e}crites {\`a} la section
+			\ref{sed-cmds}.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Formulation des requ{\^e}tes}
+
+%%%%%%%%%%%%
+\subsection{Introduction}
+
+La forme g{\'e}n{\'e}rale d'une \index{sed@\texttt{sed}!requ{\^e}te}requ{\^e}te est~:
+\begin{center}
+\begin{verbatim}
+[adresse1],[adresse2]commande[argument]
+\end{verbatim}
+\end{center}
+
+Les adresses sp{\'e}cifi{\'e}es dans une requ{\^e}tes d{\'e}signent les limites
+(d{\'e}but et fin) o{\`u} doit s'appliquer la  commande. L'argument repr{\'e}sente
+une cha{\^i}ne de caract{\`e}res, ou du texte ou bien encore un fichier suivant les
+commandes utilis{\'e}es.
+
+%%%%%%%%%%%%
+\subsection{\label{sed-def-addr}D{\'e}finition des adresses}
+
+Les adresses peuvent {\^e}tre d{\'e}crites de deux fa\c{c}ons~:
+\begin{itemize}
+	\item	soit par des valeurs num{\'e}riques donnant les num{\'e}ros de lignes
+			de l'espace de travail ou le caract{\`e}re <<~\verb=$=~>>
+			indiquant sa derni{\`e}re ligne,
+	\item	soit par des expressions r{\'e}guli{\`e}res plac{\'e}es entre deux
+			{\sl slash} <<~{\tt /}~>>.
+\end{itemize}
+Une requ{\^e}te pr{\'e}c{\'e}d{\'e}e par deux adresses  s'applique {\`a} toutes les lignes
+comprises entre ces deux adresses. Dans le cas o{\`u} deux adresses seraient
+identiques, il suffit de la sp{\'e}cifier seulement une fois. Si aucune
+adresse n'est sp{\'e}cifi{\'e}e, l'espace de travail correspond {\`a} la totalit{\'e}
+des lignes en entr{\'e}e. La commande <<~{\tt sed}~>> est donc appliqu{\'e}e {\`a}
+toutes les lignes.
+
+\begin{definition}{Syntaxes}
+{\tt {\sl Adresse1},{\sl Adresse2Commande}\\
+{\sl Adresse1},/{\sl Expression$_{r\acute{e}guli\grave{e}re}$}/{\sl Commande}\\
+/{\sl Expression$_{r\acute{e}guli\grave{e}re}$}/,{\sl Adresse2Commande}\\
+/{\sl Expression$^1_{r\acute{e}guli\grave{e}re}$}/,/{\sl Expression$^2_{r\acute{e}guli\grave{e}re}$}/{\sl Commande}\\
+{\sl AdresseCommande}\\
+/{\sl Expression$_{r\acute{e}guli\grave{e}re}$}/{\sl Commande}\\
+{\sl Commande}
+}
+\end{definition}
+
+\begin{example}
+On utilise ici, {\`a} titre d'exemple pour les adresses, la commande
+<<~{\tt d}~>>, permettant de d{\'e}truire les lignes correspondantes
+de l'espace de travail.
+
+\begin{tabular}{l@{\hspace{2ex}}p{8cm}}
+	\verb=10,20d=		&
+		D{\'e}truit les lignes comprises entre la dixi{\`e}me et la vingti{\`e}me
+		ligne .	\\[1ex]
+	\verb=/^#/,$d=		&
+		D{\'e}truit les lignes comprises entre la premi{\`e}re ligne commen\c{c}ant
+		par <<~{\tt \#}~>> jusqu'{\`a} la derni{\`e}re ligne du fichier
+		(num{\'e}ro de ligne <<~\verb=$=~>>).	\\[1ex]
+	\verb=/^#/,/end$/d=	&
+		D{\'e}truit les lignes comprises entre la premi{\`e}re ligne commen\c{c}ant
+		par <<~{\tt \#}~>> et la premi{\`e}re ligne se terminant par
+		<<~{\tt end}~>>.	\\[1ex]
+	\verb=10d=			&
+		D{\'e}truit la dixi{\`e}me ligne.	\\[1ex]
+	\verb=/10/d=		&
+		D{\'e}truit toute ligne contenant la cha{\^\i}ne <<~{\tt 10}~>>.	\\[1ex]
+	\verb=d=			&
+		D{\'e}truit l'ensemble de l'espace de travail.\\
+\end{tabular}
+\end{example}
+
+%%%%%%%%%%%%
+\subsection{\label{sed-cmds}Les Commandes}
+
+La liste des \index{sed@\texttt{sed}!commandes}commandes cit{\'e}es dans ce paragraphe font parties des plus
+utilis{\'e}es. Cette liste n'est pas exhaustive. Pour plus de renseignements,
+reportez vous au manuel des commandes <<~{\tt sed(1)}~>> et
+<<~{\tt ed(1)}~>>.
+
+\begin{tabular}
+	{|@{\hspace{1ex}}l@{\hspace{1ex}}|@{\hspace{1ex}}p{8cm}@{\hspace{1ex}}|}
+	\hline
+	Commande	&	Description	\\
+	\hline
+	\hline
+		{\tt p}				&
+			Copie le contenu de l'espace de travail sur la sortie
+			standard.\\[1ex]
+		{\tt a}{\it texte}	&
+			Ajoute du texte apr{\`e}s la position courante.	\\[1ex]
+		{\tt i}{\it texte}	&
+			Ajoute du texte avant la position courante.	\\[1ex]
+		{\tt c}{\it texte}	&
+			Change le texte de la ligne courant par <<~{\it texte}~>>.	\\[1ex]
+		{\tt s/}{\it expr$_1$}{\tt /}{\it expr$_2$}{\tt /}$[${\tt g}$]$	&
+			Substitue la premi{\`e}re chaine satisfaisant l'expression
+			r{\'e}guli{\`e}re 1 ({\it expr$_1$}) par le texte correspondant {\`a}
+			l'expression r{\'e}guli{\`e}re 2 ({\it expr$_2$}). L'option
+			<<~{\tt g}~>> signifie que la substitution doit se
+			faire autant de fois que n{\'e}cessaire sur la ligne trait{\'e}e.
+			En effet, par d{\'e}faut, la commande <<~{\tt s}~>> ne s'applique
+			qu'{\`a} la premi{\`e}re chaine satisfaisant l'expression
+			r{\'e}guli{\`e}re dans la ligne courante de l'espace de travail.
+			Avec l'option <<~{\tt g}~>>, toute chaine satisfaisant
+			l'expression r{\'e}guli{\`e}re <<~{\it expr$_1$}~>> dans la
+			ligne courante de l'espace de travail sera remplac{\'e}e.	\\[1ex]
+		{\tt d}			&
+			D{\'e}truit la ligne courante.	\\[1ex]
+		{\tt g}			&
+			Remplace le contenu de l'espace de travail ({\sl pattern space})
+			par le contenu de l'espace m{\'e}moire ({\sl holder space}).\\[1ex]
+		{\tt G}			&
+			Ajoute le contenu de l'espace m{\'e}moire ({\sl holder space})
+			au contenu de l'espace de travail ({\sl pattern space}).\\[1ex]
+		{\tt h}			&
+			Remplace le contenu de l'espace m{\'e}moire ({\sl holder space})
+			par le contenu de l'espace de travail ({\sl pattern space}).\\[1ex]
+		{\tt H}			&
+			Ajoute le contenu de l'espace de travail ({\sl pattern space})
+			au contenu de l'espace m{\'e}moire ({\sl holder space}).	\\[1ex]
+		\verb*=r ={\it fichier}	&
+			Ins{\`e}re le contenu d'un fichier apr{\`e}s la ligne courante.	\\[1ex]
+		\verb*=w ={\it fichier}	&
+			Met le contenu de l'espace de travail dans un fichier.	\\
+	\hline
+\end{tabular}
+
+\begin{example}
+\verb*=sed -n "/lancelot/p" donjons.dragons=\\[0.5cm]
+Copie toutes les lignes de l'espace de travail contenant la chaine
+<<~{\tt lancelot}~>>.\\[0.5cm]
+
+\verb*=sed -e '/lancelot/a et arthur' donjons.dragons=\\[0.5cm]
+Ins{\`e}re la chaine <<~\verb*= et arthur=~>>\footnote{Notez les espaces
+dans la chaine <<~{\tt $_\sqcup$et$_\sqcup$arthur}~>>.} apr{\`e}s la chaine
+<<~{\tt lancelot}~>> sur la totalit{\'e} de l'espace de travail.\\[0.5cm]
+
+\verb*=sed -e '/dulac/ilancelot ' donjons.dragons=\\[0.5cm]
+Ins{\`e}re la chaine <<~\verb*=lancelot =~>>\footnote{Notez l'espace
+suivant la chaine <<~{\tt lancelot}~>>.} avant la chaine <<~{\tt dulac}~>>
+sur la totalit{\'e} de l'espace de travail.\\[0.5cm]
+
+\verb*=sed -e 's/Salut/Bonjour/g' welcome.txt=\\[0.5cm]
+Substitue <<~{\tt Salut}~>> par <<~{\tt Bonjour}~>> dans la totalit{\'e}
+du fichier <<~{\tt welcome.txt}~>>.
+\end{example}
+
+
+%%%%%%%%%%%%
+\subsection{Les symboles particuliers}
+
+Les \index{sed@\texttt{sed}!symboles}symboles particuliers sont tous ceux des expressions r{\'e}guli{\`e}res {\`a}
+l'exception des symboles <<~{\tt +}~>> et <<~{\tt |}~>>. A cette liste,
+on rajoute les symboles de la commande de substitution <<~{\tt s}~>>.
+Ces symboles sont~:
+
+\begin{center}
+\begin{tabular}{|@{\hspace{2ex}}l@{\hspace{2ex}}|@{\hspace{2ex}}p{7cm}@{\hspace{2ex}}|}
+	\hline
+	Symbole	&	Description	\\
+	\hline \hline
+	<<~\verb=\(=~>> et <<~\verb=\)=~>>	&
+		D{\'e}finit une portion d'expression r{\'e}guli{\`e}re.	\\[0.5ex]
+	\hline
+	<<~\verb=\=$n$~>>					&
+		Ne fait pas partie des expressions r{\'e}guli{\`e}res mais repr{\'e}sente
+			la $n^{i\grave{e}me}$ portion d'une expression r{\'e}guli{\`e}re.
+			\\[0.5ex]
+	\hline
+	<<~\verb=&=~>>						&
+		Ne fait pas partie des expressions r{\'e}guli{\`e}res mais repr{\'e}sente
+		la portion de ligne d'entr{\'e}e qui correspond {\`a} l'expression
+		r{\'e}guli{\`e}re.
+		\\
+	\hline
+\end{tabular}
+\end{center}
+
+\begin{example}
+\begin{verbatim*}
+s/\([ \t]*function[ \t]*\)\([0-z]*\)\([ \t]*(.*)\)/#FONCTION \2/
+\end{verbatim*}
+
+La commande <<~{\tt sed}~>> utilis{\'e}e ici est la commande <<~{\tt s}~>>. Sa
+syntaxe est~:
+\begin{center}
+$[${\sl adresse1}$[$,{\sl adresse2}$]${\tt s/}{\it expr$_1$}{\tt /}{\it expr$_2$}{\tt /}$[${\tt g}$]$
+\end{center}
+
+On constate donc que les adresses de d{\'e}but et de fin sont absentes. Par
+cons{\'e}quent, cette requ{\^e}te s'applique {\`a} toutes les lignes en entr{\'e}e
+(cf. \ref{sed-def-addr}). Apr{\`e}s analyse, il appara{\^\i}t que
+cette requ{\^e}te <<~{\tt sed}~>> se d{\'e}compose de la fa\c{c}on suivante~:\\[1ex]
+{\tt s/}\\
+\hspace{0.5cm}\verb*=\([ \t]*function[ \t]*\)=\\
+\hspace{0.5cm}\verb*=\([0-z]*\)=\\
+\hspace{0.5cm}\verb*=\([ \t]*(.*)\)=\\
+{\tt /}\\
+\hspace{0.5cm}\verb*=#FONCTION \2=\\
+{\tt /}\\[1ex]
+Nous distinguons donc trois regroupements d'expression r{\'e}guli{\`e}re~:
+\begin{enumerate}
+	\item	<<~\verb*=[ \t]*funtion[ \t]*=~>>
+	\item	<<~\verb=[0-z]*=~>>
+	\item	<<~\verb*=[ \t]*(.*)=~>>
+\end{enumerate}
+Dans le second membre de la commande <<~{\tt s}~>> (<<~\verb=#FONCTION \2=~>>)
+l'expression <<~\verb=\2=~>> r{\'e}f{\'e}rence donc la chaine correspondant {\`a}
+<<~\verb=[0-z]*=~>>.
+
+Analysons chaque regroupement du premier membre de cette requ{\^e}te~:
+<<~\verb*=[ \t]*funtion[ \t]*=~>>.
+
+Tout d'abord <<~\verb*=[ \t]*=~>> d{\'e}signe le caract{\`e}re
+\spacekey ou bien \tabkey un nombre quelconque de fois. <<~{\tt
+function}~>> repr{\'e}sente tout simplement cette chaine de caract{\`e}res. Par
+cons{\'e}quent, <<~\verb*=[ \t]*funtion[ \t]*=~>> d{\'e}signe la chaine <<~{\tt
+function}~>> suivie et pr{\'e}c{\'e}d{\'e}e d'espaces et de tabulations.
+
+La seconde partie, <<~\verb=[0-z]*=~>>, d{\'e}signe un des caract{\`e}res
+dont le code {\ASCII} est compris entre celui de <<~{\tt 0}~>> et celui
+de <<~{\tt z}~>>\footnote{Cette plage inclue l'ensemble des chiffres,
+toutes les lettres minuscules et majuscules, plus un certain nombre de
+caract{\`e}res de ponctuation. Pour plus de pr{\'e}cisions, reportez-vous
+{\`a} la table du jeu de caract{\`e}res {\ASCII}.}, un nombre quelconque de fois.
+Nous avons donc, approximativement, une chaine de caract{\`e}re quelconque
+{\bf sans espaces ni tabulations}.
+
+La troisi{\`e}me partie, <<~\verb*=[ \t]*(.*)=~>> reprend la s{\'e}quence
+<<~\verb*=[ \t]*=~>> repr{\'e}sentant une s{\'e}quence d'espaces et de tabulations
+un nombre quelconque de fois. <<~\verb*=(.*)=~>> d{\'e}signe le caract{\`e}re
+<<~{\tt (}~>>, suivi de caract{\`e}res quelconques un nombre ind{\'e}termin{\'e} de fois
+(<<~\verb=.*=~>>), suivi par le caract{\`e}re <<~{\tt )}~>>. En conclusion,
+cette derni{\`e}re partie repr{\'e}sente une chaine de caract{\`e}res quelconque
+({\'e}vuentuellement vide) encadr{\'e}e par des parenth{\`e}ses et pr{\'e}c{\'e}d{\'e}e par un
+nombre quelconque d'espaces et de tabulations.
+
+Le premier membre de cette requ{\^e}te <<~{\tt sed}~>>,
+\begin{center}
+\begin{verbatim*}
+\([ \t]*function[ \t]*\)\([0-z]*\)\([ \t]*(.*)\)
+\end{verbatim*}
+\end{center}
+repr{\'e}sente donc~:
+\begin{enumerate}
+	\item	le mot <<~{\tt function}~>> pr{\'e}c{\'e}d{\'e} et suivi d'un nombre
+			quelconque d'espaces et de tabulations,
+	\item	une chaine de caract{\`e}res quelconques {\bf sans espaces ni
+			tabulations},
+	\item	une chaine de caract{\`e}res entre parenth{\`e}ses pr{\'e}c{\'e}d{\'e}e te suivie
+			d'un nombre quelconque d'espaces et de tabulations.
+\end{enumerate}
+
+La seconde partie de la requ{\^e}te <<~{\tt sed}~>>,
+\begin{center}
+\begin{verbatim*}
+#FONCTION \2
+\end{verbatim*}
+\end{center}
+substitue l'ensemble de la ligne par~:
+\begin{itemize}
+	\item	la chaine <<~\verb*=#FONCTION =~>>,
+	\item	la partie correspondant au second membre de l'expression
+			r{\'e}guli{\`e}re pr{\'e}c{\'e}dente, c'est-{\`a}-dire une chaine de caract{\`e}res
+			quelconques {\bf sans espaces ni tabulations}.
+\end{itemize}
+\end{example}
+
+\begin{example}
+\begin{verbatim}
+s/abcdef1234567890/&ghijkl/
+\end{verbatim}
+
+Cette requ{\^e}te <<~{\tt sed}~>> {\'e}quivaut {\`a}~:
+\begin{verbatim}
+s/abcdef1234567890/abcdef1234567890ghijkl/
+\end{verbatim}
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exemples avanc{\'e}s}
+
+Pour plus d'exemples sur la commande <<~{\tt sed}~>>, reportez vous au
+chapitre \ref{adv-programming}.
+
+
+%%%%%%%%%%%%%%
+\subsection{\label{adv-fltrs-sed-ex1}Exemple 1}
+
+Le but de cet exemple est de~:
+\begin{description}
+	\item[But~:]\mbox{}\\
+		L'utilisateur d{\'e}sire conna{\^\i}tre la localisation dans l'arborescence du
+		syst{\`e}me de diverses commandes.\\[2ex]
+	\item[R{\'e}alisation~:]\mbox{}\\
+		On se propose, alors, de d{\'e}velopper un script en Bourne Shell, dont le nom est
+		<<~{\tt locate}~>>, acceptant un nombre quelconque d'arguments
+		repr{\'e}sentant les commandes {\`a} localiser et d'afficher le chemin absolu de
+		chaque ex{\'e}cutable correspondant. Si, par hasard, aucun fichier n'a pu {\^e}tre
+		trouv{\'e}, on affichera un message d'erreur.\\[2ex]
+	\item[Syntaxe~:]\mbox{}\\
+		La syntaxe propos{\'e}e, pour appeler ce script est~:
+		\begin{quote}
+		{\tt locate}~{\sl file}$\cdots$
+		\end{quote}
+\end{description}
+
+Le script obtenu est alors~:
+\begin{verbatim}
+#!/bin/sh
+if [ $# -eq 0 ]; then
+    echo "`basename $0`: missing arguments." >&2
+    echo "usage: `basename $0` file ..." >&2
+    exit -1
+fi
+while
+    [ $# -ne 0 ]
+do
+    find_it=0
+    for dir in `echo $PATH | sed -e 's/:/ /g'`
+    do
+        if [ -f $dir/$1 ]; then
+            echo $dir/$1
+            find_it=1
+            break
+        fi
+    done
+    [ $find_it -eq 0 ] && echo "$1 not found in \"PATH\" variable." >&2
+    shift
+done
+\end{verbatim}
+
+Nous allons maintenant d{\'e}tailler le fonctionnement.
+
+\begin{verbatim}
+#!/bin/sh
+if [ $# -eq 0 ]; then
+    echo "`basename $0`: missing arguments." >&2
+    echo "usage: `basename $0` file ..." >&2
+    exit -1
+fi
+\end{verbatim}
+\begin{quote}
+
+Tout d'abord, le script v{\'e}rifie que le nombre d'arguments est bien non nul gr{\^a}ce
+{\`a} la variable <<~\verb,$#,~>>. Si ce n'est pas le cas, on extrait le nom du
+script, contenu dans la variable <<~\verb,$0,~>> pour afficher le message d'erreur
+correspondant, ainsi que la fa\c{c}on de l'utiliser.
+\end{quote}
+
+\begin{verbatim}
+while
+    [ $# -ne 0 ]
+do
+\end{verbatim}
+\vspace{2ex}
+$\cdots$
+\\[2ex]
+\begin{verbatim}
+    shift
+done
+\end{verbatim}
+\begin{quote}
+Afin de pouvoir analyser tous les arguments, le programme va effectuer une boucle
+tant que le nombre d'arguments est non nul. L'utilisation de la commande <<~{\tt shift}~>>
+permettra de mettre {\`a} jour la valeur qui y est contenue et l'argument qui sera trait{\'e} sera
+toujours contenu dans la variable positionnelle <<~{\tt 1}~>> (son contenu sera appel{\'e} gr{\^a}ce
+{\`a} <<~\verb=$1=~>>).
+\end{quote}
+
+\begin{verbatim}
+find_it=0
+for dir in `echo $PATH | sed -e 's/:/ /g'`
+do
+\end{verbatim}
+\vspace{2ex}
+$\cdots$
+\\[2ex]
+\begin{verbatim}
+done
+\end{verbatim}
+\begin{quote}
+La variable <<~{\tt PATH}~>> contient la liste des r{\'e}pertoires {\`a} examiner, sachant que
+chaque nom est s{\'e}par{\'e} par le caract{\`e}re <<~{\tt :}~>>. La boucle <<~{\tt for}~>>
+admet une liste de valeurs s{\'e}par{\'e}es par des espaces. Par cons{\'e}quent, il faut fournir
+{\`a} <<~{\tt for}~>>, cette liste {\`a} partir du contenu de <<~{\tt PATH}~>> dont il faudra
+remplacer <<~{\tt :}~>> par \spacekey.
+
+Pour cela, la commande <<~\verb,echo $PATH,~>> renvoie sur l'entr{\'e}e standard de la
+commande <<~{\tt sed}~>>. La requ{\^e}te <<~\verb*,s/:/ /g,~>> substitue chaque
+occurence (gr{\^a}ce {\`a} l'option <<~{\tt g}~>>) du caract{\`e}re <<~{\tt :}~>> par
+\spacekey.
+
+Le r{\'e}sultat de <<~\verb*,`echo $PATH | sed -e 's/:/ /g'`,~>> est {\'e}valu{\'e} par le
+shell lors de l'{\'e}tape des <<~{\sl substitutions de commandes}~>>. Le r{\'e}sultat obtenu
+est donc~:
+\begin{center}
+\verb,for dir in, {\sl rep1} {\sl rep2} {\sl rep3} $\cdots$
+\end{center}
+Par cons{\'e}quent, la variable <<~{\tt dir}~>> va contenir, {\`a} chaque it{\'e}ration, l'un
+des r{\'e}pertoires contenus dans la variable <<~{\tt PATH}~>>. Il ne restera plus qu'{\`a}
+v{\'e}rifier l'existance du fichier concern{\'e}, dont le nom, lui, est contenu dans la variable
+<<~{\tt 1}~>>. Cette variable prendra, {\`a} tour de r{\^o}le, la valeur des diff{\'e}rents
+arguments pass{\'e} au script, gestion assur{\'e} par la boucle <<~{\tt while}~>> associ{\'e}
+{\`a} la commande <<~{\tt shift}~>>.
+
+La variable <<~{\tt find\_it}~>> est un {\it flag} indiquant si le fichier a {\'e}t{\'e} trouv{\'e}
+lors de l'ex{\'e}cution de la boucle <<~{\tt for}~>>.
+\end{quote}
+
+\begin{verbatim}
+if [ -f $dir/$1 ]; then
+    echo $dir/$1
+    find_it=1
+    break
+fi
+\end{verbatim}
+\begin{quote}
+Cette op{\'e}ration est simple. Un test v{\'e}rifie l'existance du fichier. S'il existe, le nom complet
+est affich{\'e} sur la sortie standard et le {\it flag} <<~{\tt find\_it}~>>
+est positionn{\'e} {\`a} la valeur $1$ et on force la sortie de la boucle <<~{\tt for}~>>. Dans le
+cas contraire, l'ex{\'e}cution de la boucle se poursuit.
+\end{quote}
+
+\begin{verbatim}
+[ $find_it -eq 0 ] && echo "$1 not found in \"PATH\" variable." >&2
+shift
+\end{verbatim}
+\begin{quote}
+{\`A} ce stade de l'ex{\'e}cution, chaque r{\'e}pertoire contenu dans la variable <<~{\tt PATH}~>>
+a {\'e}t{\'e} examin{\'e}, {\`a} moins qu'une sortie n'aie {\'e}t{\'e} provoqu{\'e} lorsque le fichier a {\'e}t{\'e} trouv{\'e}.
+Dans ce cas, le script affichera le message d'information sur la sortie d'erreur
+standard (redirection gr{\^a}ce {\`a} <<~\verb=>&2=~>>) {\`a} condition que la variable
+<<~\verb=find_it=~>> soit non nulle.
+
+Il ne restera plus qu'{\`a} passer {\`a} l'argument suivant gr{\^a}ce {\`a} la commande <<~\verb=shift=~>>.
+\end{quote}
+
+
+%%%%%%%%%%%%%%
+\subsection{\label{adv-fltrs-sed-ex2}Exemple 2}
+
+Le but de cet exemple est d'afficher toutes les lignes d'un fichier se terminant par
+<<~\verb=*/=~>>.
+
+Pour cela, nous allons utiliser la notion des espaces de travail de <<~{\tt sed}~>>.
+Nous avons vu, {\`a} la section \ref{sed-fonct}, que <<~{\tt sed}~>> copiait dans son
+espace de travail, toutes les lignes (ou {\sl enregistrements}), arrivant sur son
+entr{\'e}e standard, correspondant aux crit{\`e}res de s{\'e}lection sp{\'e}cifi{\'e}s dans les adresses
+de d{\'e}but et de fin de la requ{\^e}te.
+
+Il ne nous reste donc qu'{\`a} formuler le crit{\`e}re de s{\'e}lection ad{\'e}quat et d'afficher sur
+la sortie standard, le contenu de l'espace de travail.
+
+La cha{\^\i}ne {\`a} consid{\'e}rer est donc <<~\verb=*/=~>>. Or le caract{\`e}re <<~\verb=*=~>> a une
+signification particuli{\`e}re dans une expression r{\'e}guli{\`e}re. Par cons{\'e}quent, le caract{\`e}re
+d'{\'e}chappement <<~\verb=\=~>> doit {\^e}tre utilis{\'e}. L'expression r{\'e}guli{\`e}re
+correspondant {\`a} la cha{\^\i}ne <<~\verb=*/=~>> est donc <<~\verb=\*/=~>>. Il ne reste
+plus qu'{\`a} y ajouter le caract{\`e}re ad{\'e}quat pour les expressions r{\'e}guli{\`e}res caract{\'e}risant
+la fin d'une ligne, c'est-{\`a}-dire <<~\verb=$=~>>. Nous obtenons donc l'expression
+suivante~:
+\begin{center}
+\verb=\*\/$=
+\end{center}
+
+Le crit{\`e}re de s{\'e}lection {\`a} appliquer dans la sp{\'e}cification des adresses de d{\'e}but et
+de fin pour la requ{\^e}te <<~{\tt sed}~>> correspond {\`a} toutes les lignes satisfaisant
+l'expression r{\'e}guli{\`e}re pr{\'e}c{\'e}dente. Ces deux adresses seront donc identiques et
+correspondront {\`a} cette expression. Il suffira donc de ne la sp{\'e}cifier qu'une seule
+fois en la d{\'e}limitant par le caract{\`e}re <<~\verb=/=~>>.
+
+La commande permettant d'afficher l'espace de travail sur la sortie standard, est
+<<~{\tt p}~>>.
+
+Nous obtenons donc~:
+\begin{quote}
+\begin{verbatim}
+sed -n '/\*\/$/p' fichier
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%
+\subsection{\label{adv-fltrs-sed-ex3}Exemple 3}
+
+Le but de cet exemple est de~:
+\begin{itemize}
+	\item	supprimer les lignes commen\c{c}ant par <<~\verb=#=~>>,
+	\item	sur une ligne, tout ce qui suit le caract{\`e}re <<~\verb=#=~>>.
+\end{itemize}
+
+Nous devons donc proc{\'e}der en deux {\'e}tapes~:
+\begin{description}
+	\item[{\sl Premi{\`e}re {\'e}tape~:}]\mbox{}\\
+		Le premier traitement {\`a} effectuer est celui de supprimer toute ligne
+		comman\c{c}ant par <<~\verb=#=~>>. En effet, si notre commande supprime
+		tout d'abord tout ce qui suit le caract{\`e}re <<~\verb=#=~>>, y compris
+		celui-ci, nous obtiendrons une ligne blanche {\`a} supprimer, qu'il ne sera pas
+		possible de distinguer d'une ligne d{\'e}j{\`a} blanche qui, elle, ne devra pas {\^e}tre
+		supprim{\'e}e.
+	\item[{\sl Seconde {\'e}tape~:}]\mbox{}\\
+		Le traitement doit s'effectuer sur le r{\'e}sultat de la premi{\`e}re {\'e}tape. Nous obtenons
+		une s{\'e}rie d'enregistrements ({\sl lignes de fichiers}) dont, aucune ne commence
+		par <<~\verb=#=~>>. Il ne restera donc plus qu'{\`a} substituer tout ce qui suit le
+		caract{\`e}re <<~\verb=#=~>> par rien, caract{\`e}re <<~\verb=#=~>> compris.
+		Ce traitement s'effectuera sur toutes les lignes. L'op{\'e}ration de substitution ne
+		s'ex{\'e}cutera donc seulement si il existe une occurence du caract{\`e}re <<~\verb=#=~>>
+		sur la ligne.
+\end{description}
+
+Deux m{\'e}thodes sont possibles~:
+\begin{itemize}
+	\item	soit nous utilisons deux commandes <<~{\tt sed}~>> disposant chacune
+			de la requ{\^e}te associ{\'e}e {\`a} l'{\'e}tape consid{\'e}r{\'e}e et reli{\'e}es entre elles
+			par le m{\'e}canisme des <<~{\sl pipe}~>> gr{\^a}ce au caract{\`e}re <<~\verb=|=~>>,
+	\item	soit nous utilisons une seule commande <<~{\tt sed}~>> devant ex{\'e}cuter
+			ces deux requ{\^e}tes.
+\end{itemize}
+
+Dans un but p{\'e}dagogique, nous montrerons la seconde m{\'e}thode. En effet, elle mettra
+en {\'e}vidence comment combiner les requ{\^e}tes entre-elles et aussi la fa\c{c}on de les
+ordonner.
+
+Examinons la requ{\^e}te {\`a} {\'e}crire pour ex{\'e}cuter la premi{\`e}re {\'e}tape. Tout d'abord, la commande
+<<~{\tt sed}~>> associ{\'e}e {\`a} la suppression est <<~{\tt d}~>>. {\`A} cette commande,
+la sp{\'e}cification des adresses de d{\'e}but et de fin doit correspondre {\`a} toute ligne commen\c{c}ant
+par <<~\verb=#=~>>. Nous allons donc utiliser une expression r{\'e}guli{\`e}re et les deux
+adresses seront identiques. L'expression r{\'e}guli{\`e}re ad{\'e}quate correspond {\`a}~:
+\begin{enumerate}
+	\item	d{\'e}but de ligne,
+	\item	caract{\`e}re <<~\verb=#=~>>,
+	\item	quelque chose {\'e}ventuellement, c'est-{\`a}-dire un caract{\`e}re quelconque un
+			nombre quelconque de fois (z{\'e}ro {\'e}ventuellement).
+\end{enumerate}
+Les correspondances, au niveau des expressions r{\'e}guli{\`e}res sont~:\\
+\begin{center}
+\begin{tabular}{|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|}
+	\hline
+		\hfill Description \hfill	&
+		\hfill Expression \hfill	\\
+	\hline \hline
+		d{\'e}but de ligne					&	\verb=^=		\\
+		caract{\`e}re <<~\verb=#=~>>		&	\verb=#=		\\
+		quelque chose {\'e}ventuellement	&	\verb=.*=		\\
+	\hline
+\end{tabular}
+\end{center}
+
+La requ{\^e}te correspondant {\`a} la premi{\`e}re {\'e}tape est donc~:
+\begin{center}
+\verb=/^#.*/d=
+\end{center}
+
+Examinons maintenant la requ{\^e}te {\`a} {\'e}crire pour ex{\'e}cuter la seconde {\'e}tape. Comme
+il a {\'e}t{\'e} dit pr{\'e}c{\'e}demment, cette requ{\^e}te devra s'appliquer sur toutes les lignes
+obtenues par la premi{\`e}re. Sachant que les requ{\^e}tes s'ex{\'e}cutent s{\'e}quentiellement,
+lors de l'appel {\`a} la seconde, les enregistrements qui lui sont fournis sont
+ceux qui r{\'e}sultent de la {\sl premi{\`e}re} ex{\'e}cution. Par cons{\'e}quent, les adresses
+de d{\'e}but et de fin ne sont pas {\`a} sp{\'e}cifier car ce sont toutes les lignes
+qu'il faut traiter.
+
+La commande de substitution de <<~{\tt sed}~>> est <<~{\tt s}~>>. Sa syntaxe est~:
+\begin{center}
+{\tt s/}{\sl expression$_1$}{\tt /}{\sl expression$_2$}{\tt /}[{\tt g}]
+\end{center}
+Ici, <<~{\sl expression$_1$}~>> devra correspondre {\`a} la s{\'e}quence suivante~:
+\begin{itemize}
+	\item	caract{\`e}re <<~\verb=#=~>>,
+	\item	quelque chose {\'e}ventuellement, c'est-{\`a}-dire une suite de caract{\`e}res
+			quelconques un nombre quelconque de fois,
+	\item	fin de ligne.
+\end{itemize}
+Quant {\`a} <<~{\sl expression$_2$}~>>, elle devra repr{\'e}sent{\'e} ce par quoi
+<<~{\sl expression$_1$}~>> devra {\^e}tre remplac{\'e}, c'est-{\`a}-dire <<~{\bf rien}~>>.
+Par cons{\'e}quent, {\bf <<~{\sl expression$_2$}~>> sera vide}. Il ne nous reste donc
+plus qu'{\`a} formuler l'expression r{\'e}gul{\`e}re associ{\'e}e {\`a} <<~{\sl expression$_1$}~>>.
+En fonction de ce que doit d{\'e}crire <<~{\sl expression$_1$}~>>, nous avons
+les correspondances suivantes avec les expressions r{\'e}guli{\`e}res~:
+\begin{center}
+\begin{tabular}{|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|}
+	\hline
+		\hfill Description \hfill	&
+		\hfill Expression \hfill	\\
+	\hline \hline
+		caract{\`e}re <<~\verb=#=~>>		&	\verb=#=	\\
+		quelque chose {\'e}ventuellement	&	\verb=.*=	\\
+		fin de ligne					&	\verb=$=	\\
+	\hline
+\end{tabular}
+\end{center}
+
+La requ{\^e}te correspondant {\`a} la seconde {\'e}tape est donc~:
+\begin{center}
+\verb=s/#.*$//=
+\end{center}
+Nous prenons donc bien en compte tout ce qu'il y a entre la premi{\`e}re occurence
+du caract{\`e}re <<~\verb=#=~>> jusqu'{\`a} la fin de la ligne. Cette entit{\'e} est
+substitu{\'e}e par <<~{\sl rien}~>>.
+
+Nous obtenons donc~:
+\begin{quote}
+\begin{verbatim}
+sed -e '/^#.*/d' -e 's/#.*$//' fichier
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%
+\subsection{\label{adv-fltrs-sed-ex4}Exemple 4}
+
+Le but de cet exemple est de r{\'e}cup{\'e}rer le champ <<~{\sl login}~>> et <<~{\sl UID}~>>
+du fichier <<~{\tt /etc/passwd}~>>.
+
+D'apr{\`e}s le format utilis{\'e} pour ce fichier (explicit{\'e} dans {\tt passwd(5)}), tous
+les champs sont s{\'e}par{\'e}s par le caract{\`e}re <<~{\tt :}~>>. Par cons{\'e}quent,
+le contenu de chaque champ interdit l'utilisation de ce caract{\`e}re. Les champs
+de ce fichier auront donc comme propri{\'e}t{\'e}~:
+\begin{quote}
+Les caract{\`e}res contenus pour chaque champ du fichier {\tt /etc/passwd} sont
+tous les caract{\`e}res alphanum{\'e}riques valides {\`a} l'exception du caract{\`e}re
+<<~{\tt :}~>>.
+\end{quote}
+Pour repr{\'e}senter une cha{\^\i}ne de caract{\`e}res ne contenant pas <<~{\tt :}~>> {\`a}
+l'aide des expressions r{\'e}guli{\`e}res, nous allons utiliser les plages de caract{\`e}res
+en excluant les caract{\`e}res non valides. Nous aurons donc~:
+\begin{center}
+\verb=[^:]*=\\[1ex]
+\end{center}
+
+Les champs <<~{\sl login}~>> et <<~{\sl UID}~>> repr{\'e}sentent les premier et
+troisi{\`e}me champ du fichier <<~{\tt /etc/passwd}~>>. Par cons{\'e}quent, la m{\'e}thode
+{\`a} suivre pour d{\'e}crire notre requ{\^e}te est la suivante~:
+\begin{itemize}
+	\item	le d{\'e}but de ligne,\\[2ex]
+	\item	une s{\'e}quence de caract{\`e}res ne contenant pas <<~{\tt :}~>> permettant
+			d'isoler le premier champ, donc le champ <<~{\sl login}~>>,\\[2ex]
+	\item	le caract{\`e}re <<~{\tt :}~>>,\\[2ex]
+	\item	une s{\'e}quence de caract{\`e}res ne contenant pas <<~{\tt :}~>> permettant
+			d'isoler le second champ,\\[2ex]
+	\item	le caract{\`e}re <<~{\tt :}~>>,\\[2ex]
+	\item	une s{\'e}quence de caract{\`e}res ne contenant pas <<~{\tt :}~>> permettant
+			d'isoler le troisi{\`e}me  champ, donc le champ <<~{\sl UID}~>>,\\[2ex]
+	\item	une s{\'e}quence de caract{\`e}res quelconques (<<~{\tt :}~>> pouvant y
+			appara{\^\i}tre),\\[2ex]
+	\item	la fin de la ligne.
+\end{itemize}
+Nous avons donc identifi{\'e} quatre groupements~:
+\begin{itemize}
+	\item	le premier associ{\'e} au champ <<~{\sl login}~>>,\\[2ex]
+	\item	le second associ{\'e} {\`a} une s{\'e}quence de caract{\`e}res ne
+			contenant pas <<~{\tt :}~>>, encadr{\'e}e {\`a} gauche et {\`a} droite par
+			<<~{\tt :}~>>\footnote{Ce regroupement permet d'isoler le second
+			champ avec les caract{\`e}res de d{\'e}limitation.},\\[2ex]
+	\item	le troisi{\`e}me associ{\'e} au champ <<~{\sl UID}~>>,\\[2ex]
+	\item	le quatri{\`e}me associ{\'e} {\`a} une s{\'e}quence de caract{\`e}res quelconques
+			(<<~{\tt :}~>> pouvant y appara{\^\i}tre) jusqu'{\`a} la fin de la ligne.
+\end{itemize}
+
+Examinons maintenant l'expression r{\'e}guli{\`e}re associ{\'e}e~:
+\begin{center}
+\begin{tabular}{|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|}
+	\hline
+		\hfill Description \hfill	&
+		\hfill Expression \hfill	\\
+	\hline \hline
+		d{\'e}but de ligne					&	\verb=^=		\\[2ex]
+		s{\'e}quence de caract{\`e}res
+		ne contenant pas <<~{\tt :}~>>	&	\verb=[^:]*=	\\[2ex]
+		le caract{\`e}re <<~{\tt :}~>>		&	\verb=:=		\\[2ex]
+		s{\'e}quence de caract{\`e}res
+		ne contenant pas <<~{\tt :}~>>	&	\verb=[^:]*=	\\[2ex]
+		le caract{\`e}re <<~{\tt :}~>>		&	\verb=:=		\\[2ex]
+		s{\'e}quence de caract{\`e}res
+		ne contenant pas <<~{\tt :}~>>	&	\verb=[^:]*=	\\[2ex]
+		s{\'e}quence de caract{\`e}res
+		quelconques						&	\verb=.*=		\\[2ex]
+		fin de ligne					&	\verb=$=		\\
+	\hline
+\end{tabular}
+\end{center}
+
+En fonction des regroupements explicit{\'e}s pr{\'e}c{\'e}demment, nous obtenons
+l'expression suivante~:
+\begin{quote}
+\begin{verbatim}
+^\([^:]*\)\(:[^:]*:\)\([^:]*\)\(.*$\)
+\end{verbatim}
+\end{quote}
+
+Maintenant, il ne nous reste plus qu'{\`a} prendre tout ce qui correspond
+au premier et troisi{\`e}me regroupement dans chaque enregistrement (lignes
+arrivant sur l'entr{\'e}e standard), et formater la sortie de la fa\c{c}on suivante~:
+\begin{quote}
+\begin{center}
+\fbox{{\sl login}}~\tabkey~\fbox{{\sl UID}}
+\end{center}
+donc~:
+\begin{center}
+\fbox{{\sl regroupement$_1$}}~\tabkey~\fbox{{\sl regroupement$_3$}}
+\end{center}
+\end{quote}
+
+Nous obtenons donc~:
+\begin{quote}
+\begin{verbatim*}
+sed -e 's/^\([^:]*\)\(:[^:]*:\)\([^:]*\)\(.*$\)/\1\t\3/' /etc/passwd
+\end{verbatim*}
+\end{quote}
+
+%%%%%%%%%%%%%%
+\subsection{\label{adv-fltrs-sed-ex5}Exemple 5}
+
+Le but de cet exemple est de copier de tous les utilisateurs pr{\'e}c{\'e}dent
+l'entr{\'e}e du compte <<~{\tt uucp}~>> dans <<~{\tt /etc/passwd}~>> et
+d{\'e}placer de les {\`a} la fin, compte <<~{\tt uucp}~>> compris. Le r{\'e}sultat sera
+affich{\'e} sur la sortie standard.
+
+Pour cela on fait appel {\`a} un fichier de commandes <<~{\tt sed}~>> que
+l'on nommera <<~{\tt script.sed}~>>. L'appel se fera de la fa\c{c}on suivante~:
+\begin{quote}
+\begin{verbatim}
+sed -f script.sed /etc/passwd
+\end{verbatim}
+\end{quote}
+
+
+D{\'e}taillons les op{\'e}rations {\`a} effectuer~:
+\begin{itemize}
+	\item	{\sl Couper} dans un espace de travail particulier, {\`a} partir de
+			la premi{\`e}re ligne jusqu'{\`a} celle commen\c{c}ant par <<~{\tt uucp}~>>.
+	\item	Se placer {\`a} la fin de l'espace m{\'e}moire contenant les enregistrements
+			{\`a} traiter par <<~{\tt sed}~>> et {\sl coller} le contenu de l'espace
+			pr{\'e}c{\'e}dent.
+\end{itemize}
+
+Pour cela, nous allons utiliser les commandes li{\'e}es {\`a} la gestion de l'espace
+m{\'e}moire et l'espace de travail de <<~{\tt sed}~>>. Comme il l'a {\'e}t{\'e} d{\'e}crit
+{\`a} la section \ref{sed-fonct}, <<~{\tt sed}~>> dispose d'un espace m{\'e}moire
+permettant de stocker temporairement, un certain nombre d'informations.
+
+La premi{\`e}re {\'e}tape consiste donc {\`a} partir du d{\'e}but du fichier (donc de la
+premi{\`e}re ligne) et parcourir jusqu'{\`a} la premi{\`e}re ligne commen\c{c}ant par
+<<~{\tt uucp}~>>. Sachant que les nom d'utilisateurs sont uniques, le
+fichier ne contiendra qu'une et une seule ligne commen\c{c}ant par
+<<~{\tt uucp}~>>. Les adresses de d{\'e}but et de fin sont donc~:
+\begin{center}
+\begin{tabular}{|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|}
+	\hline
+		\hfill Description \hfill	&
+		\hfill Expression \hfill	\\
+	\hline \hline
+		Premi{\`e}re ligne									&	\verb=1=		\\
+		Premi{\`e}re ligne commen\c{c}ant par <<~{\tt uucp}~>>	&	\verb=/^uucp/=	\\
+	\hline
+\end{tabular}
+\end{center}
+La commande <<~{\tt sed}~>> appropri{\'e}e pour stocker l'ensemble de ces lignes
+dans un espace m{\'e}moire est <<~{\tt H}~>> (cf. section \ref{sed-cmds}).
+La requ{\^e}te associ{\'e}e est donc~:
+\begin{quote}
+\begin{verbatim}
+1,/^uucp/H
+\end{verbatim}
+\end{quote}
+
+{\`A} ce stade de l'ex{\'e}cution, l'enregistrement courrant arrivant sur l'entr{\'e}e de
+<<~{\tt sed}~>> est la ligne du fichier <<~{\tt /etc/passwd}~>> d{\'e}finissant le
+compte utilisateur suivant celui de <<~{\tt uucp}~>>. Aucune action n'est sp{\'e}cifi{\'e}e.
+Les lignes sont donc r{\'e}{\'e}critures sans aucune op{\'e}ration sur la sortie standard.
+
+Lorsque la fin de fichier est rencontr{\'e}e, <<~{\tt sed}~>> doit afficher ce
+qu'il a pr{\'e}c{\'e}demment m{\'e}moriser dans son espace m{\'e}moire. Par cons{\'e}quent, l'adresse
+valide pour ex{\'e}cuter la requ{\^e}te est celle correspondant {\`a} la fin de fichier~:
+<<~\verb=$=~>>. Ici les adresses de d{\'e}but et de fin sont identiques~: elles
+doivent correspondre toutes les deux {\`a} la fin de fichier.
+La commande <<~{\tt sed}~>> appropri{\'e}e pour afficher sur la sortie standard
+l'ensemble de ces lignes pr{\'e}c{\'e}demment stock{\'e}es dans un espace m{\'e}moire est
+<<~{\tt G}~>> (cf. section \ref{sed-cmds}).
+La requ{\^e}te associ{\'e}e est donc~:
+\begin{quote}
+\begin{verbatim}
+$G
+\end{verbatim}
+\end{quote}
+
+En conclusion, le contenu du fichier <<~{\tt script.sed}~>> est~:
+\begin{quote}
+\begin{verbatim}
+1,/^uucp/H
+$G
+\end{verbatim}
+\end{quote}
+
+\begin{remarque}
+L'espace m{\'e}moire utilis{\'e} est, bien s{\^u}r, propre {\`a} <<~{\tt sed}~>>. Les
+op{\'e}rations <<~{\tt g}~>> et <<~{\tt h}~>> sont similaires mais avec un espace
+vide au d{\'e}part.
+\end{remarque}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{adv-fltrs-sed-f}Remarque sur l'utilisation de
+			l'option <<~{\tt -f}~>>}
+
+{\`A} la r{\`e}gle 10 explicit{\'e}e {\`a} la section \ref{pgm-intro-basic-rules}, nous
+avions pr{\'e}ciser que la premi{\`e}re ligne d'un script devait sp{\'e}cifier le nom
+de l'ex{\'e}cutable associ{\'e} au shell utiliser.
+
+Nous avons vu de m{\^e}me, que la commande <<~{\tt sed}~>> dispose de l'option
+<<~{\tt -f}~>>, permettant de pr{\'e}ciser un fichier de requ{\^e}tes <<~{\tt sed}~>>.
+
+Si l'analogie est faite avec le shell, le processus charg{\'e} d'{\'e}valuer chaque
+ligne du fichier est l'ex{\'e}cutable sp{\'e}cifi{\'e} au niveau de la premi{\`e}re
+ligne du fichier contenant les instructions. Par cons{\'e}quent si le fichier
+contenant les requ{\^e}tes <<~{\tt sed}~>>~:
+\begin{itemize}
+	\item	a comme premi{\`e}re ligne <<~\verb=#!/usr/bin/sed=~>>\footnote{Nous
+			consid{\'e}rons ici que l'ex{\'e}cutable de <<~{\tt sed}~>> se trouve dans
+			le r{\'e}pertoire <<~{\tt /usr/bin}~>>. Pour en conna{\^\i}tre la
+			localisation exacte sur votre syst{\`e}me, vous pouvez utiliser
+			la commande <<~{\tt which(1)}~>> ou <<~{\tt whereis(1)}~>>.},
+	\item	est accessible en ex{\'e}cution,
+\end{itemize}
+il peut {\^e}tre consid{\'e}r{\'e} comme un filtre ex{\'e}cutant les requ{\^e}tes <<~{\tt sed}~>>
+qu'il contient.
+
+Par exemple, si cette notion est appliqu{\'e}e au fichier d{\'e}crit dans l'exemple
+de la section \ref{adv-fltrs-sed-ex5}, le contenu de ce fichier
+sera~:
+\begin{quote}
+\begin{verbatim}
+#!/usr/bin/sed
+1,/^uucp/H
+$G
+\end{verbatim}
+\end{quote}
+
+La commande qui sera saisie deviendra~:
+\begin{quote}
+\begin{verbatim}
+script.sed /etc/passwd
+\end{verbatim}
+\end{quote}

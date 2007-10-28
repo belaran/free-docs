@@ -1,0 +1,131 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Conventions
+%
+\section{Conventions et Notations}
+
+Dans toute la suite de ce document, les conventions suivantes seront adopt{\'e}es~:
+\begin{description}
+	\item[{\tt \% commande}]\mbox{}\\
+		repr{\'e}sente la commande saisie par l'utilisateur au ni\-veau de l'invite
+		({\sl prompt}) {\Unix}.\\
+		Cette commande ob{\'e}ira aux r{\`e}gles explicit{\'e}es au niveau de la section
+		\ref{bcpts-formcmd}.
+	\item[{\rm <<~$\sqcup$~>> ou \spacekey }]\mbox{}\\
+		repr{\'e}sente le caract{\`e}re <<~{\sl espace}~>>.
+	\item[\tabkey]\mbox{}\\
+		repr{\'e}sente le caract{\`e}re <<~{\sl Tabulation}~>>.
+	\item[\altkey]\mbox{}\\
+		repr{\'e}sente la touche <<~{\sl ALT}~>>.
+		En g{\'e}n{\'e}ral, la touche <<~{\sl ALT}~>> se trouve de part et d'autre de la
+		barre d'espace du clavier alpha-num{\'e}rique sur les claviers {\'e}tendus 102 touches.
+	\item[\shiftkey]\mbox{}\\
+		repr{\'e}sente la touche <<~{\sl SHIFT}~>> ou <<~$\uparrow$~>>,
+		ou encore <<~{\sl Maj}~>>. Cette touche permet de passer en mode
+		<<~{\sl majuscule}~>>.\\
+		En g{\'e}n{\'e}ral, la touche <<~{\sl SHIFT}~>> se trouve de part et d'autre
+		du clavier alpha-num{\'e}rique sur les claviers {\'e}tendus 102 touches.
+	\item[\ctrlkey]\mbox{}\\
+		repr{\'e}sente la touche <<~{\sl CONTROL}~>> ou <<~{\sl CTRL}~>>,
+		ou encore <<~{\sl ctrl}~>>.\\
+		En g{\'e}n{\'e}ral, la touche <<~{\sl CTRL}~>> se trouve de part et d'autre en bas
+		du clavier alpha-num{\'e}rique sur les claviers {\'e}tendus 102 touches.
+	\item[\returnkey]\mbox{}\\
+		repr{\'e}sente la touche <<~{\sl RETURN}~>> ou <<~{\sl ENTR\'{E}E}~>>
+		ou encore <<~\fbox{$\hookleftarrow$}~>>.\\
+		En g{\'e}n{\'e}ral, la touche <<~{\sl RETURN}~>> se trouve {\`a} droite
+		du clavier alpha-num{\'e}rique.
+	\item[\esckey]\mbox{}\\
+		repr{\'e}sente la touche <<~{\sl ESCAPE}~>> ou <<~{\sl esc}~>>.\\
+		En g{\'e}n{\'e}ral, la touche {\sl ESCAPE} se trouve en haut {\`a} gauche
+		sur les claviers {\'e}tendus 102 touches.
+	\item[\key{{\tt x}}]\mbox{}\\
+		repr{\'e}sente la touche du clavier permettant d'obtenir le caract{\`e}re
+		<<~{\tt x}~>>.
+	\item[\key{{\tt X}}]\mbox{}\\
+		repr{\'e}sente la combinaison des touches \shiftkey et
+		\key{{\tt x}}.
+	\item[\seqkey{{\sl X}}{{\sl Y}}]\mbox{}\\
+		repr{\'e}sente l'appuie simultan{\'e} sur les touches <<~{\sl X}~>> et
+		<<~{\sl Y}~>> du clavier.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section*{Correspondance avec les claviers <<~{\sl LK200}~>>
+%	et <<~{\sl LK400}~>>}
+%
+% Les claviers <<~{\sl LK200}~>> et <<~{\sl LK400}~>> sont utilis{\'e}s sur
+% les terminaux de type <<~{\tt VT200}~>>, <<~{\tt VT300}~>>, <<~{\tt VT400}~>> et
+% <<~{\tt VT500}~>> de Digital Equipment Corp. Ils poss{\`e}dent vingt touches de
+% fonction et un pav{\'e} num{\'e}rique l{\'e}g{\`e}rement diff{\'e}rent des claviers standard
+% 102 touches. Ils disposent des touches \fbox{{\tt CTRL}}.
+%
+% Les claviers <<~{\sl LK200}~>> fonctionnent sous {\Unix} avec
+% les possibilit{\'e}s suivantes~:
+% \begin{quote}
+% \begin{center}
+% \begin{tabular}{|@{\hspace{0.5ex}}c@{\hspace{0.5ex}}|c|p{6cm}|}
+%	\hline
+%		Touche				&	Disponible	&
+%			Substitution	\\
+%	\hline \hline
+%		\ctrlkey			&	Oui			&
+%							\\[1ex]
+%		\altkey				&	Non			&
+%			Aucune substitution possible.		\\[1ex]
+%		\esckey				&	Non			&
+%			\key{{\sc f12}}, \control{{\tt 3}},
+%			ou 	\control{$]$}	\\
+%	\hline
+% \end{tabular}
+% \end{center}
+% \end{quote}
+%
+% Les claviers <<~{\sl LK400}~>> fonctionnent sous {\Unix} avec
+% les possibilit{\'e}s suivantes~:\\
+% \begin{quote}
+% \begin{center}
+% \begin{tabular}{|@{\hspace{0.5ex}}c@{\hspace{0.5ex}}|c|p{6cm}|}
+%	\hline
+%		Touche				&	Disponible		&
+%			Substitution	\\
+%	\hline \hline
+%		\ctrlkey			&	Oui				&
+%							\\[1ex]
+%		\altkey				&	Oui				&
+%							\\[1ex]
+%		\esckey				&	Param{\`e}trable	&
+%			Vient en substition de la touche \key{$\tilde{}$}/\key{`}.
+%			Si la fonction \esckey est valid{\'e}e sur le clavier, les
+%			caract{\`e}res <<~$\tilde{}$~>> et <<~`~>> sont accessibles
+%			{\`a} partir de la touche \key{$>$}/\key{$<$} en bas {\`a} gauche
+%			du clavier alphanum{\'e}rique. Si cette fonction 
+%			n'est pas valid{\'e}e, la configuration est identique {\`a} celle
+%			des claviers <<~{\sl LK200}~>>, c'est-{\`a}-dire
+%			\key{{\sc f12}}, \control{{\tt 3}},
+%			ou 	\control{$]$}	\\
+%	\hline
+% \end{tabular}
+% \end{center}
+% \end{quote}

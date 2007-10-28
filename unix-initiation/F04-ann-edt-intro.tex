@@ -1,0 +1,100 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\section{Introduction}
+
+Dans ce chapitre de l'annexe, nous allons d{\'e}crire les deux {\'e}diteurs de texte
+les plus commun{\'e}ment utilis{\'e}s sous {\Unix}~:
+\begin{itemize}
+	\item	\index{vi@\texttt{vi}}"{\tt vi}",
+	\item	\index{emacs@\texttt{emacs}}"{\tt emacs}".
+\end{itemize}
+
+"{\tt vi}" est l'{\'e}diteur de texte de base sur tout syst{\`e}me
+{\Unix}. Il est livr{\'e} syst{\'e}matiquement et utilise toutes les notions de
+syntaxes vues avec les utilitaires comme "{\tt sed}" et "{\tt
+awk}" (cf. sections \ref{adv-fltrs-sed} et \ref{adv-fltrs-awk}). Il
+fonctionnera sur tout type de terminal, m{\^e}me sur un terminal
+t{\'e}l{\'e}type\footnote{m{\^e}me chose qu'un terminal {\ASCII} classique mais l'{\'e}cran
+est remplac{\'e} par une imprimante}. "{\tt vi}" n'est pas r{\'e}put{\'e} pour
+sa convivialit{\'e}. Il demande un certain temps d'adaptation. Une fois que
+l'on a r{\'e}ussi {\`a} s'y habituer, son utilisation devient ais{\'e}e et toutes
+ses fonctionnalit{\'e}s sont tr{\`e}s rapides d'acc{\`e}s.
+
+"{\tt emacs}" est un {\'e}diteur de texte du domaine public, livr{\'e}
+maintenant en standard sur certains {\Unix} (comme "Digital
+{\Unix}" \footnote{{\Unix} livr{\'e} sur les machines Digital, comme les
+{\sl AlphaStations}, {\sl AlphaServers}, etc.},
+"{\Linux}"\footnote{{\Unix} du domaine public pouvant tourner sur
+les architectures PC-Intel, PowerMacintosh ou compatibles, machines {\`a}
+base de processeurs MIPS et Alpha} "Irix"\footnote{{\Unix} de
+Silicon Graphics}). Dans le cas contraire, vous devrez aller chercher
+les sources et les recompiler sur votre machine\footnote{
+{\tt ftp://ftp.ibp.fr/pub/gnu} par exemple.}. Cet {\'e}diteur fonctionne
+aussi sur d'autres syst{\`e}mes d'exploitation comme {\MacOS}, {\Windows} et
+{\OpenVMS}. "{\tt emacs}" est beaucoup plus facile d'approche que
+"{\tt vi}". Toutefois, une utilisation pouss{\'e}e de cet {\'e}diteur montre
+que, lui aussi, n{\'e}cessite un apprentissage d'un nombre impressionnant de
+s{\'e}quence de touches\footnote{les mauvaises langues diront qu'"{\tt
+emacs}" repr{\'e}sente les initialises de \esckey, \key{{\sc meta}}, \altkey,
+\ctrlkey et \shiftkey.}
+
+"{\tt emacs}" est enti{\`e}rement reprogrammable. En effet, il s'appuie
+sur un moteur Lisp\footnote{Le langage Lisp {\'e}tait tr{\`e}s utilis{\'e} dans les
+d{\'e}veloppements en intelligence artificiel dans la fin des ann{\'e}es 80.}.
+On peut donc d{\'e}velopper toutes les extensions que l'on d{\'e}sire gr{\^a}ce {\`a} ce
+langage. "{\tt emacs}" se rapprocherait donc de l'{\'e}diteur "{\tt
+LSE}"\footnote{DEC Language Sensitive Editor, disponible sous {\OpenVMS}.}
+et du langage associ{\'e} "{\tt TPU}"\footnote{DEC Text Processing
+Utility, disponible sous {\OpenVMS}.}. De nombreuses extensions ont {\'e}t{\'e}
+r{\'e}alis{\'e}es pour "{\tt emacs}", {\`a} un point tel que certaines personnes
+s'en servent comme un environnement de travail complet (gestionnaire de
+fichiers, logiciel de messagerie, navigateur Web, environnement de
+d{\'e}veloppement, etc.). Il existe une version all{\'e}g{\'e}e d'"{\tt emacs}"
+sans le moteur Lisp: "{\tt micro-emacs}".
+
+\begin{remarque}
+Il est possible de se programmer un environnement d'{\'e}dition avec "{\tt vi}",
+mais il n'est pas programmable au sens o{\`u} on l'entend pour l'{\'e}diteur
+"{\tt emacs}".
+\end{remarque}
+
+\begin{remarque}
+Il existe d'autres {\'e}diteurs de texte sous {\Unix}, mais moins r{\'e}pandus
+ou bien sp{\'e}cifique {\`a} un constructeur comme~:
+\begin{itemize}
+	\item	{\tt textedit} {\'e}diteur de texte livr{\'e} en standard
+			sur les machines livr{\'e}es avec SunSolaris et offrant les
+			fonctions de base d'un {\'e}diteur de texte.
+	\item	{\tt jot} {\'e}diteur de texte livr{\'e} en standard
+			sur les machines livr{\'e}es avec Irix de Silicon Graphics et offrant les
+			fonctions de base d'un {\'e}diteur de texte.
+	\item	{\tt dtpad}, {\'e}diteur de texte offrant les fonctions de base, livr{\'e}
+			avec l'environnement CDE\footnote{Common Desktop Environment,
+			environnement utilisateur normalis{\'e} par l'OSF, afin d'avoir un
+			environnement identique entre constructeurs de stations de travail.
+			Actuellement, cet environnement est disponible sur tous les
+			{\Unix}s du march{\'e} et m{\^e}me sur des syst{\`e}mes propri{\'e}taires comme
+			{\OpenVMS} de Digital Corp.},
+	\item	etc.
+\end{itemize}
+\end{remarque}

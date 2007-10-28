@@ -1,0 +1,98 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{Les arguments des programmes shell}
+\thispagestyle{fancy}
+
+Tout programme shell peut {\^e}tre invoqu{\'e} depuis la ligne de
+commande. Les \index{shell!arguments}arguments de la ligne de commande
+sont r{\'e}f{\'e}renc{\'e}s par le programme shell lui-m{\^e}me en
+fonction de leur position relative dans la ligne de commande. Ces
+arguments sont appel{\'e}s param{\`e}tres ou
+\index{variable!positionnelle}variables positionnels. Ils prennent la
+valeur correspondante {\`a} l'argument de la ligne de commande. Les
+param{\`e}tres positionnels peuvent {\^e}tre utilis{\'e}s dans les
+programmes shell de la m{\^e}me mani{\`e}re que les variables shell,
+c'est-{\`a}-dire que pour les r{\'e}f{\'e}rencer, il suffit d'utiliser
+le symbole <<~\verb=$=~>>. On ne r{\'e}f{\'e}rencer que jusqu'{\`a} neuf
+arguments de la ligne de commande (\verb=$1= {\`a} \verb=$9=). Nous
+verrons qu'il est possible de r{\'e}cup{\'e}rer tous les arguments de la
+ligne de commande.
+
+L'argument z{\'e}ro de la ligne de commande (variable <<~\verb=$0=~>> correspond au
+nom de la commande.
+
+\begin{definition}{En r{\'e}sum{\'e}}
+Ligne de commande~:\\
+\verb=$ nom_prog arg1 arg2 arg3 arg4 ...=
+
+Dans le programme Shell~:\\
+
+\begin{tabular}{|l|l|l|l|}
+		\hline
+		\multicolumn{2}{|l|}{}					&
+		\multicolumn{2}{|c|}{\'{E}quivalences}	\\
+	\hline
+		\multicolumn{1}{|c|}{Commande shell}	&
+		\multicolumn{1}{|c|}{Sortie}			&
+		\multicolumn{1}{|c|}{{\OpenVMS}}		&
+		\multicolumn{1}{|c|}{Langage C}			\\
+	\hline \hline
+		{\tt echo \$0}					&
+		{\tt nom\_prog}					&
+		{\sl pas d'{\'e}quivalent}			&
+		{\tt argv[0]}					\\
+	\hline
+		{\tt echo \$1}					&
+		{\tt arg1}						&
+		{\tt P1}						&
+		{\tt argv[1]}					\\
+	\hline
+		{\tt echo \$2}					&
+		{\tt arg2}						&
+		{\tt P2}						&
+		{\tt argv[2]}					\\
+	\hline
+		\multicolumn{4}{|l|}{$\cdots$}	\\
+	\hline
+		{\tt echo \$8}					&
+		{\tt arg8}						&
+		{\tt P8}						&
+		{\tt argv[8]}					\\
+	\hline
+		{\tt echo \$9}					&
+		{\tt arg9}						&
+		{\sl pas d'{\'e}quivalent}			&
+		{\tt argv[9]}					\\
+	\hline
+\end{tabular}
+\end{definition}
+
+Il est possible de r{\'e}f{\'e}rencer la totalit{\'e} des arguments
+{\`a} l'int{\'e}rieur d'un script shell. Pour cela, la variable
+\index{variable!\#@\texttt{\#}}<<~\verb=$#=~>> et la commande
+\index{shift@\texttt{shift}}<<~{\tt shift}~>> seront utilis{\'e}es.
+Reportez-vous aux sections \ref{variables-special-var} et
+\ref{advcmds-shift}.

@@ -1,0 +1,352 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{\label{reg-exp}Les expressions r{\'e}guli{\`e}res}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction - D{\'e}finition}
+
+Une \index{expression r{\'e}guli{\`e}re}expression r{\'e}guli{\`e}re est
+une s{\'e}quence de symboles qui r{\'e}pond {\`a} une syntaxe
+pr{\'e}cise permettant de d'identifier des cha{\^\i}nes de
+caract{\`e}res existantes mais ne permet jamais d'en cr{\'e}er. Dans une
+expression r{\'e}guli{\`e}re, on peut trouver tous les caract{\`e}res
+sauf le caract{\`e}re de saut de ligne (fin de ligne, \verb=\n=,
+{\ASCII}$(10)$, \textsl{line feed}).
+
+Les expressions r{\'e}guli{\`e}res sont utilis{\'e}es dans beaucoup de commandes
+{\Unix} (<<~\index{sed@\texttt{sed}}\texttt{sed}~>>,
+<<~\index{awk@\texttt{awk}}\texttt{awk}~>>, <<~\index{grep@\texttt{grep}}\texttt{grep}~>>,
+etc.). Elles sont aussi {\`a} la base d'outils mutli plateforme pour le \textsc{Web}
+comme <<~\texttt{perl}~>>\cite{learning-perl,programming-perl,advpgm-perl}.
+Leur syntaxe et leur lisibilit{\'e} ne sont pas des plus claires mais elles
+constituent, en grande partie, la puissance des Shells. Les expressions r{\'e}guli{\`e}res sont, de plus,
+un m{\'e}canisme souvent utilis{\'e}, au sein des programmes ou de diff{\'e}rents outils, pour 
+analyser des flux sous forme de chaine de caract{\`e}re et d{\'e}clencher des actions associ{\'e}es 
+{\`a} la d{\'e}tection d'un sch{\'e}ma. Leur compr{\'e}hension est donc essentielle aussi bien {\`a} la
+conception d'application qu'{\`a} la mise en place de certaines solutions logicielles.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sp{\'e}cification de caract{\`e}res particuliers}
+
+\begin{longtable}{|@{\hspace{1ex}}c@{\hspace{1ex}}|@{\hspace{1ex}}p{10cm}@{\hspace{1ex}}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	Symbole			&	Signification		\\
+	\hline
+\endhead
+	\hline
+	Symbole			&	Signification		\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\texttt{x}			&
+		un caract{\`e}re pr{\'e}cis (ici le caract{\`e}re <<~\texttt{x}~>>).		\\
+	\texttt{.}			&
+		un caract{\`e}re quelconque sauf le caract{\`e}re \textsl{line-feed}.	\\
+	\index{\@$\mathtt{\backslash}$}\verb=\=		&
+		inhibition de l'interpr{\'e}tation d'un caract{\`e}re sp{\'e}cial.		\\
+	\index{[]@\texttt{[]}}\verb=[liste]=	&
+		un caract{\`e}re quelconque dans la liste.						\\
+	\verb=[^liste]=	&
+		un caract{\`e}re quelconque absent de la liste.					\\
+\end{longtable}
+
+\subsection{Caract{\`e}res de positionnement}
+
+En plus de ces caract{\`e}res sp{\'e}ciaux, on trouve aussi des caract{\`e}res de positionnement, qui
+indique donc dans quelle section du texte analys{\'e} on s'attend {\`a} trouver le sch{\'e}ma. Ainsi, 
+on peut indiquer si le sch{\'e}ma d{\'e}fini doit se trouver en d{\'e}but de ligne, en fin de ligne; 
+mais aussi d{\'e}finir un positionnement relatif au \textit{mot}. Les expressions r{\'e}guli{\`e}res d{\'e}finissent par \textit{mot}, toute s{\'e}quence ne contenant que des lettres. 
+
+%
+% TODO: Examples !
+%
+
+\begin{longtable}{|@{\hspace{1ex}}c@{\hspace{1ex}}|@{\hspace{1ex}}p{10cm}@{\hspace{1ex}}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	Symbole			&	Signification		\\
+	\hline
+\endhead
+	\hline
+	Symbole			&	Signification		\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\index{\^@\texttt{\^}}\verb=^=		&
+		d{\'e}but de ligne.												\\
+	\index{\$@\texttt{\$}}\texttt{\$}		&
+		fin de ligne.												\\
+	\index{\$@\texttt{\textbackslash \textless}}\texttt{\textbackslash \textless}		&
+		d{\'e}but de mot.												\\
+	\index{\$@\texttt{\textbackslash \textgreater}}\texttt{\textbackslash \textgreater}		&
+		fin de mot.												\\
+	\index{\$@\texttt{\textbackslash b}}\texttt{\textbackslash b}		&
+		fronti{\`e}re de mot.												\\
+
+\end{longtable}
+
+\subsection{Caract{\`e}re d'{\'e}chappement}
+
+Le caract{\`e}re <<~\verb=\=~>> permet de d{\'e}signer les caract{\`e}res
+particuliers, utilis{\'e}s dans la d{\'e}finition d'une expression r{\'e}guli{\`e}re,
+qui ne doivent pas {\^e}tre interpr{\'e}t{\'e}s.
+
+%
+% TODO: Examples !
+%
+
+\subsection{Sp{\'e}cification d'une liste}
+
+L'expression r{\'e}guli{\`e}re <<~\verb=[liste]=~>> d{\'e}signe n'importe quel
+caract{\`e}re de la liste, mais un et un seul seulement. L'expression
+r{\'e}guli{\`e}re <<~\verb=[^liste]=~>> d{\'e}signe n'importe quel caract{\`e}re sauf les
+caract{\`e}res contenus dans la liste. La liste de ces deux expressions
+r{\'e}guli{\`e}res peut avoir deux formats~:
+\begin{itemize}
+	\item	une suite de caract{\`e}res {\`a} prendre en compte. Par exemple:
+			<<~\verb=[abcABC]=~>> d{\'e}signe l'un de ces six caract{\`e}res. De m{\^e}me
+			<<~\verb*=[ abcABC]=~>> d{\'e}signe les m{\^e}me caract{\`e}res que pr{\'e}c{\'e}demment,
+			\textbf{l'espace en plus}. Ce type d'expression r{\'e}guli{\`e}re s'appelle
+			 \textsl{classe de caract{\`e}res} (\textsl{character class}).
+	\item	une s{\'e}quence de caract{\`e}res en ne pr{\'e}cisant que les bornes s{\'e}par{\'e}es par
+			le caract{\`e}re <<~\texttt{-}~>>. Par exemple: <<~\verb=[r-v]=~>> d{\'e}signe
+			tous les caract{\`e}res compris entre <<~\texttt{r}~>> et <<~\texttt{v}~>>).
+			Ce type d'expression r{\'e}guli{\`e}re s'appelle \textsl{character range}
+			(intervalle de caract{\`e}res).
+\end{itemize}
+
+%
+% TODO: Examples !
+%
+
+\subsection{Classes abr{\'e}g{\'e}es}
+
+Il existe aussi une notion de classes abr{\'e}g{\'e}es qui permettent d'utiliser, de mani{\`e}re 
+plus concise, des sch{\'e}ma assez courant:
+
+\begin{longtable}{|@{\hspace{1ex}}c@{\hspace{1ex}}|@{\hspace{1ex}}p{10cm}@{\hspace{1ex}}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	Symbole			&	Signification		\\
+	\hline
+\endhead
+	\hline
+	Symbole			&	Signification		\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\texttt{\textbackslash w}			&
+		une lettre d'un mot, soit le sch{\'e}ma [a-zA-Z0-9\_].		\\
+	\texttt{\textbackslash W}			&
+		tout sauf un lettre d'un mot, soit le sch{\'e}ma [\textasciicircum a-zA-Z0-9\_].	\\
+\end{longtable}
+
+%
+% TODO: Examples !
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exemples d'application}
+
+\begin{longtable}{|@{\hspace{1ex}}c@{\hspace{1ex}}|@{\hspace{1ex}}p{10cm}@{\hspace{1ex}}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	Expression r{\'e}guli{\`e}re			&	Signification		\\
+	\hline
+\endhead
+	\hline
+	Expression r{\'e}guli{\`e}re			&	Signification		\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+	\texttt{abc}	&	d{\'e}signe la cha{\^\i}ne <<~\texttt{abc}~>>.	\\
+	\hline
+	\verb=\\= \verb=\*= \verb=\$=	&
+		d{\'e}signe le caract{\`e}re qui suit <<~\verb=\=~>> comme la constante caract{\`e}re
+		et non comme un caract{\`e}re {\`a} interpr{\'e}ter (ici <<~\verb=\=~>>, <<~\verb=*=~>> et
+		<<~\verb=$=~>>).	\\
+	\hline
+	\verb=c$=	&
+		d{\'e}signe le caract{\`e}re <<~\texttt{c}~>> en fin de ligne.	\\
+	\hline
+	\verb=c\$=	&
+		d{\'e}signe la cha{\^\i}ne <<~\verb=c$=~>>.	\\
+	\hline
+	\verb=^abc=	&
+		d{\'e}signe la cha{\^\i}ne <<~\texttt{abc}~>> en d{\'e}but de ligne.	\\
+	\hline
+	\verb=abc$=	&
+		d{\'e}signe la cha{\^\i}ne <<~\texttt{abc}~>> en fin de ligne.		\\
+	\hline
+	\verb=^abc$=	&
+		d{\'e}signe la cha{\^\i}ne <<~\texttt{abc}~>>. C'est la seule chaine de la ligne.\\
+	\hline
+	\verb=^abc.=	&
+		d{\'e}signe la cha{\^\i}ne <<~\texttt{abc}~>> en d{\'e}but de ligne suivi de n'importe
+		quel caract{\`e}re.	\\
+	\hline
+	\verb=[Aa]=		&
+		d{\'e}signe une cha{\^\i}ne contenant le caract{\`e}re <<~\texttt{A}~>> ou <<~\texttt{a}~>>.	\\
+	\hline
+	\verb=x[Aa][Bb]=	&
+		d{\'e}signe une cha{\^\i}ne contenant le caract{\`e}re <<~\texttt{x}~>> suivi de <<~\texttt{A}~>>
+		ou <<~\texttt{a}~>> puis de <<~\texttt{B}~>> ou <<~\texttt{b}~>>.	\\
+	\hline
+	\verb=[^Aa]=	&
+		d{\'e}signe une cha{\^\i}ne ne contenant ni caract{\`e}re <<~\texttt{A}~>> ni le
+		caract{\`e}re <<~\texttt{a}~>>.	\\
+	\hline
+	\verb=[r-v]=	&
+		d{\'e}signe tous les caract{\`e}res compris entre <<~\texttt{r}~>> et <<~\texttt{v}~>>
+		(<<~\texttt{r}~>>, <<~\texttt{s}~>>, <<~\texttt{t}~>>, <<~\texttt{u}~>>, <<~\texttt{v}~>>).	\\
+	\hline
+	\verb=[^r-v]=	&
+		d{\'e}signe tous les caract{\`e}res sauf <<~\texttt{r}~>>, <<~\texttt{s}~>>, <<~\texttt{t}~>>,
+		<<~\texttt{u}~>> et <<~\texttt{v}~>>.	\\
+\end{longtable}
+
+%TODO: Ajouter des exemples associ{\'e}s aux nouveaux caract{\`e}res sp{\'e}ciaux
+%
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Recherche de caract{\`e}res suivant un nombre d'occurrences}
+
+\begin{definition}{Symboles~:}
+\begin{longtable}{|@{\hspace{1ex}}c@{\hspace{1ex}}|@{\hspace{1ex}}p{10cm}@{\hspace{1ex}}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	Symbole		&	Signification		\\
+	\hline
+\endhead
+	\hline
+	Symbole		&	Signification		\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+	\index{*@\texttt{*}}\verb=*=	&	recherche du caract{\`e}re point{\'e} de 0 {\`a} $n$ fois.	\\
+	\hline
+	\index{+@\texttt{+}}\verb=+=	&	recherche du caract{\`e}re point{\'e} de 1 {\`a} $n$ fois.	\\
+	\hline
+	\index{?@\texttt{?}}\verb=?=	&	recherche du caract{\`e}re point{\'e} 0 ou 1 fois.		\\
+	\hline
+	\index{|@\texttt{|}}\verb=expr1|expr2=	&
+		d{\'e}signe une cha{\^\i}ne correspondant {\`a} l'une ou l'autre des deux expressions
+		r{\'e}guli{\`e}res.	\\
+	\hline
+	\index{()@\texttt{()}}\texttt{(}$\cdots$\texttt{)}	&
+		partie d'expression r{\'e}guli{\`e}re. \\
+\end{longtable}
+\end{definition}
+
+Une fois le caract{\`e}re sp{\'e}cifi{\'e}, on peut s{\'e}lectionner le nombre
+d'occurrences d'apparition dans l'expression r{\'e}guli{\`e}re.
+\begin{itemize}
+	\item	Le symbole <<~\verb=*=~>> d{\'e}signe que le caract{\`e}re point{\'e} peut appara{\^\i}tre
+			de 0 {\`a} $n$ fois dans la cha{\^\i}ne.
+	\item	Le symbole <<~\verb=+=~>> d{\'e}signe que le caract{\`e}re point{\'e} doit appara{\^\i}tre
+			au moins une fois dans la cha{\^\i}ne.
+	\item	Le symbole <<~\verb=?=~>> d{\'e}signe que le caract{\`e}re point{\'e} doit appara{\^\i}tre
+			au plus une fois dans la cha{\^\i}ne.
+	\item	Le symbole <<~\verb={m}=~>> d{\'e}signe que le caract{\`e}re point{\'e} doit appara{\^\i}tre
+			au moins m fois dans la cha{\^\i}ne.)
+	\item	Le symbole <<~\verb=|=~>> permet de combiner plusieurs expressions r{\'e}guli{\`e}res.
+			La condition est satisfaite si au moins l'une des deux expressions est
+			satisfaite.
+\end{itemize}
+
+Les parenth{\`e}ses permettent de regrouper des expressions r{\'e}guli{\`e}res, afin de fixer des
+priorit{\'e}s.
+
+\begin{example}
+\begin{longtable}{|@{\hspace{1ex}}c@{\hspace{1ex}}|@{\hspace{1ex}}p{10cm}@{\hspace{1ex}}|}
+	\hline
+	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+	Expression r{\'e}guli{\`e}re		&	Signification		\\
+	\hline
+\endhead
+	\hline
+	Expression r{\'e}guli{\`e}re		&	Signification		\\
+	\hline
+\endfirsthead
+	\hline
+	\multicolumn{2}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+\endfoot
+	\hline
+\endlastfoot
+	\hline
+	\verb=56*=	&
+		d{\'e}signe une cha{\^\i}ne contenant un <<~\texttt{5}~>> suivi de 0 ou plusieurs
+		<<~\texttt{6}~>>.	\\
+	\hline
+	\verb=56+=	&
+		d{\'e}signe une cha{\^\i}ne contenant un <<~\texttt{5}~>> suivi d'au moins un
+		<<~\texttt{5}~>>.	\\
+	\hline
+	\verb=56?7=	&
+		d{\'e}signe une cha{\^\i}ne contenant un <<~\texttt{5}~>> suivi d'un <<~\texttt{6}~>> ou pas
+		puis d'un <<~\texttt{7}~>>.	\\
+	\hline
+	\verb=123|321=	&
+		d{\'e}signe une cha{\^\i}ne contenant la s{\'e}quence <<~\texttt{123}~>> ou la
+		s{\'e}quence <<~\texttt{321}~>>.	\\
+\end{longtable}
+\end{example}

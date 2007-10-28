@@ -1,0 +1,692 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\chapter{\label{multitask}Le mode multi-t{\^a}che}
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{T{\^a}che de fond -- le {\sl background}}
+
+\begin{definition}{Syntaxe}
+\begin{tabular}{@{\hspace{1cm}}l}
+	{\tt \% ligne-de-commande \&}\\[0.2cm]
+	{\tt \% jobs}\\[0.2cm]
+\end{tabular}
+\end{definition}
+
+Le caract{\`e}re \index{&@\texttt{\&}}<<~\verb=&=~>> permet
+d'ex{\'e}cuter la commande en arri{\`e}re plan (\textsl{background}) et
+permet de lancer pendant ce temps l{\`a} d'autres commandes en avant
+plan. Lors de la d{\'e}connexion, tous les processes en arri{\`e}re plan
+meurent. En effet, ils ne peuvent qu'exister que si leur p{\`e}re
+existe.
+
+Lorsqu'une commande est lanc{\'e}e en arri{\`e}re plan, le shell reporte
+{\`a} l'utilisateur le num{\'e}ro de \index{PID@PID (\textsl{Process
+IDentifier})}PID ({\sl Process IDentifier}) identifiant le processus
+lanc{\'e} en arri{\`e}re plan avant de renvoyer le prompt. Une commande
+s'ex{\'e}cutant en arri{\`e}re plan \textbf{ne peut pas} {\^e}tre
+arr{\^e}t{\'e}e avec les touches \key{{\sc break}}, \control{C}, etc.
+Par contre, une sortie de session (\textsl{logout}) tuera tous les
+processus s'ex{\'e}cutant en arri{\`e}re plan.
+
+Il est important qu'un processus lanc{\'e} en arri{\`e}re plan ait ses
+entr{\'e}es/sorties redirig{\'e}es explicitement. Il est possible de
+voir les processes lanc{\'e}s en arri{\`e}re plan avec la commande
+\index{jobs@\texttt{jobs}} <<~\texttt{jobs}~>>.
+
+\begin{remarque}
+\control{Z} {\bf ne sert pas {\`a} interrompre un process mais {\`a} le mettre
+en attente en arri{\`e}re plan}. Si vous voulez interrompre une commande,
+utilisez <<~\control{C}~>>. Pour plus de renseignements sur les touches
+d'interruption, reportez vous {\`a} la section \ref{multi-task-fg-bg}.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{multi-task-backq}Substitution de commande - caract{\`e}re {\sl back quote}}
+
+\begin{definition}{Syntaxe}
+\begin{tabular}{@{\hspace{1cm}}l}
+	{\tt `commande`}\\[0.2cm]
+\end{tabular}
+\end{definition}
+
+La substitution de commande se fait en utilisant le caract{\`e}re back quote
+(<<~\index{`@\texttt{`}}\texttt{`}~>>) pour lancer des commandes {\`a} ins{\'e}rer dans une cha{\^\i}ne de
+caract{\`e}res.
+
+La substitution de commandes dans une cha{\^\i}ne de caract{\`e}res est une autre
+facilit{\'e} offerte par le shell. Elle permet de capturer la sortie d'une
+commande et de l'assigner {\`a} une variable ou de l'utiliser comme un
+argument d'une autre commande. Comme beaucoup de commandes {\Unix}
+g{\'e}n{\`e}rent une sortie, la substitution de commandes peut {\^e}tre tr{\`e}s
+int{\'e}ressante.
+
+A propos de l'efficacit{\'e}, il est plus rapide, dans certains cas,
+d'effectuer une substitution de commande plutot que de passer par une
+redirection.
+
+\begin{example}
+\begin{verbatim}
+% echo "my current shell is `basename $SHELL`"
+% current_dir=`pwd`
+% cd /etc
+% cd $current_dir
+\end{verbatim}
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Commandes associ{\'e}es}
+
+%%%%%%%%%%%%
+\subsection{\label{multi-task-kill}Commande <<~{\tt kill}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{tabular}{@{\hspace{1cm}}l}
+	{\tt kill [-sig\_no] PID [PID ...]}\\[0.2cm]
+\end{tabular}
+\end{definition}
+
+La commande <<~\index{kill@\texttt{kill}}\texttt{kill}~>> peut {\^e}tre
+utilis{\'e}e pour tuer n'importe quelle commande, y compris des
+commandes lanc{\'e}es en arri{\`e}re plan. <<~{\tt kill}~>>, plus
+pr{\'e}cis{\'e}ment, envoie un signal aux processus d{\'e}sign{\'e}s.
+L'action effectu{\'e}e par d{\'e}faut pour un process est de mourir sur
+r{\'e}ception de certains signaux. Pour transmettre un signal {\`a} un
+processus il faut en {\^e}tre le propri{\'e}taire; <<~{\tt kill}~>> ne
+peut {\^e}tre utilis{\'e} pour tuer le process d'un autre utilisateur
+{\`a} moins d'{\^e}tre le {\sl super user} (utilisateur <<~{\tt
+root}~>>).
+
+Par d{\'e}faut <<~{\tt kill}~>> transmet le signal num{\'e}ro 15 au process sp{\'e}cifi{\'e}.
+Dans le monde {\Unix}, il n'est pas possible de v{\'e}ritablement tuer un process
+comme on pourrait le faire avec {\WindowsNT} et {\OpenVMS}. {\Unix}, en fait,
+envoie une requ{\^e}te au processus pour qu'il se termine de lui-m{\^e}me. Il est
+possible d'immuniser certaines commandes contre les signaux de terminaison. La
+m{\'e}thode la plus efficace pour tuer un process est l'utilisation du signal 9.
+
+Pour avoir la liste des signaux et leur action, reportez-vous {\`a} <<~{\tt signal(2)}~>>.
+
+\begin{example}
+\begin{verbatim}
+% cat /usr/man/man1/* >big.file &
+[[1] 1234
+% kill 1234
+[1] + Terminated	cat /usr/man/man1/* >big.file
+\end{verbatim}
+\end{example}
+
+%%%%%%%%%%%%
+\subsection{Commande <<~{\tt wait}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{tabular}{@{\hspace{1cm}}l}
+	{\tt wait [PID]}\\[0.2cm]
+\end{tabular}
+\end{definition}
+
+La commande <<~\index{wait@\texttt{wait}}\texttt{wait}~>> permet de
+suspendre l'ex{\'e}cution d'un shell script jusqu'{\`a} ce que le
+processus, dont le \index{PID@PID (\textsl{Process IDentifier})}\textsl{PID}
+est sp{\'e}cifi{\'e} en argument, se termine. Si aucun \textsl{PID} n'est
+sp{\'e}cifi{\'e}, on attendra, dans ce cas, que tous les processus lanc{\'e}s
+en arri{\`e}re plan soient termin{\'e}s.
+
+\begin{example}
+\begin{verbatim}
+% cat /usr/man1/* >big.file &
+% find / -print >big.file2 &
+% wait
+% echo "cat et find sont termin{\'e}s ..."
+\end{verbatim}
+\end{example}
+
+%%%%%%%%%%%%
+\subsection{\label{multi-task-fg-bg}Les commandes <<~{\tt fg}~>> et <<~{\tt bg}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{tabular}{@{\hspace{1cm}}l@{\hspace{1cm}}l}
+	{\tt bg PID}				&	{\tt bg} = back ground (arri{\`e}re plan)	\\
+	{\tt bg \% num{\'e}ro}			&	\\[0.2cm]
+	{\tt fg PID}				&	{\tt fg} = foreground (avant plan)		\\
+	{\tt fg \% num{\'e}ro}			&	\\[0.2cm]
+\end{tabular}
+\end{definition}
+
+Nous avons vu qu'avec la touche <<~\control{Z}~>>, il {\'e}tait possible de
+faire passer une commande \textbf{en attente} en arri{\`e}re plan. {\large
+L'ex{\'e}cution est suspendue mais le process est toujours actif}. Si vous
+d{\'e}sirez qu'elle continue {\`a} s'ex{\'e}cuter, toujours en arri{\`e}re plan,
+utilisez la commande <<~\index{bg@\texttt{bg}}{\tt bg}~>>.
+
+Pour refaire passer en avant plan une commande qui s'ex{\'e}cute en arri{\`e}re
+plan utiliser la commande <<~\index{fg@\texttt{fg}}{\tt fg}~>>. <<~\texttt{fg}~>>
+permet aussi de r{\'e}activ{\'e} une commande suspendue par <<~\control{Z}~>>.
+Le processus associ{\'e} devient alors le processus courant jusqu'{\`a} ce que
+cette commande soit achev{\'e}e.
+
+Pour plus de renseignements, reportez vous {\`a} <<~\texttt{sh(1)}~>>.
+
+\begin{example}
+\begin{verbatim}
+% find / -print >/dev/null
+\end{verbatim}
+\control{Z}
+\begin{verbatim}
+[1] 1234 Suspended
+% bg %1
+[1] 1234 find / -print >/dev/null &
+% ls
+\end{verbatim}
+$\cdots$\\
+\begin{verbatim}
+%fg %1
+find / -print >/dev/null
+\end{verbatim}
+\end{example}
+
+\begin{definition}{\'{E}quivalence}
+\begin{tabular}{|l|l|}
+	\hline
+		\multicolumn{1}{|c|}{{\Unix}}	&
+		\multicolumn{1}{|c|}{{\OpenVMS}}	\\
+	\hline \hline
+		\control{Z}	&	{\tt SET PROCESS/SUSPEND}	\\
+	\hline
+		{\tt fg}		&	{\tt RESUME}				\\
+	\hline
+		{\tt bg}		&	Pas d'{\'e}quivalence.			\\
+	\hline
+\end{tabular}
+\end{definition}
+
+%%%%%%%%%%%%
+\subsection{Commandes <<~{\tt at}~>>}
+
+\begin{definition}{Syntaxe}
+\begin{tabular}{@{\hspace{0.5cm}}l}
+	{\tt at [-c | -s | -k] [-m] [-q queuename] [-f file]} \\
+	\hspace{1cm}{\tt date [increment] [command | file]}\\[0.2cm]
+	{\tt at -r job\_number ...}\\[0.2cm]
+	{\tt at -l [-q queuename] [user ...]}\\[0.2cm]
+\end{tabular}
+\end{definition}
+
+La commande <<~\index{at@\texttt{at}}\texttt{at}~>> permet de diff{\'e}rer
+l'ex{\'e}cution de travaux. Elle lit sur son entr{\'e}e standard les commandes
+qu'elle doit lancer {\`a} la date sp{\'e}cifi{\'e}e.
+
+Au lieu d'envoyer les ordres {\`a} ex{\'e}cuter sur l'entr{\'e}e standard, vous pouvez~:
+\begin{itemize}
+	\item	sp{\'e}cifier directement la commande {\`a} la suite. Dans ce cas, l'entr{\'e}e standard
+			de la commande qui aura {\'e}t{\'e} saisie, devra {\^e}tre prise {\`a} partir d'un fichier
+			avec les m{\'e}canismes d{\'e}crits {\`a} la section \ref{basnot-stdin}.
+	\item	donner le nom d'un fichier contenant les commandes {\`a} ex{\'e}cuter. Celui-ci n'est pas
+			lu {\`a} la place de l'entr{\'e}e standard mais est trait{\'e} comme une proc{\'e}dure de commande.
+			Il doit donc {\^e}tre accessible en ex{\'e}cution par le Shell (cf. sections
+			\ref{cmds-protect} et \ref{basicnot-exec}).
+\end{itemize}
+
+La commande <<~\index{batch@\texttt{batch}}\texttt{ batch}~>> ex{\'e}cute les travaux seulement lorsque le
+niveau de la charge du syst{\`e}me le permet. La commande <<~\texttt{at}~>>
+redirige automatiquement sa sortie standard et sa sortie d'erreurs
+standard dans la boite aux lettres du courrier {\'e}lectronique. Par d{\'e}faut,
+la commande <<~\texttt{at}~>> utilise le Bourne Shell comme interpr{\'e}teur de
+commandes. Si vous d{\'e}sirez changer l'interpr{\'e}teur de commande par
+d{\'e}faut, les options suivantes devront {\^e}tre sp{\'e}cifi{\'e}es~:
+\begin{center}
+\begin{tabular}{|l|l|}
+	\hline
+		\multicolumn{1}{|c|}{Option}		&
+		\multicolumn{1}{|c|}{Shell}			\\
+	\hline \hline
+		<<~{\tt -c}~>>	&	C Shell			\\
+	\hline
+		<<~{\tt -k}~>>	&	Korn Shell		\\
+	\hline
+\end{tabular}
+\end{center}
+
+Le param{\`e}tre <<~{\tt date}~>> a le format suivant~:
+\begin{center}
+{\tt [[CC]AA]MMJJhhmm[.ss]}
+\end{center}
+avec~:\\
+\begin{tabular}{@{\hspace{0.2cm}}l@{\hspace{0.2cm}}l}
+	{\tt CC}	&	les deux chiffres des centaines de l'ann{\'e}e,	\\
+	{\tt AA}	&	les deux derniers chiffres de l'ann{\'e}e,		\\
+	{\tt MM}	&	le mois (01-12),							\\
+	{\tt JJ}	&	le jour (01-31),							\\
+	{\tt hh}	&	l'heure (00-23),							\\
+	{\tt mm}	&	les minutes (00-59),						\\
+	{\tt ss}	&	les secondes (00-59).						\\
+\end{tabular}
+
+<<~{\tt CC}~>> et <<~{\tt AA}~>> sont optionnels, l'ann{\'e}e en cours est prise par d{\'e}faut.
+
+Le param{\`e}tre <<~{\tt date}~>> admet aussi les formats suivants~:
+\begin{itemize}
+	\item	La commande <<~{\tt at}~>> interpr{\`e}te les valeurs compos{\'e}es d'un ou deux chiffres
+			comme {\'e}tant des heures. Elle interpr{\`e}te les valeurs compos{\'e}es de quatre chiffres
+			comme {\'e}tant des heures et des minutes. Vous pouvez {\'e}ventuellement s{\'e}parer les heures
+			des minutes par le caract{\`e}re deux points <<~{\tt :}~>>. Dans ce cas, le format sera
+			<<~{\tt hh:mm}~>>.
+	\item	Vous pouvez indiquer le suffixe <<~{\tt am}~>>, <<~{\tt pm}~>> ou <<~{\tt zulu}~>>.
+			Si vous ne sp{\'e}cifiez ni <<~{\tt am}~>> ni <<~{\tt pm}~>>, la commande <<~{\tt at}~>>
+			utilise une horloge de 24 heures. Si vous sp{\'e}cifiez <<~{\tt zulu}~>>, le temps
+			universel\footnote{Le temps universel correspond au fuseau horaire de Greenwich.}
+			est utilis{\'e}.
+	\item	L'un des mots clefs suivants~:
+		\begin{itemize}
+			\item[$\star$]	<<~{\tt noon}~>> pour {\sl midi},
+			\item[$\star$]	<<~{\tt midnight}~>> pour {\sl minuit},
+			\item[$\star$]	<<~{\tt now}~>> pour repr{\'e}senter l'instant pr{\'e}sent,
+			\item[$\star$]	<<~{\tt A}~>> en abr{\'e}viation de <<~{\tt am}~>>,
+			\item[$\star$]	<<~{\tt P}~>> en abr{\'e}viation de <<~{\tt pm}~>>,
+			\item[$\star$]	<<~{\tt N}~>> en abr{\'e}viation de <<~{\tt noon}~>>,
+			\item[$\star$]	<<~{\tt M}~>> en abr{\'e}viation de <<~{\tt midnight}~>>.
+		\end{itemize}
+\end{itemize}
+
+\begin{remarque}
+	Le mot clef <<~{\tt now}~>> peut {\^e}tre utilis{\'e} uniquement si vous indiquez le param{\`e}tre
+	<<~{\tt date}~>> ou <<~{\tt increment}~>>. Dans le cas contraire, le message
+	<<~{\tt too late}~>> s'affiche.
+\end{remarque}
+
+Le param{\`e}tre <<~{\tt date}~>> permet d'indiquer un nom de mois et un
+num{\'e}ro de jour ({\'e}ventuellement un num{\'e}ro d'ann{\'e}e pr{\'e}c{\'e}d{\'e} d'une virgule),
+ou un jour de la semaine. La commande <<~{\tt at}~>> reconna{\^\i}t deux
+jours particuliers~: il s'agit de <<~{\tt today}~>> et de <<~{\tt
+tomorrow}~>>. Si l'heure indiqu{\'e}e est post{\'e}rieure {\`a} l'heure d'entr{\'e}e de
+la commande, <<~{\tt today}~>> est utilis{\'e}e par d{\'e}faut en tant que
+param{\`e}tre <<~{\tt date}~>>. Dans le cas contraire, celui-ci prend la
+valeur <<~{\tt tomorrow}~>>. Si vous indiquez un mois ant{\'e}rieur {\`a} celui
+en cours sans pr{\'e}ciser d'ann{\'e}e, l'ann{\'e}e suivante est utilis{\'e}e par
+d{\'e}faut.
+
+Le param{\`e}tre facultatif <<~{\tt increment}~>> peut prendre l'une des
+valeurs suivantes~:
+\begin{itemize}
+	\item	le signe plus <<~{\tt +}~>> suivi d'un nombre et de l'un des mots suivants~:
+			<<~{\tt minute[s]}~>>, <<~{\tt hour[s]}~>>, <<~{\tt day[s]}~>>, <<~{\tt week[s]}~>>,
+			<<~{\tt month[s]}~>> ou <<~{\tt year[s]}~>> (ou tout {\'e}quivalent en anglais).
+	\item	le mot <<~{\tt next}~>> suivi de l'un des mots suivants~: <<~{\tt minute[s]}~>>,
+			<<~{\tt hour[s]}~>>, <<~{\tt day[s]}~>>, <<~{\tt week[s]}~>>,
+			<<~{\tt month[s]}~>> ou <<~{\tt year[s]}~>> (ou tout {\'e}quivalent en anglais).
+\end{itemize}
+
+\begin{definition}{Options}
+\begin{tabular}{@{\hspace{0.2cm}}l@{\hspace{0.2cm}}p{6cm}}
+	{\tt -c}					&	Indique que le C Shell sera utilis{\'e} pour ex{\'e}cuter
+									le travail.\\[0.2cm]
+	{\tt -k}					&	Indique que le Korn Shell sera utilis{\'e} pour ex{\'e}cuter le
+									travail.\\[0.2cm]
+	{\tt -l}					&	Liste les travaux {\`a} ex{\'e}cuter.\\[0.2cm]
+	{\tt -m}					&	Envoie un message {\`a} l'utilisateur apr{\`e}s l'ex{\'e}cution de
+									la commande.\\[0.2cm]
+	{\tt -q} {\sl  queuename}	&	Sp{\'e}cifie la file d'attente dans laquelle on effectue le
+									travail.\\[0.2cm]
+	{\tt -s}					&	Indique que le Bourne Shell sera utilis{\'e} pour ex{\'e}cuter
+									le travail.\\[0.2cm]
+	{\tt -r} {\sl job}			&	Supprime des travaux programm{\'e}s par la commande
+									<<~{\tt at}~>> (le param{\`e}tre <<~{\tt job}~>> correspond
+									{\`a} un num{\'e}ro affect{\'e} par la commande).\\
+\end{tabular}
+\end{definition}
+
+Par d{\'e}faut, l'attribution des files d'attente se fait de la fa\c{c}on suivante~:\\
+\begin{tabular}{|c|p{6cm}|}
+	\hline
+	file d'attente	&	type de travaux \\
+	\hline \hline
+	{\tt a}		&	travaux soumis avec la commande <<~{\tt at}~>>.\\
+	{\tt b}		&	travaux <<~{\sl batch}~>>.\\
+	{\tt c}		&	travaux soumis par le <<~{\sl cron}~>>.\\
+	{\tt d}		&	travaux <<~{\sl sync}~>>.\\
+	{\tt e}		&	travaux Korn Shell.\\
+	{\tt f}		&	travaux C Shell.\\
+	\hline
+\end{tabular}
+
+\begin{remarque}
+Les travaux <<~{\sl batch}~>> sous {\Unix} ont un sens diff{\'e}rent de celui
+habituellement entendu sous {\OpenVMS}. Ceux-ci ne sont ex{\'e}cut{\'e}s seulement
+si le syst{\`e}me dispose de suffisamment de ressources. Avec {\OpenVMS}, il est possible
+d'affecter un niveau de priorit{\'e} des processus pris en compte par l'ordonnanceur du
+syst{\`e}me ({\sl scheduler}). Il est donc possible d'avoir une file d'attente offrant
+un niveau bas de ressource (priorit{\'e} faible), les travaux ne seront donc ex{\'e}cut{\'e}s
+seulement si le syst{\`e}me dispose de suffisamment de ressources. Par contre, il est
+aussi possible d'avoir une file d'attent avec un niveau {\'e}lev{\'e}. Dans ce cas, les travaux
+passeront en priorit{\'e}. Ceci peut {\^e}tre utile en fonction de l'environnement
+d'exploitation.
+\end{remarque}
+
+Pour plus de renseignements, reportez-vous {\`a} <<~{\tt at(1)}~>>.
+
+\begin{example}
+Pour programmer l'ex{\'e}cution d'une commande {\`a} partir du terminal, entrez une commande
+semblable {\`a} l'un des exemples suivants.\\
+Si <<~{\tt uuclean}~>> se trouve dans le r{\'e}pertoire courrant (ou dans un r{\'e}pertoire sp{\'e}cifi{\'e} dans la
+variable <<~{\tt PATH}~>>)~:
+\begin{verbatim}
+% at 5 pm Friday uuclean
+% at now next week uuclean
+\end{verbatim}
+Si <<~{\tt uuclean}~>> se trouve dans le r{\'e}pertoire <<~\verb=$HOME/bin/uuclean=~>>~:
+\begin{verbatim}
+% at now + 2 days $HOME/bin/uuclean
+% at now + 2 days
+$HOME/bin/uuclean
+\end{verbatim}
+\control{D}
+\end{example}
+
+\begin{remarque}
+Lorsque vous indiquez, sur la ligne de commande, un nom de commande
+comme dernier {\'e}l{\'e}ment, vous devez sp{\'e}cifier le chemin d'acc{\`e}s complet si
+celle-ci ne se trouve pas dans le r{\'e}pertoire courrant. En outre, la
+commande <<~{\tt at}~>> ne prend en compte aucun argument pour les
+commandes {\`a} lancer.
+\end{remarque}
+
+\begin{example}
+Pour ex{\'e}cuter la commande <<~{\tt uuclean}~>> le 24 Janvier {\`a} 15 heures, entrez l'une des
+commandes ci-dessous~:
+\begin{verbatim}
+% echo uuclean | at 3:00 pm January 24
+% echo uuclean | at 3pm Jan 24
+% echo uuclean | at 1500 jan 24
+\end{verbatim}
+\end{example}
+
+\begin{definition}{\'{E}quivalence}
+\begin{center}
+\begin{tabular}{|c|c|}
+	\hline
+		{\Unix}		&	{\OpenVMS}			\\
+	\hline \hline
+		{\tt at}		&	{\tt submit}			\\
+	\hline
+\end{tabular}
+\end{center}
+\end{definition}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{R{\'e}p{\'e}tition de t{\^a}ches~: {\tt crontab}}
+
+%%%%%%%%%%%%
+\subsection{Introduction -- Syntaxe}
+
+\index{crontab}{\sl crontab} est un utilitaire utilis{\'e} pour ex{\'e}cuter un certain nombre de t{\^a}ches
+r{\'e}p{\'e}titives. Chaque utilisateur poss{\`e}de sa propre table de t{\^a}ches. Celle-ci est
+enregistr{\'e}e dans un r{\'e}pertoire du syst{\`e}me d'exploitation (<<~{\tt /var/spool/crontab}~>>).
+
+Cette fonctionnalit{\'e} du syst{\`e}me est associ{\'e} {\`a}~:
+\begin{itemize}
+	\item	la commande <<~{\tt crontab}~>>,
+	\item	un fichier de description des t{\^a}ches {\`a} effectuer.
+\end{itemize}
+
+La commande {\tt crontab} ob{\'e}it {\`a} la syntaxe explicit{\'e}e ci-apr{\`e}s.
+
+\begin{definition}{Syntaxe}
+{\tt crontab [ -u {\sl user} ] {\sl file}}\\
+{\tt crontab [ -u {\sl user} ] \{ -l | -r | -e \}}
+\end{definition}
+
+Le premier format de la commande permet d'enregistrer les commandes {\`a} effectuer .
+Le second format permet de consulter et de maintenir la table de description des
+t{\^a}ches.
+Les options disponibles sont~:
+\begin{description}
+	\item[{\tt -u user}]\mbox{}\\
+		L'option <<~{\tt -u {\sl user}}~>> permet de pr{\'e}ciser pour  quel utilisateur, d{\'e}fini
+		sur le syst{\`e}me, les op{\'e}rations sont {\`a} effectuer. Par d{\'e}faut, la commande
+		{\tt crontab} concernera votre propre table de description.
+
+	\item[{\tt -l}]\mbox{}\\
+		L'option <<~{\tt -l}~>> affiche le contenu de la table de description de
+		l'utilisateur concern{\'e} sur la sortie standard.
+
+	\item[{\tt -r}]\mbox{}\\
+		L'option <<~{\tt -r}~>> r{\'e}initialise la table de description de l'utilisateur
+		concern{\'e}~: toutes les t{\^a}ches qui y sont d{\'e}finies seront supprim{\'e}es.
+
+	\item[{\tt -e}]\mbox{}\\
+		L'option <<~{\tt -e}~>> permet d'{\'e}diter la table de description de l'utilisateur
+		concern{\'e}. L'{\'e}diteur utilis{\'e} sera celui pr{\'e}cis{\'e} par le contenu de la variable
+		d'environnement <<~{\tt EDITOR}~>> ou bien la variable d'environnement
+		<<~{\tt VISUAL}~>>. Les modifications prendont effet imm{\'e}diatement apr{\`e}s la sortie
+		de l'{\'e}diteur de texte.
+\end{description}
+
+Pour plus de pr{\'e}cisions, reportez-vous {\`a} {\tt crontab(1)}.
+
+%%%%%%%%%%%%
+\subsection{Fichier de description de t{\^a}ches}
+
+Le fichier de description des t{\^a}ches va contenir les instructions
+n{\'e}cessaires au processus de supervision (processus <<~{\tt
+cron(8)}~>>). Celui d{\'e}crira les op{\'e}rations de la fa\c{c}on suivante <<~{\sl
+ex{\'e}cute cette commande {\`a} cette heure l{\`a} ce jour-ci}~>>.
+
+Dans ce fichier,
+\begin{itemize}
+	\item	toute ligne commen\c{c}ant par le caract{\`e}re <<~\verb=#=~>> est ignor{\'e}e (ligne
+			de commentaires),
+	\item	les lignes blanches sont ignor{\'e}es,
+	\item	les espaces et les tabulations en d{\'e}but de ligne sont ignor{\'e}s.
+\end{itemize}
+
+\begin{remarque}
+Il n'est pas possible de mettre des commentaires au milieu d'une ligne. Le signe de
+commentaire doit donc {\^e}tre le premier caract{\`e}re de la ligne.
+\end{remarque}
+
+Chaque ligne de description, hormis les lignes de commentaires, peuvent , soit
+d{\'e}finir des variables d'environnement pour l'ensemble des t{\^a}ches {\`a} effectuer,
+soit des commandes {\`a} ex{\'e}cuter aux instants sp{\'e}cifi{\'e}s. La d{\'e}finition d'une
+variable d'environnement dans le fichier ob{\'e}it {\`a} la syntaxe suivante~:
+\begin{quote}
+{\tt {\sl nom} = {\sl valeur}}
+\end{quote}
+o{\`u} <<~{\sl nom}~>> repr{\'e}sente le nom de la variable d'environnement et <<~{\sl
+valeur}~>> repr{\'e}sente la valeur qui lui est affect{\'e}e. Les espaces de part et
+d'autre du signe {\sl {\'e}gual} <<~{\tt =}~>> sont optionnels. Si la valeur {\`a}
+affecter {\`a} la variable est une chaine de caract{\`e}res, il est pr{\'e}f{\'e}rable de la
+mettre entre simple quotes (<<~{\tt '}~>> ou double quotes (<<~\verb="=~>>).
+
+{\bf Pour toutes les commandes qui seront ex{\'e}cut{\'e}es~:
+\begin{itemize}
+	\item	leur sortie standard et leur sortie d'erreur standard redirig{\'e}es vers
+			la boite aux lettres de l'utilisateur,
+	\item	leur entr{\'e}e standard devra {\^e}tre explicitement pr{\'e}cis{\'e}e si cela est
+			nec{\'e}ssaire.
+\end{itemize}
+}
+
+Certaines variables d'environnement sont automatiquement positionn{\'e}es par le
+gestionnaire de t{\^a}ches {\tt cron(8)}~:\\
+\begin{tabular}{|c|p{8cm}|}
+	\hline
+	\multicolumn{1}{|c|}{Variable}	&	\multicolumn{1}{|c|}{Description} \\
+	\hline \hline
+	{\tt SHELL}		&	repr{\'e}sente l'interpr{\'e}teur de commande par d{\'e}faut. Cette variable est initialis{\'e}e {\`a}
+					<<~{\tt /bin/sh}~>>, donc le Bourne Shell.\\
+	\hline
+	{\tt LOGNAME}	&	repr{\'e}sente le nom de connexion de l'utilisateur. Par d{\'e}faut, elle
+					correspond {\`a} votre entr{\'e}e dans la base des utilisateurs.\\
+	\hline
+	{\tt USER}		&	a exactement les m{\^e}mes fonctionnalit{\'e}s que la variable <<~{\tt LOGNAME}~>>. Cependant,
+					certains utilitaires issus des syst{\`e}mes BSD\footnote{comme SunOS 4 et Ultrix.} utilisent
+					<<~{\tt USER}~>> plut{\^o}t que <<~{\tt LOGNAME}~>>.\\
+	\hline
+	{\tt HOME}		&	repr{\'e}sente votre r{\'e}pertoire de connexion. Par d{\'e}faut, il correspond {\`a} celui
+					d{\'e}fini dans les caract{\'e}ristiques de l'utilisateur.\\
+	\hline
+	{\tt MAILTO}	&	En plus des variables {\tt LOGNAME}, {\tt HOME} et {\tt SHELL},
+					le processus <<~{\tt cron(8)}~>> examine le contenu de la variable
+					d'environnement <<~{\tt MAILTO}~>> afin de savoir s'il est n{\'e}cessaire
+					d'envoyer un message donnant le r{\'e}sultat de l'ex{\'e}cution des commandes.
+					Si cette variable est d{\'e}finie et non vide, elle doit contenir l'adresse
+					courrier de la personne {\`a} qui envoyer les messages. Si elle est d{\'e}finie
+					{\bf mais vide}\footnote{Dans ce cas la variable est initialis{\'e}e avec
+					la chaine vide de la fa\c{c}on suvante~: <<~:MAILTO="":~>>.}, aucun
+					message ne sera envoy{\'e}.\\
+					&	Au cas o{\`u} aucune option se serait pr{\'e}cis{\'e} gr{\^a}ce {\`a} la variable
+					<<~{\tt MAILTO}~>>, le r{\'e}sultat produit sur la sortie standard
+					est envoy{\'e} dans la boite aux lettres de l'utilisateur poss{\'e}dant
+					cette liste de t{\^a}ches {\`a} ex{\'e}cuter.\\
+	\hline
+\end{tabular}
+
+\begin{remarque}
+Cette fonctionnanlit{\'e} offerte gr{\^a}ce {\`a} la variable <<~{\tt MAILTO}~>> peut {\^e}tre
+tr{\`e}s utile si vous d{\'e}cidez d'utiliser un autre serveur de messagerie que
+<<~{\tt /usr/lib/sendmail}~>>. Dans ce cas, <<~{\tt /bin/mail}~>> sera employ{\'e}
+pour assurer l'acheminement des messages. <<~{\tt /bin/mail}~>> n'utilisera
+pas la notion d'{\sl aliases} de <<~{\tt /usr/lib/sendmail}~>>.
+\end{remarque}
+
+Les lignes de description de t{\^a}ches se composent de plusieurs champs s{\'e}par{\'e}s
+par des espaces ou tabulations. Chaque ligne poss{\`e}de~:
+\begin{itemize}
+	\item	cinq champs pr{\'e}cisant la date et l'heure {\`a} laquelle la commande
+			doit {\^e}tre lanc{\'e}e,
+	\item	dans le cas o{\`u} la table de description est celle de l'administrateur,
+			le nom de l'utilisateur pour lequel on lance la commande\footnote{Cette
+			fonctionnalit{\'e} n'est pas disponible sur tous les {\Unix}. On la trouvera
+			par exemple sous {\Linux}.},
+	\item	la commande {\`a} lancer.
+\end{itemize}
+Le service <<~{\tt cron(8)}~>>\footnote{<<~{\tt cron(8)}~>>
+est un processus syst{\`e}me s'ex{\'e}cutant en permanence. Dans le jargon {\Unix}, un
+tel processus est appel{\'e} <<~{\sl d{\'e}mon}~>> ou <<~{\sl daemon}~>>.} examine toutes les
+minutes, les tables de description. Lorsque la date pr{\'e}cis{\'e}e dans une entr{\'e}e
+d'une table de description de t{\^a}ches, le service <<~{\tt cron(8)}~>> cr{\'e}e un sous
+processus sous l'identit{\'e} de la personne et lance la commande {\`a} l'int{\'e}rieur
+de ce contexte. La sp{\'e}cification de la date et de l'heure se compose
+des cinq informations suivantes~:\\[0.5cm]
+\begin{tabular}{|l|l|}
+	\hline
+	\multicolumn{1}{|c|}{Champ}	&	\multicolumn{1}{|c|}{Valeurs autoris{\'e}es}	\\
+	\hline
+	minute				&	0-59 \\
+	heure				&	0-23 \\
+	jour du mois		&	1-31 \\
+	mois				&	1-12 \\
+	jour de la semaine	&	0-7\footnote{0 ou 7 repr{\'e}sente <<~{\sl dimanche}~>>)}\\
+	\hline
+\end{tabular}
+
+Si l'un de ces champs contient le caract{\`e}re <<~\verb=*=~>>, celui-ci ne
+doit pas {\^e}tre pris en compte, ou bien l'une des bornes inf{\'e}rieure ou sup{\'e}rieure
+doit {\^e}tre consid{\'e}r{\'e}e dans la d{\'e}termination de la date. Par exemple~:\\[0.5cm]
+\begin{tabular}{|l|@{\hspace{0.2cm}indique~:~}p{8cm}|}
+	\hline
+	{\tt 0 1 * * *}	&	<<~{\sl tous les jours {\`a} 01:00}~>>\\
+	{\tt 0 0 * * 1}	&	<<~{\sl tous les lundis {\`a} minuit}~>>\\
+	{\tt * * * 2 3}	&	<<~{\sl tous les mardis du mois de f{\'e}vrier {\`a} minuit}~>>\\
+	\hline
+\end{tabular}
+
+Pour chaque champ, il est possible de donner~:
+\begin{itemize}
+	\item	une s{\'e}quence de nombres s{\'e}par{\'e}s par des virgules,
+	\item	des plages de nombre, en sp{\'e}cifiant les bornes inf{\'e}rieurs et sup{\'e}rieures
+			s{\'e}par{\'e}es par le caract{\`e}re <<~{\tt -}~>>,
+	\item	de combiner les deux possibilit{\'e}s.
+\end{itemize}
+
+\begin{example}
+\begin{tabular}{|l|@{\hspace{0.2cm}correspond {\`a} la s{\'e}quence ~:~}p{3cm}|}
+	\hline
+	{\tt 1,5}		&	<<~{\sl 1, 5}~>>\\
+	{\tt 8-10}		&	<<~{\sl 8, 9, 10}~>>\\
+	{\tt 0-5,7,9}	&	<<~{\sl 0, 1, 2, 3, 4, 5, 7, 9}~>>\\
+	{\tt 0-4,8-12}	&	<<~{\sl 0, 1, 2, 3, 4, 8, 9, 10, 11, 12}~>>\\
+	\hline
+\end{tabular}
+\end{example}
+
+\begin{remarque}
+Aucun espace ne doit {\^e}tre introduit dans les cinq champs associ{\'e}s {\`a} la date et
+{\`a} l'heure de lancement d'une commande.
+\end{remarque}
+
+\begin{remarque}
+Certaines extensions du service <<~{\tt cron(8)}~>> permettent
+de modifier l'incr{\'e}ment des plages de nombres. Une plage de nombres suivie de
+<<~\verb=/<number>=~>> indique le pas entre les valeurs {\`a} prendre {\`a} l'int{\'e}rieur
+de l'intervalle. Par exemple, <<~\verb=0-23/2=~>>, dans le champ <<~{\sl heure}~>>
+sp{\'e}cifie toutes les deux heures d'une journ{\'e}e (c'est-{\`a}-dire
+<<~{\tt 0,2,4,6,8,10,12,14,16,18,20,22}~>>). Cette option est aussi autoris{\'e}e
+{\`a} la suite du caract{\`e}re <<~{\tt *}~>>. Par exemple, <<~\verb=*/2=~>> au niveau du
+champ <<~{\sl heure}~>>, sera identique {\`a} l'exmple pr{\'e}c{\'e}dent, c'est-{\`a}-dire
+qu'il signifiera <<~{\sl toutes les deux heures}~>>.
+\end{remarque}
+
+Le dernier champ, c'est-{\`a}-dire le reste de la ligne, sp{\'e}cifie la commande
+{\`a} ex{\'e}cuter. {\bf Par cons{\'e}quent, la sp{\'e}cification doit {\^e}tre inscrite sur
+une seule ligne}. La commande sera ex{\'e}cut{\'e}e dans le contexte du Bourne Shell
+({\tt /bin/sh}) ou celui pr{\'e}cis{\'e} gr{\^a}ce {\`a} la variable d'environnement <<~{\tt SHELL}~>>.
+
+\begin{remarque}
+Le jour de l'ex{\'e}cution d'une commande peut {\^e}tre pr{\'e}cis{\'e} dans deux champs~:
+\begin{itemize}
+	\item	le jour du mois ($3^e$ champ),
+	\item	le jour de la semaine ($5^e$ champ).
+\end{itemize}
+Si ces deux champs sont renseign{\'e}s, c'est-{\`a}-dire qu'ils ne contiennent pas le
+caract{\`e}re <<~{\tt *}~>>, la commande sera ex{\'e}cut{\'e}e d{\`e}s que la date courrante correspondra
+{\`a} l'une des deux possibilit{\'e}s. Par exemple, <<~{\tt 30 4 1,15 * 5}~>> indiquera que la
+commande devra {\^e}tre ex{\'e}cut{\'e}e {\`a} 04:30 le $1^{er}$ et le quinze de chaque mois, mais
+aussi tous les vendredi.
+\end{remarque}
+
+%%%%%%%%%%%%
+\subsection{Exemple de fichier de description}
+
+\begin{example}
+\begin{verbatim}
+# Utiliser /bin/sh pour executer les commandes et non pas celui
+# precise dans le fichier /etc/passwd.
+SHELL=/bin/sh
+# Envoyer un message a "bart" pour rediriger la sortie standard
+# toutes les commandes.
+MAILTO=bart
+#
+# Commande a lancer 5 minutes apres minuit chaque jour.
+5  0  *  *  *    $HOME/bin/daily.job >> $HOME/tmp/out 2>&1
+# Commande a lancer a 14:15 le premier de chaque mois -- la sortie
+# standard de la commande arrive dans la boite aux lettres de "bart".
+15 14 1  *  *    $HOME/bin/monthly
+# Commande a lancer a 22:00 tous les jours de la semaine (hors week-end)
+0  22 *  *  1-5  if [ -d /var/adm/acct ]; then chacct; else echo "no acct"; fi
+# Autres commandes
+23 0-23/2 * * *  echo "execute tous les jours 23 minutes apres 0h, 2h, 4h ..."
+5  4  *  *  0    echo "execute a 04:05 chaque dimanche"
+\end{verbatim}
+\end{example}

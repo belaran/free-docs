@@ -1,0 +1,128 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	$Id$
+%
+
+\chapter{\label{ann-format}Instructions de formatage}
+\thispagestyle{fancy}
+
+La cha{\^\i}ne de contr{\^o}le dans diverses fonctions standards des
+biblioth{\`e}ques de programmation d'{\Unix} est une suite de symboles
+d{\'e}finissant le formatage de la sortie des arguments. Quelques unes
+de ces fonctions sont~:
+\begin{itemize}
+	\item	\index{printf@\texttt{printf}}\texttt{printf(3)}, \texttt{sprintf(3)}, \texttt{fprintf(3)}, $\cdots$
+	\item	\texttt{scanf(3)}, \texttt{sscanf(3)}, \texttt{fscanf(3)}, $\cdots$
+	\item	\texttt{printf(1)},
+	\item	etc.
+\end{itemize}
+
+Ces codes de contr{\^o}le sont aussi utilis{\'e}s dans "\index{awk@\texttt{awk}}\texttt{awk}" et
+"\texttt{perl}"\footnote{"\texttt{perl}" est un langage de
+programmation largement utilis{\'e} dans les serveurs Web et disponible
+sur la quasi-totalit{\'e} des syst{\`e}mes d'exploitation~: {\Unix}, {\OpenVMS},
+{\Windows}, {\MacOS}. Il utilise la notion d'expressions r{\'e}guli{\`e}res,
+d'objets, etc.}
+
+Une cha{\^\i}ne de contr{\^o}le contient deux types d'objets~:
+\begin{itemize}
+	\item	les caract{\`e}res ordinaires (ils sont recopi{\'e}s tels quels),
+	\item	les symboles de formatage. Ils correspondent aux positions
+			relatives des arguments de la fonction.
+\end{itemize}
+
+Les symboles de formatage sont de la forme "\verb,%[-][m][.n]a,"
+avec~:\\[1ex]
+\begin{tabular}{|l|p{10cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Symbole}				&
+		\multicolumn{1}{|c|}{Description}			\\
+	\hline \hline
+		\verb=%=	&
+			introduit un symbole de formatage.		\\
+	\hline
+		\verb=-=	&
+			oblige le cadrage {\`a} gauche (par d{\'e}faut {\`a} droite)
+			du champ affich{\'e}.						\\
+	\hline
+		\texttt{m}		&
+			sp{\'e}cifie la largeur minimum du champ.	\\
+	\hline
+		\texttt{n}		&
+			sp{\'e}cifie le nombre maximum de caract{\`e}res {\`a} afficher dans
+			la cha{\^\i}ne correspondante, ou bien le nombre de d{\'e}cimales
+			{\`a} afficher pour la valeur num{\'e}rique correspondante. \\
+	\hline
+		\texttt{a}		&
+			d{\'e}signe le type d'argument correspondant.	\\
+	\hline
+\end{tabular}
+
+Les diff{\'e}rents codes possibles pour d{\'e}signer le type d'arguments sont~:\\[1ex]
+\begin{tabular}{|l|p{10cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Symbole}				&
+		\multicolumn{1}{|c|}{Description}			\\
+	\hline \hline
+		\texttt{s}	&	d{\'e}signe une cha{\^\i}ne de caract{\`e}res.	\\
+	\hline
+		\texttt{c}	&	d{\'e}signe un caract{\`e}re.	\\
+	\hline
+		\texttt{f}	&	d{\'e}signe une valeur r{\'e}elle (virgule flottante).	\\
+	\hline
+		\texttt{d}	&	d{\'e}signe une valeur d{\'e}cimale.	\\
+	\hline
+\end{tabular}
+
+\begin{example}
+\noindent {\sl Exemple d'utilisation des codes de format~:}\\
+Si la variable "\texttt{cumul}" est {\'e}gale {\`a} "$31,12345$" alors~:\\[1ex]
+\begin{tabular}{|c|l|}
+	\hline
+		\multicolumn{1}{|c|}{Cha{\^\i}ne de contr{\^o}le}	&
+		\multicolumn{1}{|c|}{Affichage}				\\
+	\hline \hline
+		\verb=%f=		&	\verb*=31.12345=		\\
+	\hline
+		\verb=%10.2f=	&	\verb*=31.12=			\\
+	\hline
+		\verb*=%-10.3f=	&	\verb*=31.123=			\\
+	\hline
+\end{tabular}
+
+Si la variable "\texttt{nom}" contient la cha{\^\i}ne "\texttt{schmoll}",
+alors~:\\[1ex]
+\begin{tabular}{|c|l|}
+	\hline
+		\multicolumn{1}{|c|}{Cha{\^\i}ne de contr{\^o}le}	&
+		\multicolumn{1}{|c|}{Affichage}				\\
+	\hline \hline
+		\verb=%s=		&	\verb*=schmoll=			\\
+	\hline
+		\verb=%10s=		&	\verb*=   schmoll=		\\
+	\hline
+		\verb=%10.3s=	&	\verb*=       sch=		\\
+	\hline
+		\verb=%-10.3s=	&	\verb*=sch       =		\\
+	\hline
+		\verb=%.3s=		&	\verb*=sch=				\\
+	\hline
+\end{tabular}
+\end{example}
