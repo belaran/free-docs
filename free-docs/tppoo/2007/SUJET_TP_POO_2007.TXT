@@ -1,0 +1,444 @@
+Tp de Programmation Orientée Object
+Octobre 2007
+
+Pré requis lexical:
+-------------------
+
+Le TP de C++ de deuxième année avait pour but de vous initier à la programmation orientée objet ; vous avez appris et
+assimilé certaines notions que vous devez absolument maîtriser afin de réussir votre TP de 3ième année :
+
+* Application Program Interface, A.P.I, (Voir TP SMG$)
+* La notion d'implémentation (Voir cours de C et de C++)
+* Classe, objet, polymorphisme, héritage, etc.. (Voir cours de C++)
+* Diagramme de classe (Voir cours de modélisation UML)
+* Test unitaire ( voir TP de C++ de deuxième année, et pour plus d'informations spécifiques à ce tp,le site junit.org )
+
+
+Objectifs:
+----------
+
+Le but de ce TP est donc bien sûr de parfaire ces connaissances mais également d'en assimiler
+d'autres, comme l'utilisation des interfaces.
+
+C'est un exercice de "conception" objet, puisqu'il vous formera à la modélisation objet d'un programme et à sa
+réalisation (en java pour ce TP), selon les contraites habituelles :
+
+* respect du cahier des charges,
+* respect des règles de programmation,
+* utilisation du code fourni.
+
+En deuxième année, la "livraison" de votre programme (la remise du tp) s'est accompagnée d'un diagramme de classes;
+cette année, le travail demandé sera plus conséquent, puisque vous devrez réaliser un "Dossier d'Architecture
+Logicielle" (nommée DAL dans la suite du sujet), que vous rendrez en même temps que le tp.
+Ce document intègrera votre diagramme de classe et vos reflexions pertinentes sur le sujet.
+L'objectif de ce document est de vous permettre d'exposer les différentes idées qui ont dirigé (ou pas) votre développement et la conception de votre programme. A titre indicatif, votre document ne doit pas dépasser vingt pages.
+
+En plus de votre DAL, vous devrez bien évidement rendre votre TP en lui-même soit un développement en
+langage Java (Java 5), fidèle aux consignes du sujet.
+
+SUJET:physique
+======
+
+"Communication Inter-Processus":
+--------------------------------
+
+Pour ce tp, vous devrez fournir une implémentation d'une API de "communication inter-processus", dont le fonctionnement
+et la spécification vous sont décrits plus loin.
+Par ce nom "barbare" de "communication inter-processus", on entend simplement une API permettant à un programme d'envoyer un
+message à un autre programme, de manière "asynchrone", c'est à dire, simplement, sans attendre de réponse du destinataire avant
+de continuer son exécution.
+
+* Exemple d'utilisation:
+
+Soit un programme A, utilisé par un internaute, permettant de déclarer ses impots en ligne.
+Soit un programme B, chargé de mettre un ensemble de données statistique relatifs à l'ensemble
+des déclarations fiscales.
+
+L'internaute se connecte au programme A et fournit à ce dernier l'ensemble des données
+nécessaires pour sa déclaration. 
+Le programme A, dés que les données ont été validées, envoie un message au programme B correspondant à la copie des informations de l'internaute puis, continue son déroulement sans devoir attendre que le programme B ne lui envoie de réponse, ou même accepte son message.
+Le processus du programme A n'est ni interrompu, ni mis en attente par celui du programme B, qui
+pourra traiter ces données quand il le souhaitera (par exemple en une seule fois, pendant la nuit,
+quand le système est moins utilisé), sans interférer avec le fonctionnement du programme A.
+
+On notera au passage que ce mécanisme permet aussi d'abstraire l'architecture physique sous jacente.
+En effet, dans cette communication "inter processus", le programme A et le programme B peuvent
+s'éxecuter conjointement sur la même machine, même au sein du même programme, ou sur des machines
+distinctes. On peut même imaginer, que le programme B fonctionne en "batch", et démarre le soir pour
+consommer les messages qu'il a reçu pendant la journée.
+
+Spécification et implémentation:
+--------------------------------
+
+L'exercice de style choisi pour ce tp est donc l'implémentation d'une API de communication inter-processus,
+que l'on désignera désormais comme "API Messaging". Cette API spécifiera de manière complètement abstraite,
+le fonctionnement d'un moteur de communication inter-processus. Pour faciliter la lecture, on désignera un tel
+moteur sous le nom de "pile" (car en effet, le principal travail de ce moteur est la gestion de pile de
+message). Nous allons maintenant détailler ("spécifier") le comportement que devrait avoir une telle pile,
+et que, esperons-le, votre implémentation suivra à la lettre.
+
+	1.Spécification
+	---------------
+
+		a.Services proposés:
+
+Toute implémentation de "API Messaging" devra, pour être valide, présenter une classe implémentant l'interface
+MessageEngine (cette interface est décrite plus loin). Cette implémentation permettra donc au programme 
+utilisant la pile :
+
+* d'envoyer un message à autre programme. Le message sera identifié par une chaîne de caractère dont le
+contenu sera défini par le programme expéditeur. Il contiendra un pointeur vers un objet, représentant
+le contenu du message.
+Remarque : l'objet pourra être une liste d'objets, il ne s'agit donc pas d'une réelle limite. Enfin, l'objet
+contiendra la "boite aux lettres" du destinataire, sous forme de chaîne de caractères.
+
+* de recevoir ses messages. Le programme utilisateur de la pile pourra recevoir les messages présents dans
+sa boîte aux lettres.
+
+* de fournir un accusé de réception. Le programme emetteur d'un message pourra demander à la pile si le destinataire a
+reçu son message. Tant que le destinataire n'aura pas relevé ses messages, la pile retournera "false".
+
+Tout programme utilisant la pile disposera donc d'une "boîte aux lettres" identifiée par son nom
+d'utilisateur (son adresse email en quelques sortes). On remarque qu'il n'y a pas de fonctionnalité
+prévue pour s'inscrire auprès de la pile, et donc créer sa propre boîte aux lettres.
+En effet, lorsqu'un programme enverra un message à une nouvelle boîte aux lettres, celle-ci devra être obligatoirement créée si elle n'existe pas déjà, et le message y sera ajouté.
+Si un programme qui n'a pas de boite aux lettres demande à la relever, une boite aux lettres vide doit
+aussitôt être alors créée.
+Il n'est pas spécifié de méthode pour "supprimmer" une boite aux lettres, libre à l'implémentation de la
+pile de définir elle-même sa politique de suppression des boites aux lettres (méthode supplémentaire dédiée, péremption des boites aux lettres au bout d'un certain temps, suppression automatique des boîtes aux lettres dès
+qu'elles sont vides... la statégie à adopter est donc laissée à votre discrétion, mais votre choix devra être justifié dans le DAL).
+
+Remarque importante: Dans la théorie, des programmes devraient pouvoir accéder de manière concurrente (c'est à dire
+en "même temps") à la pile. En effet, que se passe-t-il si, au moment où un programme A accède à sa boîte aux
+lettres, le programme B lui envoie un message ?
+De manière conséquente, votre pile devrait être conçue pour gérer ce genre de situation, ce qui recquiert l'utilisation de "thread" en langage Java. Néanmoins, ce genre de situation dépasse totalement le cadre de la simple conception objet, et donc, pour le propos du TP, vous ne devez pas tenir des cas problématiques d'accès concurrents.
+
+		b.Paramétrage de la pile
+
+La pile devra être paramétrable. Une méthode d'initialisation décrite dans l'interface, appelée juste après la
+construction de l'objet permettra de définir le paramètre suivant:
+
+- Nombre Maximum de Messages : Nombre maximum de messages que devra gérer la pile. Au delà de ce nombre, elle n'acceptera plus de message.
+Attention, ce paramètre est un paramètre utilisateur. C'est l'utilisateur qui le choisira, si ce dernier choisit un
+nombre trop grand de messages par rapport aux capacités de la pile, cette dernière devra refuser ce paramètrage.
+
+- Nombre Maximum de boites aux lettres : L'utilisateur définit ici le nombre maximum de boites aux lettres qu'acceptera
+la pile. Là encore, il s'agit d'un paramètre utilisateur, et non d'une limite imposée par la pile. Si ce paramètre
+dépasse les capacités de la pile, c'est à cette dernière de refuser le paramètre.
+
+- Nombre de message max/boites aux lettres: Ce paramètre indique le nombre maximum de messages que peut recevoir une boite
+aux lettres. Au delà, les messages seront refusés.
+
+Si l'utilisateur choisit de mettre 0 dans une ou plusieurs de ses valeurs, la pile devra alors utiliser son
+propre paramétrage par défaut pour le ou les paramètres concernés. Les valeurs par défaut ne sont pas
+spécifiées, c'est à vous de les choisir ( et justifiez ces valeurs, si vous le désirez dans votre DAL).
+
+- Persistance: Ce paramètre indique si la pile doit "persister" ses messages. Ce fonctionnement
+permet à la pile de récupérer ses messages après avoir été arrêtée (volontairement ou non), mais
+le coût est plus cher en performance, car il y a nombreux accès disque. Le format et l'organisation du ou des
+fichiers utilisés pour la persistance des messages sont laissés à la discrétion de l'implémentation ( mais devront
+figurer dans le Dossier d'Architecture Logicielle).
+
+A noter aussi, que tout message persisté deviendra automatiquement une chaîne de caractère.
+En effet, pour persister le contenu d'un message, qui est un Object, la pile appliquera la méthode
+toString() à ce dernier.
+Quand la pile rechargera en mémoire les messages contenus dans le fichier, elle ne récupèra donc que des chaines de caractères
+pour tout contenu. Vous êtes libress de proposer un fonctionnement plus pertinent pour la restauration des données persistées,
+mais attention, ne perdez pas de vue que ce point précis n'est pas le "coeur" du sujet...
+
+	2.Définition de l'API
+	----------------------
+
+Au centre de l'"API Messaging", on trouve la notion de message. Un message est défini par un simple objet java
+("Plain Old Java Object", soit P.O.J.O), c'est à dire, un objet conçu pour héberger essentiellement des données.
+
+public class Message
+{
+	private String id;			// The message id has decided by caller, therefore it may not be unique !
+	private String recipient;	// The recipient name ( ie his mailbox)
+	private Object content;		// Any object can be 'attached' to the message
+
+	/*
+	 * Appropriate getter/setters
+	 */
+	 ...
+}
+
+En deux mots, un POJO est une structure, agrémentée d'accesseurs ( il s'agit de la définition même d'un POJO).
+
+Maintenant, nous allons définir les services que doit offrir une pile, sous forme d'une interface. Cette
+interface définira donc le contrat entre l'implémentation et son utilisateur. Du point de vue de ce dernier,
+voilà comment les choses se présentent:
+"J'ignore ce que tu es et comment tu le fais, mais je sais que tu implémentera cette interface, donc je peux
+utiliser ton implémentation de ces méthodes sans te vraiment te connaitre".
+
+Plus concrètement, voilà l'interface :
+
+public interface MessageEngine
+{
+	public void initializeEngine(int nbMaxMssg,int nbMaxClient, int nbMaxMessagePerClient, boolean pestistStack) throws IllegalStateException;
+
+	public void postMessage(Message message) throws MessageException,IllegalArgumentException;
+
+	public List<Message> checkMessages(String mailboxId) throws IllegalArgumentException;
+
+	public boolean isRecevied(Message sentMessage) throws IllegalArgumentException;
+}
+
+Note: l'extrait de code ci-dessus est volontairement sans commentaires, pour faciliter la lisibilité
+du sujet. L'interface qui vous est fournie, est, elle, clairement documentée et commentée.
+
+Une pile est donc une classe qui implémente ces méthodes :
+
+/**
+ *
+ */
+package org.esme.tppoo;
+
+import java.util.List;
+
+/**
+ * @author rpelisse
+ *
+ */
+public class DummyStack implements MessageEngine {
+
+	/* (non-Javadoc)
+	 * @see org.esme.tppoo.MessageEngine#checkMessages(java.lang.String)
+	 */
+	public List<Message> checkMessages(String mailboxId)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.esme.tppoo.MessageEngine#initializeEngine(int, int, int, boolean)
+	 */
+	public void initializeEngine(int nbMaxMssg, int nbMaxClient,
+			int nbMaxMessagePerClient, boolean pestistStack)
+			throws IllegalStateException {
+		// TODO Auto-generated method stub
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.esme.tppoo.MessageEngine#isRecevied(org.esme.tppoo.Message)
+	 */
+	public boolean isRecevied(Message sentMessage)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.esme.tppoo.MessageEngine#postMessage(org.esme.tppoo.Message)
+	 */
+	public void postMessage(Message message) throws MessageException,
+			IllegalArgumentException {
+		// TODO Auto-generated method stub
+
+	}
+}
+
+Cette implémentation, DummyStack, est comme son nom l'indique, peu pertinente. En effet, elle
+se contente de respecter le contrat de l'interface sans fournir réellement de travail.
+
+Il sera donc de votre travail de réaliser une classe (et très probablement un ensemble de
+classes sous-jacentes !) qui implémentera intégralement l'API. Passons maintenant à l'utilisation
+d'une telle implémentation.
+
+Un programme souhaitant utiliser une pile respectant l'interface MessageEngine devra donc suivre
+le cheminenment suivant:
+
+* Il devra construire la pile:
+
+	MessageEngine stack = new MessageStack();
+
+Notez bien le type de la variable stack : cette variable est typée par l'interface et non par la classe
+de l'implémentation (MessageStack). Ce comportement garantit une faible dépendance ("loose coupling"
+en anglais) entre le programme et l'implémentation utilisée. Le programme n'est donc dépendant que de
+l'API, définie par l'interface, et pas du fonctionnement spécifique de la pile utilisée. Si on souhaite
+changer de pile (par exemple utiliser une pile dont le nom serait "FarBetterStack", ne nécessite que
+de changer "new MessageStack()" par "new FarBetterStack()").
+
+* Une fois ceci fait, il devra l'initialiser:
+
+	stack.initializeEngine(10,2,3,false);
+
+La pile a donc été initialisée avec les paramètres suivants:
+
+* Pour envoyer un message, le programme utilisateur devra opérer ensuite ainsi:
+
+	Message message = new Message();
+	message.setIdentifier("Mon message");
+	message.setContent(new String("Le contenu de mon message"));
+	message.setRecipient("destinataire");
+	stack.postMessage(message);
+
+* Le destinataire, pour récupérer ce message, devra donc relever ses messages ainsi:
+
+	List<Message> messages = stack.checkMessages("destinataire");
+	for ( Message message : messages )
+	{
+		// do something with the message...
+		Object content = message.getContent();
+		// ...
+	}
+
+* Enfin, le programme expéditeur pourra vérifier que son message a bien été reçu par
+le programme destinataire :
+
+	boolean messageRecevied = stack.isRecevied(message);
+	if ( messageRecevied == false )
+	{
+		// do something... maybe try again later ?
+	}
+
+	3. Validation de la pile réalisée
+	---------------------------------
+
+Pour s'assurer qu'une pile implémente correctement l'API, une série de tests unitaires est fournie.
+Si l'ensemble des scénarios de test décrits par cette suite passe sans erreur, l'implémentation est
+alors "certifiée conforme" à la spécification.
+Dans le cadre de ce TP, votre pile devra passer avec succès cette suite de tests.
+
+Faire fi de la concurrence...:
+------------------------------
+
+Comme vous l'aurez compris, quand des éditeurs de logiciels implèmentent une spécification, ils proposent à
+leur client un composant "standard" (c'est-à-dire qui respecte la norme, ici "API Messaging") et donc le comportemnt
+est supposé conforme. Mais quid de la concurrence ?
+En effet, si n'importe quel autre éditeur peut proposer son propre composant, comment se démarquer ?
+Comment s'assurer que son produit sera celui choisi, et non celui de son concurrent ? Une partie de la
+solution est généralement de proposer un tarif et un ensemble de services (support, expertise) autour
+de son offre qui soit plus avantageux que ceux de ces concurrents...
+Néanmoins, ce n'est pas la seule arme à la disposition d'un éditeur. Le concepteur de l'implémentation
+peut (et doit) aussi réfléchir à ses performances. En effet, il est courant lors du choix d'une
+implémentation de réaliser des "benchmarks" et donc de comparer les performances des différents
+produits. Dans ce contexte, disposer de bonnes performances est crucial pour l'éditeur du produit.
+La deuxième arme à la disposition du fournisseur est l'ajout de fonctionnalités "hors spécification".
+Rien, en effet, n'interdit à un éditeur de proposer "plus" que la spécification (surtout que si
+son implémentation et ses services supplémentaires sont massivement adoptés, il y a de grandes chances
+qu'ils soient alors intégrés à la prochain version de la spécification,
+devenant de facto, des services "standard". Si cela arrive, le fournisseur aura l'avantage sur la
+concurrence de ne pas avoir à développer ses nouveaux services...).
+
+Dans le cadre de ce tp, le barême de notation prendre en compte les démarches qui vous aurez prises
+pour assurer à votre produit le "lead" du marché ;)
+
+Si vous concevez certains aspect de votre  architecture pour obtenir de meilleures performances, n'hésitez
+pas à l'ajouter donc au DAL (ne faites pas non plus de cette tâche une priorité; l'objectif du TP
+est, et reste avant tout, la conception objet, non le "tuning de composant").
+
+Plus à votre portée, vous pouvez choisir, une fois l'implémentation de la spécification entièrement
+réalisée et validée, de proposer des services supplémentaires spécifiques à votre implémentation.
+Il peut s'agir de méthodes supplémentaires (comme par exemple une méthode pour supprimer une boîte mail)
+ou même de services complets (statistiques sur le nombre de message lus, échangés, ou encore simplement des
+services d'administration permettant à un administrateur de supprimer des boites, des messages, etc...).
+Vous êtes libres de proposer ce qui vous semble le plus pertinent, mais gardez à l'esprit, que là
+encore, les points seront attribués sur la pertinence et la qualité de la modélisation objet associée
+à ces fonctionnalités supplémentaires.
+
+Attention, à un "anti-pattern" classique d'élève : ces fonctionnalités supplémentaires sont à ajouter à
+la FIN quand tout le reste aura été fait ( c'est à dire l'implémentation complète de la spécification, la
+rédaction du DAL, ect...). Le plus grosse partie du barême repose sur ces derniers, pas sur les
+fonctionnalités supplémentaires ! ( ....bref, comme dit l'adage, "on ne met pas la charrue avant les boeufs").
+
+Validation:
+-----------
+
+Avec le sujet et l'interface à implémenter une série de test unitaires vous est fournie pour vous permettre
+de valider le bon fonctionnement de votre 'pile'. Pour exécuter ces tests unitaires, vous pouvez utiliser
+Eclipse ou un script Ant, comme vu en TP de Génie Logiciel N°1.
+
+Attention, vous pouvez librement ajouter des tests mais ne modifiez pas les tests existants. En effet, à la
+correction se sont les tests fournies qui seront utilisés pour valider le bon fonctionnement de votre "pile" !
+(les votres seront aussi executés au cas où vous auriez choisi d'ajouter des tests unitaires, mais seuls les
+tests d'origine feront foi !).
+
+Livraison:
+----------
+
+A la fin de votre prestation, soit 2 semaines de TP, il est attendu une livraison. Les livrables suivants
+la composeront:
+
+* DAL ( Dossier d'Architecture Logicielle )
+	- Diagramme de classe, décrivant l'architecture des classes de la pile que vous avez réalisé
+		(ou pas)
+ 	- Différentes explication sur les choix techniques que vous avez fait ( nombres de fichiers
+ 	utilisées, paramétrage de votre pile, ect...). Notez que souvent un dessin bien commenté, vaut
+ 	probablement mieux qu'un long texte "obscur".
+	- Le rapport de "qualification" de votre pile, en annexe.
+
+* Livraison des différentes classes Java ( fichier .java ) réalisées pour ce TP.
+
+Ces classes comme le DAL devront être placés dans le CVS mis à disposition par l'école, dans votre "repository"
+de TP ( /esme/tp/3CTXXX) dans un répertoire dédié, nommée 'tpppo' ( /esme/tp/3CTXXX/tppoo). Pour distinguer
+la "version" finale des autres versions disponibles, vous devrez "tagguer" la version finale sous le nom
+TPPOO_REMISE. Attention ! Avant de tagguer assurer bien de TOUT AVOIR TESTER et QUE TOUT LES FICHIERS
+NECESSAIRES ONT BIEN ETE "COMMITES" dans le CVS. Une bonne idée est généralement, de faire un "checkout" du
+projet dans un nouveau répertoire (et pas un simple "update") et tout retester avant de 'tagger'.
+
+Le correcteur fera un 'checkout' à partir du CVS à partir d'un tag TPOO_REMISE, si et seulement si, si le
+tag a été placé sur des sources dont la dernière date de modification est ANTERIEUR à la date de fin du TP.
+
+Nous ne serions que trop vous conseil d'utiliser vos propres "tags", avant de "tagguer" votre TP ( TEST_REMISE
+par exemple :) ).
+
+Arborescence requises:
+----------------------
+
+Le contenu du projet 'tpppo' de votre "repository" ( /esme/tp/3CTXXX/) devra suivre l'organisation suivante:
+
+tppoo/
+--- build.xml		( script de 'build.xml' si vous avez réalisé un )
+--- src/			( contenant les sources java)
+--- tests/			( contenant les sources java des tests unitaires )
+---	docs/DAL.doc	( le répertoire docs/ contiendra donc votre DAL. Les formats .doc et .odt sont les seuls acceptés
+						pour la remise du tp)
+
+Conformément à ce qui a été dit lors du TP de Génie Logiciel N°1, vous ne devrez "commiter" dans le CVS
+ni .class, ni .jar, etc...
+
+Le non respect de ces directives ( tag, respect de la limite de livraison, pas de commit de fichier binaire,
+ ...) est, sans surprise pour vous, une ERREUR FATALE... qui s'accompagnera des conséquences habituels.
+
+Remarques sur le travail à réaliser:
+------------------------------------
+
+De manière similaire au TP de programmation orienté objet que vous avez réalisé en deuxième année,
+le travail à réaliser pour ce TP ne se limite pas qu'à une simple réalisation logicielle. Ainsi, une
+ partie de votre travail sera certainement une réflexion sur le sujet, suivi de la rédaction du DAL.
+
+La partie développement a été réduit, de manière délibéré, pour vous permettre de consacrer du temps à
+cette réflexion sur la conception des vos classes, de vos héritages, mais aussi pour tester votre pile,
+ajouter des fonctionnalités, et enfin, pour assurer, la livraison d'un DAL le plus pertinent possible.
+
+Remarques techniques:
+---------------------
+
+1. Commencez par réaliser une pile entièrement en mémoire ( 'persitence' égale à 'false' ), quand
+celle-ci fonctionnera correctement, vous pourrez attaquer la gestion de ou des fichiers.
+
+2. Quand vous persistez un message dans un fichier, vous transformez son "contenu" en chaîne de
+caractères à l'aide de la méthode toString():
+
+	message.getContent().toString();
+
+Cette méthode étant fournie par la classe Object ( dont tout object hérité de manière implicit en
+Java), vous êtez donc sûr de pouvoir toujours l'utiliser.
+
+Note: Une fois la spécification entièrement implémentée, vous êtes libre (toujours dans le cadre
+"concurrenciel" :)) d'implémenter un comportement plus pertinent sur la persistance des messages.
+
+3. Dans le cadre de la réalisation des fonctionnalités supplémentaires, vous devrez aussi valider
+leur bon fonctionnement. Arrivé à ce stade, vous devrez être suffisament à l'aise avec le langage
+Java, pour réaliser un ensemble de classes de test à partir des tests fournis.
+
+4. Dernier point : Toute spécification est "incomplète" et toute suite de tests permettant de valider
+une spécification est forcement incomplète ou même parfois erronée. La série de tests fournie dans ce
+TP n'échappera peut être pas à cette règle. Le cas échéant, vérifiez tout d'abord bien que vous ne vous
+êtes pas trompés, puis informez moi par mail (pelisse@esme.fr) et continuez votre TP, en contournant au
+besoin le problème. Si vous n'avez pas de réponse de ma part avant la remise, indiquez le problème, le
+plus clairement possible, dans votre DAL...

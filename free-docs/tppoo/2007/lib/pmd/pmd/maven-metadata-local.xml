@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>pmd</groupId>
+  <artifactId>pmd</artifactId>
+  <version>4.0</version>
+  <versioning>
+    <versions>
+      <version>4.0</version>
+    </versions>
+    <lastUpdated>20070830173051</lastUpdated>
+  </versioning>
+</metadata>

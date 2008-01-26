@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stack>
+	<nbMaxMssg 				max="10000" default="100"/>
+	<nbMaxClient 			max="10000" default="100"/>
+	<nbMaxMessagePerClient 	max="10000" default="100"/>
+</stack>

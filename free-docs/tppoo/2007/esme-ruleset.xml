@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ruleset name="esme">
+    <description>
+    	<![CDATA[
+			Règles de programmation
+	    ]]>
+    </description>
+
+    <rule 	name="[CONSTRUCT-1]"
+    		message="Toute classe devrait posséder au moins un constructeur."
+    		ref="rulesets/controversial.xml/AtLeastOneConstructor"/>
+
+    <rule
+        name="[METR-METH-1]"
+        ref="rulesets/codesize.xml/ExcessiveMethodLength"
+        message="Une méthode ne devrait pas dépasser 50 lignes de code effectif.">
+        <description>
+            <![CDATA[
+            Une violation de cette règle indique généralement que la méthode « en fait trop ». Essayer de réduire la taille de la méthode en la décomposant en plusieurs, ou en supprimant les éventuels « copier-coller ».
+            ]]>
+        </description>
+        <priority>2</priority>
+        <properties>
+            <property name="minimum" description="The method size reporting threshold" value="100"/>
+        </properties>
+    </rule>
+
+    <rule
+        name="[METR-METH-2]"
+        ref="rulesets/codesize.xml/ExcessiveParameterList"
+        message="Une méthode ne devrait pas avoir plus de 7 paramètres.">
+        <description>
+            <![CDATA[
+            Une longue liste de paramètres peut indiquer la nécessité de créer un nouvel objet regroupant ces paramètres.
+            ]]>
+        </description>
+        <priority>2</priority>
+        <properties>
+            <property name="minimum" description="Seuil d'erreur pour le nombre de paramètres d'une méthode." value="8"/>
+        </properties>
+    </rule>
+
+    <rule
+        name="[METR-METH-3]"
+        ref="rulesets/codesize.xml/CyclomaticComplexity"
+        message="La complexité cyclomatique d'une méthode devrait être inférieure à 12.">
+        <description>
+            <![CDATA[
+            La complexité cyclomatique (de McCabe) est déterminée par le nombre de points de décision dans une méthode.
+            Un point de décision correspond à l'occurrence d'un opérateur if, while, do, for, case, catch, ou un opérateur
+            logique. ?:, &&, ||.
+            Généralement, une méthode à complexité cyclomatique de 1 à 4 est considérée comme peu complexe, de 5 à 7 moyennement complexe, de 8 à 10 complexe, et de plus de 10 très complexe.
+            Ainsi, une méthode à complexité cyclomatique supérieure à 11 devrait être décomposée en plusieurs méthodes, afin de facilité la compréhension de l'algorithme.
+            ]]>
+        </description>
+        <priority>2</priority>
+        <properties>
+            <property name="reportLevel" description="Seuil d'erreur de la complexité cyclomatique"  value="12"/>
+        </properties>
+    </rule>
+
+    <rule
+        name="[METR-1]"
+        ref="rulesets/codesize.xml/ExcessiveClassLength"
+        message="400 lignes de code effectif est un maximum pour une classe Java.">
+        <description>
+        	<![CDATA[
+            Une violation de cette règle indique généralement que la classe « en fait trop ». Essayer de réduire la taille de la méthode en la décomposant en plusieurs, ou en supprimant les éventuels « copier-coller ».
+           	]]>
+        </description>
+        <priority>2</priority>
+        <properties>
+            <property name="minimum" description="The method size reporting threshold" value="400"/>
+        </properties>
+    </rule>
+
+    <rule
+        name="[METR-2]"
+        class="net.sourceforge.pmd.rules.XPathRule"
+        message="Une ligne ne doit pas dépasser 120 caractères."
+        externalInfoUrl="http://refdoc.venezia.dev.impots/multiproject/pmdSODA/chapters/chapitre-08-metr.html#_METR-CLASS-2_">
+        <properties>
+            <property name="xpath">
+                <value>
+                    <![CDATA[
+                        //Expression
+                        [(@EndColumn - @BeginColumn ) > 120]
+                    ]]>
+                </value>
+            </property>
+        </properties>
+        <description>
+            <![CDATA[
+                La longueur des lignes doit en effet être raisonnable, et permettre une lecture aisée des fichiers dans l'environnement de développement standard, sur un écran de résolution standard.
+                Il est pour cela préférable d'éviter les lignes trop longues (plus de 120 caractères) qui rendraient difficile la relecture du code.
+            ]]>
+        </description>
+        <priority>2</priority>
+    </rule>
+
+	  <rule name="TooManyFields"
+	          message="Too many fields"
+	          class="net.sourceforge.pmd.rules.design.TooManyFields"
+	          externalInfoUrl="http://pmd.sourceforge.net/rules/codesize.html#TooManyFields">
+	      <description>
+	Classes that have too many fields could be redesigned to have fewer fields, possibly
+	 through some nested object grouping of some of the information.  For example, a class with
+	 city/state/zip fields could instead have one Address field.
+	      </description>
+	        <priority>3</priority>
+	      <properties>
+	       <property name="maxfields"  description="The field count reporting threshold " value="15"/>
+	      </properties>
+	      <example>
+	   <![CDATA[
+	public class Person {
+	   String one;
+	   int two;
+	   int three;
+	   [... many more public fields ...]
+	}
+	   ]]>
+	      </example>
+	</rule>
+
+	<rule name="ExcessiveImports"
+	     message="A high number of imports can indicate a high degree of coupling within an object."
+	     class="net.sourceforge.pmd.rules.ExcessiveImports"
+	          externalInfoUrl="http://pmd.sourceforge.net/rules/coupling.html#ExcessiveImports">
+	     <description>
+	A high number of imports can indicate a high degree of coupling within
+	an object. Rule counts the number of unique imports and reports a violation
+	if the count is above the user defined threshold.
+	  </description>
+	  <priority>3</priority>
+	  <properties>
+	      <property name="minimum" description="The import count reporting threshold" value="30"/>
+	  </properties>
+	  <example>
+	      <![CDATA[
+	import blah.blah.Baz;
+	import blah.blah.Bif;
+	// 18 others from the same package elided
+	public class Foo {
+	 public void doWork() {}
+	}
+	      ]]>
+	  </example>
+	   </rule>
+</ruleset>
