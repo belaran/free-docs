@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tppoo"
+		default="compile"
+		basedir=".">
+
+	<property name="version"	value="1.0"/>
+	<property name="src"		value="src"/>
+	<property name="build"		value="build"/>
+
+	<target name="clean">
+		<!-- TODO: Nettoie le projets des artifacts temporaire
+			(fichier classes issues de la compilation, fichiers html générés par l'outil javadoc
+				...) -->
+	</target>
+
+	<target name="compile">
+		<!-- TODO: Compile les sources du projets -->
+	</target>
+
+	<target name="javadoc">
+		<!-- TODO: Génère la documentation des sources du projets -->
+	</target>
+
+	<target name="release" depends="package,javadoc">
+		<!-- TODO: Compile les sources du projets -->
+	</target>
+
+	<target name="tests" depends="compile">
+		<!-- TODO: Execute les tests unitaires -->
+	</target>
+
+	<target name="package" depends="compile,tests">
+		<!--
+			TODO: Apres compilation, les fichiers .class sont
+			regroupés dans une archive 'jar' sous le nom
+			tpbuild-3ctXXX.jar
+		-->
+	</target>
+
+	<target name="pmd" description="Contrôle du respect des règles de programmation ESME">
+			<!-- propriété de la tâche -->
+			<property name="pmd.dir"			value="${build}/pmd"/>
+			<property name="report.pmd"			value="${pmd.dir}/pmd.xml"/>
+			<property name="report.pmd.html"	value="${pmd.dir}/pmd.html"/>
+
+			<mkdir dir="${pmd.dir}"/>
+
+			<!-- Dépendance nécessaire à cette nouvelle tâche -->
+			<path id="pmd.classpath">
+		        <pathelement location="lib/pmd/pmd/4.0/pmd-4.0.jar" />
+		        <pathelement location="lib/asm/asm/3.0/asm-3.0.jar" />
+		        <pathelement location="lib/backport-util-concurrent/backport-util-concurrent/3.0/backport-util-concurrent-3.0.jar"/>
+		        <pathelement location="lib/jaxen/jaxen/1.1-beta-10/jaxen-1.1-beta-10.jar" />
+			</path>
+
+			<!-- Définition d'un tâche 'pmd' -->
+	        <taskdef 	name="pmd"
+	        			classname="net.sourceforge.pmd.ant.PMDTask">
+	                <classpath refid="pmd.classpath" />
+	        </taskdef>
+
+			<!-- Exécution de la nouvelle tâche -->
+	        <pmd 	targetjdk="1.5"
+					shortFilenames="true">
+	                <ruleset>esme-ruleset.xml</ruleset>
+	                <formatter 	type="xml"
+	                			toFile="${report.pmd}"
+	                			linePrefix=".line" />
+	                <fileset dir="${src}">
+	                        <include name="**/*.java" />
+	                </fileset>
+	       </pmd>
+
+			<!-- On transforme le fichier de résultat xml en un fichier html -->
+			<xslt 	in="${report.pmd}"
+					out="${report.pmd.html}"
+					style="pmd.xsl"/>
+	</target>
+</project>

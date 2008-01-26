@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tpbuild"
+         default="echo-properties">
+
+  <property name="version"	value="1.0"/>
+  <property name="src"		value="src"/>
+  <property name="build"	value="build"/>
+
+  <target name="echo-properties">
+    <echo>Project version:${version}</echo>
+    <echo>Source directory:${src}</echo>
+    <echo>Build directory:${build}</echo>
+   </target>
+</project>

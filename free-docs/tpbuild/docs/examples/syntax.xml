@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tpbuild" default="init" basedir=".">
+
+	<!-- La tache 'init' depend de 'clean' -->
+	<target name="init" depends="clean">
+<!-- Si 'clean' n'a pas ete appelee au moment ou
+en Ant execute 'init', Ant appele automatiquement
+'clean'. -->
+	</target>
+
+	<target name="clean">
+	</target>
+</project>
