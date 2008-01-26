@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>esme.fr</groupId>
+  <artifactId>tppoo</artifactId>
+  <name>TPPOO</name>
+  <version>1.0</version>
+  <inceptionYear>2007</inceptionYear>
+  <developers>
+    <developer>
+      <id>rpelisse</id>
+      <name>Romain Pelisse</name>
+      <email>rpelisse@users.sourceforge.net</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <organization>
+    <name>ESME SUDRIA</name>
+    <url>http://www.esme.fr/</url>
+  </organization>
+  <build>
+
+    <sourceDirectory>2007/src</sourceDirectory>
+    <testSourceDirectory>2007/tests</testSourceDirectory>
+
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <encoding>utf8</encoding>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.3.1</version>
+    </dependency>
+  </dependencies>
+
+  <reporting>
+        <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <version>2.2</version>
+            <configuration>
+                <linkXref>true</linkXref>
+                <minimumTokens>50</minimumTokens>
+                <targetJdk>1.5</targetJdk>
+                <rulesets>
+                	<ruleset>./esme-ruleset.xml</ruleset>
+                </rulesets>
+            </configuration>
+         </plugin>
+
+      </plugins>
+   </reporting>
+
+</project>
+
+
