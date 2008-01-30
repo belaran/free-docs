@@ -144,14 +144,10 @@ s{\'e}lectionn{\'e}e. En effet, il en existe plusieurs types dont~:
 	\item	etc.
 \end{itemize}
 
-Il est clair que chaque interface dispose d'une boite de dialogue permettant
-de terminer la session en cours. Nous de d{\'e}taillerons pas ici la m{\'e}thode
-de d{\'e}connexion pour chacune de ces interfaces.
+Il est clair que chaque interface dispose d'une boite de dialogue permettant de terminer la session en cours. Nous de d{\'e}taillerons pas ici la m{\'e}thode de d{\'e}connexion pour chacune de ces interfaces.
 
-Comme tout syst{\`e}me o{\`u} un mot de passe est associ{\'e} {\`a} un utilisateur, il existe
-une commande pour le changer. Sous {\Unix} cette commande est <<~{\tt passwd}~>>.
-Elle vous demandera l'ancien mot de passe, le nouveau mot de passe puis une
-confirmation.
+Comme tout syst{\`e}me o{\`u} un mot de passe est associ{\'e} {\`a} un utilisateur, il existe une commande pour le changer. Sous {\Unix} cette commande est <<~{\tt passwd}~>>.
+Elle vous demandera l'ancien mot de passe, le nouveau mot de passe puis une confirmation.
 
 {\bf En r{\'e}sum{\'e}~:}
 \begin{quote}
@@ -179,18 +175,13 @@ pour la d{\'e}connexion et le changement de mot de passe.}
 \end{table}
 
 \begin{remarque}
-Si vous tes connect  distance sur le systme {\Unix} grce  la
-commande <<~\index{telnet@\texttt{telnet}}{\tt telnet}~>> (ou tout autre
-type de protocole similaire comme <<~{\sf LAT}~>>, le comportement
-obtenu est quivalent  celui d'un terminal passif.
+Si vous {\^e}tes connect{\'e}s {\`a} distance sur le syst{\`e}me {\Unix} gr{\^a}ce {\`a} la commande <<~\index{telnet@\texttt{telnet}}{\tt telnet}~>> (ou tout autre type de protocole similaire comme <<~{\sf LAT}~>>), le comportement obtenu est {\'e}quivalent {\`a} celui d'un terminal passif.
 \end{remarque}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\label{bcpts-formcmd}Format d'une commande}
 
-Une \index{commande!format}commande est constitu{\'e}e d'un nom suivi
-d'arguments. Le s{\'e}parateur entre chaque mot d'une commande peut
-{\^e}tre un ou plusieurs espaces ou tabulations.
+Une \index{commande!format}commande est constitu{\'e}e d'un nom suivi d'arguments. Le s{\'e}parateur entre chaque mot d'une commande peut {\^e}tre un ou plusieurs espaces ou tabulations.
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -235,17 +226,11 @@ particulier.
 	Section 9	& Glossaire.
 \end{tabular}
 
-En g{\'e}n{\'e}ral, on retrouve dans la documentation papier la copie
-conforme du manuel sur le syst{\`e}me. Il est bon de savoir la section
-dans laquelle se trouve le manuel d'une commande. En effet, dans toute
-documentation, les r{\'e}f{\'e}rences sont fournies sous le format
-suivant~: <<~{\tt cmd (n)}~>> o{\`u} <<~{\tt cmd}~>> est le nom de la
-commande et <<~{\tt n}~>> le num{\'e}ro de la section.
+En g{\'e}n{\'e}ral, on retrouve dans la documentation papier la copie conforme du manuel sur le syst{\`e}me. Il est bon de savoir la section dans laquelle se trouve le manuel d'une commande. En effet, dans toute documentation, les r{\'e}f{\'e}rences sont fournies sous le format suivant~: <<~{\tt cmd (n)}~>> o{\`u} <<~{\tt cmd}~>> est le nom de la commande et <<~{\tt n}~>> le num{\'e}ro de la section.
 
 \subsection{Format d'une page du manuel}
 
-Une page de \index{manuel!page du}manuel contient en g{\'e}n{\'e}ral les 11
-parties suivantes~:
+Une page de \index{manuel!page du}manuel contient en g{\'e}n{\'e}ral les 11 parties suivantes~:
 \begin{itemize}
 	\item {\sl NAME}
 	\item {\sl SYNOPSYS} (Syntaxe)
@@ -339,9 +324,7 @@ ou bien
 \verb=% apropos mot-clef=
 \end{quote}
 
-Ceci ne fonctionnera que si l'administrateur a constitu{\'e} la base de
-donn{\'e}es r{\'e}f{\'e}ren\c{c}ant les mots clefs dans le manuel (fichier {\tt
-whatis}).
+Ceci ne fonctionnera que si l'administrateur a constitu{\'e} la base de donn{\'e}es r{\'e}f{\'e}ren\c{c}ant les mots clefs dans le manuel (fichier {\tt whatis}).
 \end{remarque}
 
 \subsubsection{Equivalences}
@@ -413,9 +396,7 @@ tels que~:
 \end{remarque}
 
 \begin{remarque}
-Les noms de fichiers tiennent compte des majuscules/minuscules. Par
-exemple~: <<~{\tt SIMPSONS}~>> et <<~{\tt simpsons}~>> sont deux
-fichiers diff{\'e}rents.
+Les noms de fichiers tiennent compte des majuscules/minuscules. Par exemple~: <<~{\tt SIMPSONS}~>> et <<~{\tt simpsons}~>> sont deux fichiers diff{\'e}rents.
 \end{remarque}
 
 
@@ -428,14 +409,9 @@ chemins d'acc{\`e}s aux fichiers~:
 	\item les chemins d'acc{\`e}s relatifs.
 \end{itemize}
 
-Les {\bf chemins d'acc{\`e}s absolus} sp{\'e}cifient un nom de fichier ou de
-r{\'e}pertoire {\`a} partir de la racine. Les chemins d'acc{\`e}s absolus commencent
-donc par <<~{\tt /}~>> qui est le nom de la racine ou du {\sl root directory}.
+Les {\bf chemins d'acc{\`e}s absolus} sp{\'e}cifient un nom de fichier ou de r{\'e}pertoire {\`a} partir de la racine. Les chemins d'acc{\`e}s absolus commencent donc par <<~{\tt /}~>> qui est le nom de la racine ou du {\sl root directory}.
 
-Les {\bf chemins d'acc{\`e}s relatifs} sp{\'e}cifient un nom de fichier ou de
-r{\'e}pertoire {\`a} partir du r{\'e}pertoire courant, appel{\'e} aussi {\sl working
-directory}. Par cons{\'e}quent, ces chemins ne commencent pas par <<~{\tt /}~>>
-(exemple~: {\tt dir/essai}).
+Les {\bf chemins d'acc{\`e}s relatifs} sp{\'e}cifient un nom de fichier ou de r{\'e}pertoire {\`a} partir du r{\'e}pertoire courant, appel{\'e} aussi {\sl working directory}. Par cons{\'e}quent, ces chemins ne commencent pas par <<~{\tt /}~>> (exemple~: {\tt dir/essai}).
 
 \begin{definition}{En r{\'e}sum{\'e}}
 \index{chemin d'acc{\`e}s!absolu}Chemins d'acc{\`e}s absolus~:\\[0.5ex]
@@ -567,26 +543,14 @@ Chacun des trois canaux se voit affecter un nom de fichier et un num{\'e}ro~:
 	\hline
 \end{tabular}
 
-Le fichier \index{stdin@\texttt{stdin} (entr{\'e}e standard)}{\tt stdin} ({\sl entr{\'e}e standard}), est le fichier {\`a} partir duquel
-le process va lire les donn{\'e}es n{\'e}cessaires en entr{\'e}e. Il est ouvert avec
-le num{\'e}ro logique 0({\sl file descriptor C}), et il est, par d{\'e}faut associ{\'e}
-au clavier.
+Le fichier \index{stdin@\texttt{stdin} (entr{\'e}e standard)}{\tt stdin} ({\sl entr{\'e}e standard}), est le fichier {\`a} partir duquel le process va lire les donn{\'e}es n{\'e}cessaires en entr{\'e}e. Il est ouvert avec le num{\'e}ro logique 0({\sl file descriptor C}), et il est, par d{\'e}faut associ{\'e} au clavier.
 
-Le fichier \index{stdout@\texttt{stdout} (sortie standard)}{\tt stdout} ({\sl sortie standard}), est le fichier dans
-lequel le process va {\'e}crire les messages qu'il produit en sortie, dans
-le cas d'une ex{\'e}cution normale. Il est ouvert avec le num{\'e}ro logique 1
-({\sl file descriptor C}), et il est, par d{\'e}faut associ{\'e} {\`a} l'{\'e}cran.
+Le fichier \index{stdout@\texttt{stdout} (sortie standard)}{\tt stdout} ({\sl sortie standard}), est le fichier dans lequel le process va {\'e}crire les messages qu'il produit en sortie, dans le cas d'une ex{\'e}cution normale. Il est ouvert avec le num{\'e}ro logique 1 ({\sl file descriptor C}), et il est, par d{\'e}faut associ{\'e} {\`a} l'{\'e}cran.
 
-Le fichier \index{stderr@\texttt{stderr} (sortie d'erreurs standard)}{\tt stderr} ({\sl sortie d'erreurs standard}), est le
-fichier dans lequel le process va {\'e}crire les messages d'erreur. Il est
-ouvert avec le num{\'e}ro logique 2 ({\sl file descriptor C}), et il est par
-d{\'e}faut associ{\'e} {\`a} l'{\'e}cran.
+Le fichier \index{stderr@\texttt{stderr} (sortie d'erreurs standard)}{\tt stderr} ({\sl sortie d'erreurs standard}), est le fichier dans lequel le process va {\'e}crire les messages d'erreur. Il est ouvert avec le num{\'e}ro logique 2 ({\sl file descriptor C}), et il est par d{\'e}faut associ{\'e} {\`a} l'{\'e}cran.
 
 \begin{remarque}
-On distingue toujours deux canaux de sorties (un pour les sorties
-normales et un pour les erreurs). En effet, si un process doit {\'e}crire
-dans un fichier et qu'une erreur se produit (impossibilit{\'e} d'{\'e}crire par
-exemple), il faut afficher un message sur un canal de sortie diff{\'e}rent.
+On distingue toujours deux canaux de sorties (un pour les sorties normales et un pour les erreurs). En effet, si un process doit {\'e}crire dans un fichier et qu'une erreur se produit (impossibilit{\'e} d'{\'e}crire par exemple), il faut afficher un message sur un canal de sortie diff{\'e}rent.
 \end{remarque}
 
 Le tableau \ref{tab-bcpts-equiv-iochans} donne les {\'e}quivalences des noms
@@ -625,7 +589,5 @@ La figure \ref{fig-bcpts-filters-desc} montre le principe des filtres sous
 \caption{\label{fig-bcpts-filters-desc}Principe des filtres sous {\Unix}}
 \end{figure}
 
-Il est possible d'encha{\^\i}ner plusieurs filtres les uns aux autres. Par
-contre, les process en d{\'e}but et en fin de cha{\^\i}nes ne doivent pas se
-comporter comme des filtres.
+Il est possible d'encha{\^\i}ner plusieurs filtres les uns aux autres. Par contre, les process en d{\'e}but et en fin de cha{\^\i}nes ne doivent pas se comporter comme des filtres.
 

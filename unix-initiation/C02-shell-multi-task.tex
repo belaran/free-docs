@@ -72,20 +72,11 @@ d'interruption, reportez vous {\`a} la section \ref{multi-task-fg-bg}.
 \end{tabular}
 \end{definition}
 
-La substitution de commande se fait en utilisant le caract{\`e}re back quote
-(<<~\index{`@\texttt{`}}\texttt{`}~>>) pour lancer des commandes {\`a} ins{\'e}rer dans une cha{\^\i}ne de
-caract{\`e}res.
+La substitution de commande se fait en utilisant le caract{\`e}re back quote (<<~\index{`@\texttt{`}}\texttt{`}~>>) pour lancer des commandes {\`a} ins{\'e}rer dans une cha{\^\i}ne de caract{\`e}res.
 
-La substitution de commandes dans une cha{\^\i}ne de caract{\`e}res est une autre
-facilit{\'e} offerte par le shell. Elle permet de capturer la sortie d'une
-commande et de l'assigner {\`a} une variable ou de l'utiliser comme un
-argument d'une autre commande. Comme beaucoup de commandes {\Unix}
-g{\'e}n{\`e}rent une sortie, la substitution de commandes peut {\^e}tre tr{\`e}s
-int{\'e}ressante.
+La substitution de commandes dans une cha{\^\i}ne de caract{\`e}res est une autre facilit{\'e} offerte par le shell. Elle permet de capturer la sortie d'une commande et de l'assigner {\`a} une variable ou de l'utiliser comme un argument d'une autre commande. Comme beaucoup de commandes {\Unix} g{\'e}n{\`e}rent une sortie, la substitution de commandes peut {\^e}tre tr{\`e}s int{\'e}ressante.
 
-A propos de l'efficacit{\'e}, il est plus rapide, dans certains cas,
-d'effectuer une substitution de commande plutot que de passer par une
-redirection.
+A propos de l'efficacit{\'e}, il est plus rapide, dans certains cas, d'effectuer une substitution de commande plut{\^o}t que de passer par une redirection.
 
 \begin{example}
 \begin{verbatim}
@@ -108,22 +99,10 @@ redirection.
 \end{tabular}
 \end{definition}
 
-La commande <<~\index{kill@\texttt{kill}}\texttt{kill}~>> peut {\^e}tre
-utilis{\'e}e pour tuer n'importe quelle commande, y compris des
-commandes lanc{\'e}es en arri{\`e}re plan. <<~{\tt kill}~>>, plus
-pr{\'e}cis{\'e}ment, envoie un signal aux processus d{\'e}sign{\'e}s.
-L'action effectu{\'e}e par d{\'e}faut pour un process est de mourir sur
-r{\'e}ception de certains signaux. Pour transmettre un signal {\`a} un
-processus il faut en {\^e}tre le propri{\'e}taire; <<~{\tt kill}~>> ne
-peut {\^e}tre utilis{\'e} pour tuer le process d'un autre utilisateur
-{\`a} moins d'{\^e}tre le {\sl super user} (utilisateur <<~{\tt
-root}~>>).
+La commande <<~\index{kill@\texttt{kill}}\texttt{kill}~>> peut {\^e}tre utilis{\'e}e pour tuer n'importe quelle commande, y compris des commandes lanc{\'e}es en arri{\`e}re plan. <<~{\tt kill}~>>, plus pr{\'e}cis{\'e}ment, envoie un signal aux processus d{\'e}sign{\'e}s. L'action effectu{\'e}e par d{\'e}faut pour un process est de mourir sur r{\'e}ception de certains signaux. Pour transmettre un signal {\`a} un processus il faut en {\^e}tre le propri{\'e}taire; <<~{\tt kill}~>> ne peut {\^e}tre utilis{\'e} pour tuer le process d'un autre utilisateur {\`a} moins d'{\^e}tre le {\sl super user} (utilisateur <<~{\tt root}~>>).
 
 Par d{\'e}faut <<~{\tt kill}~>> transmet le signal num{\'e}ro 15 au process sp{\'e}cifi{\'e}.
-Dans le monde {\Unix}, il n'est pas possible de v{\'e}ritablement tuer un process
-comme on pourrait le faire avec {\WindowsNT} et {\OpenVMS}. {\Unix}, en fait,
-envoie une requ{\^e}te au processus pour qu'il se termine de lui-m{\^e}me. Il est
-possible d'immuniser certaines commandes contre les signaux de terminaison. La
+Dans le monde {\Unix}, il n'est pas possible de v{\'e}ritablement tuer un process comme on pourrait le faire avec {\WindowsNT} et {\OpenVMS}. {\Unix}, en fait, envoie une requ{\^e}te au processus pour qu'il se termine de lui-m{\^e}me. Il est possible d'immuniser certaines commandes contre les signaux de terminaison. La
 m{\'e}thode la plus efficace pour tuer un process est l'utilisation du signal 9.
 
 Pour avoir la liste des signaux et leur action, reportez-vous {\`a} <<~{\tt signal(2)}~>>.
@@ -146,12 +125,7 @@ Pour avoir la liste des signaux et leur action, reportez-vous {\`a} <<~{\tt sign
 \end{tabular}
 \end{definition}
 
-La commande <<~\index{wait@\texttt{wait}}\texttt{wait}~>> permet de
-suspendre l'ex{\'e}cution d'un shell script jusqu'{\`a} ce que le
-processus, dont le \index{PID@PID (\textsl{Process IDentifier})}\textsl{PID}
-est sp{\'e}cifi{\'e} en argument, se termine. Si aucun \textsl{PID} n'est
-sp{\'e}cifi{\'e}, on attendra, dans ce cas, que tous les processus lanc{\'e}s
-en arri{\`e}re plan soient termin{\'e}s.
+La commande <<~\index{wait@\texttt{wait}}\texttt{wait}~>> permet de suspendre l'ex{\'e}cution d'un shell script jusqu'{\`a} ce que le processus, dont le \index{PID@PID (\textsl{Process IDentifier})}\textsl{PID} est sp{\'e}cifi{\'e} en argument, se termine. Si aucun \textsl{PID} n'est sp{\'e}cifi{\'e}, on attendra, dans ce cas, que tous les processus lanc{\'e}s en arri{\`e}re plan soient termin{\'e}s.
 
 \begin{example}
 \begin{verbatim}
