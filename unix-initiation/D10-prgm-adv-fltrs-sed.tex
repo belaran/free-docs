@@ -22,15 +22,13 @@
 
 \setcounter{remarque-cnt}{1}
 \setcounter{example-cnt}{1}
-\chapter{\label{adv-fltrs-sed}Utilisation de <<~{\tt sed}~>>}
+\chapter{\texorpdfstring{\label{adv-fltrs-sed}Utilisation de <<~{\tt sed}~>>}{Utilisation de <<~sed~>>}}
 \thispagestyle{fancy}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-La commande \index{sed@\texttt{sed}}<<~{\tt sed}~>> est un {\'e}diteur non interactif (comme peuvent
-l'{\^e}tre <<~\index{vi@\texttt{vi}}{\tt vi(1)}~>> et <<~{\tt ed(1)}~>>). Elle est utilis{\'e}e
-g{\'e}n{\'e}ralement comme filtre.
+La commande \index{sed@\texttt{sed}}<<~{\tt sed}~>> est un {\'e}diteur non interactif (comme peuvent l'{\^e}tre <<~\index{vi@\texttt{vi}}{\tt vi(1)}~>> et <<~{\tt ed(1)}~>>). Elle est utilis{\'e}e g{\'e}n{\'e}ralement comme filtre.
 
 \begin{definition}{Syntaxe}
 \verb=sed [-n requ{\^e}te] [-e requ{\^e}te]=~$\cdots$~\verb=[-f fichier.requ{\^e}tes] [fichiers]=~$\cdots$
@@ -55,9 +53,7 @@ g{\'e}n{\'e}ralement comme filtre.
 \end{definition}
 
 \begin{remarque}
-Les requ{\^e}tes sp{\'e}cifi{\'e}es avec les options <<~{\tt -n}~>> ou <<~{\tt -e}~>>
-peuvent {\^e}tre prot{\'e}g{\'e}es gr{\^a}ce aux caract{\`e}res <<~{\tt "}~>> et <<~{\tt '}~>>
-pour {\'e}viter l'interpr{\'e}tation par le Shell.
+Les requ{\^e}tes sp{\'e}cifi{\'e}es avec les options <<~{\tt -n}~>> ou <<~{\tt -e}~>> peuvent {\^e}tre prot{\'e}g{\'e}es gr{\^a}ce aux caract{\`e}res <<~{\tt "}~>> et <<~{\tt '}~>> pour {\'e}viter l'interpr{\'e}tation par le Shell.
 \end{remarque}
 
 \begin{example}
@@ -69,20 +65,12 @@ sed -e 'requ1' -e 'req2' fichier.in > fichier.out
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\label{sed-fonct}Mode de fonctionnement}
 
-La commande \index{sed@\texttt{sed}!fonctionnement}<<~{\tt sed}~>> permet de copier les fichiers indiqu{\'e}s sur la
-sortie standard en l'{\'e}ditant en fonction du texte de requ{\^e}tes.
-Si aucun fichier n'est pr{\'e}cis{\'e} en entr{\'e}e, <<~{\tt sed}~>> lit sur son entr{\'e}e
-standard.
+La commande \index{sed@\texttt{sed}!fonctionnement}<<~{\tt sed}~>> permet de copier les fichiers indiqu{\'e}s sur la sortie standard en l'{\'e}ditant en fonction du texte de requ{\^e}tes.
+Si aucun fichier n'est pr{\'e}cis{\'e} en entr{\'e}e, <<~{\tt sed}~>> lit sur son entr{\'e}e standard.
 
-La sortie standard peut {\^e}tre redirig{\'e}e sur un fichier avec les
-m{\'e}canismes classiques du Shell (cf. section \ref{redirect-io}). Les
-requ{\^e}tes de la commande <<~{\tt sed}~>> dont identiques {\`a} celles de la
-commande <<~{\tt ed(1)}~>>. La r{\'e}p{\'e}tition des requ{\^e}tes globales de
-substitution est plus efficace avec <<~{\tt sed}~>> qu'avec <<~{\tt
-ed}~>>.
+La sortie standard peut {\^e}tre redirig{\'e}e sur un fichier avec les m{\'e}canismes classiques du Shell (cf. section \ref{redirect-io}). Les requ{\^e}tes de la commande <<~{\tt sed}~>> dont identiques {\`a} celles de la commande <<~{\tt ed(1)}~>>. La r{\'e}p{\'e}tition des requ{\^e}tes globales de substitution est plus efficace avec <<~{\tt sed}~>> qu'avec <<~{\tt ed}~>>.
 
-Pendant son ex{\'e}cution, la commande <<~{\tt sed}~>> proc{\`e}de de la fa\c{c}on
-suivante~:
+Pendant son ex{\'e}cution, la commande <<~{\tt sed}~>> proc{\`e}de de la fa\c{c}on suivante~:
 \begin{enumerate}
 	\item	Chaque ligne s{\'e}lectionn{\'e}e par les adresses est copi{\'e}e dans un
 			espace de travail (<<~{\sl pattern space}~>>) et toutes les
@@ -113,9 +101,7 @@ La forme g{\'e}n{\'e}rale d'une \index{sed@\texttt{sed}!requ{\^e}te}requ{\^e}te 
 \end{center}
 
 Les adresses sp{\'e}cifi{\'e}es dans une requ{\^e}tes d{\'e}signent les limites
-(d{\'e}but et fin) o{\`u} doit s'appliquer la  commande. L'argument repr{\'e}sente
-une cha{\^i}ne de caract{\`e}res, ou du texte ou bien encore un fichier suivant les
-commandes utilis{\'e}es.
+(d{\'e}but et fin) o{\`u} doit s'appliquer la  commande. L'argument repr{\'e}sente une cha{\^i}ne de caract{\`e}res, ou du texte ou bien encore un fichier suivant les commandes utilis{\'e}es.
 
 %%%%%%%%%%%%
 \subsection{\label{sed-def-addr}D{\'e}finition des adresses}
@@ -128,12 +114,7 @@ Les adresses peuvent {\^e}tre d{\'e}crites de deux fa\c{c}ons~:
 	\item	soit par des expressions r{\'e}guli{\`e}res plac{\'e}es entre deux
 			{\sl slash} <<~{\tt /}~>>.
 \end{itemize}
-Une requ{\^e}te pr{\'e}c{\'e}d{\'e}e par deux adresses  s'applique {\`a} toutes les lignes
-comprises entre ces deux adresses. Dans le cas o{\`u} deux adresses seraient
-identiques, il suffit de la sp{\'e}cifier seulement une fois. Si aucune
-adresse n'est sp{\'e}cifi{\'e}e, l'espace de travail correspond {\`a} la totalit{\'e}
-des lignes en entr{\'e}e. La commande <<~{\tt sed}~>> est donc appliqu{\'e}e {\`a}
-toutes les lignes.
+Une requ{\^e}te pr{\'e}c{\'e}d{\'e}e par deux adresses  s'applique {\`a} toutes les lignes comprises entre ces deux adresses. Dans le cas o{\`u} deux adresses seraient identiques, il suffit de la sp{\'e}cifier seulement une fois. Si aucune adresse n'est sp{\'e}cifi{\'e}e, l'espace de travail correspond {\`a} la totalit{\'e} des lignes en entr{\'e}e. La commande <<~{\tt sed}~>> est donc appliqu{\'e}e {\`a} toutes les lignes.
 
 \begin{definition}{Syntaxes}
 {\tt {\sl Adresse1},{\sl Adresse2Commande}\\
@@ -147,9 +128,7 @@ toutes les lignes.
 \end{definition}
 
 \begin{example}
-On utilise ici, {\`a} titre d'exemple pour les adresses, la commande
-<<~{\tt d}~>>, permettant de d{\'e}truire les lignes correspondantes
-de l'espace de travail.
+On utilise ici, {\`a} titre d'exemple pour les adresses, la commande <<~{\tt d}~>>, permettant de d{\'e}truire les lignes correspondantes de l'espace de travail.
 
 \begin{tabular}{l@{\hspace{2ex}}p{8cm}}
 	\verb=10,20d=		&
@@ -175,10 +154,7 @@ de l'espace de travail.
 %%%%%%%%%%%%
 \subsection{\label{sed-cmds}Les Commandes}
 
-La liste des \index{sed@\texttt{sed}!commandes}commandes cit{\'e}es dans ce paragraphe font parties des plus
-utilis{\'e}es. Cette liste n'est pas exhaustive. Pour plus de renseignements,
-reportez vous au manuel des commandes <<~{\tt sed(1)}~>> et
-<<~{\tt ed(1)}~>>.
+La liste des \index{sed@\texttt{sed}!commandes}commandes cit{\'e}es dans ce paragraphe font parties des plus utilis{\'e}es. Cette liste n'est pas exhaustive. Pour plus de renseignements, reportez vous au manuel des commandes <<~{\tt sed(1)}~>> et <<~{\tt ed(1)}~>>.
 
 \begin{tabular}
 	{|@{\hspace{1ex}}l@{\hspace{1ex}}|@{\hspace{1ex}}p{8cm}@{\hspace{1ex}}|}
@@ -252,9 +228,7 @@ du fichier <<~{\tt welcome.txt}~>>.
 %%%%%%%%%%%%
 \subsection{Les symboles particuliers}
 
-Les \index{sed@\texttt{sed}!symboles}symboles particuliers sont tous ceux des expressions r{\'e}guli{\`e}res {\`a}
-l'exception des symboles <<~{\tt +}~>> et <<~{\tt |}~>>. A cette liste,
-on rajoute les symboles de la commande de substitution <<~{\tt s}~>>.
+Les \index{sed@\texttt{sed}!symboles}symboles particuliers sont tous ceux des expressions r{\'e}guli{\`e}res {\`a} l'exception des symboles <<~{\tt +}~>> et <<~{\tt |}~>>. A cette liste, on rajoute les symboles de la commande de substitution <<~{\tt s}~>>.
 Ces symboles sont~:
 
 \begin{center}
@@ -290,10 +264,7 @@ syntaxe est~:
 $[${\sl adresse1}$[$,{\sl adresse2}$]${\tt s/}{\it expr$_1$}{\tt /}{\it expr$_2$}{\tt /}$[${\tt g}$]$
 \end{center}
 
-On constate donc que les adresses de d{\'e}but et de fin sont absentes. Par
-cons{\'e}quent, cette requ{\^e}te s'applique {\`a} toutes les lignes en entr{\'e}e
-(cf. \ref{sed-def-addr}). Apr{\`e}s analyse, il appara{\^\i}t que
-cette requ{\^e}te <<~{\tt sed}~>> se d{\'e}compose de la fa\c{c}on suivante~:\\[1ex]
+On constate donc que les adresses de d{\'e}but et de fin sont absentes. Par cons{\'e}quent, cette requ{\^e}te s'applique {\`a} toutes les lignes en entr{\'e}e (cf. \ref{sed-def-addr}). Apr{\`e}s analyse, il appara{\^\i}t que cette requ{\^e}te <<~{\tt sed}~>> se d{\'e}compose de la fa\c{c}on suivante~:\\[1ex]
 {\tt s/}\\
 \hspace{0.5cm}\verb*=\([ \t]*function[ \t]*\)=\\
 \hspace{0.5cm}\verb*=\([0-z]*\)=\\
@@ -314,29 +285,14 @@ l'expression <<~\verb=\2=~>> r{\'e}f{\'e}rence donc la chaine correspondant {\`a
 Analysons chaque regroupement du premier membre de cette requ{\^e}te~:
 <<~\verb*=[ \t]*funtion[ \t]*=~>>.
 
-Tout d'abord <<~\verb*=[ \t]*=~>> d{\'e}signe le caract{\`e}re
-\spacekey ou bien \tabkey un nombre quelconque de fois. <<~{\tt
-function}~>> repr{\'e}sente tout simplement cette chaine de caract{\`e}res. Par
-cons{\'e}quent, <<~\verb*=[ \t]*funtion[ \t]*=~>> d{\'e}signe la chaine <<~{\tt
-function}~>> suivie et pr{\'e}c{\'e}d{\'e}e d'espaces et de tabulations.
+Tout d'abord <<~\verb*=[ \t]*=~>> d{\'e}signe le caract{\`e}re \spacekey ou bien \tabkey un nombre quelconque de fois. <<~{\tt function}~>> repr{\'e}sente tout simplement cette chaine de caract{\`e}res. Par cons{\'e}quent, <<~\verb*=[ \t]*funtion[ \t]*=~>> d{\'e}signe la chaine <<~{\tt function}~>> suivie et pr{\'e}c{\'e}d{\'e}e d'espaces et de tabulations.
 
-La seconde partie, <<~\verb=[0-z]*=~>>, d{\'e}signe un des caract{\`e}res
-dont le code {\ASCII} est compris entre celui de <<~{\tt 0}~>> et celui
-de <<~{\tt z}~>>\footnote{Cette plage inclue l'ensemble des chiffres,
-toutes les lettres minuscules et majuscules, plus un certain nombre de
-caract{\`e}res de ponctuation. Pour plus de pr{\'e}cisions, reportez-vous
-{\`a} la table du jeu de caract{\`e}res {\ASCII}.}, un nombre quelconque de fois.
-Nous avons donc, approximativement, une chaine de caract{\`e}re quelconque
-{\bf sans espaces ni tabulations}.
+La seconde partie, <<~\verb=[0-z]*=~>>, d{\'e}signe un des caract{\`e}res dont le code {\ASCII} est compris entre celui de <<~{\tt 0}~>> et celui de <<~{\tt z}~>>\footnote{Cette plage inclue l'ensemble des chiffres, toutes les lettres minuscules et majuscules, plus un certain nombre de caract{\`e}res de ponctuation. Pour plus de pr{\'e}cisions, reportez-vous {\`a} la table du jeu de caract{\`e}res {\ASCII}.}, un nombre quelconque de fois.
+Nous avons donc, approximativement, une chaine de caract{\`e}re quelconque {\bf sans espaces ni tabulations}.
 
 La troisi{\`e}me partie, <<~\verb*=[ \t]*(.*)=~>> reprend la s{\'e}quence
-<<~\verb*=[ \t]*=~>> repr{\'e}sentant une s{\'e}quence d'espaces et de tabulations
-un nombre quelconque de fois. <<~\verb*=(.*)=~>> d{\'e}signe le caract{\`e}re
-<<~{\tt (}~>>, suivi de caract{\`e}res quelconques un nombre ind{\'e}termin{\'e} de fois
-(<<~\verb=.*=~>>), suivi par le caract{\`e}re <<~{\tt )}~>>. En conclusion,
-cette derni{\`e}re partie repr{\'e}sente une chaine de caract{\`e}res quelconque
-({\'e}vuentuellement vide) encadr{\'e}e par des parenth{\`e}ses et pr{\'e}c{\'e}d{\'e}e par un
-nombre quelconque d'espaces et de tabulations.
+<<~\verb*=[ \t]*=~>> repr{\'e}sentant une s{\'e}quence d'espaces et de tabulations un nombre quelconque de fois. <<~\verb*=(.*)=~>> d{\'e}signe le caract{\`e}re
+<<~{\tt (}~>>, suivi de caract{\`e}res quelconques un nombre ind{\'e}termin{\'e} de fois (<<~\verb=.*=~>>), suivi par le caract{\`e}re <<~{\tt )}~>>. En conclusion, cette derni{\`e}re partie repr{\'e}sente une chaine de caract{\`e}res quelconque ({\'e}vuentuellement vide) encadr{\'e}e par des parenth{\`e}ses et pr{\'e}c{\'e}d{\'e}e par un nombre quelconque d'espaces et de tabulations.
 
 Le premier membre de cette requ{\^e}te <<~{\tt sed}~>>,
 \begin{center}
@@ -383,8 +339,7 @@ s/abcdef1234567890/abcdef1234567890ghijkl/
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Exemples avanc{\'e}s}
 
-Pour plus d'exemples sur la commande <<~{\tt sed}~>>, reportez vous au
-chapitre \ref{adv-programming}.
+Pour plus d'exemples sur la commande <<~{\tt sed}~>>, reportez vous au chapitre \ref{adv-programming}.
 
 
 %%%%%%%%%%%%%%
@@ -445,10 +400,7 @@ fi
 \end{verbatim}
 \begin{quote}
 
-Tout d'abord, le script v{\'e}rifie que le nombre d'arguments est bien non nul gr{\^a}ce
-{\`a} la variable <<~\verb,$#,~>>. Si ce n'est pas le cas, on extrait le nom du
-script, contenu dans la variable <<~\verb,$0,~>> pour afficher le message d'erreur
-correspondant, ainsi que la fa\c{c}on de l'utiliser.
+Tout d'abord, le script v{\'e}rifie que le nombre d'arguments est bien non nul gr{\^a}ce {\`a} la variable <<~\verb,$#,~>>. Si ce n'est pas le cas, on extrait le nom du script, contenu dans la variable <<~\verb,$0,~>> pour afficher le message d'erreur correspondant, ainsi que la fa\c{c}on de l'utiliser.
 \end{quote}
 
 \begin{verbatim}
@@ -464,11 +416,7 @@ $\cdots$
 done
 \end{verbatim}
 \begin{quote}
-Afin de pouvoir analyser tous les arguments, le programme va effectuer une boucle
-tant que le nombre d'arguments est non nul. L'utilisation de la commande <<~{\tt shift}~>>
-permettra de mettre {\`a} jour la valeur qui y est contenue et l'argument qui sera trait{\'e} sera
-toujours contenu dans la variable positionnelle <<~{\tt 1}~>> (son contenu sera appel{\'e} gr{\^a}ce
-{\`a} <<~\verb=$1=~>>).
+Afin de pouvoir analyser tous les arguments, le programme va effectuer une boucle tant que le nombre d'arguments est non nul. L'utilisation de la commande <<~{\tt shift}~>> permettra de mettre {\`a} jour la valeur qui y est contenue et l'argument qui sera trait{\'e} sera toujours contenu dans la variable positionnelle <<~{\tt 1}~>> (son contenu sera appel{\'e} gr{\^a}ce {\`a} <<~\verb=$1=~>>).
 \end{quote}
 
 \begin{verbatim}
@@ -483,32 +431,17 @@ $\cdots$
 done
 \end{verbatim}
 \begin{quote}
-La variable <<~{\tt PATH}~>> contient la liste des r{\'e}pertoires {\`a} examiner, sachant que
-chaque nom est s{\'e}par{\'e} par le caract{\`e}re <<~{\tt :}~>>. La boucle <<~{\tt for}~>>
-admet une liste de valeurs s{\'e}par{\'e}es par des espaces. Par cons{\'e}quent, il faut fournir
-{\`a} <<~{\tt for}~>>, cette liste {\`a} partir du contenu de <<~{\tt PATH}~>> dont il faudra
-remplacer <<~{\tt :}~>> par \spacekey.
+La variable <<~{\tt PATH}~>> contient la liste des r{\'e}pertoires {\`a} examiner, sachant que chaque nom est s{\'e}par{\'e} par le caract{\`e}re <<~{\tt :}~>>. La boucle <<~{\tt for}~>> admet une liste de valeurs s{\'e}par{\'e}es par des espaces. Par cons{\'e}quent, il faut fournir {\`a} <<~{\tt for}~>>, cette liste {\`a} partir du contenu de <<~{\tt PATH}~>> dont il faudra remplacer <<~{\tt :}~>> par \spacekey.
 
-Pour cela, la commande <<~\verb,echo $PATH,~>> renvoie sur l'entr{\'e}e standard de la
-commande <<~{\tt sed}~>>. La requ{\^e}te <<~\verb*,s/:/ /g,~>> substitue chaque
-occurence (gr{\^a}ce {\`a} l'option <<~{\tt g}~>>) du caract{\`e}re <<~{\tt :}~>> par
-\spacekey.
+Pour cela, la commande <<~\verb,echo $PATH,~>> renvoie sur l'entr{\'e}e standard de la commande <<~{\tt sed}~>>. La requ{\^e}te <<~\verb*,s/:/ /g,~>> substitue chaque occurence (gr{\^a}ce {\`a} l'option <<~{\tt g}~>>) du caract{\`e}re <<~{\tt :}~>> par \spacekey.
 
-Le r{\'e}sultat de <<~\verb*,`echo $PATH | sed -e 's/:/ /g'`,~>> est {\'e}valu{\'e} par le
-shell lors de l'{\'e}tape des <<~{\sl substitutions de commandes}~>>. Le r{\'e}sultat obtenu
-est donc~:
+Le r{\'e}sultat de <<~\verb*,`echo $PATH | sed -e 's/:/ /g'`,~>> est {\'e}valu{\'e} par le shell lors de l'{\'e}tape des <<~{\sl substitutions de commandes}~>>. Le r{\'e}sultat obtenu est donc~:
 \begin{center}
 \verb,for dir in, {\sl rep1} {\sl rep2} {\sl rep3} $\cdots$
 \end{center}
-Par cons{\'e}quent, la variable <<~{\tt dir}~>> va contenir, {\`a} chaque it{\'e}ration, l'un
-des r{\'e}pertoires contenus dans la variable <<~{\tt PATH}~>>. Il ne restera plus qu'{\`a}
-v{\'e}rifier l'existance du fichier concern{\'e}, dont le nom, lui, est contenu dans la variable
-<<~{\tt 1}~>>. Cette variable prendra, {\`a} tour de r{\^o}le, la valeur des diff{\'e}rents
-arguments pass{\'e} au script, gestion assur{\'e} par la boucle <<~{\tt while}~>> associ{\'e}
-{\`a} la commande <<~{\tt shift}~>>.
+Par cons{\'e}quent, la variable <<~{\tt dir}~>> va contenir, {\`a} chaque it{\'e}ration, l'un des r{\'e}pertoires contenus dans la variable <<~{\tt PATH}~>>. Il ne restera plus qu'{\`a} v{\'e}rifier l'existance du fichier concern{\'e}, dont le nom, lui, est contenu dans la variable <<~{\tt 1}~>>. Cette variable prendra, {\`a} tour de r{\^o}le, la valeur des diff{\'e}rents arguments pass{\'e} au script, gestion assur{\'e} par la boucle <<~{\tt while}~>> associ{\'e} {\`a} la commande <<~{\tt shift}~>>.
 
-La variable <<~{\tt find\_it}~>> est un {\it flag} indiquant si le fichier a {\'e}t{\'e} trouv{\'e}
-lors de l'ex{\'e}cution de la boucle <<~{\tt for}~>>.
+La variable <<~{\tt find\_it}~>> est un {\it flag} indiquant si le fichier a {\'e}t{\'e} trouv{\'e} lors de l'ex{\'e}cution de la boucle <<~{\tt for}~>>.
 \end{quote}
 
 \begin{verbatim}
@@ -519,10 +452,7 @@ if [ -f $dir/$1 ]; then
 fi
 \end{verbatim}
 \begin{quote}
-Cette op{\'e}ration est simple. Un test v{\'e}rifie l'existance du fichier. S'il existe, le nom complet
-est affich{\'e} sur la sortie standard et le {\it flag} <<~{\tt find\_it}~>>
-est positionn{\'e} {\`a} la valeur $1$ et on force la sortie de la boucle <<~{\tt for}~>>. Dans le
-cas contraire, l'ex{\'e}cution de la boucle se poursuit.
+Cette op{\'e}ration est simple. Un test v{\'e}rifie l'existance du fichier. S'il existe, le nom complet est affich{\'e} sur la sortie standard et le {\it flag} <<~{\tt find\_it}~>> est positionn{\'e} {\`a} la valeur $1$ et on force la sortie de la boucle <<~{\tt for}~>>. Dans le cas contraire, l'ex{\'e}cution de la boucle se poursuit.
 \end{quote}
 
 \begin{verbatim}
@@ -530,11 +460,8 @@ cas contraire, l'ex{\'e}cution de la boucle se poursuit.
 shift
 \end{verbatim}
 \begin{quote}
-{\`A} ce stade de l'ex{\'e}cution, chaque r{\'e}pertoire contenu dans la variable <<~{\tt PATH}~>>
-a {\'e}t{\'e} examin{\'e}, {\`a} moins qu'une sortie n'aie {\'e}t{\'e} provoqu{\'e} lorsque le fichier a {\'e}t{\'e} trouv{\'e}.
-Dans ce cas, le script affichera le message d'information sur la sortie d'erreur
-standard (redirection gr{\^a}ce {\`a} <<~\verb=>&2=~>>) {\`a} condition que la variable
-<<~\verb=find_it=~>> soit non nulle.
+{\`A} ce stade de l'ex{\'e}cution, chaque r{\'e}pertoire contenu dans la variable <<~{\tt PATH}~>> a {\'e}t{\'e} examin{\'e}, {\`a} moins qu'une sortie n'aie {\'e}t{\'e} provoqu{\'e} lorsque le fichier a {\'e}t{\'e} trouv{\'e}.
+Dans ce cas, le script affichera le message d'information sur la sortie d'erreur standard (redirection gr{\^a}ce {\`a} <<~\verb=>&2=~>>) {\`a} condition que la variable <<~\verb=find_it=~>> soit non nulle.
 
 Il ne restera plus qu'{\`a} passer {\`a} l'argument suivant gr{\^a}ce {\`a} la commande <<~\verb=shift=~>>.
 \end{quote}
@@ -543,37 +470,21 @@ Il ne restera plus qu'{\`a} passer {\`a} l'argument suivant gr{\^a}ce {\`a} la c
 %%%%%%%%%%%%%%
 \subsection{\label{adv-fltrs-sed-ex2}Exemple 2}
 
-Le but de cet exemple est d'afficher toutes les lignes d'un fichier se terminant par
-<<~\verb=*/=~>>.
+Le but de cet exemple est d'afficher toutes les lignes d'un fichier se terminant par <<~\verb=*/=~>>.
 
 Pour cela, nous allons utiliser la notion des espaces de travail de <<~{\tt sed}~>>.
-Nous avons vu, {\`a} la section \ref{sed-fonct}, que <<~{\tt sed}~>> copiait dans son
-espace de travail, toutes les lignes (ou {\sl enregistrements}), arrivant sur son
-entr{\'e}e standard, correspondant aux crit{\`e}res de s{\'e}lection sp{\'e}cifi{\'e}s dans les adresses
-de d{\'e}but et de fin de la requ{\^e}te.
+Nous avons vu, {\`a} la section \ref{sed-fonct}, que <<~{\tt sed}~>> copiait dans son espace de travail, toutes les lignes (ou {\sl enregistrements}), arrivant sur son entr{\'e}e standard, correspondant aux crit{\`e}res de s{\'e}lection sp{\'e}cifi{\'e}s dans les adresses de d{\'e}but et de fin de la requ{\^e}te.
 
-Il ne nous reste donc qu'{\`a} formuler le crit{\`e}re de s{\'e}lection ad{\'e}quat et d'afficher sur
-la sortie standard, le contenu de l'espace de travail.
+Il ne nous reste donc qu'{\`a} formuler le crit{\`e}re de s{\'e}lection ad{\'e}quat et d'afficher sur la sortie standard, le contenu de l'espace de travail.
 
-La cha{\^\i}ne {\`a} consid{\'e}rer est donc <<~\verb=*/=~>>. Or le caract{\`e}re <<~\verb=*=~>> a une
-signification particuli{\`e}re dans une expression r{\'e}guli{\`e}re. Par cons{\'e}quent, le caract{\`e}re
-d'{\'e}chappement <<~\verb=\=~>> doit {\^e}tre utilis{\'e}. L'expression r{\'e}guli{\`e}re
-correspondant {\`a} la cha{\^\i}ne <<~\verb=*/=~>> est donc <<~\verb=\*/=~>>. Il ne reste
-plus qu'{\`a} y ajouter le caract{\`e}re ad{\'e}quat pour les expressions r{\'e}guli{\`e}res caract{\'e}risant
-la fin d'une ligne, c'est-{\`a}-dire <<~\verb=$=~>>. Nous obtenons donc l'expression
-suivante~:
+La cha{\^\i}ne {\`a} consid{\'e}rer est donc <<~\verb=*/=~>>. Or le caract{\`e}re <<~\verb=*=~>> a une signification particuli{\`e}re dans une expression r{\'e}guli{\`e}re. Par cons{\'e}quent, le caract{\`e}re d'{\'e}chappement <<~\verb=\=~>> doit {\^e}tre utilis{\'e}. L'expression r{\'e}guli{\`e}re correspondant {\`a} la cha{\^\i}ne <<~\verb=*/=~>> est donc <<~\verb=\*/=~>>. Il ne reste plus qu'{\`a} y ajouter le caract{\`e}re ad{\'e}quat pour les expressions r{\'e}guli{\`e}res caract{\'e}risant la fin d'une ligne, c'est-{\`a}-dire <<~\verb=$=~>>. Nous obtenons donc l'expression suivante~:
 \begin{center}
 \verb=\*\/$=
 \end{center}
 
-Le crit{\`e}re de s{\'e}lection {\`a} appliquer dans la sp{\'e}cification des adresses de d{\'e}but et
-de fin pour la requ{\^e}te <<~{\tt sed}~>> correspond {\`a} toutes les lignes satisfaisant
-l'expression r{\'e}guli{\`e}re pr{\'e}c{\'e}dente. Ces deux adresses seront donc identiques et
-correspondront {\`a} cette expression. Il suffira donc de ne la sp{\'e}cifier qu'une seule
-fois en la d{\'e}limitant par le caract{\`e}re <<~\verb=/=~>>.
+Le crit{\`e}re de s{\'e}lection {\`a} appliquer dans la sp{\'e}cification des adresses de d{\'e}but et de fin pour la requ{\^e}te <<~{\tt sed}~>> correspond {\`a} toutes les lignes satisfaisant l'expression r{\'e}guli{\`e}re pr{\'e}c{\'e}dente. Ces deux adresses seront donc identiques et correspondront {\`a} cette expression. Il suffira donc de ne la sp{\'e}cifier qu'une seule fois en la d{\'e}limitant par le caract{\`e}re <<~\verb=/=~>>.
 
-La commande permettant d'afficher l'espace de travail sur la sortie standard, est
-<<~{\tt p}~>>.
+La commande permettant d'afficher l'espace de travail sur la sortie standard, est <<~{\tt p}~>>.
 
 Nous obtenons donc~:
 \begin{quote}
@@ -619,15 +530,9 @@ Deux m{\'e}thodes sont possibles~:
 			ces deux requ{\^e}tes.
 \end{itemize}
 
-Dans un but p{\'e}dagogique, nous montrerons la seconde m{\'e}thode. En effet, elle mettra
-en {\'e}vidence comment combiner les requ{\^e}tes entre-elles et aussi la fa\c{c}on de les
-ordonner.
+Dans un but p{\'e}dagogique, nous montrerons la seconde m{\'e}thode. En effet, elle mettra en {\'e}vidence comment combiner les requ{\^e}tes entre-elles et aussi la fa\c{c}on de les ordonner.
 
-Examinons la requ{\^e}te {\`a} {\'e}crire pour ex{\'e}cuter la premi{\`e}re {\'e}tape. Tout d'abord, la commande
-<<~{\tt sed}~>> associ{\'e}e {\`a} la suppression est <<~{\tt d}~>>. {\`A} cette commande,
-la sp{\'e}cification des adresses de d{\'e}but et de fin doit correspondre {\`a} toute ligne commen\c{c}ant
-par <<~\verb=#=~>>. Nous allons donc utiliser une expression r{\'e}guli{\`e}re et les deux
-adresses seront identiques. L'expression r{\'e}guli{\`e}re ad{\'e}quate correspond {\`a}~:
+Examinons la requ{\^e}te {\`a} {\'e}crire pour ex{\'e}cuter la premi{\`e}re {\'e}tape. Tout d'abord, la commande <<~{\tt sed}~>> associ{\'e}e {\`a} la suppression est <<~{\tt d}~>>. {\`A} cette commande, la sp{\'e}cification des adresses de d{\'e}but et de fin doit correspondre {\`a} toute ligne commen\c{c}ant par <<~\verb=#=~>>. Nous allons donc utiliser une expression r{\'e}guli{\`e}re et les deux adresses seront identiques. L'expression r{\'e}guli{\`e}re ad{\'e}quate correspond {\`a}~:
 \begin{enumerate}
 	\item	d{\'e}but de ligne,
 	\item	caract{\`e}re <<~\verb=#=~>>,
@@ -653,13 +558,7 @@ La requ{\^e}te correspondant {\`a} la premi{\`e}re {\'e}tape est donc~:
 \verb=/^#.*/d=
 \end{center}
 
-Examinons maintenant la requ{\^e}te {\`a} {\'e}crire pour ex{\'e}cuter la seconde {\'e}tape. Comme
-il a {\'e}t{\'e} dit pr{\'e}c{\'e}demment, cette requ{\^e}te devra s'appliquer sur toutes les lignes
-obtenues par la premi{\`e}re. Sachant que les requ{\^e}tes s'ex{\'e}cutent s{\'e}quentiellement,
-lors de l'appel {\`a} la seconde, les enregistrements qui lui sont fournis sont
-ceux qui r{\'e}sultent de la {\sl premi{\`e}re} ex{\'e}cution. Par cons{\'e}quent, les adresses
-de d{\'e}but et de fin ne sont pas {\`a} sp{\'e}cifier car ce sont toutes les lignes
-qu'il faut traiter.
+Examinons maintenant la requ{\^e}te {\`a} {\'e}crire pour ex{\'e}cuter la seconde {\'e}tape. Comme il a {\'e}t{\'e} dit pr{\'e}c{\'e}demment, cette requ{\^e}te devra s'appliquer sur toutes les lignes obtenues par la premi{\`e}re. Sachant que les requ{\^e}tes s'ex{\'e}cutent s{\'e}quentiellement, lors de l'appel {\`a} la seconde, les enregistrements qui lui sont fournis sont ceux qui r{\'e}sultent de la {\sl premi{\`e}re} ex{\'e}cution. Par cons{\'e}quent, les adresses de d{\'e}but et de fin ne sont pas {\`a} sp{\'e}cifier car ce sont toutes les lignes qu'il faut traiter.
 
 La commande de substitution de <<~{\tt sed}~>> est <<~{\tt s}~>>. Sa syntaxe est~:
 \begin{center}
@@ -672,12 +571,9 @@ Ici, <<~{\sl expression$_1$}~>> devra correspondre {\`a} la s{\'e}quence suivant
 			quelconques un nombre quelconque de fois,
 	\item	fin de ligne.
 \end{itemize}
-Quant {\`a} <<~{\sl expression$_2$}~>>, elle devra repr{\'e}sent{\'e} ce par quoi
-<<~{\sl expression$_1$}~>> devra {\^e}tre remplac{\'e}, c'est-{\`a}-dire <<~{\bf rien}~>>.
-Par cons{\'e}quent, {\bf <<~{\sl expression$_2$}~>> sera vide}. Il ne nous reste donc
-plus qu'{\`a} formuler l'expression r{\'e}gul{\`e}re associ{\'e}e {\`a} <<~{\sl expression$_1$}~>>.
-En fonction de ce que doit d{\'e}crire <<~{\sl expression$_1$}~>>, nous avons
-les correspondances suivantes avec les expressions r{\'e}guli{\`e}res~:
+Quant {\`a} <<~{\sl expression$_2$}~>>, elle devra repr{\'e}sent{\'e} ce par quoi <<~{\sl expression$_1$}~>> devra {\^e}tre remplac{\'e}, c'est-{\`a}-dire <<~{\bf rien}~>>.
+Par cons{\'e}quent, {\bf <<~{\sl expression$_2$}~>> sera vide}. Il ne nous reste donc plus qu'{\`a} formuler l'expression r{\'e}gul{\`e}re associ{\'e}e {\`a} <<~{\sl expression$_1$}~>>.
+En fonction de ce que doit d{\'e}crire <<~{\sl expression$_1$}~>>, nous avons les correspondances suivantes avec les expressions r{\'e}guli{\`e}res~:
 \begin{center}
 \begin{tabular}{|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|}
 	\hline
@@ -695,9 +591,7 @@ La requ{\^e}te correspondant {\`a} la seconde {\'e}tape est donc~:
 \begin{center}
 \verb=s/#.*$//=
 \end{center}
-Nous prenons donc bien en compte tout ce qu'il y a entre la premi{\`e}re occurence
-du caract{\`e}re <<~\verb=#=~>> jusqu'{\`a} la fin de la ligne. Cette entit{\'e} est
-substitu{\'e}e par <<~{\sl rien}~>>.
+Nous prenons donc bien en compte tout ce qu'il y a entre la premi{\`e}re occurence du caract{\`e}re <<~\verb=#=~>> jusqu'{\`a} la fin de la ligne. Cette entit{\'e} est substitu{\'e}e par <<~{\sl rien}~>>.
 
 Nous obtenons donc~:
 \begin{quote}
@@ -709,28 +603,20 @@ sed -e '/^#.*/d' -e 's/#.*$//' fichier
 %%%%%%%%%%%%%%
 \subsection{\label{adv-fltrs-sed-ex4}Exemple 4}
 
-Le but de cet exemple est de r{\'e}cup{\'e}rer le champ <<~{\sl login}~>> et <<~{\sl UID}~>>
-du fichier <<~{\tt /etc/passwd}~>>.
+Le but de cet exemple est de r{\'e}cup{\'e}rer le champ <<~{\sl login}~>> et <<~{\sl UID}~>> du fichier <<~{\tt /etc/passwd}~>>.
 
-D'apr{\`e}s le format utilis{\'e} pour ce fichier (explicit{\'e} dans {\tt passwd(5)}), tous
-les champs sont s{\'e}par{\'e}s par le caract{\`e}re <<~{\tt :}~>>. Par cons{\'e}quent,
-le contenu de chaque champ interdit l'utilisation de ce caract{\`e}re. Les champs
-de ce fichier auront donc comme propri{\'e}t{\'e}~:
+D'apr{\`e}s le format utilis{\'e} pour ce fichier (explicit{\'e} dans {\tt passwd(5)}), tous les champs sont s{\'e}par{\'e}s par le caract{\`e}re <<~{\tt :}~>>. Par cons{\'e}quent, le contenu de chaque champ interdit l'utilisation de ce caract{\`e}re. Les champs de ce fichier auront donc comme propri{\'e}t{\'e}~:
 \begin{quote}
 Les caract{\`e}res contenus pour chaque champ du fichier {\tt /etc/passwd} sont
-tous les caract{\`e}res alphanum{\'e}riques valides {\`a} l'exception du caract{\`e}re
-<<~{\tt :}~>>.
+tous les caract{\`e}res alphanum{\'e}riques valides {\`a} l'exception du caract{\`e}re <<~{\tt :}~>>.
 \end{quote}
-Pour repr{\'e}senter une cha{\^\i}ne de caract{\`e}res ne contenant pas <<~{\tt :}~>> {\`a}
-l'aide des expressions r{\'e}guli{\`e}res, nous allons utiliser les plages de caract{\`e}res
-en excluant les caract{\`e}res non valides. Nous aurons donc~:
+Pour repr{\'e}senter une cha{\^\i}ne de caract{\`e}res ne contenant pas <<~{\tt :}~>> {\`a} l'aide des expressions r{\'e}guli{\`e}res, nous allons utiliser les plages de caract{\`e}res en excluant les caract{\`e}res non valides. Nous aurons donc~:
 \begin{center}
 \verb=[^:]*=\\[1ex]
 \end{center}
 
 Les champs <<~{\sl login}~>> et <<~{\sl UID}~>> repr{\'e}sentent les premier et
-troisi{\`e}me champ du fichier <<~{\tt /etc/passwd}~>>. Par cons{\'e}quent, la m{\'e}thode
-{\`a} suivre pour d{\'e}crire notre requ{\^e}te est la suivante~:
+troisi{\`e}me champ du fichier <<~{\tt /etc/passwd}~>>. Par cons{\'e}quent, la m{\'e}thode {\`a} suivre pour d{\'e}crire notre requ{\^e}te est la suivante~:
 \begin{itemize}
 	\item	le d{\'e}but de ligne,\\[2ex]
 	\item	une s{\'e}quence de caract{\`e}res ne contenant pas <<~{\tt :}~>> permettant
@@ -788,9 +674,7 @@ l'expression suivante~:
 \end{verbatim}
 \end{quote}
 
-Maintenant, il ne nous reste plus qu'{\`a} prendre tout ce qui correspond
-au premier et troisi{\`e}me regroupement dans chaque enregistrement (lignes
-arrivant sur l'entr{\'e}e standard), et formater la sortie de la fa\c{c}on suivante~:
+Maintenant, il ne nous reste plus qu'{\`a} prendre tout ce qui correspond au premier et troisi{\`e}me regroupement dans chaque enregistrement (lignes arrivant sur l'entr{\'e}e standard), et formater la sortie de la fa\c{c}on suivante~:
 \begin{quote}
 \begin{center}
 \fbox{{\sl login}}~\tabkey~\fbox{{\sl UID}}
@@ -811,13 +695,9 @@ sed -e 's/^\([^:]*\)\(:[^:]*:\)\([^:]*\)\(.*$\)/\1\t\3/' /etc/passwd
 %%%%%%%%%%%%%%
 \subsection{\label{adv-fltrs-sed-ex5}Exemple 5}
 
-Le but de cet exemple est de copier de tous les utilisateurs pr{\'e}c{\'e}dent
-l'entr{\'e}e du compte <<~{\tt uucp}~>> dans <<~{\tt /etc/passwd}~>> et
-d{\'e}placer de les {\`a} la fin, compte <<~{\tt uucp}~>> compris. Le r{\'e}sultat sera
-affich{\'e} sur la sortie standard.
+Le but de cet exemple est de copier de tous les utilisateurs pr{\'e}c{\'e}dent l'entr{\'e}e du compte <<~{\tt uucp}~>> dans <<~{\tt /etc/passwd}~>> et d{\'e}placer de les {\`a} la fin, compte <<~{\tt uucp}~>> compris. Le r{\'e}sultat sera affich{\'e} sur la sortie standard.
 
-Pour cela on fait appel {\`a} un fichier de commandes <<~{\tt sed}~>> que
-l'on nommera <<~{\tt script.sed}~>>. L'appel se fera de la fa\c{c}on suivante~:
+Pour cela on fait appel {\`a} un fichier de commandes <<~{\tt sed}~>> que l'on nommera <<~{\tt script.sed}~>>. L'appel se fera de la fa\c{c}on suivante~:
 \begin{quote}
 \begin{verbatim}
 sed -f script.sed /etc/passwd
@@ -834,15 +714,9 @@ D{\'e}taillons les op{\'e}rations {\`a} effectuer~:
 			pr{\'e}c{\'e}dent.
 \end{itemize}
 
-Pour cela, nous allons utiliser les commandes li{\'e}es {\`a} la gestion de l'espace
-m{\'e}moire et l'espace de travail de <<~{\tt sed}~>>. Comme il l'a {\'e}t{\'e} d{\'e}crit
-{\`a} la section \ref{sed-fonct}, <<~{\tt sed}~>> dispose d'un espace m{\'e}moire
-permettant de stocker temporairement, un certain nombre d'informations.
+Pour cela, nous allons utiliser les commandes li{\'e}es {\`a} la gestion de l'espace m{\'e}moire et l'espace de travail de <<~{\tt sed}~>>. Comme il l'a {\'e}t{\'e} d{\'e}crit {\`a} la section \ref{sed-fonct}, <<~{\tt sed}~>> dispose d'un espace m{\'e}moire permettant de stocker temporairement, un certain nombre d'informations.
 
-La premi{\`e}re {\'e}tape consiste donc {\`a} partir du d{\'e}but du fichier (donc de la
-premi{\`e}re ligne) et parcourir jusqu'{\`a} la premi{\`e}re ligne commen\c{c}ant par
-<<~{\tt uucp}~>>. Sachant que les nom d'utilisateurs sont uniques, le
-fichier ne contiendra qu'une et une seule ligne commen\c{c}ant par
+La premi{\`e}re {\'e}tape consiste donc {\`a} partir du d{\'e}but du fichier (donc de la premi{\`e}re ligne) et parcourir jusqu'{\`a} la premi{\`e}re ligne commen\c{c}ant par <<~{\tt uucp}~>>. Sachant que les nom d'utilisateurs sont uniques, le fichier ne contiendra qu'une et une seule ligne commen\c{c}ant par
 <<~{\tt uucp}~>>. Les adresses de d{\'e}but et de fin sont donc~:
 \begin{center}
 \begin{tabular}{|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|@{\hspace{0.5cm}}l@{\hspace{0.5cm}}|}
@@ -864,19 +738,13 @@ La requ{\^e}te associ{\'e}e est donc~:
 \end{verbatim}
 \end{quote}
 
-{\`A} ce stade de l'ex{\'e}cution, l'enregistrement courrant arrivant sur l'entr{\'e}e de
-<<~{\tt sed}~>> est la ligne du fichier <<~{\tt /etc/passwd}~>> d{\'e}finissant le
-compte utilisateur suivant celui de <<~{\tt uucp}~>>. Aucune action n'est sp{\'e}cifi{\'e}e.
+{\`A} ce stade de l'ex{\'e}cution, l'enregistrement courrant arrivant sur l'entr{\'e}e de <<~{\tt sed}~>> est la ligne du fichier <<~{\tt /etc/passwd}~>> d{\'e}finissant le compte utilisateur suivant celui de <<~{\tt uucp}~>>. Aucune action n'est sp{\'e}cifi{\'e}e.
 Les lignes sont donc r{\'e}{\'e}critures sans aucune op{\'e}ration sur la sortie standard.
 
-Lorsque la fin de fichier est rencontr{\'e}e, <<~{\tt sed}~>> doit afficher ce
-qu'il a pr{\'e}c{\'e}demment m{\'e}moriser dans son espace m{\'e}moire. Par cons{\'e}quent, l'adresse
-valide pour ex{\'e}cuter la requ{\^e}te est celle correspondant {\`a} la fin de fichier~:
-<<~\verb=$=~>>. Ici les adresses de d{\'e}but et de fin sont identiques~: elles
-doivent correspondre toutes les deux {\`a} la fin de fichier.
+Lorsque la fin de fichier est rencontr{\'e}e, <<~{\tt sed}~>> doit afficher ce qu'il a pr{\'e}c{\'e}demment m{\'e}moriser dans son espace m{\'e}moire. Par cons{\'e}quent, l'adresse valide pour ex{\'e}cuter la requ{\^e}te est celle correspondant {\`a} la fin de fichier~:
+<<~\verb=$=~>>. Ici les adresses de d{\'e}but et de fin sont identiques~: elles doivent correspondre toutes les deux {\`a} la fin de fichier.
 La commande <<~{\tt sed}~>> appropri{\'e}e pour afficher sur la sortie standard
-l'ensemble de ces lignes pr{\'e}c{\'e}demment stock{\'e}es dans un espace m{\'e}moire est
-<<~{\tt G}~>> (cf. section \ref{sed-cmds}).
+l'ensemble de ces lignes pr{\'e}c{\'e}demment stock{\'e}es dans un espace m{\'e}moire est <<~{\tt G}~>> (cf. section \ref{sed-cmds}).
 La requ{\^e}te associ{\'e}e est donc~:
 \begin{quote}
 \begin{verbatim}
@@ -893,27 +761,19 @@ $G
 \end{quote}
 
 \begin{remarque}
-L'espace m{\'e}moire utilis{\'e} est, bien s{\^u}r, propre {\`a} <<~{\tt sed}~>>. Les
-op{\'e}rations <<~{\tt g}~>> et <<~{\tt h}~>> sont similaires mais avec un espace
-vide au d{\'e}part.
+L'espace m{\'e}moire utilis{\'e} est, bien s{\^u}r, propre {\`a} <<~{\tt sed}~>>. Les op{\'e}rations <<~{\tt g}~>> et <<~{\tt h}~>> sont similaires mais avec un espace vide au d{\'e}part.
 \end{remarque}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\label{adv-fltrs-sed-f}Remarque sur l'utilisation de
-			l'option <<~{\tt -f}~>>}
+\section{\texorpdfstring{\label{adv-fltrs-sed-f}Remarque sur l'utilisation de l'option <<~{\tt -f}~>>}{Remarque sur l'utilisation de l'option <<~-f~>>}}
 
-{\`A} la r{\`e}gle 10 explicit{\'e}e {\`a} la section \ref{pgm-intro-basic-rules}, nous
-avions pr{\'e}ciser que la premi{\`e}re ligne d'un script devait sp{\'e}cifier le nom
-de l'ex{\'e}cutable associ{\'e} au shell utiliser.
+{\`A} la r{\`e}gle 10 explicit{\'e}e {\`a} la section \ref{pgm-intro-basic-rules}, nous avions pr{\'e}ciser que la premi{\`e}re ligne d'un script devait sp{\'e}cifier le nom de l'ex{\'e}cutable associ{\'e} au shell utiliser.
 
 Nous avons vu de m{\^e}me, que la commande <<~{\tt sed}~>> dispose de l'option
 <<~{\tt -f}~>>, permettant de pr{\'e}ciser un fichier de requ{\^e}tes <<~{\tt sed}~>>.
 
-Si l'analogie est faite avec le shell, le processus charg{\'e} d'{\'e}valuer chaque
-ligne du fichier est l'ex{\'e}cutable sp{\'e}cifi{\'e} au niveau de la premi{\`e}re
-ligne du fichier contenant les instructions. Par cons{\'e}quent si le fichier
-contenant les requ{\^e}tes <<~{\tt sed}~>>~:
+Si l'analogie est faite avec le shell, le processus charg{\'e} d'{\'e}valuer chaque ligne du fichier est l'ex{\'e}cutable sp{\'e}cifi{\'e} au niveau de la premi{\`e}re ligne du fichier contenant les instructions. Par cons{\'e}quent si le fichier contenant les requ{\^e}tes <<~{\tt sed}~>>~:
 \begin{itemize}
 	\item	a comme premi{\`e}re ligne <<~\verb=#!/usr/bin/sed=~>>\footnote{Nous
 			consid{\'e}rons ici que l'ex{\'e}cutable de <<~{\tt sed}~>> se trouve dans
@@ -922,12 +782,9 @@ contenant les requ{\^e}tes <<~{\tt sed}~>>~:
 			la commande <<~{\tt which(1)}~>> ou <<~{\tt whereis(1)}~>>.},
 	\item	est accessible en ex{\'e}cution,
 \end{itemize}
-il peut {\^e}tre consid{\'e}r{\'e} comme un filtre ex{\'e}cutant les requ{\^e}tes <<~{\tt sed}~>>
-qu'il contient.
+il peut {\^e}tre consid{\'e}r{\'e} comme un filtre ex{\'e}cutant les requ{\^e}tes <<~{\tt sed}~>> qu'il contient.
 
-Par exemple, si cette notion est appliqu{\'e}e au fichier d{\'e}crit dans l'exemple
-de la section \ref{adv-fltrs-sed-ex5}, le contenu de ce fichier
-sera~:
+Par exemple, si cette notion est appliqu{\'e}e au fichier d{\'e}crit dans l'exemple de la section \ref{adv-fltrs-sed-ex5}, le contenu de ce fichier sera~:
 \begin{quote}
 \begin{verbatim}
 #!/usr/bin/sed
@@ -942,3 +799,4 @@ La commande qui sera saisie deviendra~:
 script.sed /etc/passwd
 \end{verbatim}
 \end{quote}
+

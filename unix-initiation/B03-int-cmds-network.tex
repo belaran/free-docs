@@ -26,7 +26,7 @@
 \thispagestyle{fancy}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Connexion {\`a} une autre machine -- commande {\tt telnet}}
+\section{\texorpdfstring{Connexion {\`a} une autre machine -- commande {\tt telnet}}{Connexion {\`a} une autre machine -- commande telnet}}
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -34,19 +34,11 @@ telnet [host [port]]
 \end{verbatim}
 \end{definition}
 
-La commande \index{telnet@\texttt{telnet}}<<~{\tt telnet}~>> permet de communiquer avec une autre machine en
-utilisant le protocole {\sl Telnet}. Si <<~{\tt telnet}~>> est invoqu{\'e} sans
-argument, il passe en mode commande, indiqu{\'e} par l'invite
-<<~\verb=telnet>=~>>. Dans ce mode, il accepte et ex{\'e}cute des commandes.
-Si <<~{\tt telnet}~>> est invoqu{\'e} avec des arguments, il ouvre une connexion
-sur ce qui lui a {\'e}t{\'e} sp{\'e}cifi{\'e}.
+La commande \index{telnet@\texttt{telnet}}<<~{\tt telnet}~>> permet de communiquer avec une autre machine en utilisant le protocole {\sl Telnet}. Si <<~{\tt telnet}~>> est invoqu{\'e} sans argument, il passe en mode commande, indiqu{\'e} par l'invite <<~\verb=telnet>=~>>. Dans ce mode, il accepte et ex{\'e}cute des commandes. Si <<~{\tt telnet}~>> est invoqu{\'e} avec des arguments, il ouvre une connexion sur ce qui lui a {\'e}t{\'e} sp{\'e}cifi{\'e}.
 
-Une fois qu'une connexion a {\'e}t{\'e} ouverte, <<~{\tt telnet}~>> passe en mode
-saisie. Dans ce mode, le texte tap{\'e} au clavier est envoy{\'e} {\`a} la machine
-cible.
+Une fois qu'une connexion a {\'e}t{\'e} ouverte, <<~{\tt telnet}~>> passe en mode saisie. Dans ce mode, le texte tap{\'e} au clavier est envoy{\'e} {\`a} la machine cible.
 
-Voici quelques \index{telnet@\texttt{telnet}!commandes internes
-{\`a}}commandes accessibles au niveau du prompt <<~\verb=telnet>=~>>~:
+Voici quelques \index{telnet@\texttt{telnet}!commandes internes {\`a}}commandes accessibles au niveau du prompt <<~\verb=telnet>=~>>~:
 
 \begin{description}
 	\item[{\tt open [host [port]]}]\mbox{}\\
@@ -68,12 +60,11 @@ Voici quelques \index{telnet@\texttt{telnet}!commandes internes
 Pour plus d'informations, consultez {\tt telnet(1)}.
 
 \begin{remarque}
-<<~{\tt telnet}~>> est seulement un service interactif. Vous ne pouvez pas
-ex{\'e}cuter <<~{\tt telnet}~>> en arri{\`e}re-plan ou {\`a} partir d'un programme shell.
+<<~{\tt telnet}~>> est seulement un service interactif. Vous ne pouvez pas ex{\'e}cuter <<~{\tt telnet}~>> en arri{\`e}re-plan ou {\`a} partir d'un programme shell.
 \end{remarque}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Transfert de fichiers - commande {\tt ftp}}
+\section{\texorpdfstring{Transfert de fichiers - commande {\tt ftp}}{Transfert de fichiers - commande ftp}}
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -81,11 +72,9 @@ ftp [-g] [-i] [-n] [v] [host]
 \end{verbatim}
 \end{definition}
 
-\index{ftp@\texttt{ftp}}<<~{\tt ftp}~>> est une famille de commandes pour les op{\'e}rations de
-manipulation de fichiers ou de r{\'e}pertoires {\`a} travers le r{\'e}seau.
+\index{ftp@\texttt{ftp}}<<~{\tt ftp}~>> est une famille de commandes pour les op{\'e}rations de manipulation de fichiers ou de r{\'e}pertoires {\`a} travers le r{\'e}seau.
 
-Vous pouvez importer ou exporter des fichiers {\`a} partir d'une machine
-distante (sous {\Unix} ou non), en utilisant soit le mode de transfert
+Vous pouvez importer ou exporter des fichiers {\`a} partir d'une machine distante (sous {\Unix} ou non), en utilisant soit le mode de transfert
 {\ASCII}, soit le mode de transfert {\sl binaire}.
 
 Vous pouvez~:
@@ -122,10 +111,7 @@ Vous pouvez~:
 		\\[0.5cm]
 \end{tabular}
 
-Quelques-unes des commandes de <<~{\tt ftp}~>> sont expliqu{\'e}es ci-dessous.
-Dans les explications, <<~{\tt server-host}~>> d{\'e}signe la machine sur
-laquelle on se connecte avec <<~{\tt ftp}~>>. <<~{\tt local-host}~>> d{\'e}signe la
-machine sur laquelle la commande <<~{\tt ftp}~>> a {\'e}t{\'e} lanc{\'e}e. La figure
+Quelques-unes des commandes de <<~{\tt ftp}~>> sont expliqu{\'e}es ci-dessous. Dans les explications, <<~{\tt server-host}~>> d{\'e}signe la machine sur laquelle on se connecte avec <<~{\tt ftp}~>>. <<~{\tt local-host}~>> d{\'e}signe la machine sur laquelle la commande <<~{\tt ftp}~>> a {\'e}t{\'e} lanc{\'e}e. La figure
 \ref{fig-cmdnet-ftpdesc} illustre les terminologies utilis{\'e}es.
 
 \begin{figure}[hbtp]
@@ -245,37 +231,20 @@ programme Bourne Shell.
 ) | ftp -i -n
 \end{verbatim}
 
-Ce programme shell repr{\'e}sente un risque au niveau de la s{\'e}curit{\'e} (mot de
-passe en clair dans une proc{\'e}dure). Ce type de programme est {\`a} utiliser
-avec parcimonie. Pour plus de renseignements, consultez <<~{\tt ftp(1)}~>>.
+Ce programme shell repr{\'e}sente un risque au niveau de la s{\'e}curit{\'e} (mot de passe en clair dans une proc{\'e}dure). Ce type de programme est {\`a} utiliser avec parcimonie. Pour plus de renseignements, consultez <<~{\tt ftp(1)}~>>.
 \end{quote}
 \end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Connexion automatique -- commande {\tt rlogin}}
+\section{\texorpdfstring{Connexion automatique -- commande {\tt rlogin}}{Connexion automatique -- commande rlogin}}
 
 \begin{definition}{Syntaxe}
 {\tt rlogin remote\_host [-e{\it c}] [-l {\it username}]}
 \end{definition}
 
-La commande \index{rlogin@\texttt{rlogin}}<<~{\tt rlogin}~>> connecte votre terminal du site local sur
-un n{\oe}ud distant. <<~{\tt rlogin}~>> agit comme un terminal virtuel sur le
-syst{\`e}me distant. Le nom de machine distante peut {\^e}tre le nom officiel ou
-bien un {\sl alias}\footnote{Nom secondaire au niveau de la
-configuration r{\'e}seau.}. Il est possible aussi d'utiliser l'adresse
-Internet. Le type de terminal (indiqu{\'e} par la variable <<~{\tt TERM}~>>)
-est propag{\'e} {\`a} travers le r{\'e}seau et est utilis{\'e} pour initialiser la
-variable <<~{\tt TERM}~>> sur le site distant. Pour plus de renseignements
-sur les variables d'environnement du shell, reportez vous {\`a} la section
-\ref{basicn-codevar}.
+La commande \index{rlogin@\texttt{rlogin}}<<~{\tt rlogin}~>> connecte votre terminal du site local sur un n{\oe}ud distant. <<~{\tt rlogin}~>> agit comme un terminal virtuel sur le syst{\`e}me distant. Le nom de machine distante peut {\^e}tre le nom officiel ou bien un {\sl alias}\footnote{Nom secondaire au niveau de la configuration r{\'e}seau.}. Il est possible aussi d'utiliser l'adresse Internet. Le type de terminal (indiqu{\'e} par la variable <<~{\tt TERM}~>>) est propag{\'e} {\`a} travers le r{\'e}seau et est utilis{\'e} pour initialiser la variable <<~{\tt TERM}~>> sur le site distant. Pour plus de renseignements sur les variables d'environnement du shell, reportez vous {\`a} la section \ref{basicn-codevar}.
 
-Une fois connect{\'e} au site distant, vous pouvez ex{\'e}cuter des commandes
-sur le site local en utilisant le caract{\`e}re d'{\'e}chapement (par d{\'e}faut
-<<~{\verb=~=}~>>). Une ligne commen\c{c}ant par <<~\verb=~!=~>> cr{\'e}e un shell et
-vous permet d'ex{\'e}cuter temporairement des commandes sur le site local.
-Une ligne commen\c{c}ant par <<~\verb=~=~>> vous d{\'e}connecte du site distant.
-Plus simplement, pour revenir {\`a} votre session de d{\'e}part, il suffit de
-taper la commande <<~{\tt exit}~>> sur le site distant.
+Une fois connect{\'e} au site distant, vous pouvez ex{\'e}cuter des commandes sur le site local en utilisant le caract{\`e}re d'{\'e}chapement (par d{\'e}faut <<~{\verb=~=}~>>). Une ligne commen\c{c}ant par <<~\verb=~!=~>> cr{\'e}e un shell et vous permet d'ex{\'e}cuter temporairement des commandes sur le site local. Une ligne commen\c{c}ant par <<~\verb=~=~>> vous d{\'e}connecte du site distant. Plus simplement, pour revenir {\`a} votre session de d{\'e}part, il suffit de taper la commande <<~{\tt exit}~>> sur le site distant.
 
 \begin{example}
 \verb=dragon % rlogin king -l arthur=\\
@@ -302,18 +271,15 @@ Les options de rlogin sont d{\'e}crites ci-dessous~:\\[0.5ex]
 Pour plus de renseigements, consultez <<~{\tt rlogin(1)}~>>.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Transfert de fichiers automatique -- commande {\tt rcp}}
+\section{\texorpdfstring{Transfert de fichiers automatique -- commande {\tt rcp}}{Transfert de fichiers automatique -- commande rcp}}
 
 \begin{definition}{Syntaxe}
 {\tt rcp {\it source} {\it destination}}
 
-avec {\it source} et {\it destination} de la forme
-{\tt [[{\it user}@]{\it host}:]{\it pathname}}
+avec {\it source} et {\it destination} de la forme {\tt [[{\it user}@]{\it host}:]{\it pathname}}
 \end{definition}
 
-La commande \index{rcp@\texttt{rcp}}<<~{\tt rcp}~>> est similaire {\`a} la commane <<~{\tt cp}~>>
-d'{\Unix}. Comme <<~{\tt cp}~>>, <<~{\tt rcp}~>> aura un comportement
-diff{\'e}rent selon le nombre d'arguments~:
+La commande \index{rcp@\texttt{rcp}}<<~{\tt rcp}~>> est similaire {\`a} la commane <<~{\tt cp}~>> d'{\Unix}. Comme <<~{\tt cp}~>>, <<~{\tt rcp}~>> aura un comportement diff{\'e}rent selon le nombre d'arguments~:
 
 \begin{itemize}
 	\item	si elle ne poss{\`e}de que deux arguments, elle copie le fichier source
@@ -323,14 +289,9 @@ diff{\'e}rent selon le nombre d'arguments~:
 			sources dans le r{\'e}pertoire sp{\'e}cifi{\'e}.
 \end{itemize}
 
-<<~{\tt rcp}~>> ne demande pas de mot de passe si une {\'e}quivalence syst{\`e}me
-ou utilisateur a {\'e}t{\'e} configur{\'e}e.
+<<~{\tt rcp}~>> ne demande pas de mot de passe si une {\'e}quivalence syst{\`e}me ou utilisateur a {\'e}t{\'e} configur{\'e}e.
 
-Dans le cas contraire, elle ne fonctionne pas (message <<~{\tt Permission
-denied}~>>). <<~{\tt rcp}~>> autorise des transferts mettant en jeu plusieurs
-machines. Par exemple, si vous {\^e}tes connect{\'e} sur une machine, vous
-pouvez transf{\'e}rer des fichiers entre deux n{\oe}uds du r{\'e}seau totalement
-diff{\'e}rents.
+Dans le cas contraire, elle ne fonctionne pas (message <<~{\tt Permission denied}~>>). <<~{\tt rcp}~>> autorise des transferts mettant en jeu plusieurs machines. Par exemple, si vous {\^e}tes connect{\'e} sur une machine, vous pouvez transf{\'e}rer des fichiers entre deux n{\oe}uds du r{\'e}seau totalement diff{\'e}rents.
 
 La source et la destination se pr{\'e}sentent sous la forme
 {\tt [[{\it user}@]{\it host}:]{\it pathname}} avec~:\\
@@ -352,19 +313,13 @@ La source et la destination se pr{\'e}sentent sous la forme
 \end{tabular}
 \end{center}
 
-Il est possible d'utiliser les m{\'e}tacaract{\`e}res pour r{\'e}f{\'e}rencer des
-fichiers. N'oubliez pas que le shell local interpr{\`e}te n'importe quel
-m{\'e}tacaract{\`e}re avant d'appeler <<~{\tt rcp}~>>. Pour emp{\^e}cher une
-substitution locale des m{\'e}tacaract{\`e}res devant {\^e}tre trait{\'e}s par le site
-distant, mettez les entre simples quotes (cf. section \ref{basic-quotes}).
+Il est possible d'utiliser les m{\'e}tacaract{\`e}res pour r{\'e}f{\'e}rencer des fichiers. N'oubliez pas que le shell local interpr{\`e}te n'importe quel m{\'e}tacaract{\`e}re avant d'appeler <<~{\tt rcp}~>>. Pour emp{\^e}cher une substitution locale des m{\'e}tacaract{\`e}res devant {\^e}tre trait{\'e}s par le site distant, mettez les entre simples quotes (cf. section \ref{basic-quotes}).
 
 \begin{example}
 \label{exp-cmdnet-exrcp}
-On supposera que toutes les {\'e}quivalences utilisateur et syst{\`e}me ont {\'e}t{\'e}
-configur{\'e}es correctement.
+On supposera que toutes les {\'e}quivalences utilisateur et syst{\`e}me ont {\'e}t{\'e} configur{\'e}es correctement.
 
-Le processus de cet exemple est d{\'e}crit au tableau \ref{tab-cmdnet-exrcp} et {\`a}
-la figure \ref{fig-cmdnet-exrcp}.
+Le processus de cet exemple est d{\'e}crit au tableau \ref{tab-cmdnet-exrcp} et {\`a} la figure \ref{fig-cmdnet-exrcp}.
 \end{example}
 
 Dans la configuration d{\'e}crite dans la figure \ref{fig-cmdnet-exrcp},\\
@@ -440,42 +395,23 @@ On obtient l'exemple illustr{\'e} dans la figure \ref{fig-cmdnet-exrcp}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ex{\'e}cution d'une commande {\`a} distance - commande {\tt rsh} (ou {\tt remsh})}
+\section{\texorpdfstring{Ex{\'e}cution d'une commande {\`a} distance - commande {\tt rsh} (ou {\tt remsh})}{Ex{\'e}cution d'une commande {\`a} distance - commande rsh (ou remsh)}}
 
 \begin{definition}{Syntaxe}
 {\tt rsh [-l {\it username}] [-n] {\it commande}}\\
 {\tt remsh [-l {\it username}] [-n] {\it commande}}
 \end{definition}
 
-Les commandes \index{rsh@\texttt{rsh}}<<~\texttt{rsh}~>> et
-\index{remsh@\texttt{remsh}}<<~\texttt{remsh}~>> sont {\'e}quivalentes.
-Sur certains syt{\`e}mes il n'exite que la commande
-<<~\texttt{rsh}~>>\footnote{\textsl{SunOS} et  \textsl{Solaris} sur les
-syst{\`e}mes de Sun Microsystems, \textsl{Irix} sur les machines de
-Silicon Graphics, \textsl{Digital {\Unix}} sur les machines de Compacq -
-ex Digital Equipment Corp.}, sur d'autres que seule la commande <<~{\tt
-remsh}~>> sera disponible\footnote{\textsl{UTekV} sur les anciens
-syst{\`e}mes {\Unix} de Tektronix, \textsf{HP--UX} sur les syst{\`e}mes
-de Hewlett-Packard}), sur d'autres les deux cohabiteront\footnote{AIX,
-l'{\Unix} d'IBM}. Dans toute la suite de ce paragraphe, seulement
-<<~\texttt{rsh}~>> sera cit{\'e}.
+Les commandes \index{rsh@\texttt{rsh}}<<~\texttt{rsh}~>> et \index{remsh@\texttt{remsh}}<<~\texttt{remsh}~>> sont {\'e}quivalentes.
+Sur certains syt{\`e}mes il n'exite que la commande <<~\texttt{rsh}~>>\footnote{\textsl{SunOS} et  \textsl{Solaris} sur les syst{\`e}mes de Sun Microsystems, \textsl{Irix} sur les machines de Silicon Graphics, \textsl{Digital {\Unix}} sur les machines de Compacq - ex Digital Equipment Corp.}, sur d'autres que seule la commande <<~{\tt remsh}~>> sera disponible\footnote{\textsl{UTekV} sur les anciens syst{\`e}mes {\Unix} de Tektronix, \textsf{HP--UX} sur les syst{\`e}mes de Hewlett-Packard}), sur d'autres les deux cohabiteront\footnote{AIX, l'{\Unix} d'IBM}. Dans toute la suite de ce paragraphe, seulement <<~\texttt{rsh}~>> sera cit{\'e}.
 
-La commande <<~{\tt rsh}~>> ex{\'e}cute une commande non interactive sur un
-syst{\`e}me distant. Le nom du compte est le m{\^e}me que le nom du compte local
-{\`a} moins que vous ne sp{\'e}cifiez l'option <<~{\tt -l}~>>.
+La commande <<~{\tt rsh}~>> ex{\'e}cute une commande non interactive sur un syst{\`e}me distant. Le nom du compte est le m{\^e}me que le nom du compte local {\`a} moins que vous ne sp{\'e}cifiez l'option <<~{\tt -l}~>>.
 
-Comme <<~{\tt rcp}~>>, <<~{\tt rsh}~>> ne demande pas de mot de passe si une
-{\'e}quivalence syst{\`e}me ou utilisateur a {\'e}t{\'e} configur{\'e}e. Dans le cas
-contraire, elle ne fonctionne pas (message <<~{\tt Permission denied}~>>).
-La commande <<~{\tt rsh}~>> transmet les signaux <<~{\tt INTERRUPT}~>>,
-<<~{\tt QUIT}~>> et <<~{\tt HUP}~>> {\`a} la commande distante.
+Comme <<~{\tt rcp}~>>, <<~{\tt rsh}~>> ne demande pas de mot de passe si une {\'e}quivalence syst{\`e}me ou utilisateur a {\'e}t{\'e} configur{\'e}e. Dans le cas contraire, elle ne fonctionne pas (message <<~{\tt Permission denied}~>>). La commande <<~{\tt rsh}~>> transmet les signaux <<~{\tt INTERRUPT}~>>, <<~{\tt QUIT}~>> et <<~{\tt HUP}~>> {\`a} la commande distante.
 
-Pour plus de pr{\'e}cisions, reportez vous {\`a} <<~{\tt signal(2)}~>> et au chapitre
-\ref{multitask}.
+Pour plus de pr{\'e}cisions, reportez vous {\`a} <<~{\tt signal(2)}~>> et au chapitre \ref{multitask}.
 
-Vous pouvez utiliser les m{\'e}tacaract{\`e}res avec <<~{\tt rsh}~>>. Si vous voulez qu'ils
-soient interpr{\'e}t{\'e}s sur le site distant, assurez-vous qu'ils sont bien
-entre simples quotes (cf. sections \ref{basic-metacars} et \ref{basic-quotes}).
+Vous pouvez utiliser les m{\'e}tacaract{\`e}res avec <<~{\tt rsh}~>>. Si vous voulez qu'ils soient interpr{\'e}t{\'e}s sur le site distant, assurez-vous qu'ils sont bien entre simples quotes (cf. sections \ref{basic-metacars} et \ref{basic-quotes}).
 
 \begin{remarque}
 <<~{\tt rsh}~>> ne peut pas ex{\'e}cuter des commandes en mode interactif comme
@@ -483,7 +419,7 @@ entre simples quotes (cf. sections \ref{basic-metacars} et \ref{basic-quotes}).
 \end{remarque}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Connexion chiffr{\'e}e {\`a} une autre machine -- commande {\tt ssh}}
+\section{\texorpdfstring{Connexion chiffr{\'e}e {\`a} une autre machine -- commande {\tt ssh}}{Connexion chiffr{\'e}e {\`a} une autre machine -- commande ssh}}
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -491,7 +427,7 @@ ssh [user]@[host:[port]]
 \end{verbatim}
 \end{definition}
 
-\section{Transfert chiffr{\'e}e de fichier -- commande {\tt ssh}}
+\section{Transfert chiffr{\'e}e de fichier -- commande ssh}
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -499,7 +435,7 @@ scp [user]@[host:[port]]file [user]@[host:[port]]fichier
 \end{verbatim}
 \end{definition}
 
-\subsection{Comparaisons \texttt{telnet}/\texttt{rlogin} et \texttt{ftp}/\texttt{rcp}}
+\subsection{\texorpdfstring{Comparaisons \texttt{telnet}/\texttt{rlogin} et \texttt{ftp}/\texttt{rcp}}{Comparaisons telnet/rlogin et ftp/rcp}}
 
 \index{telnet@\texttt{telnet}!comparaison avec \texttt{rlogin}}
 \index{rlogin@\texttt{rlogin}!comparaison avec \texttt{telnet}}

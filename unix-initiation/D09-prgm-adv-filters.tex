@@ -39,8 +39,7 @@ examinerons les filtres suivants~:
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Utilisation avanc{\'e}e de <<~{\tt grep}~>>, <<~{\tt egrep}~>>
-		et <<~{\tt fgrep}~>>}
+\section{\texorpdfstring{Utilisation avanc{\'e}e de <<~{\tt grep}~>>, <<~{\tt egrep}~>> et <<~{\tt fgrep}~>>}{Utilisation avanc{\'e}e de <<~grep~>>, <<~egrep~>> et <<~fgrep~>>}}
 
 %%%%%%%%%%%%
 \subsection{Introduction - Rappels}
@@ -95,7 +94,7 @@ combiner entre elles.
 \end{example}
 
 %%%%%%%%%%%%
-\subsection{Utilisation de <<~{\tt grep}~>>}
+\subsection{\texorpdfstring{Utilisation de <<~{\tt grep}~>>}{Utilisation de <<~grep~>>}}
 
 \index{grep@\texttt{grep}!utilisation}<<~{\tt grep}~>> accepte un ensemble restreint d'expressions r{\'e}guli{\`e}res,
 en particulier, il n'accepte pas les symboles suivants~:\\
@@ -177,7 +176,7 @@ par deux chiffres.
 \end{example}
 
 %%%%%%%%%%%%
-\section{\label{adv-fltrs-egrep}Utilisation de <<~{\tt egrep}~>>}
+\section{\texorpdfstring{\label{adv-fltrs-egrep}Utilisation de <<~{\tt egrep}~>>}{Utilisation de <<~egrep~>>}}
 
 \index{egrep@\texttt{egrep}}\index{grep@\texttt{grep}!egrep@\texttt{egrep}}La
 commande <<~{\tt egrep}~>> fonctionne comme la commande <<~{\tt grep}~>>.
@@ -242,7 +241,7 @@ Nous aurons donc, comme r{\'e}sultat, tous les domaines des adresses
 \end{example}
 
 %%%%%%%%%%%%
-\section{Utilisation de <<~{\tt fgrep}~>>}
+\section{\texorpdfstring{Utilisation de <<~{\tt fgrep}~>>}{Utilisation de <<~fgrep~>>}}
 
 \index{fgrep@\texttt{fgrep}}\index{grep@\texttt{grep}!fgrep@\texttt{fgrep}}La
 commande <<~{\tt fgrep}~>> fonctionne comme la commande <<~{\tt grep}~>>
@@ -278,20 +277,13 @@ sur de tr{\`e}s gros volumes de donn{\'e}es.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\label{adv-filters-f}Remarque sur l'utilisation de l'option <<~{\tt -f}~>>}
+\section{\texorpdfstring{\label{adv-filters-f}Remarque sur l'utilisation de l'option <<~{\tt -f}~>>}{Remarque sur l'utilisation de l'option <<~-f~>>}}
 
-{\`A} la r{\`e}gle 10 explicit{\'e}e {\`a} la section \ref{pgm-intro-basic-rules}, nous
-avions pr{\'e}ciser que la premi{\`e}re ligne d'un script devait sp{\'e}cifier le nom
-de l'ex{\'e}cutable associ{\'e} au shell utiliser.
+{\`A} la r{\`e}gle 10 explicit{\'e}e {\`a} la section \ref{pgm-intro-basic-rules}, nous avions pr{\'e}ciser que la premi{\`e}re ligne d'un script devait sp{\'e}cifier le nom de l'ex{\'e}cutable associ{\'e} au shell utiliser.
 
-Nous avons vu de m{\^e}me, que les commandes <<~{\tt egrep}~>> et <<~{\tt fgrep}~>>
-disposent de l'option
-<<~{\tt -f}~>>, permettant de pr{\'e}ciser un fichier de requ{\^e}tes de recherche.
+Nous avons vu de m{\^e}me, que les commandes <<~{\tt egrep}~>> et <<~{\tt fgrep}~>> disposent de l'option <<~{\tt -f}~>>, permettant de pr{\'e}ciser un fichier de requ{\^e}tes de recherche.
 
-Si l'analogie est faite avec le shell, le processus charg{\'e} d'{\'e}valuer chaque
-ligne du fichier est l'ex{\'e}cutable sp{\'e}cifi{\'e} au niveau de la premi{\`e}re
-ligne du fichier contenant les instructions. Par cons{\'e}quent si le fichier
-contenant les requ{\^e}tes de recherche~:
+Si l'analogie est faite avec le shell, le processus charg{\'e} d'{\'e}valuer chaque ligne du fichier est l'ex{\'e}cutable sp{\'e}cifi{\'e} au niveau de la premi{\`e}re ligne du fichier contenant les instructions. Par cons{\'e}quent si le fichier contenant les requ{\^e}tes de recherche~:
 \begin{itemize}
 	\item	a comme premi{\`e}re ligne <<~\verb=#!/usr/bin/egrep=~>> ou
 			<<~\verb=#!/usr/bin/fgrep=~>>\footnote{Nous
@@ -302,18 +294,13 @@ contenant les requ{\^e}tes de recherche~:
 			la commande <<~{\tt which(1)}~>> ou <<~{\tt whereis(1)}~>>.},
 	\item	est accessible en ex{\'e}cution,
 \end{itemize}
-il peut {\^e}tre consid{\'e}r{\'e} comme un filtre ex{\'e}cutant les requ{\^e}tes de
-recherche associ{\'e} {\`a} <<~{\tt egrep}~>> ou <<~{\tt fgrep}~>> qu'il contient.
+il peut {\^e}tre consid{\'e}r{\'e} comme un filtre ex{\'e}cutant les requ{\^e}tes de recherche associ{\'e} {\`a} <<~{\tt egrep}~>> ou <<~{\tt fgrep}~>> qu'il contient.
 
 Si nous prenons tout d'abord l'exemple de <<~{\tt egrep}~>>, l'exemple suivant
-permet de rechercher, sur l'entr{\'e}e standard (ou bien dans la liste de fichiers
-sp{\'e}cifi{\'e}e en argument), toutes les lignes satisfaisant les expressions r{\'e}guli{\`e}res
-suivantes~:
+permet de rechercher, sur l'entr{\'e}e standard (ou bien dans la liste de fichiers sp{\'e}cifi{\'e}e en argument), toutes les lignes satisfaisant les expressions r{\'e}guli{\`e}res suivantes~:
 \begin{itemize}
-	\item	<<~\verb=^[A-Z]=~>>, c'est-{\`a}-dire tout ligne commen\c{c}ant par une lettre
-			majuscule,
-	\item	<<~\verb=[0-9]$=~>>, c'est-{\`a}-dire toute ligne se terminant par un
-			chiffre,
+	\item	<<~\verb=^[A-Z]=~>>, c'est-{\`a}-dire tout ligne commen\c{c}ant par une lettre majuscule,
+	\item	<<~\verb=[0-9]$=~>>, c'est-{\`a}-dire toute ligne se terminant par un chiffre,
 \end{itemize}
 et d'afficher le r{\'e}sultat sur la sortie standard.
 \begin{quote}
@@ -324,10 +311,7 @@ et d'afficher le r{\'e}sultat sur la sortie standard.
 \end{verbatim}
 \end{quote}
 
-Le r{\'e}sultat affich{\'e} seront toutes les lignes satisfaisant au moins l'un des
-deux crit{\`e}res. Si cet exemple est enregistr{\'e} dans le fichier <<~{\tt localise}~>>,
-et que celui-ci est accessible en ex{\'e}cution, il suffira de taper la commande
-suivante pour obtenir le r{\'e}sultat escompt{\'e}~:
+Le r{\'e}sultat affich{\'e} seront toutes les lignes satisfaisant au moins l'un des deux crit{\`e}res. Si cet exemple est enregistr{\'e} dans le fichier <<~{\tt localise}~>>, et que celui-ci est accessible en ex{\'e}cution, il suffira de taper la commande suivante pour obtenir le r{\'e}sultat escompt{\'e}~:
 \begin{quote}
 {\tt localise~{\sl fichier $\cdots$}}
 \end{quote}
@@ -336,10 +320,7 @@ ou bien, si la commande est utilis{\'e}e comme un filtre~:
 {\sl commande\_envoyant\_sur\_la\_sortie\_standard}~\verb=| localise=~{\sl fichier $\cdots$}
 \end{quote}
 
-Le principe d'utilisation pour la commande <<~{\tt fgrep}~>> reste identique {\`a} la
-restriction pr{\`e}s que <<~{\tt fgrep}~>> recherche des cha{\^\i}nes sans aucune
-interpr{\'e}tation des expressions sp{\'e}cifi{\'e}es dans le fichier. Par cons{\'e}quent, si nous
-avons~:
+Le principe d'utilisation pour la commande <<~{\tt fgrep}~>> reste identique {\`a} la restriction pr{\`e}s que <<~{\tt fgrep}~>> recherche des cha{\^\i}nes sans aucune interpr{\'e}tation des expressions sp{\'e}cifi{\'e}es dans le fichier. Par cons{\'e}quent, si nous avons~:
 \begin{quote}
 \begin{verbatim}
 #!/usr/bin/fgrep
@@ -347,17 +328,13 @@ avons~:
 [0-9]$
 \end{verbatim}
 \end{quote}
-cette nouvelle commande, en supposant que le fichier soit enregistr{\'e} sous le nom
-<<~{\tt localise2}~>>, recherchera sur les fichiers sp{\'e}cifi{\'e}s en argument, ou
-bien sur l'entr{\'e}e standard, toutes les lignes contenant au moins l'une des deux
-chaines suivantes~:
+cette nouvelle commande, en supposant que le fichier soit enregistr{\'e} sous le nom <<~{\tt localise2}~>>, recherchera sur les fichiers sp{\'e}cifi{\'e}s en argument, ou bien sur l'entr{\'e}e standard, toutes les lignes contenant au moins l'une des deux chaines suivantes~:
 \begin{itemize}
 	\item	<<~\verb=^[A-Z]=~>>,
 	\item	<<~\verb=[0-9]$=~>>.
 \end{itemize}
 
-Tout comme la commande pr{\'e}c{\'e}dente, l'appel pourra se faire selon les deux
-m{\'e}thodes ci-apr{\`e}s~:
+Tout comme la commande pr{\'e}c{\'e}dente, l'appel pourra se faire selon les deux m{\'e}thodes ci-apr{\`e}s~:
 \begin{quote}
 {\tt localise2~{\sl fichier $\cdots$}}
 \end{quote}
@@ -365,3 +342,4 @@ ou bien, si la commande est utilis{\'e}e comme un filtre~:
 \begin{quote}
 {\sl commande\_envoyant\_sur\_la\_sortie\_standard}~\verb=| localise2=~{\sl fichier $\cdots$}
 \end{quote}
+

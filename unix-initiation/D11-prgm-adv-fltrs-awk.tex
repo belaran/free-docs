@@ -22,7 +22,7 @@
 
 \setcounter{remarque-cnt}{1}
 \setcounter{example-cnt}{1}
-\chapter{\label{adv-fltrs-awk}Utilisation de "{\tt awk}"}
+\chapter{\texorpdfstring{\label{adv-fltrs-awk}Utilisation de "{\tt awk}"}{Utilisation de "awk"}}
 \thispagestyle{fancy}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -40,34 +40,23 @@
 "\texttt{awk}" traitera chaque ligne en entr{\'e}e comme un
 \index{awk@\texttt{awk}!enregistrement}enregistrement. C'est ce terme qui sera
 employ{\'e} par la suite. Chaque enregistrement est compos{\'e} de champs. Ces
-\index{awk@\texttt{awk}!champ}champs sont s{\'e}par{\'e}s, par d{\'e}faut, par un
-ou plusieurs espaces ou bien une ou plusieurs tabulations. C'est aussi un langage
-de programmation dont la fonction premi{\`e}re est de rechercher des cha{\^\i}nes
-de caract{\`e}res suivant certains crit{\`e}res et d'y appliquer des actions. On
-aura donc toujours un mod{\`e}le~: \centerline{\textsl{s{\'e}lection} +
+\index{awk@\texttt{awk}!champ}champs sont s{\'e}par{\'e}s, par d{\'e}faut, par un ou plusieurs espaces ou bien une ou plusieurs tabulations. C'est aussi un langage de programmation dont la fonction premi{\`e}re est de rechercher des cha{\^\i}nes de caract{\`e}res suivant certains crit{\`e}res et d'y appliquer des actions. On aura donc toujours un mod{\`e}le~: \centerline{\textsl{s{\'e}lection} +
 \textsl{action}}
 
-Le corps de chaque action est un bloc constitu{\'e} d'une ou plusieurs commandes,
-d{\'e}limit{\'e} par les caract{\`e}res "\verb={=" et <<\verb=}=". On aura
-alors~:
+Le corps de chaque action est un bloc constitu{\'e} d'une ou plusieurs commandes, d{\'e}limit{\'e} par les caract{\`e}res "\verb={=" et <<\verb=}=". On aura alors~:
 \begin{center}
 {\tt s{\'e}lection \{ commande }$\cdots$\verb= }=
 \end{center}
 
-Pour la petite histoire, le nom "\texttt{awk}" est d{\'e}riv{\'e} des initiales de
-ses auteurs: Alfred V. \textsc{Aho}, Peter J. \textsc{Weinberger} et Brian W.
+Pour la petite histoire, le nom "\texttt{awk}" est d{\'e}riv{\'e} des initiales de ses auteurs: Alfred V. \textsc{Aho}, Peter J. \textsc{Weinberger} et Brian W.
 \textsc{Kerninghan}.
 
 \begin{definition}{Syntaxe}
 \texttt{awk '}\textsl{corps du programme awk}\verb= ' [=\textsl{fichier}=$\cdots$\verb= ]=\\
-ou
-\texttt{awk -f }\textsl{fichier.programme}\verb= [=\textsl{fichier} $\cdots$\verb=]=
+ou \texttt{awk -f }\textsl{fichier.programme}\verb= [=\textsl{fichier} $\cdots$\verb=]=
 \end{definition}
 
-Dans le premier cas de syntaxe, le corps du programme "\texttt{awk}"
-est appliqu{\'e} directement aux fichiers ou {\`a} l'entr{\'e}e standard. Dans le
-second cas de syntaxe, le programme "\texttt{awk}" est contenu dans un
-fichier et appliqu{\'e} aux fichiers ou {\`a} l'entr{\'e}e standard.
+Dans le premier cas de syntaxe, le corps du programme "\texttt{awk}" est appliqu{\'e} directement aux fichiers ou {\`a} l'entr{\'e}e standard. Dans le second cas de syntaxe, le programme "\texttt{awk}" est contenu dans un fichier et appliqu{\'e} aux fichiers ou {\`a} l'entr{\'e}e standard.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Les s{\'e}lecteurs}
@@ -75,10 +64,7 @@ fichier et appliqu{\'e} aux fichiers ou {\`a} l'entr{\'e}e standard.
 %%%%%%%%%%%%
 \subsection{Introduction, D{\'e}finition}
 
-On a vu que chaque requ{\^e}te "\texttt{awk}" {\'e}tait constitu{\'e}e d'une
-s{\'e}lection et d'une action. Nous allons examiner dans ce paragraphe la
-syntaxe pour la sp{\'e}cification des s{\'e}lections. Les s{\'e}lections des lignes
-en entr{\'e}es sont d{\'e}crites par des \index{awk@\texttt{awk}!s{\'e}lecteur}s{\'e}lecteurs.
+On a vu que chaque requ{\^e}te "\texttt{awk}" {\'e}tait constitu{\'e}e d'une s{\'e}lection et d'une action. Nous allons examiner dans ce paragraphe la syntaxe pour la sp{\'e}cification des s{\'e}lections. Les s{\'e}lections des lignes en entr{\'e}es sont d{\'e}crites par des \index{awk@\texttt{awk}!s{\'e}lecteur}s{\'e}lecteurs.
 
 Un s{\'e}lecteur est~:
 \begin{itemize}
@@ -86,11 +72,7 @@ Un s{\'e}lecteur est~:
 	\item	un mot clef.
 \end{itemize}
 
-Chaque fois que l'expression d{\'e}crite par un s{\'e}lecteur est vraie,
-l'action cor\-res\-pon\-dante est ex{\'e}cut{\'e}e. Les s{\'e}lecteurs et les actions
-peuvent faire appel {\`a} des variables, {\`a} des param{\`e}tres et {\`a} des
-expressions logiques. Les actions, elles, peuvent contenir des
-structures de contr{\^o}le ("\texttt{if}", "\texttt{while}", etc.).
+Chaque fois que l'expression d{\'e}crite par un s{\'e}lecteur est vraie, l'action cor\-res\-pon\-dante est ex{\'e}cut{\'e}e. Les s{\'e}lecteurs et les actions peuvent faire appel {\`a} des variables, {\`a} des param{\`e}tres et {\`a} des expressions logiques. Les actions, elles, peuvent contenir des structures de contr{\^o}le ("\texttt{if}", "\texttt{while}", etc.).
 
 %%%%%%%%%%%%
 \subsection{Les s{\'e}lecteurs pr{\'e}d{\'e}fini}
@@ -102,16 +84,12 @@ Les deux seuls s{\'e}lecteurs pr{\'e}d{\'e}finis dans "\texttt{awk}" sont~:
 \end{itemize}
 
 Le s{\'e}lecteur "\texttt{BEGIN}" est vrai avant le traitement du premier
-enregistrement. Ce s{\'e}lecteur est g{\'e}n{\'e}ralement utilis{\'e} pour initialiser
-des variables, d{\'e}finir des champs de saisie, etc.
+enregistrement. Ce s{\'e}lecteur est g{\'e}n{\'e}ralement utilis{\'e} pour initialiser des variables, d{\'e}finir des champs de saisie, etc.
 
-Le s{\'e}lecteur "\texttt{END}" est vrai apr{\`e}s le traitement du dernier
-enregistrement. Ce s{\'e}lecteur est g{\'e}n{\'e}ralement utilis{\'e} pour afficher les
-r{\'e}sultats finaux.
+Le s{\'e}lecteur "\texttt{END}" est vrai apr{\`e}s le traitement du dernier enregistrement. Ce s{\'e}lecteur est g{\'e}n{\'e}ralement utilis{\'e} pour afficher les r{\'e}sultats finaux.
 
 \begin{example}
-L'exemple suivant permet d'afficher les noms de tous les fichiers du
-r{\'e}pertoire et leurs tailles.
+L'exemple suivant permet d'afficher les noms de tous les fichiers du r{\'e}pertoire et leurs tailles.
 \begin{verbatim}
 ls -al | awk '
     BEGIN {

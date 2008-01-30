@@ -28,7 +28,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Commandes li{\'e}es au file system}
 
-\subsection{\label{cmds-pwd-cd}Commandes {\tt pwd} et {\tt cd}}
+\subsection{\texorpdfstring{\label{cmds-pwd-cd}Commandes {\tt pwd} et {\tt cd}}{Commandes pwd et cd}}
 
 \begin{tabular}{c@{~=~}l}
 	\index{pwd@\texttt{pwd}}{\tt pwd}	&	Print Working Directory \\
@@ -73,7 +73,7 @@ dans l'arborescence sur le syst{\`e}me}
 \end{table}
 
 
-\subsection{\label{cmds-unix-ls}Commande {\tt ls}}
+\subsection{\texorpdfstring{\label{cmds-unix-ls}Commande {\tt ls}}{Commande ls}}
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -152,7 +152,7 @@ r{\'e}pertoire.
 afficher la liste des fichiers d'un r{\'e}pertoire}
 \end{table}
 
-\subsection{Commandes {\tt mkdir} et {\tt rmdir}}
+\subsection{\texorpdfstring{Commandes {\tt mkdir} et {\tt rmdir}}{Commandes mkdir et rmdir}}
 
 \begin{definition}{Syntaxe}
 \begin{tabular}{ll}
@@ -192,10 +192,7 @@ d{\'e}truire plusieurs, l'ordre sur la ligne de commande a une importance.
 \end{verbatim}
 \end{example}
 
-\index{mkdir@\texttt{mkdir}!{\'e}quivalence}\index{rmdir@\texttt{rmdir}!{\'e}quivalence}Le
-tableau \ref{tab-cmds-mkdir} montre les {\'e}quivalences entre les
-commandes des syst{\`e}mes {\Unix}, {\OpenVMS} et {\DOS} pour la gestion
-des r{\'e}pertoires.
+\index{mkdir@\texttt{mkdir}!{\'e}quivalence}\index{rmdir@\texttt{rmdir}!{\'e}quivalence}Le tableau \ref{tab-cmds-mkdir} montre les {\'e}quivalences entre les commandes des syst{\`e}mes {\Unix}, {\OpenVMS} et {\DOS} pour la gestion des r{\'e}pertoires.
 
 \begin{table}[hbtp]
 \centering
@@ -212,27 +209,17 @@ des r{\'e}pertoires}
 \end{table}
 
 %%%%%%%%%%%%
-\subsection{R{\'e}pertoires <<~{\tt .}~>> et <<~{\tt ..}~>>}
+\subsection{\texorpdfstring{R{\'e}pertoires <<~{\tt .}~>> et <<~{\tt ..}~>>}{R{\'e}pertoires <<~.~>> et <<~..~>>}}
 
-\index{r{\'e}pertoire!<<~\texttt{.}~>>}\index{r{\'e}pertoire!<<~\texttt{..}~>>}
-Quand un r{\'e}pertoire est cr{\'e}{\'e}, le syst{\`e}me g{\'e}n{\`e}re
-automatiquement deux sous-r{\'e}pertoires repr{\'e}sentant des liens
-vers le r{\'e}pertoire cr{\'e}{\'e} et le r{\'e}pertoire p{\`e}re~:
+\index{r{\'e}pertoire!<<~\texttt{.}~>>}\index{r{\'e}pertoire!<<~\texttt{..}~>>} Quand un r{\'e}pertoire est cr{\'e}{\'e}, le syst{\`e}me g{\'e}n{\`e}re automatiquement deux sous-r{\'e}pertoires repr{\'e}sentant des liens vers le r{\'e}pertoire cr{\'e}{\'e} et le r{\'e}pertoire p{\`e}re~:
 \begin{itemize}
 	\item	le r{\'e}pertoire <<~{\tt .}~>>= r{\'e}pertoire courant,
 	\item	le r{\'e}pertoire <<~{\tt ..}~>> = r{\'e}pertoire p{\`e}re.
 \end{itemize}
 
-Le r{\'e}pertoire <<~{\tt ..}~>> est tr{\`e}s utile pour r{\'e}f{\'e}rencer ce qui se
-trouve au dessus du r{\'e}pertoire courant dans l'arborescence du file
-system. Ainsi il suffira d'utiliser <<~{\tt ..}~>> dans un chemin d'acc{\`e}s
-relatif pour r{\'e}f{\'e}rencer le r{\'e}pertoire p{\`e}re.
+Le r{\'e}pertoire <<~{\tt ..}~>> est tr{\`e}s utile pour r{\'e}f{\'e}rencer ce qui se trouve au dessus du r{\'e}pertoire courant dans l'arborescence du file system. Ainsi il suffira d'utiliser <<~{\tt ..}~>> dans un chemin d'acc{\`e}s relatif pour r{\'e}f{\'e}rencer le r{\'e}pertoire p{\`e}re.
 
-Par exemple <<~{\tt cd ..}~>> remonte d'un cran dans l'arborescence et
-<<~{\tt more ../../fic}~>> liste le contenu d'un fichier deux niveaux au
-dessus dans l'arborescence. La figure \ref{fig-cmds-dotdirs} montre les
-liens entre les r{\'e}pertoires <<~{\tt .}~>> et <<~{\tt ..}~>> et les r{\'e}pertoires
-fils et p{\`e}res.
+Par exemple <<~{\tt cd ..}~>> remonte d'un cran dans l'arborescence et <<~{\tt more ../../fic}~>> liste le contenu d'un fichier deux niveaux au dessus dans l'arborescence. La figure \ref{fig-cmds-dotdirs} montre les liens entre les r{\'e}pertoires <<~{\tt .}~>> et <<~{\tt ..}~>> et les r{\'e}pertoires fils et p{\`e}res.
 
 \begin{figure}[hbtp]
 \centering
@@ -309,8 +296,7 @@ Le type <<~pipe nomm{\'e}~>> sert de canal de communication entre diff{\'e}rents
 processes sur une m{\^e}me machine.
 
 %%%%%%%%%%%%
-\subsection{Affichage du contenu d'un fichier - Commandes {\tt cat} et
-{\tt more}}
+\subsection{\texorpdfstring{Affichage du contenu d'un fichier - Commandes {\tt cat} et {\tt more}}{Affichage du contenu d'un fichier - Commandes cat et more}}
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -351,7 +337,7 @@ more} et d'autres syst{\`e}mes}
 \end{table}
 
 %%%%%%%%%%%
-\subsection{\label{cmds-cpmvln}Manipulation de fichiers - Commandes {\tt cp}, {\tt mv} et {\tt ln}}
+\subsection{\texorpdfstring{\label{cmds-cpmvln}Manipulation de fichiers - Commandes {\tt cp}, {\tt mv} et {\tt ln}}{Manipulation de fichiers - Commandes cp, mv et ln}}
 
 \begin{definition}{D{\'e}finition}
 \begin{tabular}{lp{8cm}}
@@ -450,7 +436,7 @@ sur le m{\^e}me syst{\`e}me de fichiers.
 \end{remarque}
 
 %%%%%%%%%%%%%%
-\subsubsection{Visualisation du nombre de liens avec la commande {\tt ls}}
+\subsubsection{\texorpdfstring{Visualisation du nombre de liens avec la commande {\tt ls}}{Visualisation du nombre de liens avec la commande ls}}
 
 \begin{example}
 Si l'on prend l'exemple des commandes suivantes~:
@@ -526,7 +512,7 @@ Le tableau \ref{tab-cmds-equiv-mvcpln} montre les correspondances des commandes
 \end{table}
 
 %%%%%%%%%%%
-\subsection{Effacement d'un fichier - Commande {\tt rm}}
+\subsection{\texorpdfstring{Effacement d'un fichier - Commande {\tt rm}}{Effacement d'un fichier - Commande rm}}
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -762,7 +748,7 @@ droits d'acc{\`e}s sous {\Unix}}
 \end{figure}
 
 %%%%%%%%%%%%
-\subsection{Changement de protection - Commande {\tt chmod}}
+\subsection{\texorpdfstring{Changement de protection - Commande {\tt chmod}}{Changement de protection - Commande chmod}}
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -1003,7 +989,7 @@ d'{\'e}mulation, etc{...}
 \end{remarque}
 
 %%%%%%%%%%%
-\subsection{Filtre {\tt sort}}
+\subsection{\texorpdfstring{Filtre {\tt sort}}{Filtre sort}}
 
 \begin{definition}{Syntaxe}
 \begin{alltt}
@@ -1055,7 +1041,7 @@ renseignements, consultez le manuel de r{\'e}f{\'e}rence <<~{\tt sort(1)}~>>.
 \end{example}
 
 %%%%%%%%%%%
-\subsection{Filtre {\tt grep}}
+\subsection{\texorpdfstring{Filtre {\tt grep}}{Filtre grep}}
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -1063,10 +1049,7 @@ grep [-inv] expression [fichier...]
 \end{verbatim}
 \end{definition}
 
-Le filtre \index{grep@\texttt{grep}}<<~{\tt grep}~>> recherche l'expression pr{\'e}cis{\'e}e sur son entr{\'e}e
-standard et l'affiche sur sa sortie standard. Cette expression ob{\'e}it aux
-lois des expressions r{\'e}guli{\`e}res {\Unix} (cf. chapitre \ref{reg-exp}).
-De fa\c{c}on g{\'e}n{\'e}rale, on sp{\'e}cifie une cha{\^\i}ne de caract{\`e}res.
+Le filtre \index{grep@\texttt{grep}}<<~{\tt grep}~>> recherche l'expression pr{\'e}cis{\'e}e sur son entr{\'e}e standard et l'affiche sur sa sortie standard. Cette expression ob{\'e}it aux lois des expressions r{\'e}guli{\`e}res {\Unix} (cf. chapitre \ref{reg-exp}). De fa\c{c}on g{\'e}n{\'e}rale, on sp{\'e}cifie une cha{\^\i}ne de caract{\`e}res.
 
 Les options les plus courantes de la commande <<~{\tt grep}~>> sont~:
 \begin{itemize}
@@ -1090,7 +1073,7 @@ fichiers en arguments. S'ils sont pr{\'e}cis{\'e}s sur la ligne de commande,
 \end{example}
 
 %%%%%%%%%%%%
-\subsection{Filtre {\tt wc}}
+\subsection{\texorpdfstring{Filtre {\tt wc}}{Filtre wc}}
 
 \begin{definition}{Syntaxe}
 \begin{verbatim}
@@ -1123,7 +1106,7 @@ des fichiers en arguments. S'ils sont pr{\'e}cis{\'e}s sur la ligne de commande,
 \end{example}
 
 %%%%%%%%%%%%
-\subsection{Filtre {\tt cut}}
+\subsection{\texorpdfstring{Filtre {\tt cut}}{Filtre cut}}
 
 \begin{definition}{Syntaxe}
 {\tt cut -c{\it liste} [fichier...]}\\
