@@ -131,7 +131,7 @@ contexte.
 	\hline
 		\verb,${variable:-chaine},	&
 		Si la variable est initialis{\'e}e et est non vide (diff{\'e}rente de la cha{\^\i}ne
-		vide <<<<~), l'expression renvoie son contenu. Dans le cas contraire,
+		vide <<~>>), l'expression renvoie son contenu. Dans le cas contraire,
 		elle renvoie la cha{\^\i}ne de caract{\`e}res sp{\'e}cifi{\'e}e.	\\
 	\hline
 		\verb,${variable=chaine},	&
@@ -142,7 +142,7 @@ contexte.
 	\hline
 		\verb,${variable:=chaine},	&
 		Si la variable est initialis{\'e}e et est non vide (diff{\'e}rente de la cha{\^\i}ne
-		vide <<>>), l'expression renvoie son contenu. Dans le cas contraire, la
+		vide <<~>>), l'expression renvoie son contenu. Dans le cas contraire, la
 		variable est initialis{\'e}e avec la cha{\^\i}ne sp{\'e}cifi{\'e}e dans l'expression. La
 		valeur finale retourn{\'e}e au shell est le nouveau contenu de la
 		variable (donc la cha{\^\i}ne sp{\'e}cifi{\'e}e dans l'expression).	\\
@@ -154,7 +154,7 @@ contexte.
 	\hline
 		\verb,${variable:?chaine},	&
 		Si la variable est initialis{\'e}e et est non vide (diff{\'e}rente de la cha{\^\i}ne
-		vide <<>>), l'expression renvoie son contenu. Dans le cas contraire, le
+		vide <<~>>), l'expression renvoie son contenu. Dans le cas contraire, le
 		shell affiche un message d'erreur dont la forme est~: <<~{\tt variable:~cha{\^\i}ne}~>>.	\\
 	\hline
 		\verb,${variable+chaine},	&
@@ -163,7 +163,7 @@ contexte.
 	\hline
 		\verb,${variable:+chaine},	&
 		Si la variable est initialis{\'e}e et est non vide (diff{\'e}rente de la cha{\^\i}ne
-		vide <<>>), l'expression renvoie la valeur de la cha{\^\i}ne. Dans le cas
+		vide <<~>>), l'expression renvoie la valeur de la cha{\^\i}ne. Dans le cas
 		contraire, on renvoie une cha{\^\i}ne nulle.	\\
 	\hline
 \end{longtable}
@@ -173,15 +173,15 @@ contexte.
 \begin{verbatim}
 echo ${MY_VAR-"non defini"}
 echo ${HOME_ADM=/home/adm}
-echo ${MY_VAR?"Variable non initialis{\'e}e dans `basename $0`"}
+echo ${MY_VAR?"Variable non initialisee dans `basename $0`"}
 echo ${MY_VAR+"Ca roule, ma poule"}
 \end{verbatim}
 \end{example}
 
 \begin{remarque}
 {\bf Attention}, le contenu de la variable <<~{\tt *}~>> est le r{\'e}sultat
-de l'{\'e}vaulation de la ligne de commande. Par cons{\'e}quent, les espaces ou
-tabulations suppl{\'e}mentaires, d{\'e}limitant les arguments du script seront {\'e}limin{\'e}s.
+de l'{\'e}valuation de la ligne de commande. Par cons{\'e}quent, les espaces ou
+tabulations suppl{\'e}mentaires d{\'e}limitant les arguments du script seront {\'e}limin{\'e}s.
 
 Par cons{\'e}quent, le programme appel{\'e} de la fa\c{c}on suivante sur la ligne de commandes~:
 \begin{sloppypar}
