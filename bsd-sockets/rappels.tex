@@ -1,0 +1,264 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Rappels
+%
+\chapter{\label{rapp}Rappels}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Le mod{\`e}le OSI
+\section{\label{rapp-modele-osi}Le mod{\`e}le OSI}
+
+L'{\sl ISO}\footnote{International Standard Organization} a d{\'e}fini une
+architecture de r{\'e}seau compos{\'e}e de sept couches. Cette architecture fut
+prise comme mod{\`e}le de r{\'e}f{\'e}rence par l'OSI\footnote{Open Systems
+Interconnexion}. Les motivations pour ce mod{\`e}le, il y a de cela quelques
+ann{\'e}es, furent dues {\`a} la volont{\'e} de connecter entre eux diff{\'e}rents
+syst{\`e}mes. Avec ce mod{\`e}le, les d{\'e}veloppeurs peuvent, dans le principe,
+changer ou implanter un nouveau protocole au niveau d'une couche sans
+avoir besoin de modifier les logiciels et les programmes des autres couches.
+
+\begin{figure}[hbtp]
+\begin{center}
+\begin{tabular}{l|c|}
+\cline{2-2}
+Niveau 7	&	Application		\\
+\cline{2-2}
+Niveau 6	&	Pr{\'e}sentation	\\
+\cline{2-2}
+Niveau 5	&	Session		\\
+\cline{2-2}
+Niveau 4	&	Transport		\\
+\cline{2-2}
+Niveau 3	&	R{\'e}seau		\\
+\cline{2-2}
+Niveau 2	&	Liaison		\\
+\cline{2-2}
+Niveau 1	&	Physique		\\
+\cline{2-2}
+\end{tabular}
+\end{center}
+\caption{\label{rapp-fig-modele-OSI}Pr{\'e}sentation du mod{\`e}le OSI}
+\end{figure}
+
+Les diff{\'e}rentes couches peuvent {\^e}tre d{\'e}crites de la fa\c{c}on suivante~:
+
+\begin{description}
+\item[la couche <<~{\sl physique}~>>~:]\mbox{}\\
+Cette couche se charge de transmettre les informations sur le support
+physique du r{\'e}seau, {\`a} travers les diff{\'e}rents canaux de
+communications.
+Les probl{\`e}mes suivants y sont trait{\'e}s~:
+\begin{itemize}
+\item la tension (voltage) repr{\'e}sentant les niveaux logiques
+$0$ ou $1$ correspondant aux {\it bits} {\`a} transmettre,
+\item combien de micro--secondes ($\mu s$) un bit occupe-t'il le
+canal de communication,
+\item etc.
+\end{itemize}
+
+\item[la couche <<~{\sl liaison}~>>~:]\mbox{}\\
+La fonction de cette couche consiste {\`a} assembler les donn{\'e}es
+{\`a} transmettre ou bien celles qui ont {\'e}t{\'e} re\c{c}ues. Elle doit aussi
+s'assurer que les donn{\'e}es arrivent bien {\`a} la couche suivante
+(couche {\sl physique} ou {\sl r{\'e}seau}) sans erreurs. Ceci est 
+effectu{\'e} en d{\'e}coupant les donn{\'e}es en {\it trames}, et en transmettant
+ces derni{\`e}res s{\'e}quentiellement. Le r{\'e}cepteur devra alors envoyer un
+accus{\'e} de reception ({\it acknowledge}) vers la couche {\sl liaison}.
+La formation de ces {\it trames} s'accompagne de bits plac{\'e}s en
+d{\'e}but (ent{\^e}te) et en fin de la s{\'e}quence.
+
+\item[la couche <<~{\sl r{\'e}seau}~>>~:]\mbox{}\\
+La couche {\sl r{\'e}seau} d{\'e}termine comment les {\bf paquets}\footnote{
+terme employ{\'e} pour d{\'e}signer les informations {\'e}chang{\'e}es {\`a} ce niveau.}
+sont {\it rout{\'e}s}, c'est-{\`a}-dire dirig{\'e}s {\`a} travers le r{\'e}seau. La fonction de
+base de cette couche est~:
+\begin{enumerate}
+\item d'accepter les informations,
+\item de les convertir en paquets,
+\item de les transmettre vers leur destination.
+\end{enumerate}
+
+\item[la couche <<~{\sl transport}~>>~:]\mbox{}\\
+La couche <<~{\sl transport}~>>
+\begin{enumerate}
+\item accepte les donn{\'e}es des niveaux sup{\'e}rieurs,
+\item les fragmente si n{\'e}cessaire,
+\item passe les fragments {\`a} la couche {\sl r{\'e}seau},
+\item s'assure éventuellement que tous les fragments sont correctement arriv{\'e}s {\`a} destination.
+\end{enumerate}
+C'est cette couche qui d{\'e}termine quel type de service sera offert
+aux niveaux sup{\'e}rieurs, {\`a} fortiori aux applications et {\`a}
+l'utilisateur. Le type le plus courant de connection au niveau
+du transport est un canal de communication sans erreurs qui 
+d{\'e}livre les messages dans l'ordre dans lequel ils ont {\'e}t{\'e} {\'e}mis.
+Il existe d'autres types de transports, comme ceux ne garantissant
+pas que les donn{\'e}es arrivent jusqu'{\`a} leur destination (le
+m{\'e}canisme mis en jeu est donc moins lourd).
+
+\item[la couche <<~{\sl session}~>>~:]\mbox{}\\
+Une connection entre utilisateurs est appel{\'e} habituellement
+{\bf session}. La couche <<~{\sl session}~>> prend en charge la gestion
+du dialogue entre ordinateurs pendant la dur{\'e}e de la session
+demand{\'e}e par deux utilisateurs. C'est avec cette couche que
+l'utilisateur doit s'interfacer pour pouvoir {\'e}tablir une connexion
+avec un processus sur une autre machine.
+
+\item[la couche <<~{\sl pr{\'e}sentation}~>>]
+La fonctionnalit{\'e} de cette couche est, en g{\'e}n{\'e}ral, implant{\'e} dans
+des biblioth{\`e}ques de fonctions appel{\'e}es par le d{\'e}veloppeur, ou bien
+plac{\'e} directement au niveau du syst{\`e}me d'exploitation.
+La couche <<~{\sl pr{\'e}sentation}~>> permet d'effectuer des transformations
+sur les donn{\'e}es utilisateur, comme par exemple~:
+\begin{itemize}
+\item la compression de donn{\'e}es,
+\item le cryptage,
+\item etc.
+\end{itemize}
+
+\item[la couche <<~{\sl application}~>>~:]\mbox{}\\
+Le contenu de la couche {\sl application} d{\'e}pend de chaque application
+du syst{\`e}me, et des d{\'e}veloppeurs. Lorsque deux programmes
+sur deux machines diff{\'e}rentes veulent {\'e}changer des donn{\'e}es (par
+exemple un {\it internaute} avec un \textit{navigateur} et un serveur \textit{Web}),
+eux seuls d{\'e}terminent l'ensemble des messages autoris{\'e}s qui seront {\'e}chang{\'e}s et les
+actions {\`a} effectuer sur r{\'e}ception d'un message donn{\'e}. On retrouvera
+{\`a} ce niveau les utilitaires/programmes les plus connus du monde {\Unix} et
+ceux d'Internet comme:
+\begin{itemize}
+\item File Transfert Protocol ({\tt ftp(1)}) utilisé pour le transfert de fichiers,
+\item Telnet (\texttt{telnet(1)}), utilisé pour la connexion à un système distant,
+\item Simple Mail Transfert Protocol ({\tt SMTP}) utilis{\'e} pour la messagerie,
+\item HyperText Transfert Protocol ({\tt http}) utilis{\'e} par tous les navigateurs WEB,
+\item etc.
+\end{itemize}
+Nous n'aborderons pas dans la suite de ce document les divers programmes existant {\`a} ce niveau. 
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Les protocoles dans les r{\'e}seaux locaux
+\section[Les protocoles dans les r{\'e}seaux locaux]{Les protocoles
+dans les r{\'e}seaux locaux}
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{1cm}
+\begin{picture}(8,9)
+	\thinlines
+	\put(2.5,0){\framebox(4,1){{\sc Lan} Hardware}}
+	\put(2.5,1.5){\framebox(4,1){{\sc Lan} Software}}
+	\put(2.5,3){\framebox(4,1){IP}}
+	\put(2.5,4.5){\framebox(4,1){TCP/UDP}}
+	\put(2.5,6){\framebox(4,1){{\sl BSD Sockets}}}
+	\put(0,7.5){\framebox(4,1){Services ARPA/Berkeley}}
+	\put(5,7.5){\framebox(4,1){Autres Applications}}
+	\put(4.5,1){\line(0,1){0.5}}
+	\put(4.5,2.5){\line(0,1){0.5}}
+	\put(4.5,4){\line(0,1){0.5}}
+	\put(4.5,5.5){\line(0,1){0.5}}
+	\put(4.5,7){\line(-5,1){2.5}}
+	\put(4.5,7){\line(5,1){2.5}}
+\end{picture}
+
+\caption{\label{rapp-fig-lanosi}Parall{\`e}le avec le mod{\`e}le OSI
+dans les r{\'e}seaux locaux}
+\end{figure}
+
+La figure ~\ref{rapp-fig-lanosi} montre un parall{\`e}le entre le mod{\`e}le OSI
+et l'utilisation des {\sl BSD sockets} {\`a} l'int{\'e}rieur d'un r{\'e}seau local.
+
+\begin{enumerate}
+\item La couche <<~{\sl physique}~>> (ou {\sl niveau 1}) est assimil{\'e}e {\`a} la carte
+r{\'e}seau et le mat{\'e}riel associ{\'e}. On retrouvera la plupart du temps
+des cartes Ethernet, 802.3, Token Ring, Fast Ethernet, etc.
+
+\item La couche <<~{\sl liaison}~>> (ou {\sl niveau 2}) correspond au pilote\footnote{ou {\sl driver}}
+de la carte r{\'e}seau.
+
+\item La couche <<~{\sl r{\'e}seau}~>> (ou {\sl niveau 3}) correspond {\`a} l'implantation du protocole IP,
+responsable d'assurer l'adressage r{\'e}seau de l'ordinateur. IP ne fait ici qu'identifier une machine
+sur le r{\'e}seau local, qui peut {\^e}tre un groupement de r{\'e}seaux locaux plus petits.
+
+\item La couche <<~{\sl transport}~>> (ou {\sl niveau 4}) correspond {\`a}
+l'implantation des protocoles de transport {\bf TCP} ou {\bf UDP}.
+\begin{itemize}
+\item	TCP\footnote{Transmission Control Protocol} prend en charge
+	l'{\'e}tablissement de la connexion entre deux machines IP. Une fois
+	la connexion {\'e}tablie, TCP r{\'e}gularise les flots de donn{\'e}es,
+	les retransmet si une erreur a {\'e}t{\'e} d{\'e}tect{\'e}e, fragmente et r{\'e}assemble
+	les messages, fait un {\it checksum} sur les donn{\'e}es. TCP assure
+	que les donn{\'e}es {\'e}mises d'un n{\oe}ud vers un autre arrivent dans l'ordre et sans erreurs.
+\item	UDP\footnote{User Datagram Protocol} offre un service de
+	{\it datagrammes} qui envoie des messages mais ne garantit pas
+	qu'ils arrivent {\`a} destination sans erreurs. Les m{\'e}canismes mis
+	en jeu par UDP sont beaucoup moins lourds que ceux de TCP. UDP
+	est essentiellement utilis{\'e} par des services qui ont d{\'e}j{\`a} leur
+	propre m{\'e}canisme de contr{\^o}le d'erreurs. UDP est utilis{\'e} par NFS et SNMP entre autre.
+\end{itemize}
+
+\item Les <<~{\sl BSD sockets}~>> au niveau de la couche <<~{\sl session}~>>
+(ou {\sl niveau 5}) permettent de cr{\'e}er des applications distribu{\'e}es 
+transmettant des donn{\'e}es entre processus sur une m{\^e}me machine ou sur des
+ordinateurs reli{\'e}s en r{\'e}seau, et cela sans avoir besoin de conna{\^\i}tre les
+protocoles r{\'e}seaux mis en jeu dans les couches inf{\'e}rieures.
+L'interface de programmation avec les {\sl BSD sockets} consiste en un ensemble
+d'appels syst{\`e}me et d'une librairie de fonctions.
+
+\item Au niveau de la couche <<~{\sl application}~>>, vous retrouverez les
+applications classiques utilisant cette interface de programmation comme~:
+\begin{itemize}
+\item \texttt{rlogin}\footnote{Remote Login: connexion {\`a} distance}
+\item \texttt{rcp}\footnote{Remote Copy: transfert de fichiers}
+\item \texttt{rsh}\footnote{Remote Shell: ex{\'e}cution {\`a} distance}
+\end{itemize}
+\end{enumerate}
+
+%
+% Les protocoles dans les r{\'e}seaux {\'e}tendus
+\section[Les protocoles dans les r{\'e}seaux {\'e}tendus]{Les protocoles
+dans les r{\'e}seaux {\'e}tendus: exemple des r{\'e}seaux X.25}
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(445,300)
+	\thinlines
+	\put(198,10){\framebox(124,30){X.25 hardware}}
+	\put(260,40){\line(0,1){10}}
+	\put(198,50){\framebox(124,30){X.25 Software}}
+	\put(260,80){\line(-5,1){115}}
+	\put(260,80){\line(5,1){115}}
+	\put(83,103){\framebox(124,30){X.25 I/F}}
+	\put(147,133){\line(0,1){10}}
+	\put(83,143){\framebox(124,30){IP}}
+	\put(83,173){\framebox(124,30){TCP/UDP}}
+	\put(147,203){\line(0,1){10}}
+	\put(83,213){\framebox(124,30){BSD Sockets}}
+	\put(147,243){\line(-3,1){75}}
+	\put(147,243){\line(3,1){75}}
+	\put(10,268){\framebox(124,30){Services ARPA/Berkeley}}
+	\put(161,268){\framebox(124,30){Applications utilisateur}}
+	\put(311,103){\framebox(124,30){X.25 niveau 3}}
+	\put(374,133){\line(0,1){80}}
+	\put(311,213){\framebox(124,30){BSD Sockets}}
+	\put(373,243){\line(0,1){25}}
+	\put(311,268){\framebox(124,30){Applications utilisateur}}
+\end{picture}
+\caption{\label{rapp-fig-wanosi}Parall{\`e}le avec le mod{\`e}le OSI et les r{\'e}seaux X.25}
+\end{figure}
+
+La figure ~\ref{rapp-fig-wanosi} montre un parall{\`e}le entre le mod{\`e}le des diff{\'e}rentes
+couches X.25 et l'utilisation des {\sl BSD sockets} au niveau des r{\'e}seaux {\'e}tendus.
+
+Vous pouvez acc{\'e}der {\`a} X.25 en utilisant les niveaux d'acc{\`e}s 3 ou 4.
+L'acc{\`e}s au niveau 4 au dessus de X.25 est utilis{\'e} de la m{\^e}me fa\c{c}on que
+les m{\'e}thodes d'acc{\`e}s au niveau 4 dans les r{\'e}seaux locaux. Cela est mis en
+{\'e}vidence dans la partie gauche de la figure ~\ref{rapp-fig-wanosi}. La machine
+sur le r{\'e}seau {\'e}tendu doit avoir une adresse IP qui sera mise en correspondance
+avec une adresse X.121.
+
+Lorsque l'on acc{\`e}de {\`a} la machine directement au niveau 3 de X.25,
+l'application doit g{\'e}r{\'e} les paquets X.25 ainsi que les paquets de contr{\^o}le
+(comme les paquets de contr{\^o}le {\tt CLEAR} ou {\tt RESET}). D'une certaine fa\c{c}on,
+votre application r{\'e}{\'e}crit le niveau 4 de X.25.

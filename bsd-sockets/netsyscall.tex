@@ -1,0 +1,903 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Les appels syst{\`e}mes associ{\'e}s aux services r{\'e}seau
+%
+\chapter{\label{nsyscall}Les appels syst{\`e}mes associ{\'e}s aux services r{\'e}seau}
+
+Il existe un ensemble de fonctions permettant de faciliter la
+programmation avec les {\sl BSD Sockets}. Tous les appels qui seront
+d{\'e}taill{\'e}s dans ce chapitre seront ceux disponibles sous {\Unix}. Toutefois,
+ils pourront {\^e}tre aussi accessibles sur d'autres
+syst{\`e}mes. De fa\c{c}on g{\'e}n{\'e}rale, toutes les r{\'e}f{\'e}rences qui seront faites
+dans ce chapitre, se baseront sur le syst{\`e}me {\Unix}.
+
+Nous verrons les points suivants:
+\begin{itemize}
+	\item	comment acc{\'e}der aux informations sur les canaux de
+		communication disponibles au niveau d'un processus,
+	\item	les m{\'e}thodes pour obtenir les informations dans les
+		fichiers de configurations, ou bien les diff{\'e}rents services
+		d'annuaires, disponibles sur le syst{\`e}me\footnote{Les systèmes d'annuaires ici représentent,
+		pour la partie qui nous interesse, la liste de correspondance entre nom de machine et adresse IP
+		({\tt /etc/hosts}), nom et num{\'e}ro de r{\'e}seau IP ({\tt /etc/networks}),
+		nom et num{\'e}ro de protocoles ({\tt /etc/protocols}), nom et
+		num{\'e}ro de service r{\'e}seau ({\tt /etc/services}).} ,
+	\item	les fonctions permettant de convertir et de manipuler les adresses r{\'e}seau IP.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Informations sur les canaux de communication}
+
+Pour disposer des information sur des canaux de communication actifs, deux
+appels syst{\`e}mes sont disponibles~:
+\begin{itemize}
+	\item	{\tt getsockname()} permet {\`a} un processus d'obtenir toutes les
+			informations disponibles sur un port de communication,
+	\item	{\tt getpeername()} permet {\`a} un processus d'obtenir les
+informations
+			disponibles sur le port de communication distant, c'est-{\`a}-dire
+			la socket distante li{\'e}e {\`a} la socket locale.
+\end{itemize}
+
+Ces deux appels syst{\`e}mes sont souvent utilis{\'e}s lors de phases de
+mise au point, afin d'{\'e}tablir des diagnostics sur le fonctionnement des communications.
+
+Leurs cract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+int getsockname (sk, &addr, &addrlen);
+int getpeername (sk, &addr, &addrlen);
+
+int             sk,
+                addrlen;
+struct sockaddr addr;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{ll}
+{\tt s}		& Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket()}).	\\
+{\tt addr}	& Structure de d{\'e}finition des caract{\'e}ristiques de la socket.		\\
+{\tt addrlen}	& Taille en octet de la structure de d{\'e}finition.				\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie le descripteur de socket	\\
+	Erreur	& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			  indiquera avec plus de pr{\'e}cision les causes de l'erreur
+\end{tabular}
+\end{quote}
+\end{quote}
+
+Comme pour les appels syst{\`e}mes {\tt connect()}, {\tt bind()} et {\tt accept()}
+(cf. sections \ref{instream-syscall-bind}, \ref{instream-syscall-connect} et \ref{instream-syscall-accept})
+la structure d{\'e}crivant les caract{\'e}ristiques de la socket d{\'e}pend de la famille de protocoles utilis{\'e}e.
+Dans le cas qui nous interresse, nous utilisons le protocole IP, par cons{\'e}quent, le type de la
+structure qui sera renvoy{\'e}e sera {\tt struct sockaddr\_in}.
+L'argument {\tt addrlen} contiendra la taille de la structure ainsi initialis{\'e}e
+\footnote{Le contenu des arguments {\tt addr} et {\tt addrlen} sera modifi{\'e}
+par les deux appels syst{\`e}mes {\tt getsockname()} et {\tt getpeername()}.
+L'allocation m{\'e}moire devra donc {\^e}tre d{\'e}j{\`a} faite avant tout appel.}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{netsyscall-infohost}Informations sur la liste des machines du r{\'e}seau}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Rappel sur le fichier {\tt $/$etc$/$hosts}}
+
+{\`A} la section \ref{protip-etc-hosts}, nous avons vu la structure du
+fichier {\tt /etc/hosts}. Ce fichier permet de faire la liaison entre
+l'adresse IP (adresse r{\'e}seau) d'une machine et un nom. Il existe d'autres
+m{\'e}canismes d'annuaires sur les syst{\`e}mes {\Unix} assurant cette fonctionnalit{\'e}~:
+\begin{itemize}
+	\item	le service NIS\footnote{Network Information Service} de Sun Microsystems,
+	\item	le service DNS\footnote{Domain Name Server} disponible sur d'autres
+		syst{\`e}mes d'exploitation. C'est ce service qui est utilis{\'e} sur le
+		r{\'e}seau Internet.
+\end{itemize}
+
+Quelque soit le syst{\`e}me d'annuaire utilis{\'e}, on retrouvera, pour une adresse
+r{\'e}seau donn{\'e}e, les informations suivantes~:
+\begin{description}
+	\item[l'adresse r{\'e}seau (adresse IP)]\mbox{}\\
+		Cette adresse doit {\^e}tre unique sur l'ensemble du r{\'e}seau consid{\'e}r{\'e}.
+	\item[le nom officiel de la machine]\mbox{}\\
+		Ce nom n'est pas obligatoirement unique. Dans ce cas, seule la premi{\`e}re
+		entr{\'e}e trouv{\'e}e sera prise en compte.
+	\item[les noms secondaires]\mbox{}\\
+		Ces noms correspondent {\`a} la notion d'{\sl aliases} pour une machine
+		donn{\'e}e. Elle pourra donc {\^e}tre appel{\'e}e, soit par son nom officiel, soit par l'un
+		des noms secondaires. Par exemple, un serveur Web peut avoir son 
+		nom officiel et le nom commun{\'e}ment utilis{\'e} sur Internet~:
+		<<~{\tt www}~>>.
+\end{description}
+
+{\bf Exemple~:}
+\begin{quote}
+\begin{verbatim}
+192.0.0.1    bart  ftp
+192.0.0.2    homer www
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{nsyscall-sysc-hosts}Appels syst{\`e}mes et structures associ{\'e}s}
+
+La bibliothèque de fonctions standards r{\'e}seau contient un certain nombre de
+fonctions permettants d'obtenir les informations contenues dans le fichier
+{\tt /etc/hosts} (ou {\'e}quivalent). On aura~:
+\begin{description}
+	\item[{\tt gethostent()}]\mbox{}\\
+		Les appels successifs {\`a} {\tt gethostent()} permettent d'obtenir
+		les entr{\'e}es disponible dans la table de traduction <<~adresse IP $/$ nom de machine~>>.
+	\item[{\tt gethostbyname()}]\mbox{}\\
+		Permet d'effectuer une recherche et d'obtenir les informations
+		de la premi{\`e}re entr{\'e}e en fonction d'un nom officiel pour une machine.
+	\item[{\tt gethostbyaddr()}]\mbox{}\\
+		A la m{\^e}me fonctionnalit{\'e} que la fonction {\tt gethostbyname()}, mais
+		la recherche s'effectue en fonction d'une adresse r{\'e}seau.
+\end{description}
+
+Comme nous l'avons vu, la fonction {\tt gethostent()} va renvoyer les
+informations sur l'entr{\'e}e courante de l'annuaire {\`a} chaque fois qu'elle
+sera appel{\'e}e. Avant de rendre la main, elle pr{\'e}parera le contexte pour que le
+prochain appel donne les informations sur l'entr{\'e}e suivante. Pour cela, il 
+faut donc cr{\'e}er un contexte d'ex{\'e}cution et aussi disposer d'une fonction y
+mettant fin~:
+\begin{description}
+	\item[{\tt sethostent()}]\mbox{}\\
+		Cette fonction initialise le contexte. Elle ouvre le fichier
+		{\tt /etc/hosts} (ou tout autre syst{\`e}me d'annuaire) et positionne
+		le pointeur de lecture au d{\'e}but. Le contexte est pr{\^e}t pour faire
+		des appels successifs avec la fonction {\tt gethostent()}.
+	\item[{\tt endhostent()}]\mbox{}\\
+		Cette fonction ferme le contexte.
+\end{description}
+
+\begin{remarque}
+{\tt gethostbyname()} et {\tt gethostbyaddr()} n'influent pas sur le
+contexte d'ex{\'e}cution positionn{\'e} par {\tt sethostent()} et {\tt endhostent()}.
+Seule la fonction {\tt gethostent()} l'utilisera.
+\end{remarque}
+
+Les fonctions {\tt gethostent()}, {\tt gethostbyname()} et {\tt gethostbyaddr()}
+poss{\`e}dent les caract{\'e}ristiques suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+hp =  gethostent ();
+hp =  gethostbyname (name);
+hp =  gethostbyaddr (sk, addr, addrlen, type);
+
+struct hostent *hp;
+char           *name;
+addr_struct     addr;
+int             addrlen, type;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt hp}		&	Structure de type {\tt hostent} d{\'e}crivant les informations sur
+			la machine correspondant {\`a} l'entr{\'e}e courante du fichier 
+			{\tt /etc/hosts}.	\\
+{\tt name}	&	Chaine de caract{\`e}res contenant le nom de la machine dont
+			on d{\'e}sire obtenir les informations.\\
+{\tt addr}	&	Structure d{\'e}crivant l'adresse recherchée. \\
+{\tt addrlen}	&	Taille en octet de la structure d{\'e}crivant l'adresse r{\'e}seau. \\
+{\tt type}	&	Type d'adresse r{\'e}seau utilis{\'e}e (famille d'adresse).
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie un pointeur sur une structure de type {\tt hostent}.	\\
+	Erreur	& Renvoie le pointeur \verb=NULL=.	\\
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{description}
+	\item[{\tt gethostent()}]\mbox{}\\
+		Cette fonction ne poss{\`e}de pas d'arguments. Elle fonctionne en collaboration
+		avec les fonctions {\tt sethostent()} et {\tt endhostent()}. Elle
+		retourne un pointeur sur une structure de type {\tt hostent}, structure
+		contenant les informations sur une entr{\'e}e du fichier {\tt /etc/hosts}.
+		Cette fonction est souvent utilis{\'e}e pour retourner les informations
+		sur toutes les machines ou seulement une partie contenue dans {\tt /etc/hosts}.
+	\item[{\tt gethostbyname()}]\mbox{}\\
+		Cette fonction poss{\`e}de un argument~: le nom de la machine {\`a} rechercher.
+		Elle retourne un pointeur sur une structure de type {\tt hostent}. Le
+		nom pr{\'e}cis{\'e} en argument peut {\^e}tre le nom officiel de la machine ou bien
+		l'un de ses {\sl aliases} (noms secondaires). Lorsque le syst{\`e}me
+		supporte le {\sl multi-homing}, il est possible d'avoir correspondance entre un seul nom et plusieurs
+		adresses r{\'e}seau. Dans ce cas, {\tt gethostbyname()} renverra la premi{\`e}re
+		entr{\'e}e associ{\'e} au nom de machine pass{\'e} en argument qu'il trouvera.
+	\item[{\tt gethostbyaddr()}]\mbox{}\\
+		Cette fonction poss{\`e}de trois arguments,
+		\begin{itemize}
+			\item	{\tt addr}, une structure d{\'e}crivant l'adresse {\`a} rechercher.
+				Le type de cette structure d{\'e}pendra de l'adresse r{\'e}seau
+				utilis{\'e}e. Evidemment, on utilisera usuellement les adresses
+				IP, donc une structure du type {\tt inaddr}. Il sera toutefois
+				possible de faire une recherche sur des adresses AppleTalk,
+				DECnet, SNA, etc.
+			\item	{\tt addrlen} sp{\'e}cifie la taille en octet de la structure
+				permettant de pr{\'e}ciser l'adresse r{\'e}seau recherch{\'e}e.
+			\item	{\tt type} permet de pr{\'e}ciser quel est le type d'adresse
+				r{\'e}seau sp{\'e}cifi{\'e} en argument. Pour
+				cela, on utilisera les m{\^e}mes constantes que pour l'appel
+				syst{\`e}me <<~{\tt socket()}~>>. Par cons{\'e}quent, pour les adresses
+				IP, on sp{\'e}cifiera <<~{\tt AF\_INET}~>>.
+		\end{itemize}
+		Quelque soit la famille d'adresses utilis{\'e}e, une adresse r{\'e}seau ne pourra
+		correspondre qu'{\`a} une et une seule machine. Il n'y aura donc aucun probl{\`e}me
+		d'ambigu{\"\i}t{\'e}.
+\end{description}
+
+\begin{remarque}
+Avec la notion de grappes de machines (cluster), une adresse peut référencer une groupement de machines
+physiques. Dans ce cas, l'adresse référence la machine logique ainsi constituée. Une machine de la grappe
+dispose donc de deux adresses~:
+\begin{itemize}
+	\item	celle la référençant en tant que tel,
+	\item	celle la référençant en tant que membre du groupement de machines.
+\end{itemize}
+
+Sans aller chercher aussi loin, une machine peut disposer de plusieurs adresses tout simplement si
+elle dispose de plusieurs cartes ou point d'accès au réseau.
+\end{remarque}
+
+La structure {\tt hostent} est compos{\'e}e des champs suivants~:\\
+\begin{tabular}{lp{8cm}}
+	{\tt h\_name}		&	nom officiel de la machine (chaine de caract{\`e}res).\\[1.5ex]
+	{\tt h\_aliases}		&	un tableau de chaines de caract{\`e}res contenant la liste
+					des noms secondaires de la machine. Le dernier {\'e}l{\'e}ment
+					du tableau correspond au pointeur \verb=NULL=.\\[1.5ex]
+	{\tt h\_addrtype}	&	type de l'adresse r{\'e}seau renvoy{\'e}e. Pour les adresses
+					IP, ce champ contient la constante <<~{\tt AF\_INET}~>>.\\[1.5ex]
+	{\tt h\_length}		&	longueur, en octet, de l'adresse renvoy{\'e}e.\\[1.5ex]
+	{\tt h\_addr\_list}	&	pointeur sur une zone m{\'e}moire contenant les adresses
+					r{\'e}seau de la machine, le dernier élément du tableau correspondra au
+					pointeur NULL (\texttt{h\_addr\_list[\textit{last}] == NULL}).\\
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{nsyscall-infnet}Informations sur la liste des r{\'e}seaux}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Rappel sur le fichier {\tt $/$etc$/$networks}}
+
+{\`A} la section \ref{protip-etc-network}, nous avons vu la structure du
+fichier {\tt /etc/networks}. Ce fichier permet de faire la liaison entre
+un num{\'e}ro de r{\'e}seau IP et un nom. Il existe d'autres
+m{\'e}canismes d'annuaires sur les syst{\`e}mes {\Unix} assurant cette
+fonctionnalit{\'e}~: le service NIS de Sun Microsystems.
+
+Quelque soit le syst{\`e}me d'annuaire utilis{\'e}, on retrouvera, pour un num{\'e}ro
+de r{\'e}seau donn{\'e}, les informations suivantes~:
+\begin{description}
+	\item[le nom officiel du r{\'e}seau]\mbox{}\\
+		Ce nom n'est pas obligatoirement unique. Dans ce cas, seule la premi{\`e}re
+		entr{\'e}e trouv{\'e}e sera prise en compte.
+	\item[le num{\'e}ro de r{\'e}seau]\mbox{}\\
+		Ce num{\'e}ro doit {\^e}tre unique sur l'ensemble du r{\'e}seau consid{\'e}r{\'e}.
+	\item[les noms secondaires]\mbox{}\\
+		Ces noms correspondent {\`a} la notion d'{\sl aliases} pour un r{\'e}seau
+		donn{\'e}, c'est-{\`a}-dire qu'un r{\'e}seau dispose de plusieurs noms.
+\end{description}
+
+{\bf Exemple~:}
+\begin{quote}
+\begin{verbatim}
+192.155.2   mon-reseau
+144.2       reseau-B
+193.1.2	    autre-reseau
+13          reseau-A
+\end{verbatim}
+\end{quote}
+
+Pour plus de pr{\'e}cisions sur la notation {\`a} utiliser sur lesnum{\'e}ros de r{\'e}seaux
+avec les adresses IP, reportez vous {\`a} la section \ref{protip-defIP}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Appels syst{\`e}mes et structures associ{\'e}s}
+
+La bibliothèque de fonctions standards r{\'e}seau contient un certain nombre de
+fonctions permettants d'obtenir les informations contenues dans le fichier
+{\tt /etc/networks} (ou {\'e}quivalent). On aura~:
+\begin{description}
+	\item[{\tt getnetent()}]\mbox{}\\
+		Les appels successifs {\`a} {\tt getnetent()} permettent d'obtenir
+		les entr{\'e}es disponible dans la table de traduction <<~r{\'e}seau IP $/$ nom de r{\'e}seau~>>.
+	\item[{\tt getnetbyname()}]\mbox{}\\
+		Permet d'effectuer une recherche et d'obtenir les informations
+		de la premi{\`e}re entr{\'e}e en fonction d'un nom officiel pour un r{\'e}seau.
+	\item[{\tt getnetbyaddr()}]\mbox{}\\
+		A la m{\^e}me fonctionnalit{\'e} que la fonction {\tt getnetbyname()}, mais
+		la recherche s'effectue en fonction d'un num{\'e}ro de r{\'e}seau.
+\end{description}
+
+La fonction {\tt getnetent()} fonctionne de la m{\^e}me fa\c{c}on que la
+fonction {\tt gethostent()}, c'est-{\`a}-dire qu'elle renverra les
+informations sur l'entr{\'e}e courante de l'annuaire {\`a} chaque fois qu'elle
+sera appel{\'e}e. Avant de rendre la main, elle pr{\'e}parera le contexte pour que le
+prochain appel donne les informations sur l'entr{\'e}e suivante.Les fonctions permettant
+de cr{\'e}er le contexte d'ex{\'e}cution sont~:
+\begin{description}
+	\item[{\tt setnetent()}]\mbox{}\\
+		Cette fonction initialise le contexte. Elle ouvre le fichier
+		{\tt /etc/networks} (ou tout autre syst{\`e}me d'annuaire) et positionne
+		le pointeur de lecture au d{\'e}but. Le contexte est pr{\^e}t pour faire
+		des appels successifs avec la fonction {\tt getnetent()}.
+	\item[{\tt endnetent()}]\mbox{}\\
+		Cette fonction ferme le contexte.
+\end{description}
+
+\begin{remarque}
+De la m{\^e}me fa\c{c}on, {\tt getnetbyname()} et {\tt getnetbyaddr()} n'influent pas sur le
+contexte d'ex{\'e}cution positionn{\'e} par {\tt setnetent()} et {\tt endnetent()}.
+Seule la fonction {\tt getnetent()} l'utilisera.
+\end{remarque}
+
+Les fonctions {\tt getnetent()}, {\tt getnetbyname()} et {\tt getnetbyaddr()}
+poss{\`e}dent les caract{\'e}ristiques suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+np =  getnetent ();
+np =  getnetnyname (name);
+np =  getnetbyaddr (addr, addrlen, type);
+
+struct netent *np;
+char          *name;
+addr_struct    addr;
+int            addrlen, type;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt np}		&	Structure de type {\tt netent} d{\'e}crivant les informations sur
+			le r{\'e}seau correspondant {\`a} l'entr{\'e}e courante du fichier 
+			{\tt /etc/networks}.	\\
+{\tt name}	&	Chaine de caract{\`e}res contenant le nom du r{\'e}seau dont
+			on d{\'e}sire obtenir les informations.\\
+{\tt addr}	&	Structure d{\'e}crivant le num{\'e}ro de r{\'e}seau {\`a} rechercher. \\
+{\tt addrlen}	&	Taille en octet de la structure d{\'e}crivant l'adresse r{\'e}seau. \\
+{\tt type}	&	Type d'adresse r{\'e}seau utilis{\'e}e (famille d'adresse).
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie un pointeur sur une structure de type {\tt netent}.	\\
+	Erreur	& Renvoie le pointeur \verb=NULL=.	\\
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{description}
+	\item[{\tt getnetent()}]\mbox{}\\
+		Cette fonction ne poss{\`e}de pas d'arguments. Elle fonctionne en collaboration
+		avec les fonctions {\tt setnetent()} et {\tt endnetent()}. Elle
+		retourne un pointeur sur une structure de type {\tt netent}, structure
+		contenant les informations sur une entr{\'e}e du fichier {\tt /etc/networks}.
+		Cette fonction est souvent utilis{\'e}e pour retourner les informations
+		sur tous les r{\'e}seaux ou seulement une partie contenue dans {\tt /etc/networks}.
+	\item[{\tt getnetbyname()}]\mbox{}\\
+		Cette fonction poss{\`e}de un argument~: le nom du r{\'e}seau {\`a} rechercher.
+		Elle retourne un pointeur sur une structure de type {\tt netent}. Le
+		nom pr{\'e}cis{\'e} en argument peut {\^e}tre le nom officiel du r{\'e}seau ou bien
+		l'un de ses {\sl aliases} (ou noms secondaires). Comme pour le fichier
+		{\tt /etc/hosts}, il est possible d'affecter un m{\^e}me nom {\`a} plusieurs
+		r{\'e}seaux distincts~: c'est le {\sl multi-homing}. Dans ce cas,
+		{\tt getnetbyname()} renverra la premi{\`e}re
+		entr{\'e}e associ{\'e} au nom de r{\'e}seau pass{\'e} en argument qu'il trouvera.
+	\item[{\tt getnetbyaddr()}]\mbox{}\\
+		Cette fonction poss{\`e}de trois arguments,
+		\begin{itemize}
+			\item	{\tt addr}, une structure d{\'e}crivant le num{\'e}ro de r{\'e}seau
+				{\`a} rechercher. Le type de cette structure d{\'e}pendra de
+				l'adresse r{\'e}seau utilis{\'e}e. Evidemment, on utilisera usuellement
+				les adresses IP, donc une structure du type {\tt inaddr}. Il
+				sera toutefois possible de faire une recherche sur des adresses
+				AppleTalk, DECnet, SNA, etc.
+			\item	{\tt addrlen} sp{\'e}cifie la taille en octet de la structure
+				permettant de pr{\'e}ciser le num{\'e}ro de r{\'e}seau recherch{\'e}.
+			\item	{\tt type} permet de pr{\'e}ciser quel est le type d'adresse
+				r{\'e}seau sp{\'e}cifi{\'e} en argument. Pour
+				cela, on utilisera les m{\^e}mes constantes que pour l'appel
+				syst{\`e}me <<~{\tt socket()}~>>. Par cons{\'e}quent, pour les adresses
+				IP, on sp{\'e}cifiera <<~{\tt AF\_INET}~>>.
+		\end{itemize}
+\end{description}
+
+La structure {\tt netent} est compos{\'e}e des champs suivants~:\\
+\begin{tabular}{lp{8cm}}
+	{\tt n\_name}		&	nom officiel du r{\'e}seau (chaine de caract{\`e}res).\\[1.5ex]
+	{\tt n\_aliases}		&	un tableau de chaines de caract{\`e}res contenant la liste
+					des noms secondaires du r{\'e}seau. Le dernier {\'e}l{\'e}ment
+					du tableau correspond au pointeur \verb=NULL=.\\[1.5ex]
+	{\tt n\_addrtype}	&	type de l'adresse r{\'e}seau renvoy{\'e}e. Pour les adresses
+					IP, ce champ contient la constante <<~{\tt AF\_INET}~>>.\\[1.5ex]
+	{\tt n\_addr}		&	pointeur sur une zone m{\'e}moire contenant le num{\'e}ro du
+					r{\'e}seau.\\
+\end{tabular}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{nsyscall-infprot}Informations sur la liste des protocoles disponibles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Rappel sur le fichier {\tt $/$etc$/$protocols}}
+
+{\`A} la section \ref{protip-etc-protocols}, nous avons vu la structure du
+fichier {\tt /etc/protocols}. Ce fichier permet de faire la liaison entre
+un num{\'e}ro de protocole r{\'e}seau et un nom. Il existe d'autres
+m{\'e}canismes d'annuaires sur les syst{\`e}mes {\Unix} assurant cette
+fonctionnalit{\'e}~: le service NIS de Sun Microsystems.
+
+Quelque soit le syst{\`e}me d'annuaire utilis{\'e}, on retrouvera, pour un num{\'e}ro
+de r{\'e}seau donn{\'e}, les informations suivantes~:
+\begin{itemize}
+	\item	le nom officiel du protocole,
+	\item	le num{\'e}ro de protocole,
+	\item	les {\'e}ventuels noms secondaires.
+\end{itemize}
+
+{\bf Exemple~:}
+\begin{quote}
+\begin{verbatim}
+ip      0   IP
+icmp    1   ICMP
+igmp    2   IGMP
+ggp     3   GGP
+tcp     6   TCP
+udp     17  UDP
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Appels syst{\`e}mes et structures associ{\'e}s}
+
+La bibliothèque de fonctions standards r{\'e}seau contient un certain nombre de
+fonctions permettants d'obtenir les informations contenues dans le fichier
+{\tt /etc/protocols} (ou {\'e}quivalent). On aura~:
+\begin{description}
+	\item[{\tt getprotoent()}]\mbox{}\\
+		Les appels successifs {\`a} {\tt getprotoent()} permettent d'obtenir
+		les entr{\'e}es disponible dans la table de traduction <<~num{\'e}ro de
+		protocole $/$ nom de r{\'e}seau~>>.
+	\item[{\tt getprotobyname()}]\mbox{}\\
+		Permet d'effectuer une recherche et d'obtenir les informations
+		de la premi{\`e}re entr{\'e}e en fonction d'un nom officiel pour un protocole.
+	\item[{\tt getprotobynumber()}]\mbox{}\\
+		A la m{\^e}me fonctionnalit{\'e} que la fonction {\tt getprotobyname()}, mais
+		la recherche s'effectue en fonction d'un num{\'e}ro de protocole.
+\end{description}
+
+La fonction {\tt getprotoent()} fonctionne de la m{\^e}me fa\c{c}on que les
+fonctions {\tt gethostent()} et {\tt getnetent()}, c'est-{\`a}-dire qu'elle renverra
+les informations sur l'entr{\'e}e courante de l'annuaire {\`a} chaque fois qu'elle
+sera appel{\'e}e. Avant de rendre la main, elle pr{\'e}parera le contexte pour que le
+prochain appel donne les informations sur l'entr{\'e}e suivante.Les fonctions permettant
+de cr{\'e}er le contexte d'ex{\'e}cution sont~:
+\begin{description}
+	\item[{\tt setprotoent()}]\mbox{}\\
+		Cette fonction initialise le contexte. Elle ouvre le fichier
+		{\tt /etc/protocols} (ou tout autre syst{\`e}me d'annuaire) et positionne
+		le pointeur de lecture au d{\'e}but. Le contexte est pr{\^e}t pour faire
+		des appels successifs avec la fonction {\tt getprotoent()}.
+	\item[{\tt endprotoent()}]\mbox{}\\
+		Cette fonction ferme le contexte.
+\end{description}
+
+\begin{remarque}
+	De la m{\^e}me fa\c{c}on, {\tt getprotobyname()} et {\tt getprotobynumber()}
+	n'influent pas sur le contexte d'ex{\'e}cution positionn{\'e} par {\tt 	setprotoent()} et {\tt endprotoent()}.
+	Seule la fonction {\tt getprotoent()} l'utilisera.
+\end{remarque}
+
+Les fonctions {\tt getprotoent()}, {\tt getprotobyname()} et {\tt getprotobynumber()}
+poss{\`e}dent les caract{\'e}ristiques suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+pp =  getprotoent ();
+pp =  getprotonyname (name);
+pp =  getprotobyaddr (number);
+
+struct protoent *pp;
+char            *name;
+int              number;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt pp}		&	Structure de type {\tt protoent} d{\'e}crivant les informations sur
+			le r{\'e}seau correspondant {\`a} l'entr{\'e}e courante du fichier 
+			{\tt /etc/protocols}.	\\
+{\tt name}	&	Chaine de caract{\`e}res contenant le nom du protocole dont
+			on d{\'e}sire obtenir les informations.\\
+{\tt number}	& 	Entier contenant le num{\'e}ro du protocole dont
+			on d{\'e}sire obtenir les informations.\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie un pointeur sur une structure de type {\tt protoent}.	\\
+	Erreur	& Renvoie le pointeur \verb=NULL=.\\
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{description}
+	\item[{\tt getprotoent()}]\mbox{}\\
+		Cette fonction ne poss{\`e}de pas d'arguments. Elle fonctionne en collaboration
+		avec les fonctions {\tt setprotoent()} et {\tt endprotoent()}. Elle retourne un pointeur sur une
+		structure de type {\tt protoent}, structure
+		contenant les informations sur une entr{\'e}e du fichier {\tt /etc/protocols}.
+	\item[{\tt getprotobyname()}]\mbox{}\\
+		Cette fonction poss{\`e}de un argument~: le nom du protocole {\`a} rechercher.
+		Elle retourne un pointeur sur une structure de type {\tt protoent}.
+	\item[{\tt getprotobynumber()}]\mbox{}\\
+		Cette fonction poss{\`e}de un argument~: le num{\'e}ro du protocole {\`a} rechercher.
+		Elle retourne un pointeur sur une structure de type {\tt protoent}.
+\end{description}
+
+La structure {\tt protoent} est compos{\'e}e des champs suivants~:\\
+\begin{tabular}{lp{8cm}}
+	{\tt p\_name}		&	nom officiel du r{\'e}seau (chaine de caract{\`e}res).\\[1.5ex]
+	{\tt p\_aliases}		&	un tableau de chaines de caract{\`e}res contenant la liste
+					des noms secondaires du protocole. Le dernier {\'e}l{\'e}ment
+					du tableau correspond au pointeur \verb=NULL=.\\[1.5ex]
+	{\tt n\_proto}		&	le num{\'e}ro du protocole.\\
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{nsyscall-infosvc}Informations sur la liste des services r{\'e}seau disponibles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Rappel sur le fichier {\tt $/$etc$/$services}}
+
+{\`A} la section \ref{protip-etc-services}, nous avons vu la structure
+du fichier {\tt /etc/services}. Le fichier {\tt $/$etc$/$services} sert
+{\`a} assurer cette correspondance entre num{\'e}ro de socket et nom de
+service.
+Il existe d'autres m{\'e}canismes d'annuaires sur les syst{\`e}mes {\Unix}
+assurant cette fonctionnalit{\'e}~: le service NIS de Sun Microsystems.
+
+Quelque soit le syst{\`e}me d'annuaire utilis{\'e}, on retrouvera, pour un num{\'e}ro
+de r{\'e}seau donn{\'e}, les informations suivantes~:
+\begin{itemize}
+	\item	le nom officiel du service,
+	\item	le num{\'e}ro de port,
+	\item	le protocole de transport {\`a} utiliser,
+	\item	les {\'e}ventuels noms secondaires.
+\end{itemize}
+
+{\bf Exemple~:}
+\begin{quote}
+\begin{verbatim}
+ftp		21/tcp
+telnet	23/tcp
+http	80/tcp
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{nsyscall-sysc-svcs}Appels syst{\`e}mes et structures associ{\'e}s}
+
+La bibliothèque de fonctions standards r{\'e}seau contient un certain nombre de
+fonctions permettants d'obtenir les informations contenues dans le fichier
+{\tt /etc/services} (ou {\'e}quivalent). On aura~:
+\begin{description}
+	\item[{\tt getservent()}]\mbox{}\\
+		Les appels successifs {\`a} {\tt getservent()} permettent d'obtenir
+		les entr{\'e}es disponible dans la table de traduction <<~nom de
+		service $/$ num{\'e}ro de port $/$ protocole de transport~>>.
+	\item[{\tt getservbyname()}]\mbox{}\\
+		Permet d'effectuer une recherche et d'obtenir les informations
+		de la premi{\`e}re entr{\'e}e en fonction d'un nom officiel pour un service donn{\'e}.
+	\item[{\tt getservbynumber()}]\mbox{}\\
+		A la m{\^e}me fonctionnalit{\'e} que la fonction {\tt getservbyname()}, mais
+		la recherche s'effectue en fonction d'un num{\'e}ro de port.
+\end{description}
+
+La fonction {\tt getservent()} fonctionne de la m{\^e}me fa\c{c}on que les
+fonctions {\tt gethostent()} et {\tt getnetent()}, c'est-{\`a}-dire qu'elle renverra
+les informations sur l'entr{\'e}e courante de l'annuaire {\`a} chaque fois qu'elle
+sera appel{\'e}e. Avant de rendre la main, elle pr{\'e}parera le contexte pour que le
+prochain appel donne les informations sur l'entr{\'e}e suivante.Les fonctions permettant
+de cr{\'e}er le contexte d'ex{\'e}cution sont~:
+\begin{description}
+	\item[{\tt setservent()}]\mbox{}\\
+		Cette fonction initialise le contexte. Elle ouvre le fichier
+		{\tt /etc/services} (ou tout autre syst{\`e}me d'annuaire) et positionne
+		le pointeur de lecture au d{\'e}but. Le contexte est pr{\^e}t pour faire
+		des appels successifs avec la fonction {\tt getservent()}.
+	\item[{\tt endservent()}]\mbox{}\\
+		Cette fonction ferme le contexte.
+\end{description}
+
+\begin{remarque}
+De la m{\^e}me fa\c{c}on, {\tt getservbyname()} et {\tt getservbynumber()} n'influent pas
+sur le contexte d'ex{\'e}cution positionn{\'e} par {\tt setservent()} et {\tt endservent()}.
+Seule la fonction {\tt getservent()} l'utilisera.
+\end{remarque}
+
+Les fonctions {\tt getservent()}, {\tt getservbyname()} et {\tt getservbynumber()}
+poss{\`e}dent les caract{\'e}ristiques suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+pp =  getservent ();
+pp =  getservnyname (name, proto);
+pp =  getservbyaddr (port, proto);
+
+struct servent *sp;
+char           *name;
+char           *proto;
+int             port;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt sp}		&	Structure de type {\tt servent} d{\'e}crivant les informations sur
+			le service correspondant {\`a} l'entr{\'e}e courante du fichier  {\tt /etc/services}.	\\
+{\tt name}	&	Chaine de caract{\`e}res contenant le nom du service dont on d{\'e}sire obtenir les informations.\\
+{\tt proto}	&	Chaine de caract{\`e}res contenant le nom du protocole de
+			transport associ{\'e} au service dont on d{\'e}sire obtenir les
+			informations.\\
+{\tt port}	&	Entier contenant le num{\'e}ro du service dont on d{\'e}sire obtenir les informations.
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie un pointeur sur une structure de type {\tt servent}.	\\
+	Erreur	& Renvoie le pointeur \verb=NULL=.\\
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{description}
+	\item[{\tt getservent()}]\mbox{}\\
+		Cette fonction ne poss{\`e}de pas d'arguments. Elle fonctionne en collaboration
+		avec les fonctions {\tt setservent()} et {\tt endservent()}. Elle retourne un pointeur
+		sur une structure de type {\tt servent}, structure
+		contenant les informations sur une entr{\'e}e du fichier {\tt /etc/services}.
+	\item[{\tt getservbyname()}]\mbox{}\\
+		Cette fonction poss{\`e}de deux arguments~:
+		\begin{itemize}
+			\item le nom du service {\`a} rechercher,
+			\item le nom du protocole de transport associ{\'e}.
+		\end{itemize}
+		Elle retourne un pointeur sur une structure de type {\tt servent}.
+	\item[{\tt getservbynumber()}]\mbox{}\\
+		Cette fonction poss{\`e}de deux arguments~:
+		\begin{itemize}
+			\item le num{\'e}ro du service {\`a} rechercher,
+			\item le nom du protocole de transport associ{\'e}.
+		\end{itemize}
+		Elle retourne un pointeur sur une structure de type {\tt servent}.
+\end{description}
+
+La structure {\tt netent} est compos{\'e}e des champs suivants~:\\
+\begin{tabular}{lp{8cm}}
+	{\tt s\_name}		&	nom officiel du r{\'e}seau (chaine de caract{\`e}res).\\[1.5ex]
+	{\tt s\_aliases}		&	un tableau de chaines de caract{\`e}res contenant la liste
+					des noms secondaires du protocole. Le dernier {\'e}l{\'e}ment
+					du tableau correspond au pointeur \verb=NULL=.\\[1.5ex]
+	{\tt s\_port}		&	le num{\'e}ro du service.\\[1.5ex]
+	{\tt s\_proto}		&	le nom du protocole de transport utilis{\'e}.\\
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{nsyscall-manipaddr}Manipulation des adresses IP}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Conversions de notation}
+
+Dans beaucoup de fonctions ou d'appels syst{\`e}mes, les adresses ou bien les
+r{\'e}seaux IP doivent {\^e}tre repr{\'e}sent{\'e}s sous forme
+num{\'e}rique. Par contre, la représentation usuelle, pour plus de lisibilit{\'e}, est sous forme d'une chaine
+de caract{\`e}res donnant la valeur décimale des quatre octets la composant.
+
+De m{\^e}me, il est parfois n{\'e}cessaire de diviser l'adresse IP d'une machine en deux parties~:
+\begin{itemize}
+	\item	le num{\'e}ro de r{\'e}seau,
+	\item	le num{\'e}ro de machine dans le r{\'e}seau.
+\end{itemize}
+On pourra aussi {\^e}tre amen{\'e} {\`a} effectuer l'op{\'e}ration inverse.
+
+Il existe un ensemble de fonctions permettant d'effectuer les
+conversions r{\'e}pondant {\`a} la majeure partie des besoins. Ces derni{\`e}res ne
+s'appliqueront {\bf uniquement qu'aux adresses IP}. Elles utiliseront donc
+la structure {\tt in\_addr} d{\'e}finie dans le fichier <<~{\tt netinet/in.h}~>>.
+
+On trouvera~:\\
+\begin{tabular}{lp{8cm}}
+
+	{\tt inet\_addr(cp)}	&
+	Convertit une adresse IP sous sa forme d{\'e}cimale, contenue dans une chaine
+	de caract{\`e}res, en un entier long non sign{\'e} (repr{\'e}sentation num{\'e}rique de
+	l'adresse IP) \\[1.5ex]
+
+	{\tt inet\_ntoa(in)}	&
+	Convertit une adresse IP sous sa forme num{\'e}rique (entier long non sign{\'e})
+	en une chaine de caract{\`e}res la donnant sous sa forme d{\'e}cimale. \\[1.5ex]
+	
+	{\tt inet\_lnaof(in)}	&
+	Renvoie la partie <<~num{\'e}ro de machine~>> {\`a} partir d'une adresse IP
+	fournie sous sa forme num{\'e}rique (entier long non sign{\'e}) ou bien disponible
+	via la structure {\tt in\_addr}.\\[1.5ex]
+	
+	{\tt inet\_netof(in)}	&
+	Renvoie la partie <<~num{\'e}ro de r{\'e}seau~>> {\`a} partir d'une adresse IP
+	fournie sous sa forme num{\'e}rique (entier long non sign{\'e}) ou bien disponible
+	via la structure {\tt in\_addr}.\\[1.5ex]
+	
+	{\tt inet\_makeaddr(net,lna)} &
+	Permet de construire une adresse IP sous forme de chaine de caract{\`e}res
+	en notation d{\'e}cimale {\`a} partir d'un num{\'e}ro de r{\'e}seau et d'un num{\'e}ro de machine
+	contenus dans deux variables num{\'e}riques.\\[1.5ex]
+	
+	{\tt inet\_network(cp)} 	&
+	Convertit l'adresse d'un réseau sous sa forme d{\'e}cimale contenu dans
+	une chaine de caract{\`e}res, en un entier long non sign{\'e}. Cette adresse sera
+	prise tel-quel. Au cas o{\`u} elle ne serait pas compl{\`e}te, seules les {\sl octets}
+	sp{\'e}cifi{\'e}s seront convertis.\\
+\end{tabular}
+
+La structure {\tt in\_addr} correspond {\`a} un type {\tt union}, c'est-{\`a}-dire
+que tous les champs sp{\'e}cifi{\'e}s dans sa d{\'e}finition recouvrent la m{\^e}me zone m{\'e}moire.
+Le champ qui nous interressera le plus sera <<~{\tt s\_addr}~>>, correspondant {\`a} un 
+entier long non sign{\'e} sur 32 bits. Il correspond donc {\`a} une adresse IP sous sa
+forme num{\'e}rique. Pour plus de renseignements, reportez-vous au fichier
+<<~{\tt /usr/include/netinet/in.h}~>> sur les syst{\`e}mes {\Unix}.
+
+{\bf Exemples~:}
+\begin{quote}
+Les variables d{\'e}limit{\'e}es par <<~"~>> correspondent {\`a} des chaines de caract{\`e}res.
+Les variables non d{\'e}limit{\'e}es correspondent {\`a} des variables num{\'e}riques.
+
+Dans les exemples qui vont suivre, nous allons utiliser <<~{\tt input}~>> et
+<<~{\tt output}~>> pour d{\'e}signer deux variables locales, dont le type d{\'e}pendra
+de l'appel. Les colonnes <<~{\sl Entr{\'e}e}~>> et <<~{\sl Sortie}~>> indiqueront
+leur contenu. Le contenu de la variable {\tt input} indiquera ce qui sera
+pass{\'e} en argument {\`a} la fonction. Le contenu de la variable {\tt output} indiquera
+le r{\'e}sultat obtenu apr{\`e}s appel.
+
+La plupart des variables num{\'e}riques dans les exemples seront not{\'e}es en hexad{\'e}cimal
+(chiffres pr{\'e}c{\'e}d{\'e}s de <<~0x~>>). On pourra ainsi voir la r{\'e}partition des nombres
+au niveau des octets.
+
+\begin{remarque}
+Un entier long non sign{\'e} est cod{\'e} sur 32 bits. Par cons{\'e}quent, la notation d'un
+tel nombre en hexad{\'e}cimal sera repr{\'e}sent{\'e}e par 8 chiffres.
+\end{remarque}
+\end{quote}
+
+\begin{tabular}{|l|l|l|l|}
+	\hline
+	Fonction & Entr{\'e}e & Sortie & Exemple d'appel \\
+	\hline \hline
+	{\tt inet\_addr} 						&
+		"127.0.0.6"					&
+		0x7F000006					&
+		{\tt output = inet\_addr(input)} 			\\
+	\hline
+	{\tt inet\_ntoa}						&
+		0x7F000006					&
+		"127.0.0.6"					&
+		{\tt output = inet\_nota(input)} 			\\
+								&
+		2130706438					&
+		"127.0.0.6"					&
+								\\
+	\hline
+	{\tt inet\_lnaof}						&
+		"192.254.1.5"					&
+		0x00000005					&
+		{\tt output = inet\_lnoaf(input)} 		\\
+								&
+		"126.1.10.6"					&
+		0x00010A06					&
+								\\
+								&
+		"138.21.17.2"					&
+		0x00001F02					&
+								\\
+	\hline
+	{\tt inet\_netof}						&
+		"127.0.0.6"					&
+		0x0000007F					&
+		{\tt in.s\_addr = inet\_addr(input)} 		\\
+								&
+		"192.0.5.45"					&
+		0x00C00005					&
+		{\tt output = inet\_netof(in)} 			\\
+								&
+		"138.21.3.12"					&
+		0x00008C15					&
+								\\
+	\hline
+	{\tt inet\_makeaddr}					&
+		127, 6						&
+		"127.0.0.6"					&
+		{\tt output = inet\_makeaddr(net, host)}	\\
+								&
+		35349, 274					&
+		"138.21.17.2"					&
+								\\
+								&
+		802821, 45					&
+		"192.0.5.45"					&
+								\\
+	\hline
+	{\tt inet\_network}					&
+		"127.0.6"					&
+		0x007F0006					&
+		{\tt output = inet\_network(input)} 		\\
+								&
+		"138.21.17"					&
+		0x008C1511					&
+								\\
+								&
+		"192.0.5.45"					&
+		0xC000052D					&
+								\\
+	\hline
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Conversion de type}
+
+Dans le cas de sites h{\'e}t{\'e}rog{\`e}nes, il est possible que l'on puisse rencontrer quelques
+difficult{\'e}s avec la fa\c{c}on dont le syst{\`e}me repr{\'e}sente les donn{\'e}es en m{\'e}moire.
+Par exemple, certains systèmes propriétaires inversent les octets 
+de poid fort et de poid faibles. Sur d'autres syst{\`e}mes, aucune inversion n'est faite. La repr{\'e}sentation
+d'entiers long peut donc changer.
+
+Il est donc possible de rencontrer des probl{\`e}mes de protabilit{\'e}s d{\`e}s que l'on utilise
+des donn{\'e}es sur 16 et 32 bits.
+
+Pour {\'e}viter des probl{\`e}mes de protabilit{\'e}, il existe des {\sl macros} du langage C
+assurant ce type de conversion. Dans le cas o{\`u} le syst{\`e}me proc{\`e}derait {\`a} une inversion,
+celles-ci remettraient les donn{\'e}es dans le bon ordre. Dans le cas contraire, elles
+n'effectueront aucune op{\'e}ration.
+
+Les {\sl macros} disponibles sont~:\\
+\begin{tabular}{|l|l|l|}
+	\hline
+		Macro & Entr{\'e}e & Sortie \\
+	\hline
+		{\tt htonl} & {\tt host long} & {\tt net long} \\
+		{\tt htons} & {\tt host short} & {\tt net short} \\
+		{\tt ntohl} & {\tt net long} & {\tt host long} \\
+		{\tt ntohs} & {\tt net short} & {\tt host short} \\
+	\hline
+\end{tabular}

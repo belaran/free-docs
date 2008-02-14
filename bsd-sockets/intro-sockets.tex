@@ -1,0 +1,618 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Introduction aux Berkeley Sockets
+%
+\chapter{\label{intsock}Introduction aux {\sl Berkeley Sockets}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Il peut {\^e}tre int{\'e}ressant de structurer un programme en diff{\'e}rents processus
+si celui-ci est compos{\'e} de diff{\'e}rentes parties pouvant s'ex{\'e}cuter de fa\c{c}on
+concurrente. Les IPC\footnote{{\it Inter Process Communication}} permettent
+aux applications d'{\'e}changer des donn{\'e}es entre divers processus. Ceux-ci peuvent
+r{\'e}sider sur une m{\^e}me machine ou des ordinateurs diff{\'e}rents.
+
+Lorsqu'une application peut se d{\'e}composer en plusieurs processus, 
+\begin{itemize}
+\item l'un va demander un service: {\bf c'est le client},
+\item l'autre le fournit: {\bf c'est le serveur}.
+\end{itemize}
+
+Une {\sl socket} est l'{\'e}l{\'e}ment de base pour ce type de communication. La 
+structure de donn{\'e}es associ{\'e}e {\`a} une {\sl socket} permet d'{\'e}mettre et de
+recevoir des messages entre les processus comme on peut le voir {\`a} la figure
+\ref{intsock-fig-comm-proc}. Le m{\'e}canisme mis en jeu par les {\sl sockets} est
+bi-directionnel. Un processus peut donc {\'e}mettre et recevoir des donn{\'e}es d'un
+autre avec ce seul canal de communication.
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(286,81)
+	\thinlines    
+	\put(196,45){{\sl Socket B}}
+	\put(40,45){{\sl Socket A}}
+	\put(17,12){Processus client}
+	\put(170,12){Processus serveur}
+	\put(219,50){\oval(114,42)}
+	\put(67,50){\oval(114,42)}
+	\put(122,59){\line(1,0){42}}
+	\put(122,42){\line(1,0){42}}
+	\put(130,53){\vector(1,0){18}}
+	\put(148,47){\vector(-1,0){18}}
+\end{picture}
+\caption{\label{intsock-fig-comm-proc}Sch{\'e}ma de communication entre processus}
+\end{figure}
+
+Il existe deux types de {\sl sockets} avec l'interface de programmation des {\sl BSD sockets}~:
+\begin{itemize}
+\item les sockets en {\'e}coute utilis{\'e}es pour cr{\'e}er une connexion,
+\item les sockets utilis{\'e}es pour {\'e}changer des donn{\'e}es.
+\end{itemize}
+
+Une socket en {\'e}coute est {\'e}quivalente {\`a} un poste t{\'e}l{\'e}phonique en attente d'un
+appel: elle attend qu'une demande de connexion arrive sur le port de communication
+qui lui est affect{\'e}. Ce type de socket peut {\^e}tre utilis{\'e}e pour {\'e}tablir plusieurs
+connexions, c'est-{\`a}-dire plusieurs canaux de communication avec un processus ou un
+service donn{\'e}. Lors de l'{\'e}tablissement d'une connexion, une nouvelle socket est
+cr{\'e}{\'e}e afin de pouvoir {\'e}changer des informations. Cette nouvelle socket correspond
+au second type, c'est-{\`a}-dire des sockets utilis{\'e}es pour {\'e}changer des donn{\'e}es.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sc{\'e}nario de connexion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Introduction}
+
+Les BSD sockets n'utilisent qu'un seul type de sockets. Un m{\'e}canisme particulier
+permet cependant {\`a} un serveur de r{\'e}pondre aux requ{\^e}tes de plusieurs
+clients simultan{\'e}ment. En effet, le serveur est en attente de requ{\^e}te
+sur un num{\'e}ro de port, mais il {\'e}tablira la connexion avec un client sur
+un autre num{\'e}ro de port, dupliquant ainsi la socket.
+
+Le tableau ~\ref{intsock-tab-intro-connexion} r{\'e}sume le processus suivi~:
+
+\begin{table}[hbtp]
+\centering
+\begin{tabular}{|l|l|}
+	\hline
+	Client				&	Serveur					\\
+	\hline\hline
+	Cr{\'e}ation de la socket.	&	Cr{\'e}ation de la socket.			\\
+					&	Assignation d'un num{\'e}ro de port.		\\
+					&	Attente de demandes de connexion.		\\
+	Demande de connexion.	&							\\
+					&	{\'E}tablissement de la connexion.		\\
+	Envoi des donn{\'e}es	.	&							\\
+					&	R{\'e}ception de donn{\'e}es.			\\
+	Lib{\'e}ration {\'e}ventuelle.	&	Lib{\'e}ration {\'e}ventuelle.			\\
+	\hline
+\end{tabular}
+\caption{\label{intsock-tab-intro-connexion}Introduction au processus de connexion avec les BSD sockets}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{intsock-conn-bsd}Connexion BSD}
+
+{\sl Premi{\`e}re {\'e}tape}
+\begin{quote}
+\begin{center}
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(300,133)
+	\thinlines
+	\put(216,22){\vector(0,1){43}}
+	\put(161,12){File d'attente vide}
+	\put(205,64){\framebox(35,18){}}
+	\put(242,35){Socket B}
+	\put(17,35){Socket A}
+	\put(240,114){{\large Serveur}}
+	\put(26,114){{\large Client}}
+	\put(256,73){\circle{66}}
+	\put(41,73){\circle{66}}
+\end{picture}\\
+{\sl La socket B est assign{\'e}e {\`a} un port en reception de requ{\^e}tes.}
+\end{center}
+\begin{tabular}{ll}
+au niveau du client~:		&	le client cr{\'e}e une socket: {\tt socket()}		\\
+au niveau du  serveur~:	&	le serveur cr{\'e}e une socket: {\tt socket()},		\\
+				&	il lui assigne un num{\'e}ro de port: {\tt bind()},	\\
+				&	il a initialis{\'e} la file d'attente: {\tt listen()}.		\\
+\end{tabular}
+\end{quote}
+
+{\sl Seconde {\'e}tape}
+\begin{quote}
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(300,134)
+	\thinlines
+	\put(72,75){\vector(1,0){112}}
+	\put(190,65){\framebox(48,18){}}
+	\put(198,65){\framebox(8,18){}}
+	\put(206,65){\framebox(8,18){}}
+	\put(214,65){\framebox(8,18){}}
+	\put(222,65){\framebox(8,18){}}
+	\put(230,65){\framebox(8,18){}}
+	\put(180,65){\line(1,0){20}}
+	\put(180,83){\line(1,0){20}}
+	\put(176,12){File d'attente}
+	\put(216,23){\vector(0,1){43}}
+	\put(242,35){Socket B}
+	\put(17,35){Socket A}
+	\put(240,115){{\large Serveur}}
+	\put(26,115){{\large Client}}
+	\put(256,74){\circle{68}}
+	\put(41,74){\circle{68}}
+\end{picture} \\
+{\sl
+	\begin{itemize}
+	\item La socket A est assign{\'e}e {\`a} un port de communication.
+	\item La socket B est assign{\'e}e {\`a} un port en reception de requ{\^e}tes.
+	\end{itemize}
+}
+\begin{tabular}{ll}
+au niveau du client~:		&	le client envoie une demande de connexion~: {\tt connect()}	\\
+au niveau du  serveur~:	&	le serveur confirme la connexion~: {\tt accept()}		\\
+\end{tabular}
+\end{quote}
+
+{\sl Troisi{\`e}me {\'e}tape}
+\begin{quote}
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(297,119)
+	\thinlines
+	\put(161,62){\vector(1,0){42}}
+	\put(145,75){\line(0,1){23}}
+	\put(161,75){\oval(32,26)[bl]}
+	\put(194,12){Socket C}
+	\put(84,37){Canal de communication}
+	\put(101,100){File d'attente}
+	\put(211,28){\vector(-1,0){125}}
+	\put(86,31){\vector(1,0){125}}
+	\put(73,24){\framebox(152,10){}}
+	\put(225,24){\framebox(16,10){}}
+	\put(57,24){\framebox(16,10){}}
+	\put(204,52){\framebox(35,18){}}
+	\put(191,74){Socket B}
+	\put(51,12){Socket A}
+	\put(240,90){{\large Serveur}}
+	\put(26,90){{\large Client}}
+	\put(256,49){\circle{65}}
+	\put(41,49){\circle{65}}
+\end{picture}\\
+{\sl
+	\begin{itemize}
+	\item	La socket A est assign{\'e}e {\`a} un port de communication.
+	\item	La socket B est assign{\'e}e {\`a} un port en reception de requ{\^e}tes.
+	\item	La socket C est assign{\'e}e {\`a} un port de communication.
+	\item	Les sockets A et C permettent des {\'e}changes de donn{\'e}es entre processus via
+		le port de communication.
+	\end{itemize}
+}
+Apr{\`e}s confirmation de la connexion, le serveur {\'e}tablit un circuit
+virtuel entre la socket du client et une nouvelle socket sur le serveur ayant
+les caract{\'e}ristiques de l'original. Le serveur reste ainsi disponible
+pour r{\'e}pondre {\`a} de nouvelles demandes.
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{D{\'e}finitions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Domaine de communication}
+
+Un domaine de communication d{\'e}finit un ensemble de caract{\'e}ristiques utilis{\'e}es
+par des processus communiquant {\`a} travers des {\sl sockets}. Ces domaines sont
+n{\'e}cessaires car un r{\'e}seau peut utiliser~:
+\begin{itemize}
+	\item plusieurs types de protocoles,
+	\item diff{\'e}rentes m{\'e}thodes de nommage sur le r{\'e}seau,
+	\item etc.
+\end{itemize}
+
+Par exemple, on peut trouver sur un m{\^e}me r{\'e}seau d'entreprise (LAN)~:
+\begin{itemize}
+	\item le protocole IP utilis{\'e} par les machines {\Unix},
+	\item le protocole DNA (plus connu sous le nom de {\sl DECnet}) utilis{\'e} par les
+		machines sous {\sl OpenVMS},
+	\item le protocole EtherTalk utilis{\'e} par les {\sl Macintosh},
+	\item le protocole Net{\sc Beui} utilis{\'e} par les PCs sous {\sl
+Windows},
+	\item le protocole IPX utilis{\'e}s par les PCs sous {\sl Novell},
+	\item etc.
+\end{itemize}
+
+Cette diversit{\'e} force donc {\`a} cr{\'e}er des domaines de communication, regroupant 
+un ensemble de machines utilisant~:
+\begin{itemize}
+	\item un m{\^e}me standard de communication, usuellement d{\'e}nomm{\'e} <<~{\it famille de protocoles}~>>,
+	\item un m{\^e}me standard de nommage, usuellement d{\'e}nomm{\'e} <<~{\it famille d'adresses}~>>.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Famille d'adresses}
+
+Les familles d'adresses les plus utilis{\'e}es au niveau des {\sl BSD Sockets} sont~:
+\begin{quote}
+\begin{itemize}
+	\item {\tt AF\_INET} correspondant au domaine li{\'e} au protocole IP,
+	\item {\tt AF\_UNIX} permettant de faire de la communication entre processus
+		  d'une m{\^e}me machine.
+\end{itemize}
+\end{quote}
+
+On trouvera aussi les familles d'adresses suivantes:
+\begin{itemize}
+	\item	{\tt AF\_CCITT} correspondant au domaine d'utilisation li{\'e} {\`a} X.25,
+	\item	{\tt AF\_NETBIOS} correspondant au domaine d'utilisation li{\'e} {\`a} NetBIOS/NetBEUI,
+	\item	{\tt AF\_DECNET} correspondant au domaine d'utilisation li{\'e} au
+			protocole \textsl{DECnet},
+	\item	{\tt AF\_SNA} correspondant au domaine d'utilisation li{\'e} au protocole
+			SNA utilis{\'e} en particulier par les {\it mainframes} IBM type ES/9000,
+	\item	{\tt AF\_APPLETALK} correspondant au domaine d'utilisation li{\'e} au
+			protocole réseau AppleTalk\footnote{Par <<~AppleTalk~>>, on désigne à la fois le protocole
+			de niveau 3, mais aussi les protocoles de niveau inférieur (niveau 1 et 2) tels que
+			LocalTalk, TokenTalk et EtherTalk.}
+	\item	etc.
+\end{itemize}
+
+Pour chaque famille d'adresses, on aura un syst{\`e}me de nommage qui lui sera propre.
+Par exemple,
+\begin{itemize}
+	\item	pour {\tt AF\_INET}, reportez vous au chapitre ~\ref{protip},
+	\item	pour \texttt{AF\_NETBIOS}\footnote{\textsl{Network Basic Input Output System}, protocole utilisé dans
+		les réseaux {\Windows}.}, l'adresse est composé d'une suite de 16 octets,
+	\item	pour {\tt AF\_DECNET}\footnote{DECnet phase IV, protocole utilisé dans les environnements
+		\textsc{OpenVMS}.}, l'adresse est compos{\'e} de deux {\'e}l{\'e}ments~:
+		\begin{itemize}
+			\item	le num{\'e}ro de r{\'e}seau sur 6 bits,
+			\item	le num{\'e}ro de machine sur 10 bits.
+		\end{itemize}
+	\item	pour \texttt{AF\_APPLETALK}\footnote{Protocole utilisé dans les environnements MacOS.}, l'adresse
+		est composée des éléments suiovants~:\\
+		\begin{tabular}{|@{\hspace{2ex}}l@{\hspace{2ex}}|@{\hspace{2ex}}p{7cm}@{\hspace{2ex}}|}
+			\hline
+			\textbf{Composant}	&	\textbf{Description}	\\[0.2ex]
+			\hline
+			Numéro de réseau	&	Entier sur 16 bits. Le réseau référencé peut être
+							<<~\textit{non-étendu}~>> ou <<~\textit{étendu}~>>. Dans le cas
+							d'un réseau <<~\textit{étendu}~>>, le réseau est identifié par une
+							plage de numéros de réseaux. \\[1.5ex]
+			Numéro d'hôte		&	Entier sur 8 bits identifiant la machine dans le réseau
+							<<~\textit{non-étendu}~>> ou <<~\textit{étendu}~>>.\\[1.5ex]
+			Nom de zone		&	Chaine de caractères fixée par l'administrateur réseau assignée
+							à un ensemble de machines dans le même réseau AppleTalk. \\[0.2ex]
+			\hline
+		\end{tabular}
+	\item	etc.
+\end{itemize}
+
+\begin{remarque}
+De fa\c{c}on g{\'e}n{\'e}rale, quelque soit la famille d'adresses, on r{\'e}f{\'e}rence les machines
+par leur nom et non pas par leur adresse. Dans ce cas, il faut proc{\'e}der {\`a} une
+{\'e}tape pr{\'e}liminaire qui consiste {\`a} retrouver l'adresse d'une machine en fonction
+d'un nom donn{\'e}.
+
+Cette {\'e}tape est n{\'e}cessaire quelque soit la famille d'adresses. On fera donc
+r{\'e}f{\'e}rence {\`a} des syst{\`e}mes d'annuaire. Le plus connu au niveau {\Unix} est
+celui utilis{\'e} pour le r{\'e}seau Internet: {\sl Domain Name Service}ou {\sl Bind/DNS}.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Famille de protocoles}
+
+La notion de <<famille de protocoles>> s'applique surtout au protocole IP dans la
+mesure o{\`u} l'adresse d'une machine sur le r{\'e}seau est g{\'e}r{\'e}e par ce protocole. Au 
+dessus de celui-ci, on aura alors plusieurs protocoles possibles correspondant {\`a}
+la couche <<Transport>> du mod{\`e}le OSI (cf. figures \ref{rapp-fig-modele-OSI}, 
+\ref{rapp-fig-lanosi} et \ref{rapp-fig-wanosi}).
+
+Au dessus de IP, on trouvera~:
+\begin{itemize}
+	\item	le protocole TCP (cf. section ~\ref{protip-TCP}) associ{\'e} {\`a} la famille {\tt SOCK\_STREAM},
+	\item	le protocole UDP (cf. section ~\ref{protip-UDP}) associ{\'e} {\`a} la famille {\tt SOCK\_DGRAM}.
+\end{itemize}
+
+Par cons{\'e}quent, on obtient les correspondances d{\'e}crites dans le tableau 
+\ref{intsock-tab-correspondance-domfam-prot}.
+\begin{table}[hbtp]
+\centering
+\begin{tabular}{|l|l|c|}
+	\hline
+	Domaine de communication	& Famille de protocoles	& Protocoles correspondants	\\
+	\hline \hline
+	{\tt AF\_INET}	& {\tt SOCK\_STREAM}	& TCP/IP		\\
+	{\tt AF\_INET}	& {\tt SOCK\_DGRAM}		& UDP/IP		\\
+	\hline
+\end{tabular}
+\caption{\label{intsock-tab-correspondance-domfam-prot}Correspondance entre le domaine
+de communication associ{\'e} {\`a} une famille de protocoles et la d{\'e}nomination usuelle}
+\end{table}
+
+\begin{remarque}
+On aura, en plus des deux familles {\tt SOCK\_STREAM} et {\tt SOCK\_DGRAM}, la
+famille {\tt SOCK\_RAW} permettant d'acc{\'e}der directement au niveau de la couche
+IP (niveau 3 dans le mod{\`e}le OSI).
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{intsock-conn-nconn}Mode connect{\'e}, Mode non connect{\'e}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{D{\'e}finitions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Mode connect{\'e}}
+
+En mode connect{\'e}, une étape préliminaire est nécessaire avant que les processus ne s'{\'e}changent des
+donn{\'e}es~: celle de l''{\'e}tablissement d'un canal de communication. Le processus demandant une
+connexion va demander au protocole de transport (niveau 4 du mod{\`e}le OSI) de lui cr{\'e}er un
+canal de communication qu'il utilisera  par la suite pour tous les {\'e}changes de donn{\'e}es qu'il aura {\`a}
+effectuer. Le protocole de transport demandera alors au protocole r{\'e}seau (niveau 3 du
+mod{\`e}le OSI) de transmettre les informations jusqu'au(x) destinataire(s) et de lui remonter les erreurs.
+
+Ce type de service garantit que~:
+\begin{itemize}
+	\item 	les donn{\'e}es sont transmises sans erreur. Si une erreur de transmission
+		se produit, c'est la couche {\sl transport} qui se chargera de 
+		r{\'e}{\'e}mettre les donn{\'e}es et non l'application.
+	\item	l'ordre de r{\'e}ception des donn{\'e}es est identique {\`a} l'ordre d'{\'e}mission.
+\end{itemize}
+
+Cependant, la taille des flots de donn{\'e}es {\'e}mis sur le r{\'e}seau n'est pas conserv{\'e}e.
+Un processus peut donc lire un volume de donn{\'e}es inf{\'e}rieur {\`a} celui qui a {\'e}t{\'e}
+{\'e}mis par un autre processus. Par cons{\'e}quent, des donn{\'e}es resteront en attente
+d'une prochaine lecture. Le ph{\'e}nom{\`e}ne inverse est aussi possible,
+c'est-{\`a}-dire, qu'un processus peut lire un volume de donn{\'e}es sup{\'e}rieur {\`a} celui
+qui a {\'e}t{\'e} {\'e}mis. Par cons{\'e}quent, on risquera d'avoir une erreur de lecture sur
+le canal de communication ou bien un mauvais remplissage des structures
+de donn{\'e}es. {\bf L'application doit assurer la gestion des tailles des flots
+de donn{\'e}es {\'e}mis ou lus sur le r{\'e}seau}.
+
+Pour la famille d'adresses {\tt AF\_INET}, la famille de protocoles associ{\'e}e
+pour le mode non connect{\'e} est {\tt SOCK\_STREAM}. Les canaux de communication
+utilisant des sockets de ce type sont donc~:
+\begin{itemize}
+	\item	bidirectionnels,
+	\item	avec garantie de qualit{\'e} de service.
+\end{itemize}
+
+Les services classiques utilisant ce mode de connexion sont~:
+\begin{itemize}
+	\item	{\tt telnet},
+	\item	{\tt ftp},
+	\item	{\tt rlogin},
+	\item	{\tt rsh},
+	\item	{\tt rcp},
+	\item	\texttt{http} (ou \texttt{web}).
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Mode non connect{\'e}}
+
+Les flots de donn{\'e}es {\'e}chang{\'e}es en mode non connect{\'e} sont appel{\'e}s {\sl datagrammes}.
+En mode non connect{\'e}, les datagrammes sont envoy{\'e}s vers leur(s) destinataire(s)
+sans aucune phase d'{\'e}tablissement de connexion et sans aucune garanti. Par 
+cons{\'e}quent, l'{\'e}metteur n'est pas inform{\'e}~:
+\begin{itemize}
+	\item	si le destinataire existe ou est accessible sur le r{\'e}seau,
+	\item	si les datagrammes {\'e}mis sont bien arriv{\'e}s {\`a} destination,
+	\item	s'ils sont arriv{\'e}s dans le m{\^e}me ordre dans lequel ils ont {\'e}t{\'e} {\'e}mis.
+\end{itemize}
+Par contre, on est s{\^u}r que les donn{\'e}es dans le datagramme sont valides. Il y a
+donc transmission d'un {\it checksum}. {\bf ATTENTION}, cette option n'est pas
+mise par d{\'e}faut sur tous les syst{\`e}mes. Il vous faudra donc v{\'e}rifier si la garantie
+des donn{\'e}es a {\'e}t{\'e} valid{\'e}e au niveau des datagrammes.
+
+Cette m{\'e}thode est souvent utilis{\'e}e lorsque qu'une requ{\^e}te {\'e}mise sur le r{\'e}seau
+n{\'e}cessite une r{\'e}ponse du destinataire du message. Si celle-ci n'arrive pas au
+bout d'un certain temps ({\it timeout}), la requ{\^e}te est r{\'e}{\'e}mise.
+
+Pour la famille d'adresses {\tt AF\_INET}, la famille de protocoles associ{\'e}e
+pour le mode non connect{\'e} est {\tt SOCK\_DGRAM}. Les canaux de communication
+utilisant des sockets de ce type sont donc~:
+\begin{itemize}
+	\item	bidirectionnels,
+	\item	sans garantie de qualit{\'e} de service.
+\end{itemize}
+
+Les services classiques utilisant ce mode de connexion sont~:
+\begin{itemize}
+	\item	Network File System (ou NFS) de Sun Microsystems (pour les environnements {\Unix}),
+	\item	les services de diffusions dans le protocole NetBIOS (pour les environnements {\Windows}),
+	\item	Simple Network Management Protocol (ou SNMP) utilis{\'e} par la majeure
+		partie des logiciels d'administration r{\'e}seau.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Caract{\'e}ristiques, Comparaison entre les deux modes}
+
+Le tableau ~\ref{intsock-tab-caract-conn-nconn} montre les diff{\'e}rences entre les deux modes
+de communications sur les points suivants~:
+\begin{itemize}
+	\item la fiabilit{\'e} de la communication,
+	\item la garantie au niveau de l'ordonnancement des donn{\'e}es {\`a} la r{\'e}ception,
+	\item les sens de communication autoris{\'e}s dans les canaux entre les processus,
+	\item la pr{\'e}servation des limites de messages,
+	\item la pr{\'e}sence de notion de priorit{\'e} des messages.
+\end{itemize}
+
+La pr{\'e}servation des limites de messages se caract{\'e}rise par le
+comportement suivant. Supposons que le client fait deux op{\'e}rations
+d'{\'e}critures sur le canal de communication (appel syst{\`e}me {\tt write()}
+et que le serveur ne fait qu'une seule op{\'e}ration de lecture sur ce
+m{\^e}me canal (appel syst{\`e}me {\tt read()}). Les limites des messages sont
+pr{\'e}serv{\'e}es si l'op{\'e}ration de lecture ne renvoie que les donn{\'e}es {\'e}mises
+lors du premier appel syst{\`e}me {\tt write()} quelque soit la taille du
+{\it buffer} sp{\'e}cifi{\'e}. Il faudra alors une seconde lecture pour acc{\'e}der
+aux donn{\'e}es {\'e}mises lors du second appel syst{\`e}me {\tt write()}. Chaque
+op{\'e}ration de lecture n'empi{\`e}te pas sur les zones m{\'e}moire correspondant {\`a}
+des op{\'e}rations d'{\'e}criture distinctes.
+
+La notion de priorit{\'e} sur les messages est une possibilit{\'e} au niveau de la
+couche {\sl Transport} permettant de rendre des messages plus importants que
+d'autres: ce sont des {\it messages urgents}. Lorsqu'un message doit {\^e}tre
+consid{\'e}r{\'e} comme {\it urgent}, il est achemin{\'e} en priorit{\'e} {\`a} son destinataire et
+la couche {\sl Transport}Êle fait passer en premi{\`e}re position dans sa file
+d'attente de r{\'e}ception de message (cf. section ~\ref{intsock-conn-bsd}).
+		
+\begin{table}[hbtp]
+\begin{tabular}{|l|c|c|}
+	\hline
+	Caract{\'e}ristiques	& Mode connect{\'e}	&	Mode non connect{\'e}		\\
+				& {\tt AF\_INET$/$SOCK\_STREAM}
+				& {\tt AF\_INET$/$SOCK\_DGRAM}				\\
+	\hline \hline
+	Fiabilit{\'e}						&	Oui		& 	Non		\\
+	Pr{\'e}servation de l'ordre des donn{\'e}es		&	Oui		& 	Non		\\
+	Non duplication					&	Oui		& 	Non		\\
+	Canaux bidirectionnels				&	Oui		& 	Oui		\\
+	Pr{\'e}servation des limites de messages		&	Non		& 	Oui		\\
+	Messages urgent\footnote{notion de priorit{\'e} sur les messages}
+								&	Oui		& 	Non		\\
+	\hline	
+\end{tabular}
+\caption{\label{intsock-tab-caract-conn-nconn}Caract{\'e}ristiques des modes connect{\'e} et non connect{\'e}}
+\end{table}
+
+Les facteurs {\`a} consid{\'e}rer lorsque l'on a {\`a} choisir entre ces deux modes de connexion son~:
+\begin{itemize}
+	\item les performances,
+	\item la fr{\'e}quence des connexions,
+	\item les techniques à utiliser pour les échanges (client et serveur identifiés, partenaires de communications
+		quelconques, etc.),
+	\item la tol{\'e}rance {\`a} la perte de message.
+\end{itemize}
+
+La vitesse de communication entre sockets d{\'e}pend du taux de disponibilit{\'e} 
+n{\'e}cessaire {\`a} l'application. Plus la disponibilit{\'e} est importante, plus les
+m{\'e}canismes mis en jeu sont complexes, plus la vitesse de communication s'en trouve
+affect{\'e}e.
+
+Les sockets associ{\'e}es au mode connect{\'e} ({\it stream sockets}) n{\'e}cessitent
+donc des m{\'e}canismes particuliers pour l'{\'e}tablissement de la connexion et la
+garantie de transmission des donn{\'e}es. Avant que les donn{\'e}es ne soient vraiment
+{\'e}mises sur le r{\'e}seau, il faut donc qu'elles traversent un certain nombre de
+couches logiciel afin de r{\'e}pondre aux sp{\'e}cifications de ce mode de connexion.
+
+Pour les sockets associ{\'e}es au mode non connect{\'e} ({\it datagram sockets})
+aucun m{\'e}canisme n'est mis en jeu. Les donn{\'e}es sont donc transmises plus rapidement
+vers le r{\'e}seau. Par contre, c'est l'application qui devra g{\'e}rer sa propre strat{\'e}gie
+en cas de perte de message. Elle devra aussi assurer le r{\'e}ordonnancement des
+paquets si n{\'e}c{\'e}ssaire.
+
+Il est {\'e}vident que pour des r{\'e}seaux lents, les temps d'ex{\'e}cutions des couches
+logiciel associ{\'e}es au <<mode connect{\'e}>> ne sont pas p{\'e}nalisants. Par contre,
+maintenant avec les r{\'e}seaux haut-d{\'e}bit, ce ph{\'e}nom{\`e}ne peut intervenir dans
+l'optimisation et les {\'e}tudes de performances.
+
+\begin{remarque}
+Les datagrammes sont plut{\^o}t con\c{c}us pour {\^e}tre utilis{\'e}s
+sur un support r{\'e}seau fiable, comme Ethernet et toutes ses variantes\footnote{Ethernet, IEEE
+802.3, Fast Ethernet, etc.}.
+
+Si ce type de transport est utilis{\'e} sur un support r{\'e}seau moins fiable, comme
+la radio, les risques d'erreurs {\'e}tant beaucoup plus importants, l'application
+passera son temps {\`a} retransmettre les donn{\'e}es. Le gain de rapidit{\'e} observ{\'e}
+sur des supports fiables se transforme donc ici en un handicap tr{\`e}s important.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{intsock-intro-fam-proto}Familles de protocoles associ{\'e}es}
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(428,117)
+	\thinlines
+	\put(329,13){{\sl mode connect{\'e}}}
+	\put(270,91){{\sl local}}
+	\put(202,13){TCP}
+	\put(46,13){UDP}
+	\put(68,91){IP}
+	\put(10,27){\framebox(100,27){{\tt SOCK\_DGRAM}}}
+	\put(157,27){\framebox(100,27){{\tt SOCK\_STREAM}}}
+	\put(87,80){\framebox(100,27){{\tt AF\_INET}}}
+	\put(55,54){\line(3,1){79}}
+	\put(134,80){\line(3,-1){74}}
+	\put(318,27){\framebox(100,27){{\tt SOCK\_STREAM}}}
+	\put(318,80){\framebox(100,27){{\tt AF\_UNIX}}}
+	\put(367,81){\line(0,-1){27}}
+\end{picture}
+\caption{\label{intsock-fig-famille-protocole}Famille de protocoles
+associ{\'e} {\`a} un type de
+socket}
+\end{figure}
+
+Les deux types de sockets les plus utilis{\'e}s sont:
+\begin{itemize}
+	\item	{\tt SOCK\_STREAM} associ{\'e} au mode connect{\'e},
+	\item	{\tt SOCK\_DGRAM}Êassoci{\'e} au mode non connect{\'e}.
+\end{itemize}
+
+Chaque type de socket peut avoir un ou plusieurs types de protocoles de transport
+associ{\'e}. Ce protocole est d{\'e}fini par un ensemble de r{\`e}gles et de conventions
+qui r{\'e}gulent le transfert des donn{\'e}es entre processus. Celui-ci garde une
+r{\'e}f{\'e}rence des sockets utilis{\'e}es, configure la connexion et se charge du transfert
+des donn{\'e}es entre les sockets (ports de communication).
+
+Lorsque le protocole IP est utilisé,
+\begin{itemize}
+	\item	les sockets utilisant un mode non connect{\'e} s'appuient en général sur le protocole
+		de transport {\bf UDP} ({\sl User Datagram Protocol}),
+	\item	les sockets utilisant un mode connect{\'e} s'appuient en génral sur le protocole
+		de transport {\bf TCP} ({\sl Transmission Control Protocol}).
+\end{itemize}
+La figure ~\ref{intsock-fig-famille-protocole} montre les
+correspondances entre les
+types de sockets et les protocoles utilis{\'e}s.
+
+Il existe sur les syst{\`e}mes {\Unix} une famille d'adresses permettant de faire
+de la communication entre processus sur une m{\^e}me machine~: la famille
+{\tt AF\_UNIX}. Le seul mode disponible dans ce cas est le mode connect{\'e}~:
+{\tt SOCK\_STREAM} (cf. figure \ref{intsock-fig-famille-protocole}). Ce type de socket est
+plus avantageux que la notion de {\sl loopback} dans IP\footnote{adresse IP
+sp{\'e}ciale permettant {\`a} la machine de se r{\'e}f{\'e}rencer elle-m{\^e}me}. Comme on peut le 
+voir sur la figure \ref{intsock-fig-loopback-local},
+\begin{itemize}
+	\item	lorsqu'on utilise la famille d'adresses {\tt AF\_UNIX}, les donn{\'e}es
+		sont directement envoy{\'e}es vers le processus destination au niveau
+		4 du mod{\`e}le OSI (couche {\sl transport}),
+	\item	lorsqu'on utilise la famille d'adresses {\tt AF\_INET}, les donn{\'e}es
+		doivent descendre jusqu'au niveau 2 du mod{\`e}le OSI (couche
+		{\sl liaison}) pour se rendre compte qu'il ne faut pas partir sur le
+		support physique. Les donn{\'e}es devront donc traverser {\`a} nouveau toutes
+		les couches interm{\'e}diaires (pour arriver jusqu'au niveau 4 (couche {\sl transport}).
+\end{itemize}
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(318,218)
+	\thinlines
+	\put(13,133){4}
+	\put(13,96){3}
+	\put(13,61){2}
+	\put(13,25){1}
+	\put(248,189){\vector(0,-1){38}}
+	\put(290,151){\vector(0,1){38}}
+	\put(202,73){\vector(0,1){102}}
+	\put(160,175){\vector(0,-1){102}}
+	\put(269,151){\oval(42,28)[b]}
+	\put(181,73){\oval(42,28)[b]}
+	\put(249,199){{\tt AF\_UNIX}}
+	\put(157,199){{\tt AF\_INET}}
+	\put(100,11){\line(1,0){208}}
+	\put(100,47){\line(1,0){208}}
+	\put(100,83){\line(1,0){208}}
+	\put(100,119){\line(1,0){208}}
+	\put(100,155){\line(1,0){208}}
+	\put(21,119){\framebox(121,36){Transport}}
+	\put(21,83){\framebox(121,36){R{\'e}seau}}
+	\put(21,47){\framebox(121,36){Liaison}}
+	\put(21,11){\framebox(121,36){Physique}}
+\end{picture}
+\caption{\label{intsock-fig-loopback-local}Comparaison entre les familles d'adresses {\tt AF\_INET} et {\tt AF\_UNIX}}
+\end{figure}

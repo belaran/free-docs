@@ -1,0 +1,715 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Les Internet Datagram Sockets
+%
+\chapter{\label{inet-dgram}Les Internet Datagram Sockets}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Rappels}
+
+Nous avons vu dans la section ~\ref{protip-UDP} que le protocole UDP, au dessus du protocole IP offrait un
+m{\'e}canisme de transport sans connexion, permettant l'{\'e}change de paquets avec v{\'e}rification de
+l'int{\'e}grit{\'e} des donn{\'e}es.
+
+Parall{\`e}lements aux {\sl Internet Stream Sockets} d{\'e}crites dans le
+chapitre \ref{instream} et s'appuyant sur le protocole de transport 
+TCP, il existe des méthodes de communication se basant sur le protocole
+de transport UDP~: les {\sl Internet Datagram Sockets}. Nous ne parlerons pas ici de
+<<~\textsl{canaux de communication}~>>. En effet, cette terminologie implique une phase de
+connexion, donc un fonctionnement en mode <<~\textsl{connecté}~>>.
+
+Ce type de sockets permet de transmettre des flots de donn{\'e}es tout
+en pr{\'e}servant leur longueur. En effet, nous avions vu à la section
+\ref{instream-intro}, que les {\sl Internet Stream Sockets} ne
+garantissaient pas la coh{\'e}rence au niveau de la longueur des messages. Dans le cas
+des {\sl Internet Datagram Sockets}, cette coh{\'e}rence existe. Par
+cons{\'e}quent, une op{\'e}ration de lecture renverra donc tout le contenu d'un
+paquet. Par contre, il n'existe aucune garantie que les messages {\'e}mis soient
+re\c{c}us dans le m{\^e}me ordre que celui de l'{\'e}mission.
+
+Les méthodes de communications associ{\'e}es au protocole de transport UDP
+{\'e}mettent et re\c{c}oivent des donn{\'e}es {\bf sans aucun {\'e}tablissement de
+connexion}. Par cons{\'e}quent, chaque message devra contenir l'adresse de sa
+destination.
+
+Les appels syst{\`e}mes et les processus {\`a} suivre pour ce type de
+communications seront donc simples {\`a} mettre en {\oe}uvre. Il suffit de~:
+\begin{itemize}
+\item	cr{\'e}er le port de communication (appel syst{\`e}me {\tt socket()}),
+\item	lui affecter ses caract{\'e}ristiques (appel syst{\`e}me {\tt bind()}),
+\item	{\'e}changer des donn{\'e}es en effectuant des lectures ou des {\'e}critures
+	sur ce nouveau port (appels syst{\`e}mes {\tt recvfrom()} et 	{\tt sendto()}).
+\end{itemize}
+
+\begin{remarque}
+Il n'existe pas d'{\'e}quivalent pour une mode de communication intra-machine
+comme nous avons pu l'avoir entre le mod{\`e}le {\tt AF\_UNIX} d{\'e}crit au
+chapitre \ref{unstream} et {\tt AF\_INET} correspondant aux {\sl Internet
+Stream Sockets} décrit au paragrape \ref{instream}.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Cr{\'e}ation d'un port de communication]
+	{Cr{\'e}ation d'un port de communication~: appel syst{\`e}me {\tt socket()}}
+
+Comme nous avons pu le voir à la section \ref{instream-syscall-socket},
+il faut {\'e}tablir un port de communication gr{\^a}ce auquel le syst{\`e}me autorisera
+les op{\'e}rations d'entr{\'e}es/sorties avec la ou les machines distantes.
+
+La cr{\'e}ation de ce port se fait via l'appel syst{\`e}me  {\tt socket()}. {\`A} la section 
+\ref{instream-syscall-socket}, nous l'avons utilis{\'e} pour cr{\'e}er un canal de
+communication avec un syst{\`e}me distant en utilisant le protocole r{\'e}seau IP et
+le protocole de transport TCP.
+
+La seule diff{\'e}rence ici ne concerne que le protocole de transport~:
+le protocole UDP. Par cons{\'e}quent, nous aurons~:
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+	Param{\`e}tre			&	Constante utilis{\'e}e	\\
+\hline
+\hline
+	Type de socket		&	{\tt AF\_INET}		\\
+	Protocole de transport		&	{\tt SOCK\_DGRAM}	\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Exemple}
+
+\begin{quote}
+\begin{verbatim}
+sk = socket (AF_INET, SOCK_DGRAM, 0);
+\end{verbatim}
+\end{quote}
+
+\begin{remarque}
+Les constantes utilis{\'e}es dans les champs <<~{\tt af}~>> et <<~{\tt type}~>> sont
+d{\'e}finies dans le fichier <<\verb=#include <sys/types.h>=>>.
+\end{remarque}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Assignation d'une adresse {\`a} une socket}
+
+Comme nous l'avons vu à la section \ref{instream-bind-addr}, l'appel
+syst{\`e}me {\tt bind()} assigne une adresse au port de communication
+cr{\'e}{\'e} avec l'appel syst{\`e}me {\tt socket()}, c'est-{\`a}-dire~:
+\begin{itemize}
+	\item un num{\'e}ro de port,
+	\item la liste des adresses IP autoris{\'e}es,
+	\item le protocole de transport ou la {\sl famille de protocoles}.
+\end{itemize}
+
+Malgr{\'e} tout, on constatera quelques diff{\'e}rences entre les appels pour les
+ports de communication en mode connect{\'e} et en mode non-connect{\'e}.
+La structure utilis{\'e}e est identique {\`a} celle des {\sl stream sockets}.
+Gr{\^a}ce {\`a} celle-ci,
+\begin{itemize}
+	\item	le serveur doit s'assigner ce port de communication,
+	\item	le client doit conna{\^\i}tre les caract{\'e}ristiques du port afin
+		de pouvoir {\'e}changer des informations avec le serveur.
+\end{itemize}
+
+On retrouvera donc la m{\^e}me syntaxe que celle explicit{\'e}e à la section
+\ref{instream-bind-addr}~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+int bind (s, addr, addrlen);
+int s;
+struct sockaddr_in *addr;
+int addrlen;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{ll}
+{\tt s}		& Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket()}).	\\
+{\tt addr}	& Structure de d{\'e}finition des caract{\'e}ristiques de la socket.		\\
+{\tt addrlen}	& Taille en octet de la structure de d{\'e}finition.				\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie la valeur \verb=0=.	\\
+	Erreur	& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+		  indiquera avec plus de pr{\'e}cision les causes de l'erreur. \\
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\subsubsection{Exemple}
+\begin{quote}
+\begin{verbatim}
+addr.sin_family = AF_INET;
+addr.sin_addr.s_addr = INADDR_ANY;
+addr.sin_port = MYPORT;
+
+bind (sk, &addr, sizeof (struct sockaddr));
+\end{verbatim}
+\end{quote}
+
+L'adresse du port de communication, ou bien des caract{\'e}ristiques peuvent 
+{\^e}tre connues suivant l'une des m{\'e}thodes suivantes~:
+\begin{itemize}
+	\item	il est possible de regarder le contenu du fichier
+		{\tt $/$etc$/$services} gr{\^a}ce {\`a} des appels syst{\`e}me
+		sp{\'e}cifiques (cf. section ~\ref{nsyscall-infosvc}). C'est la m{\'e}thode
+		utilis{\'e}e usuellement au niveau du client et du serveur lorsque
+		l'application utilise des ports r{\'e}f{\'e}renc{\'e}s (cf. section
+		\ref{nsyscall-infosvc}). C'est aussi la m{\'e}thode la plus {\sl propre}.
+
+	\item	le syst{\`e}me d{\'e}cide automatiquement quel sera le num{\'e}ro de port
+		qui sera utilis{\'e}. La difficult{\'e} r{\'e}side alors {\`a} ce que le client
+		connaisse ce num{\'e}ro, si le serveur adopte ce m{\'e}canisme.
+	
+	\item	le num{\'e}ro de port est {\'e}crit en dur dans le programme que ce soit
+		c{\^o}t{\'e} client ou serveur. Cette m{\'e}thode est acceptable dans une
+		phase de mise au point, mais certainement pas dans une phase
+		de production, c'est-{\`a}-dire lorsque l'application est valid{\'e}e.
+\end{itemize}
+
+L'adresse IP, indiquant quels sont les syst{\`e}mes distants pouvant
+utiliser ce port, peut {\^e}tre sp{\'e}cifi{\'e}e en utilisant l'une des m{\'e}thodes
+suivantes~:
+\begin{itemize}
+	\item	utiliser la notion de {\sl wildcards}Êcomme nous l'avons
+		vu pr{\'e}c{\'e}demment dans la section \ref{instream-bind-addr}
+		gr{\^a}ce {\`a} la constante {\tt INADDR\_ANY}.
+
+	\item	rechercher l'adresse IP en fonction d'un nom gr{\^a}ce aux
+		informations dans l'annuaire des noms de machines comme
+		le fichier {\tt $/$etc$/$hosts} ou DNS (cf. section 
+		\ref{netsyscall-infohost}).
+
+	\item	pr{\'e}ciser directement l'adresse IP sous sa forme hexad{\'e}cimale.
+		Il est {\'e}vident que cette m{\'e}thode n'a rien d'{\'e}l{\'e}gant et doit
+		{\^e}tre proscrite.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{inet-dgram-syscall-exchg}\'{E}change de donn{\'e}es entre client et serveur}
+
+\`{A} ce stade, le canal de communication est cr{\'e}{\'e}. Sachant que ce
+mode de fonctionnement ne poss{\`e}de pas d'{\'e}tablissement de connexion
+entre le client et le serveur, les {\'e}tapes pr{\'e}liminaires aux {\'e}changes
+de donn{\'e}es sont achev{\'e}es: il ne reste plus qu'{\`a} {\'e}crire ou lire des
+donn{\'e}es sur les ports de communication.
+
+Les appels syst{\`e}mes associ{\'e}es {\`a} l'{\'e}change de donn{\'e}es
+en mode non-connect{\'e} sont~:
+
+\begin{tabular}{lp{8cm}}
+	{\tt sendto()}		&
+	permet de transmettre des messages sur le port de communication.
+	\\
+	{\tt recvfrom()}	&
+	permet de lire des messages sur le port de communication.
+	\\
+\end{tabular}
+
+{\tt sendto()} et {\tt recvfrom()} sont simulaires aux appels syst{\`e}me {\tt send()} et {\tt recv()} vus dans la section
+\ref{instream-send-recv}, sauf que l'on pr{\'e}cise en plus l'adresse IP de la machine distante.
+
+Les syntaxes de {\tt sendto()} et {\tt recvfrom()} sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int sendto (s, buffer, bufflen, flags, to_addr, to_addrlen);
+int s, bufflen, flags, to_addrlen;
+char *buffer;
+struct sockaddr_in *to_addr;
+
+int recvfrom (s, buffer, bufflen, flags, from_addr, from_addrlen);
+int s, bufflen,flags, *from_addrlen;
+char *buffer;
+struct sockaddr_in *from_addr;
+\end{verbatim}
+\end{quote}
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt s}			& Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket()}).	\\[1.5ex]
+{\tt buffer}		& Pointeur sur le buffer de donn{\'e}es {\`a} {\'e}mettre.			\\[1.5ex]
+{\tt bufflength}		& Taille en octet du buffer contenant les donn{\'e}es
+			  {\`a} {\'e}mettre. Lors de la r{\'e}ception de donn{\'e}es, cette
+			  variable contient le nombre d'octets lus lire dans les {\sl buffers}
+			syst{\`e}me.									\\[1.5ex]
+{\tt flags}		& Options pour l'{\'e}mission ou la reception des donn{\'e}es.		\\[1.5ex]
+{\tt to\_addr}		& Structure de d{\'e}finition de l'adresse IP de la machine destination.	\\[1.5ex]
+{\tt from\_addr}	& Structure de d{\'e}finition de l'adresse IP de la machine source.		\\[1.5ex]
+{\tt to\_addrlen}	& Taille en octet de la structure de d{\'e}finition
+				de l'adresse IP de la machine destination.				\\[1.5ex]
+{\tt to\_addrlen}	& Taille en octet de la structure de d{\'e}finition
+				de l'adresse IP de la machine source.\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie la valeur \verb=0=	\\
+	Erreur	& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			indiquera avec plus de pr{\'e}cision les causes de l'erreur.\\
+\end{tabular}
+\end{quote}
+
+{\sl Options~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt 0}				&	Aucune option sp{\'e}ciale. Le fonctionnement de
+						{\tt send()} {\'e}quivalent {\`a} l'appel syst{\`e}me 
+						{\tt write()}.	\\
+	{\tt MSG\_OOB}		&	Le message envoy{\'e} est trait{\'e} comme un message
+						{\it urgent} ({\tt MSG\_OOB}~: {\it Message Out Of Band}). \\
+	{\tt MSG\_DONTROUTE}	&	Le message envoy{\'e} ne pourra pas sortir du r{\'e}seau
+						IP, c'est-{\`a}-dire qu'il ne sera pas trait{\'e} par les
+						routeurs IP (cf. chapitre \ref{protip} {\`a} propos
+						des r{\'e}seaux IP).
+\end{tabular}
+\end{quote}
+\end{quote}
+
+L'appel syst{\`e}me {\tt sendto()} transmet un message vers une autre socket
+r{\'e}sidant sur une machine distante. {\tt sendto()} bloque le d{\'e}roulement
+du programme tant qu'il n'est pas arriv{\'e} {\`a} mettre toutes les donn{\'e}es
+dans les buffers syst{\`e}me utilis{\'e}s par la carte r{\'e}seau (ou autre
+contr{\^o}leur) avant la transmission sur le support physique.
+L'adresse r{\'e}seau de destination est pr{\'e}cis{\'e}e dans un champ de la
+structure {\tt sockaddr\_in}. {\tt sendto()} doit contenir cette adresse destination, {\`a}
+moins que l'application n'aie param{\`e}tr{\'e} une valeur par
+d{\'e}faut\footnote{gr{\^a}ce {\`a} l'appel syst{\`e}me {\tt connect()},
+cf. section \ref{inet-dgram-syscall-connect}}. Si ce mode d'adressage par
+d{\'e}faut est adopt{\'e}, le champ adresse de la structure {\tt sockaddr\_in} doit {\^e}tre mis
+{\`a} {\sl z{\'e}ro}. Au cas o{\`u} le programmeur oublierait ce d{\'e}tail, l'appel syst{\`e}me {\tt sendto()} remonterait
+l'erreur.
+
+\begin{remarque}
+Si le programmeur fait un appel {\`a} {\tt sendto()} avant de faire appel {\`a}
+{\tt bind()}, le syst{\`e}me utilisera alors comme destination la machine
+locale\footnote{La machine <<~\textsl{locale}~>> correspond {\`a} la machine dont l'adresse IP est
+<<0.0.0.0>>, rien {\`a} voir avec <<{\tt loopback}>> ou <<{\tt localhost}>> sous
+{\Unix} correspondant {\`a} un rebouclage au niveau de la carte r{\'e}seau (adresse
+{\tt 127.0.0.1})}, on reboucle donc sur soi-m{\^e}me.
+\end{remarque}
+
+L'appel syst{\`e}me {\tt recvfrom()} bloque l'ex{\'e}cution du programme tant que 
+la totalit{\'e} d'un message n'a pas {\'e}t{\'e} re\c{c}u. Contrairement aux appels
+syst{\`e}me {\tt recv()} ou {\tt read()} que nous avons examin{\'e}s à la
+section \ref{instream-send-recv} et au comportement des {\sl Internet Stream
+Sockets} (cf. section \ref{instream-syscall-exchg-intro}), <<~\texttt{recvfrom()}~>>
+garantit que ce qui est contenu dans le {\sl buffer} pass{\'e} en argument,
+est bien constitu{\'e} de la {\bf totalit{\'e} du message transmis}, {\sc par contre}
+il n'y a aucune garantie sur la fiabilit{\'e} des donn{\'e}es.
+
+\begin{remarque}
+Bien que ce type de port de communication garantisse que la totalit{\'e} d'un 
+message soit contenu dans le {\sl buffer} pass{\'e} en argument, on se heurte
+tout de m{\^e}me à un problème lié à sa la taille. En effet, dans le cas o{\`u}
+la longueur du message excéderait sa taille du {\sl buffer}, tout ce qui  d{\'e}passera cette
+capacit{\'e} sera perdu. En g{\'e}n{\'e}ral, on utilise toujours un {\sl buffer} assez
+grand au niveau de l'application.
+
+La taille maximum d'un message est de $9126$ octets.
+\end{remarque}
+
+\subsubsection{Exemple}
+
+\begin{quote}
+\begin{verbatim}
+strcpy (buffer, "Message à envoyer");
+length = strlen(buffer);
+
+to.sin_family = AF_INET;
+to.sin_addr.s_addr = MON_SERVEUR;
+to.sin_port = PORT_MON_SERVEUR;
+
+n = sendto (s, buffer, length, flags, &to,
+            strlen(struct sockaddr_in));
+
+fromlength = sizeof (struct sockaddr);
+n = recvfrom ( s, buffer, &length, flags, &from, &fromlength);
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{inet-dgram-syscall-connect}Adresse de destination~: appel syst{\`e}me {\tt connect}}
+
+L'appel syst{\`e}me {\tt connect()} peut {\^e}tre utilis{\'e} pour pr{\'e}ciser une
+adresse par d{\'e}faut pour {\tt sendto()} et {\tt recvfrom()}. La
+sp{\'e}cification de cette adresse par d{\'e}faut permettra d'utiliser les
+appels syst{\`e}mes {\tt read()} et {\tt write()}, ne disposant pas dans la
+liste de leurs arguments, une adresse o{\`u} les donn{\'e}es doivent {\^e}tre
+transmises ou bien reçues.
+
+\begin{remarque}
+{\bf {\sc Attention}}, lorsque vous utilisez cette fonctionnalit{\'e} avec
+l'appel syst{\`e}me {\tt sendto()}, le champ <<~\texttt{adresse}~>> doit contenir une
+adresse IP nulle. Dans le cas contraire, {\tt sendto()} renverra une erreur et aucune donn{\'e}e
+ne sera transmise.
+\end{remarque}
+
+Cette adresse par d{\'e}faut permet aussi d'utiliser les appels syst{\`e}mes suivants
+{\`a} la place de {\tt recvfrom()}~:
+\begin{itemize}
+	\item {\tt recv()},
+	\item {\tt read()}.
+\end{itemize}
+{\tt recvfrom()} peut toujours {\^e}tre utilis{\'e}, mais vous devrez conna{\^\i}tre en
+permanence la provenance du message. Dans le cas o{\`u} vous utilisez la
+notion d'adresse par d{\'e}faut, tout message provenant d'une autre machine
+sera ignor{\'e}.
+
+Contrairement {\`a} son utilisation dans le cas des {\sl Internet Stream
+Sockets}, {\tt connect()} utilis{\'e} avec des canaux de communications
+non-connect{\'e}, rend im\-m{\'e}diatement la main au programme et
+n'{\'e}tablit
+aucune connexion (cf. section ~\ref{instream-syscall-connect}). {\tt
+connect()} n'est utilis{\'e} que pour configurer l'adresse
+source$/$destination par d{\'e}faut.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{inet-dgram-brdmsg}Messages {\sl broadcast}, \textsl{multicast}, \textsl{unicast}}
+
+Un message {\sl broadcast} est un message {\'e}mis {\`a} partir d'une machine
+sur l'ensemble du r{\'e}seau. Par cons{\'e}quent, tout poste connect{\'e} sur
+ce m{\^e}me r{\'e}seau recevra le message.
+
+Ce type de messages est celui qui est utilis{\'e} par le protocole ARP
+afin de faire la translation entre l'adresse logique sur le
+r{\'e}seau (adresse IP) et l'adresse physique (adresse de la carte r{\'e}seau).
+Pour cela, reportez-vous {\`a} la section \ref{protip-ARP}.
+
+La figure \ref{inet-dgram-fig-brdmsg} illustre la philosophe des
+messages {\sl broadcast}.
+
+\begin{figure}[hbtp]
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(337,157)
+	\thinlines
+	\put(266,36){\framebox(61,29){R{\'e}cepteur}}
+ 	\put(202,23){\framebox(61,29){R{\'e}cepteur}}
+	\put(138,10){\framebox(61,29){R{\'e}cepteur}}
+	\put(74,23){\framebox(61,29){R{\'e}cepteur}}
+	\put(10,36){\framebox(61,29){R{\'e}cepteur}}
+	\put(144,120){\vector(-4,-3){66}}
+	\put(153,120){\vector(-3,-4){37}}
+	\put(161,120){\vector(-1,-3){17}}
+	\put(186,120){\vector(3,-2){77}}
+	\put(178,120){\vector(1,-1){52}}
+	\put(172,120){\vector(1,-2){25}}
+	\put(166,120){\vector(0,-1){51}}
+	\put(124,120){\framebox(92,28){Emetteur message}}
+\end{picture}
+\caption{\label{inet-dgram-fig-brdmsg}Illustration de la philosophie des
+messages {\sl broadcast}}
+\end{figure}
+
+\begin{remarque}
+Les messages de {\sl broadcast} ne traversent pas les routeurs IP,
+c'est-{\`a}-dire les {\'e}l{\'e}ments actifs du r{\'e}seau charg{\'e} de
+relier deux r{\'e}seaux IP\footnote{Au sens des adresses IP, cf. section \ref{protip-defIP}.}.
+Les domaines de {\sl broadcast}, c'est-{\`a}-dire l'ensemble des machines
+succeptibles de recevoir ce message, sont donc en g{\'e}n{\'e}ral li{\'e}s {\`a} un
+num{\'e}ro de r{\'e}seau\footnote{en fonction de la structure physique du r{\'e}seau}.
+\end{remarque}
+
+En opposition, les messages {\sl multi-cast} sont des messages adress{\'e}s
+{\`a} un groupe bien d{\'e}fini de machines sur un m{\^e}me r{\'e}seau.
+
+Si nous reprenons la fa\c{c}on dont les adresses IP sont d{\'e}finies (cf. section
+\ref{protip-defIP}), pour atteindre toutes les machines d'un m{\^e}me num{\'e}ro
+de r{\'e}seau IP, il suffit de~:
+\begin{itemize}
+	\item	pr{\'e}ciser au niveau de l'adresse destination, le num{\'e}ro de r{\'e}seau qui nous interresse,
+	\item	de mettre tous les bits {\`a} $1$ dans la zone associ{\'e}e au num{\'e}ro de machine.
+\end{itemize}
+
+Par exemple, l'adresse <<~{\tt 192.0.0.255}~>>
+\begin{itemize}
+	\item	correspond {\`a} une adresse de classe <<~C~>>,
+	\item	est associ{\'e}e au r{\'e}seau <<~{\tt 192.0.0}~>>,
+	\item	adresse toutes les machines du r{\'e}seau IP <<~{\tt 192.0.0}~>>.
+\end{itemize}
+C'est donc une adresse {\tt multicast} qui permettra de r{\'e}f{\'e}rencer toutes les
+machines du r{\'e}seau IP <<~{\tt 192.0.0}~>>.
+
+De m{\^e}me, l'adresse <<~{\tt 138.21.255.255}~>>
+\begin{itemize}
+	\item	correspond {\`a} une adresse de classe <<~B~>>,
+	\item	est associ{\'e}e au r{\'e}seau <<~{\tt 138.21}~>>,
+	\item	adresse toutes les machines du r{\'e}seau IP <<~{\tt 138.21}~>>.
+\end{itemize}
+C'est donc une adresse {\tt multicast} qui permettra de r{\'e}f{\'e}rencer toutes les
+machines du r{\'e}seau IP <<~{\tt 138.21}~>>.
+
+Par contre, l'adresse <<~{\tt 144.10.1.255}~>> n'est ni une adresse {\sl broadcast}, ni \textsl{multicast}.
+En effet, cette adresse est une adresse de classe <<~B~>>. Le champ r{\'e}serv{\'e}
+pour la num{\'e}rotation des machines correspond donc aux deux derniers octets
+de l'adresse. {\bf Cette adresse r{\'e}f{\'e}rence donc la machine <<~{\tt 1.255}~>>
+du r{\'e}seau IP <<~{\tt 144.10}~>>}.
+
+Pour une adresse \textsl{broadcast}, il convient de préciser une adresse référençant n'importe quelle machine
+de n'importe quel réseau. Pour cela, nous aurons~:
+\begin{itemize}
+	\item	<<\texttt{255.255.255.255}~>> pour IP,
+	\item	<<~\texttt{FF:FF:FF:FF:FF:FF}~>> pour le protocole Ethernet (802.3).
+\end{itemize}
+
+\begin{remarque}
+{\sc Attention}, ce type de message augmente de fa\c{c}on assez significative
+la charge du r{\'e}seau physique. Ils sont donc {\`a} utiliser avec pr{\'e}caution.
+\end{remarque}
+
+{\bf Vous devez {\^e}tre sur la machine en tant qu'administrateur pour pouvoir
+envoyer des messages {\sl broadcast}}. De plus, l'interface doit
+{\^e}tre configur{\'e}e pour supporter ce type de message\footnote{Sur certains
+{\Unix}, l'envoie de message de broadcast est autorisé par d{\'e}faut}. Il vous suffira
+d'utiliser la commande {\tt ifconfig(1)} pour paramétrer cette fonctionnalité.
+
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{R{\'e}capitulatif}
+
+Le tableau ~\ref{inet-dgram-tab-recap} permet de r{\'e}capituler la s{\'e}quence des
+diff{\'e}rents appels syst{\`e}mes {\`a} utiliser dans le cas d'{\'e}changes de 
+donn{\'e}es entre clients et serveurs. Les appels marqu{\'e}s de \dag{} sont optionnels.
+
+Les appels marqu{\'e}s de \ddag{} peuvent {\^e}tre utilis{\'e}s seulement si une adresse
+par d{\'e}faut a {\'e}t{\'e} configur{\'e} gr{\^a}ce {\`a} l'appel syst{\`e}me {\tt connect()}
+
+\begin{table}[hbtp]
+\centering
+\begin{tabular}{|l|l|l|}
+	\hline
+		Phase	&	Serveur		&	Client			\\
+	\hline \hline
+		1	&	{\tt socket()}		&	{\tt socket()}		\\
+	\hline
+		2	&	{\tt bind()}		&	{\tt bind()}		\\
+	\hline
+	\hline
+		3	&	{\tt connect()}\dag{}	&	{\tt connect()}\dag{}	\\
+	\hline
+		4	&	{\tt sendto()}		&	{\tt recvfrom()}		\\
+			&	{\tt recvfrom()}		&	{\tt sendto()}		\\
+			&	{\tt recv()}\ddag{}	&	{\tt send()}\ddag{}	\\
+			&	{\tt send()}\ddag{}	&	{\tt recv()}\ddag{}	\\
+			&	{\tt read()}\ddag{}	&	{\tt write()}\ddag{}	\\
+			&	{\tt write()}\ddag{}	&	{\tt read()}\ddag{}	\\
+	\hline
+		5	&				&	{\tt close()}		\\
+			&	{\tt close()}		&				\\
+	\hline
+\end{tabular}
+\caption{\label{inet-dgram-tab-recap}R{\'e}capitulatif des appels
+syst{\`e}mes
+pour les {\sl Internet Datagram Socket}}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exemple}
+
+\subsection{Partie <<~serveur~>>}
+
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+main() {
+    int                 sk, n, len, clientlen;
+    int                 buf;
+    struct sockaddr_in  myaddr, client_addr;
+    
+    if ( (sk = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
+        perror ("serveur: erreur appel système socket()");
+        exit (-1);
+    }
+    
+    /* Affectation des caractéristiques au port de communication */
+    
+    myaddr.sin_family = AF_INET;
+    myaddr.sin_addr.s_addr : INADDR_ANY;
+    myaddr.sin_port = 22444;
+    if (bind (sk, &myaddr, sizeof(struct sockaddr_in)) == -1) {
+        perror ("serveur: erreur appel système bind()");
+        exit (-1);
+    }
+    
+    len = sizeof (buf);
+    clientlen = sizeof (struct sockaddr_in);
+    while (1) {
+        /* Réception des données */
+        if ( (n=recvfrom (sk, &buf, len, 0, &clientaddr, &clientlen))
+            == -1 ) {
+                perror ("serveur: erreur appel système recvfrom()");
+                exit (-1);
+        }
+        
+        /* Est-ce la dernière transmission ? Si oui, on sort */
+        if (buf == -1 ) {
+            break;
+        }
+        
+        /* Envoi de données vers le client */
+        if ( (n=sendto( sk, &buf, len, 0, &clientaddr, clientlen))
+            == -1 ){
+                perror ("serveur: erreur appel système sendto()");
+                exit (-1);
+        }
+    }
+    
+    /* Fermeture du port de communication */
+    close (sk);
+}
+\end{verbatim}
+
+
+\subsection{Partie <<~client~>>}
+
+Ce programme utilise la notion de {\it signaux} sous {\Unix}. Pour
+plus de renseignements sur ces fonctionnalit{\'e}s, reportez vous {\`a}
+la section \ref{advpgm-sig}.
+
+\begin{verbatim}
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <signal.h>
+#include <times.h>
+
+#define MASK(s) ( 1L << ((s) - 1 ))
+
+void                handler();
+int                 roundtrip, sk;
+float               total_msec;
+int                 write_len, write_buf, tolen;
+struct sockaddr_in  to;
+
+main ()
+{
+    int                     n, usec, secs, read_len, read_buf,
+                            fromlen;
+    long                    savemask;
+    float                   msec;
+    struct sockaddr_in      myaddr, from;
+    static struct sigvec    vec = {handler, 0, 0};
+    struct timeval          start, stop, total;
+    struct timezone         tzp;
+    
+    /* Paramétrage des signaux, avec des appels BSD, cf. signal(2) pour
+    ** les Unix SVR4
+    */
+    if ( sigvector(SIGINT, &vec, 0) == -1 ) {
+        perror ("client: erreur appel système sigvector()");
+        exit (-1);
+    }
+    
+    /* Création du port de communication */
+    if ( (sk = socket(AF_INET, SOCK_DGRAM, 0)) == -1 ) {
+        perror ("client: erreur appel système socket()");
+        exit (-1);
+    }
+    
+    /* Initialisation de la boucle d'E/S */
+    tolen = sizeof (to);
+    to.sin_family = AF_INET;
+    to.sin_addr.s_addr = 0xc0193d84;    /* Adresse IP en
+                                        ** hexad{\'e}cimal */
+    to.sin_port = 22411;
+    fromlen = sizeof (from);
+    write_len = sizeof (write_buf);
+    read_len = sizeof (read_buf);
+    round_trip = 0;
+    printf ("\t\ttrip\tdur{\'e}e en ms\n");
+    printf ("\t\t----\t-----------\n");
+    
+    while (1) {
+        /* Blocage de l'arrivée de signaux d'interruption */
+        savemask = sigblock (MASK(SIGINT));
+        
+        /* On met les données à envoyer dans le buffer */
+        roundtrip ++;           /* Ce que l'on veut envoyer */
+        write_buf = roundtrip;
+        
+        /* Récupération de l'horloge système */
+        if ( gettimeofday (&start, &tzp) == -1 ) {
+            perror ("client: erreur appel gettimeofday()");
+            exit (-1);
+        }
+        
+        /* Emission des données */
+        if ( (n = sendto(sk, &write_buf, write_len, &to, to_len))
+             == -1) {
+                perror ("client: erreur appel système sendto()");
+                exit (-1);
+        }
+        
+        /* Récupération des données du serveur */
+        if ( (n = recvfrom(sk, &read_buf, read_len, 0, &from, &from_len))
+             == -1) {
+                perror ("client: erreur appel système recvfrom()");
+                exit (-1);
+        }
+        
+        /* Récupération de l'horloge système */
+        if ( gettimeofday (&stop, &tzp) == -1 ) {
+            perror ("client: erreur appel gettimeofday()");
+            exit (-1);
+        }
+        
+        /* Calcul du temps pour les échanges */
+        secs = stop.tv_sec - start.tv_sec;
+        usec = stop.tv_usec - start.tv_usec;
+        if (usec < 0 ) {
+            secs --;
+            usecs += 1000000;
+        }
+        
+        msecs = 1000 * (float)secs;
+        msecs += (float) (usec / 1000);
+        printf ("\t\t%3d\t%f\n", roundtrip, msec);
+        
+        /* Calcul du cumul pour le temps écoulé */
+        total_msec += msec;
+        
+        /* Autorisation de réceptions de signaux */
+        sigsetmask (savemask);
+    }
+}
+
+/* Handler exécuté lors de la réception de signaux */
+handler ()
+{
+    /* On prévient le serveur que c'est la dernière transmission */
+    write_buf = -1;
+    sendto (sk, &write_buf, write_len, 0, &to, tolen);
+    
+    /* Affichage des résultats finaux */
+    printf ("\t\t----\t-----------\n");
+    printf ("\t\tmoy.\t%f\n", total_msec / (float)roundtrip );
+    
+    /* Fermeture du canal */
+    close (sk);
+    
+    exit (0);
+
+}
+\end{verbatim}

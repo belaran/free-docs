@@ -1,0 +1,939 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Notions avanc{\'e}es de r{\'e}seau sur les syst{\`e}mes Unix
+%
+\chapter[Notions avanc{\'e}es de r{\'e}seau]
+	{\label{advnet}Notions avanc{\'e}es de r{\'e}seau sur les syst{\`e}mes {\Unix}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{advnet-inetd}Service <<~\texttt{inetd}~>>}
+
+%%%%%%%%%%%%
+\subsection{Introduction - Fonctionnalit{\'e}}
+
+Nous avons vu qu'un processus serveur est un processus qui doit~:
+\begin{itemize}
+	\item	{\'e}couter sur un port de communication pour attendre les
+		demandes de connexion dans le cas des {\'e}changes en mode
+		connect{\'e}, ou bien attendre en permance que des donn{\'e}es
+		lui soient transmises, dans le cas des {\'e}changes de donn{\'e}es
+		en mode non-connect{\'e},
+	\item	{\'e}changer des informations avec un ou plusieurs clients.
+\end{itemize}
+
+Par cons{\'e}quent, si vous d{\'e}sirez que le service soit disponible en
+permance, {\bf le processus doit toujours {\^e}tre actif}. Ce point pr{\'e}sente
+donc les inconv{\'e}nients suivants~:
+\begin{itemize}
+	\item	ce processus va consommer des ressources machines inutilement
+		si les acc{\`e}s aux services qu'il propose sont peu sollicit{\'e}s,
+	\item	si l'on doit disposer de beaucoup de services sur une m{\^e}me
+		machine, il risquera d'y avoir profusions de processus.
+\end{itemize}
+
+La technique consiste donc d'avoir un {\sl serveur de services r{\'e}seau},
+c'est-{\`a}-dire un processus qui est {\`a} l'{\'e}coute sur un ensemble de ports
+donn{\'e}es. D{\`e}s qu'une demande de connexion arrive sur l'un d'eux (pour les
+{\'e}changes de donn{\'e}es en mode connect{\'e}) ou bien que des donn{\'e}es y sont
+disponibles (pour les {\'e}changes de donn{\'e}es en mode non-connect{\'e}), ce dernier
+va cr{\'e}er un sous processus dans lequel il ex{\'e}cutera le serveur associ{\'e}~:
+{\bf c'est le r{\^o}le du service <<~\texttt{inetd}~>>}\footnote{<<~\texttt{inetd}~>> =Internet Daemon}
+
+<<~\texttt{inetd}~>> est donc un processus tournant en permanence sur le syst{\`e}me
+{\Unix}\footnote{pour les implantations des services IP sur d'autre syst{\`e}mes
+d'exploitation, on retrouvera le m{\^e}me principe, c'est-{\`a}-dire un processus
+qui tournera en permance pour {\^e}tre {\`a} l'{\'e}coute sur une liste r{\'e}f{\'e}renc{\'e}e de ports
+de communication}\footnote{un processus tournant en permanence sous {\Unix} est
+appel{\'e} aussi {\sl daemon}}. Il sera alors responsable de d{\'e}marrer des services
+classiques comme certains services ARPA, Berkeley et NFS ou bien ceux que vous
+auriez choisi de d{\'e}velopper, lorsque l'un d'eux sera sollicit{\'e}. <<~\texttt{inetd}~>>
+pourra prendre en charge les deux types de connexion au niveau des serveurs~:
+\begin{itemize}
+	\item	les serveurs utilisant un mode de communication non-connect{\'e} en
+		s'appuyant sur le protocole de transport ad{\'e}quat (en g{\'e}n{\'e}ral UDP)
+	\item	les serveurs utilisant un mode de communication connect{\'e} en
+		s'appuyant sur le protocole de transport ad{\'e}quat (en g{\'e}n{\'e}ral TCP)
+\end{itemize}
+
+Les étapes suivies par <<~\texttt{inetd}~>> sont les suivantes~:
+\begin{order}
+	\item	<<~\texttt{inetd}~>> est en {\'e}coute sur tous les ports de communication
+		d{\'e}crits dans son fichier de configuration,
+	\item	lorsqu'une demande de connexion est re\c{c}ue sur l'un des ports,
+		<<~\texttt{inetd}~>> examine son fichier de configuration afin de conna{\^\i}tre
+		le serveur (programme) {\`a} lancer,
+	\item	<<~\texttt{inetd}~>> va cr{\'e}er un sous-process\footnote{appel syst{\`e}me
+		{\tt fork()}} dans lequel il  ex{\'e}cutera le programme serveur
+		ad{\'e}quate,
+	\item	le programme serveur h{\'e}ritera des canaux d'entr{\'e}e$/$sortie
+		via les canaux classiques {\tt stdin} et {\tt stdout}:
+		\begin{itemize}
+			\item	{\tt stdin} correspondra au canal par lequel
+				arriveront les donn{\'e}es,
+			\item	{\tt stdout} correspondra au canal par lequel
+				les donn{\'e}es devront {\^e}tre {\'e}mises.
+		\end{itemize}
+\end{order}
+
+Pendant toute cette phase de lancement du serveur adéquat,
+<<~\texttt{inetd}~>> continuera {\`a} {\'e}couter sur tous les ports de communication
+dont il a la charge. Par cons{\'e}quent, pendant cette phase, il est tout {\`a}
+fait possible d'effectuer les m{\^e}mes étapes pour~:
+\begin{itemize}
+	\item	un autre service,
+	\item	le m{\^e}me service.
+\end{itemize}
+
+\begin{remarque}
+Sachant qu'<<~\texttt{inetd}~>> prend en charge l'{\'e}tablissement de connexion,
+que ce soit pour les ports de communication en mode connect{\'e} ou
+non-connect{\'e}, il ne sera pas n{\'e}cessaire d'utiliser~:
+\begin{itemize}
+	\item	{\tt socket()}, {\tt bind()}, {\tt listen()} et {\tt accept()}
+		pour la gestion du canal en mode connect{\'e},
+	\item	{\tt socket()} et {\tt bind()} pour la gestion du canal
+		en mode non-connect{\'e}.
+\end{itemize}
+Il suffira de lire et d'{\'e}crire respectivement sur l'entr{\'e}e et la sortie standard.
+\end{remarque}
+
+\begin{remarque}
+<<~\texttt{inetd}~>> n'a d'int{\'e}r{\^e}t que pour les processus serveur. Il n'est
+pas con\c{c}u pour g{\'e}rer des programmes clients, ce n'est d'ailleurs pas
+le but recherch{\'e}.
+\end{remarque}
+
+%%%%%%%%%%%%
+\subsection{\label{advnet-config-inetd}Configuration}
+
+La configuration d'<<~\texttt{inetd}~>> sur un syst{\`e}me {\Unix} ne peut
+se faire qu'{\`a} partir du compte administrateur <<~{\tt root}~>>. Vous
+devez donc avoir acc{\`e}s {\`a} ce compte sp{\'e}cial pour ajouter ou retirer des
+services, ou bien demander {\`a} l'administrateur de votre machine d'en faire le paramétrage.
+
+Avant de vouloir ajouter une entr{\'e}e dans <<~\texttt{inetd}~>>, il faut s'assurer
+que ce service est bien d{\'e}clar{\'e} dans la liste des services r{\'e}f{\'e}renc{\'e}s,
+c'est-{\`a}-dire dans le fichier {\tt $/$etc$/$services} sur un syst{\`e}me
+{\Unix} (cf. section \ref{protip-etc-services}). Comme pour <<~\texttt{inetd}~>>, l'ajout ou le retrait
+de services ne peut se faire qu'{\`a} partir du compte d'administration de la machine.
+
+De m{\^e}me, il faudra s'assurer que le protocole de transport {\`a} utiliser,
+est bien d{\'e}clar{\'e} dans la liste des protocoles r{\'e}f{\'e}renc{\'e}s, c'est-{\`a}-dire
+dans le fichier {\tt $/$etc$/$protocols} sur un syst{\`e}me {\Unix} (cf.
+section \ref{protip-etc-protocols}). Comme pour <<~\texttt{inetd}~>>, l'ajout ou
+le retrait d'un protocole ne peut se faire qu'{\`a} partir du compte d'administration de la machine.
+
+Le fichier de configuration d'<<~\texttt{inetd}~>> est {\tt $/$etc$/$inetd.conf}.
+Celui-ci se compose de six champs s{\'e}par{\'e}s par des tabulations ou des espaces~:
+\begin{description}
+	\item[Le nom du service]\mbox{}\\
+		Ce champ correspond {\`a} un nom de service
+		qui a {\'e}t{\'e} enregistr{\'e} dans le fichier {\tt $/$etc$/$services}
+		(ou dans l'annuaire correspondant).
+	\item[Le type de socket]\mbox{}\\
+		Ce champ correspond au mode de connexion
+		utilis{\'e}, c'est-{\`a}-dire mode connect{\'e} ou mode non-connect{\'e}.
+		Les options valides sont~:\\
+		\begin{tabular}{l@{\hspace{2ex}}p{10cm}}
+			{\tt stream}	&	pour les sockets en mode connect{\'e},	\\
+			{\tt dgram}	&	pour les sockets en mode non-connect{\'e}.	\\
+		\end{tabular}
+	\item[Le protocole de transport]\mbox{}\\
+		Ce champ sp{\'e}cifie le protocole de transport {\`a} utiliser.
+		Les noms valides sont ceux qui auront {\'e}t{\'e} d{\'e}clar{\'e}s dans le fichier
+		{\tt $/$etc$/$protocols} ou dans l'annuaire {\'e}quivalent. On pourra donc avoir~:
+		\begin{itemize}
+			\item <<~{\tt tcp}~>> pour le protocole de transport TCP,
+			\item <<~{\tt udp}~>> pour le protocole de transport UDP.
+		\end{itemize}
+		{\bf ATTENTION}, le protocole de transport que vous
+		aurez sp{\'e}cifi{\'e}, doit {\^e}tre capable de g{\'e}rer le mode de
+		communication que vous aurez s{\'e}lectionn{\'e} au niveau du champ pr{\'e}c{\'e}dent.
+	\item[Les options de lancement]\mbox{}\\
+		Ce champ admet deux valeurs possibles~: <<~{\tt wait}~>> et <<~{\tt nowait}~>>. Cette option n'a de sens
+		que dans le cas des ports de communications fonctionnant
+		en mode non-connect{\'e} ({\sl datagram sockets}). Dans tous les
+		autres cas, la seule option possible est <<~{\tt nowait}~>>.\\
+		Pour les ports de communication fonctionnant en mode non connect{\'e}, on a donc deux cas possibles.
+		\begin{description}
+			\item[Avec l'option {\tt wait}]\mbox{}\\
+				le serveur {\'e}changera des donn{\'e}es avec un client,
+				puis lib{\`e}rera le port de communication. <<~\texttt{inetd}~>>
+				pourra alors recevoir d'autres messages sur ce m{\^e}me
+				port~: le serveur est dit alors <<~{\sl multi-threaded}~>>.
+			\item[Avec l'option {\tt nowait}]\mbox{}\\
+				Le serveur recevra les donn{\'e}es de plusieurs sessions
+				sur le m{\^e}me port de communication. Ce type de serveur est dit
+				<<~{\sl single-threaded}~>>.
+		\end{description}
+		En r{\'e}sum{\'e}~:
+		\begin{itemize}
+			\item	Avec l'option {\tt wait}, le serveur doit terminer
+				le traitement en cours pour prendre en charge une autre requ{\^e}te.
+			\item	Avec l'option {\tt nowait}, plusieurs requ{\^e}tes peuvent
+				{\^e}tre trait{\'e}es simultan{\'e}ment.
+		\end{itemize}
+	\item[Le nom de l'utilisateur]\mbox{}\\
+		Ce champ pr{\'e}cise sous quelle identit{\'e} le processus serveur doit {\^e}tre lanc{\'e}.
+	\item[Le nom du programme serveur]\mbox{}\\
+		Ce champ se compose de deux parties~:
+		\begin{itemize}
+			\item	la premi{\`e}re consiste {\`a} sp{\'e}cifier le chemin d'acc{\`e}s 
+				absolu du programme {\`a} lancer, c'est-{\`a}-dire le nom du
+				r{\'e}pertoire depuis la racine suivi du nom de l'ex{\'e}cutable,
+			\item	la seconde consiste {\`a} sp{\'e}cifier {\`a} nouveau le nom du
+				programme, {\bf uniquement le nom et non pas son
+				chemin d'acc{\`e}s}, et les {\'e}ventuels arguments {\`a} lui 	pr{\'e}ciser.
+		\end{itemize}
+		Cette contrainte de pr{\'e}ciser une fois le chemin absolu et
+		ensuite le nom du programme suivi de ces arguments, s'explique
+		si l'on fait l'analogie avec le langage C~:
+		\begin{itemize}
+			\item	le chemin absolu permet {\`a} <<~\texttt{inetd}~>> de localiser les informations et
+				ainsi de pouvoir charger le bon ex{\'e}cutable,
+			\item	repr{\'e}ciser le nom de l'ex{\'e}cutable sans le chemin d'accès
+				suivi des arguments, permet d'initialiser les variables <<~{\tt argc}~>> et
+				<<~{\tt argv}~>> d'un programme C. Par cons{\'e}quent, la variable
+				<<~{\tt argv[0]}~>> contiendra uniquement le nom de l'ex{\'e}cutable sans
+				aucun nom de r{\'e}pertoire dans son chemin d'acc{\`e}s.
+		\end{itemize}
+\end{description}
+
+Une fois que le fichier {\tt $/$etc$/$inetd.conf} a {\'e}t{\'e} modifi{\'e}, il
+faut pr{\'e}venir <<~\texttt{inetd}~>> de le relire pour prendre en compte la mise {\`a}
+jour. \'{E}videmment, cette op{\'e}ration ne peut s'effectuer qu'{\`a} partir 
+du compte d'administration de la machine. Suivant les {\Unix}, on trouvera plus ou moins de facilit{\'e}s.
+Par exemple~:
+\begin{itemize}
+	\item	sur HP-UX\footnote{L'{\Unix} de Hewlett-Packard}, il suffit de taper la commande <<~{\tt inetd -c}~>>,
+	\item	sur {\sc Irix}\footnote{L'{\Unix} de Silicon Graphics} et {\Linux}, il suffit de taper la commande
+		<<~{\tt killall -HUP inetd}~>>,
+	\item	sur AIX\footnote{L'{\Unix} d'IBM}, il suffit de taper la commande <<~{\tt refresh -s inetd}~>>,
+	\item	etc.
+\end{itemize}
+De fa\c{c}on g{\'e}n{\'e}rale, il suffit d'envoyer le signal <<~{\tt SIGHUP}~>> au
+processus <<~\texttt{inetd}~>>. On peut donc le faire avec la simple commande suivante~:
+\begin{quote}
+{\tt kill -HUP} {\it PID}
+\end{quote}
+o{\`u} <<~{\it PID}~>> repr{\'e}sente le num{\'e}ro de processus de <<~\texttt{inetd}~>>.{\bf  Ceci
+fonctionnera sur n'importe quel syst{\`e}me {\Unix}}.
+
+\begin{remarque}
+Contrairement {\`a} la liste des services disponibles ({\tt $/$etc$/$services})
+le fichier {\tt $/$etc$/$inetd.conf} ne peut {\^e}tre que local {\`a} une machine.
+Vous ne pouvez donc pas le g{\'e}rer via des annuaires r{\'e}partis comme
+le service NIS.
+\end{remarque}
+
+%%%%%%%%%%%%
+\subsection{Aspect administration de syst{\`e}mes}
+
+<<~\texttt{inetd}~>> peut pr{\'e}sent{\'e} de nombreux avantages quant {\`a} l'aspect
+<<~gestion de syst{\`e}mes~>>, plus particuli{\`e}rement avec {\Unix}.
+
+Par exemple, il apparait {\'e}vident que des serveurs comme
+\begin{itemize}
+	\item	{\tt telnetd} assurant la gestion des connexions <<~Telnet~>> entrantes,
+	\item	{\tt ftpd} assurant la gestion des connexions <<~Ftp~>> entrantes,
+	\item	etc.
+\end{itemize}
+devront {\^e}tre g{\'e}r{\'e}s par <<~\texttt{inetd}~>>. En effet, cela {\'e}vitera d'avoir une
+liste bien trop importante de processus en attente. D{\`e}s que cela sera
+n{\'e}cessaire, le serveur associ{\'e} sera lanc{\'e}. D{\`e}s que la connexion
+sera termin{\'e}e, le processus dispara{\^\i}tra.
+
+Par contre, pour des processus serveurs comme celui d'un serveur {\sc Web},
+cela risque de ne pas {\^e}tre une bonne id{\'e}e. En effet, pour certains types
+de services, un ou plusieurs fichiers de configuration
+permettent de d{\'e}crire tous les param{\`e}tres du service. De plus, dans
+le cas particulier d'un serveur {\sc Web}, {\`a} chaque demande d'une page~:
+\begin{itemize}
+	\item	le client doit {\'e}tablir une connexion au serveur,
+	\item	le serveur doit envoyer les fichiers correspondants,
+	\item	la connexion entre les deux est ferm{\'e}e.
+\end{itemize}
+
+Par cons{\'e}quent, si le serveur {\sc Web} est g{\'e}r{\'e} par <<~\texttt{inetd}~>>,
+{\`a} chaque connexion d'un client
+\begin{quote}
+\begin{tabular}{cl}
+	{\bf {\'e}tape 1}	&	le processus sera lanc{\'e}, \\
+	{\bf {\'e}tape 2}	&	il va lire ses fichiers de configuration, \\
+	{\bf {\'e}tape 3}	&	il va transf{\'e}rer les donn{\'e}es, \\
+	{\bf {\'e}tape 4}	&	le processus se termine.\\
+\end{tabular}
+\end{quote}
+Par contre, si ce type de serveur tourne en permanence, seules les
+{\'e}tapes 2 et 3 seront ex{\'e}cut{\'e}es {\`a} chaque connexion. De plus, certains
+se clonent automatiquement en fonction du nombre de requ{\^e}tes qui leur
+est adress{\'e}, ceci afin de satisfaire les demandes plus rapidement.
+
+Dans tous les cas, il faudra donc r{\'e}fl{\'e}chir avant de faire prendre
+en charge un processus serveur par <<~\texttt{inetd}~>>.
+
+Voici une liste non-exhaustive des services classiques dont la gestion
+est assur{\'e}e par <<~\texttt{inetd}~>>~:
+\begin{itemize}
+	\item	les services de connexion et d'ex{\'e}cution {\`a} distance, 	comme <<~{\tt telnetd}~>>,
+		<<~{\tt rlogind}~>>, <<~{\tt rshd}~>>, <<~{\tt rexecd}~>>, etc.
+	\item	les services de transfert de fichiers, comme <<~{\tt ftpd}~>>, <<~{\tt rcpd}~>>, etc.
+	\item	le service de changement des mots de passe des boites aux lettres associé au protocole de
+		messagerie POP3 (<<~{\tt poppasswd}~>>),
+	\item	etc.
+\end{itemize}
+
+
+Voici un exemple de fichier {\tt $/$etc$/$inetd.conf}~:
+
+\begin{verbatim}
+# See "man 8 inetd" for more information.
+#
+# If you make changes to this file, either reboot your machine or send
+the
+# inetd a HUP signal:
+# Do a "ps x" as root and look up the pid of inetd. Then do a
+# "kill -HUP <pid of inetd>".
+# The inetd will re-read this file whenever it gets that signal.
+#
+# <service_name> <sock_type> <proto> <flags> <user> <server_path> <args>
+#
+echo    stream  tcp nowait  root    internal
+echo    dgram   udp wait    root    internal
+discard stream  tcp nowait  root    internal
+discard dgram   udp wait    root    internal
+daytime stream  tcp nowait  root    internal
+daytime dgram   udp wait    root    internal
+chargen stream  tcp nowait  root    internal
+chargen dgram   udp wait    root    internal
+time    stream  tcp nowait  root    internal
+time    dgram   udp wait    root    internal
+#
+# These are standard services.
+#
+ftp     stream  tcp nowait  root    /usr/sbin/tcpd  wu.ftpd
+telnet  stream  tcp nowait  root    /usr/sbin/tcpd  in.telnetd
+#
+# Use this one instead if you want to snoop on telnet users (try to use this
+# for ethical purposes, ok folks?) :
+# telnet stream tcp nowait  root    /usr/sbin/tcpd /usr/sbin/in.telnetsnoopd
+#
+# If you want to read NNTP news via TERM, comment out the nntp
+# line below, and use a command like this once the TERM
+# connection is up:  tredir 119 my.nntp.host:119
+# You'll also want to do this:
+#    set NNTPSERVER my.nntp.host ; export NNTPSERVER
+nntp    stream  tcp nowait  root    /usr/sbin/tcpd  in.nntpd
+#
+# This is for BSD sendmail:
+# smtp  stream  tcp nowait  root    /usr/sbin/tcpd    sendmail -v
+# This is set up for running Smail:
+# smtp  stream  tcp nowait  root    /usr/sbin/tcpd  /usr/bin/rsmtp -bs
+#
+# The comsat daemon notifies the user of new mail when biff is set to y:
+comsat  dgram   udp wait    root    /usr/sbin/tcpd  in.comsat
+#
+# Shell, login, exec and talk are BSD protocols.
+#
+shell   stream  tcp nowait  root    /usr/sbin/tcpd  in.rshd -L
+login   stream  tcp nowait  root    /usr/sbin/tcpd  in.rlogind
+# exec  stream  tcp nowait  root    /usr/sbin/tcpd  in.rexecd
+# talk  dgram   udp wait    root    /usr/sbin/tcpd  in.talkd
+ntalk   dgram   udp wait    root    /usr/sbin/tcpd  in.talkd
+#
+# Kerberos authenticated services
+#
+# klogin    stream  tcp nowait  root    /usr/sbin/tcpd  rlogind -k
+# eklogin   stream  tcp nowait  root    /usr/sbin/tcpd  rlogind -k -x
+# kshell    stream  tcp nowait  root    /usr/sbin/tcpd  rshd -k
+#
+# Services run ONLY on the Kerberos server
+#
+# krbupdate stream  tcp nowait  root    /usr/sbin/tcpd  registerd
+# kpasswd   stream  tcp nowait  root    /usr/sbin/tcpd  kpasswdd
+#
+# Pop et al
+#
+# pop2  stream  tcp nowait  root    /usr/sbin/tcpd  in.pop2d
+pop3    stream  tcp nowait  root    /usr/sbin/tcpd  in.pop3d
+#
+# The Internet UUCP service.
+#
+# uucp  stream  tcp nowait  uucp    /usr/sbin/tcpd  /usr/lib/uucp/uucico
+-l
+#
+# Tftp service is provided primarily for booting.  Most sites
+# run this only on machines acting as "boot servers." 
+#
+# tftp   dgram  udp wait    nobody  /usr/sbin/tcpd  in.tftpd
+# bootps dgram  udp wait    root    /usr/sbin/in.bootpd in.bootpd
+#
+# Finger, systat and netstat give out user information which may be
+# valuable to potential "system crackers."  Many sites choose to 
+# disable some or all of these services to improve security.
+# Try "telnet localhost systat" and "telnet localhost netstat" 
+# to see that information yourself!
+# 
+finger  stream  tcp nowait  nobody  /usr/sbin/tcpd  in.fingerd -w
+systat  stream  tcp nowait  nobody  /usr/sbin/tcpd  /bin/ps -auwwx
+netstat stream  tcp nowait  root    /usr/sbin/tcpd  /bin/netstat -a
+#
+# Ident service is used for net authentication
+auth    stream  tcp nowait  root    /usr/sbin/in.identd in.identd
+#
+# These are to start Samba, an smb server that can export filesystems to
+# Pathworks, Lanmanager for DOS, Windows for Workgroups, Windows95, 
+# Lanmanager for Windows, Lanmanager for OS/2, Windows NT, etc.  
+# Lanmanager for dos is available via ftp from ftp.microsoft.com in 
+# bussys/MSclient/dos/. Please read the licensing stuff before
+downloading.
+# Use the TCP/IP option in the client. Add your server to the \etc\lmhosts
+# (or equivalent) file on the client.
+netbios-ssn     stream  tcp     nowait  root    /usr/sbin/smbd  smbd
+netbios-ns      dgram   udp     wait    root    /usr/sbin/nmbd  nmbd
+#
+# Sun-RPC based services.
+# <service name/version><sock_type><rpc/prot><flags><user><server><args>
+#
+# rstatd/1-3    dgram   rpc/udp wait    root    /usr/sbin/tcpd 
+rpc.rstatd
+# rusersd/2-3   dgram   rpc/udp wait    root    /usr/sbin/tcpd 
+rpc.rusersd
+# walld/1       dgram   rpc/udp wait    root    /usr/sbin/tcpd 
+rpc.rwalld
+#
+# End of inetd.conf.
+\end{verbatim}
+
+%%%%%%%%%%%%
+\subsection{Extended Internet Daemon <<~{tt xinetd}~>>}
+
+Plusieurs {\Unix}, dont {\Linux} disposent d'une variante de \texttt{inetd}~: \texttt{xinetd}.
+
+Les fonctionnalités sont identiques à celles explicitées pour \texttt{inetd}. La seule
+différence résident quant aux possibilités d'administration. Celles-ci reponsent
+essentiellement sur des aspects sécurité. En effet, il sera possible~:
+\begin{itemize}
+	\item	d'offrir un service réseau à une ou plusieurs machines bien identifiées, 
+	\item	de disposer de traces systèmes (fichiers <<~log~>>) distincts pour chaque service,
+	\item	etc.
+\end{itemize}
+
+La configuration de <<~\texttt{xinetd}~>> est totalement différente de <<~\texttt{inetd}~>>. Nous n'aborderons
+pas ici ce sujet, seul l'aspect fonctionnel nous interesse.
+
+Dans toute la suite, nous n'évoquerons qu'<<~\texttt{inetd}~>>, le comportement de <<~\texttt{xinetd}~>>
+étant identique.
+
+%%%%%%%%%%%%
+\subsection{Programmation avec <<~\texttt{inetd}~>>}
+
+Dans cette section, nous allons uniquement donner le source d'un serveur et d'un client utilisant
+un canal de communication en mode non-connect{\'e}.
+
+La gestion du serveur est assur{\'e}e par <<~\texttt{inetd}~>>. Le client a un fonctionnement normal.
+
+On supposera que le service est d{\'e}clar{\'e} dans le fichier de configuration
+d'<<~\texttt{inetd}~>>. De m{\^e}me, on supposera que le service est bien d{\'e}clar{\'e}
+dans le fichier {\tt $/$etc$/$services} que ce soit au niveau de la machine cliente que de la
+machine serveur (cf. section \ref{protip-etc-services}). Le service utilis{\'e} s'appellera
+<<~{\tt udpexemple}~>>.
+
+{\bf Rappel~:}
+\begin{quote}
+\begin{itemize}
+	\item	l'identifiant de canal {\tt 0} correspond {\`a} l'entr{\'e}e standard {\tt stdin},
+	\item	l'identifiant de canal {\tt 1} correspond {\`a} la sortie standard {\tt stdout},
+	\item	l'identifiant de canal {\tt 2} correspond {\`a} la sortie d'erreurs standard {\tt stderr}.
+\end{itemize}
+\end{quote}
+
+\subsubsection{Programme serveur}
+
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <stdio.h>
+#define  BUFLEN 2000
+
+main ()
+{
+    int                sock, length, n;
+    struct sockaddr_in sock_addr;
+    char               buff[BUFLEN];
+
+    length = sizeof(sock_addr);
+
+    if ( (n=recvfrom (0,buf, BUFLEN, 0, &sock_addr, &length))
+            < 0 ) {
+        perror ("serveur recvfrom()");
+        exit (-1);
+    }
+
+    if ( sendto (1, buf, n, 0, &sock_addr, length) < 0 ) {
+        perror ("serveur sendto()");
+        exit (-1);
+    }
+}
+\end{verbatim}
+
+\subsubsection{Programme client}
+
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <stdio.h>
+#include <netdb.h>
+
+#define BUFLEN 2000
+#define DATA "Voici le message à transférer en mode non connecté"
+
+main (argc, argv)
+int   argc;
+char *argv[];
+{
+    int                 sock;
+    struct sockaddr_in  sock_addr, to_addr;
+    struct hostent     *host_address;
+    struct servent     *sp;
+    char                buff[BUFLEN];
+
+    if ( argc != 2 ) {
+        fprintf (stderr, "usage: %s hostname\n", argv[0]);
+        exit (-1);
+    }
+
+    if ( (sock = socket(AF_INET, SOCK_DGRAM, 0)) == -1 ) {
+        perror ("client socket()");
+        exit (-1);
+    }
+
+    /* On va laisser le système attribuer le numéro de port.
+    ** Cela n'est pas gênant car, lorsqu'on va faire appel
+    ** a sendto() sur la socket correspondante, il faudra
+    ** donner le numéro de port. Lorsque le serveur fera un
+    ** sendto(), à son tour, il récupèrera le numéro de port
+    ** grâce à inetd.
+    */
+    sock_addr.sin_addr.s_addr = INADDR_ANY;
+    sock_addr.sin_family      = AF_INET;
+    sock_addr.sin_port        = 0;
+
+    if ( bind (sock, &sock_addr, sizeof (sock_addr)) == -1 ) {
+        perror ("bind()");
+        fprintf (stderr, "%s: erreur avec bind()\n", argv[0]);
+        exit (-1);
+    }
+
+    if ( (host_address = gethostbyname (argv[1])) < 0 ) {
+        fprintf (stderr, "%s: machine %s non défini\n",
+            argv[0], argv[1]);
+        exit (-1);
+    }
+
+    if ( (sp = getservbyname ("udpexemple", "udp")) < 0 ) {
+        fprintf (stderr, "%s: service udpexemple/udp non défini\n",
+            argv[0]);
+        exit (-1);
+    }
+
+    to_addr.sin_addr.s_addr =
+        ((struct in_addr *)(host_address->h_addr))->s_addr;
+    to_addr.sin_port = sp->s_port;
+    to_addr.sin_family = AF_INET;
+
+    if ( sendto(sock, DATA, strlen(DATA), 0, &to_addr,
+                sizeof(to_addr)) < 0 ) {
+        perror ("client sendto()");
+        exit (-1);
+    }
+    printf ("%s: émission des données effectuée\n", argv[0]);
+
+    printf ("%s: démarrage de la réception des données\n", argv[0]);
+    if ( read (sock, buf, BUFLEN) < 0 ) {
+        perror ("client read()");
+        exit (-1);
+    }
+    printf ("%s: données reçues \"%s\"\n", argv[0], buf);
+
+    close (sock);
+}
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{advnet-sockopt-syscall}Examiner et mettre des options sur les sockets}
+
+%%%%%%%%%%%
+\subsection{Appels syst{\`e}mes associ{\'e}s}
+
+Il est possible de positionner certaines options sur les canaux
+de communication qui ont {\'e}t{\'e} cr{\'e}{\'e}s. De m{\^e}me, on pourra avoir la liste des options.
+
+Ces options permettent de modifier le comportement par d{\'e}faut
+des ports de communication, afin de r{\'e}pondre {\`a} des besoins pr{\'e}cis.
+Les sections \ref{advnet-sockopt-stream} et \ref{advnet-sockopt-other} 
+donnent une liste non exhaustive des options disponibles.
+
+Les appels syst{\`e}mes concern{\'e}s sont~:
+\begin{itemize}
+	\item	{\tt getsockopt()} permet d'avoir la liste des options
+		qui auront {\'e}t{\'e} positionn{\'e}es,
+	\item	{\tt setsockopt()} permet de positionner une option.
+\end{itemize}
+
+Leurs caract{\'e}ristiques sont les suivantes:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int   getsockopt (sk, level, optname, optval, optlen);
+int   setsockopt (sk, level, optname, optval, optlen);
+int   sk, level, optname, *optlen;
+char *optval;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt sk}		& Descripteur sur la socket	\\
+{\tt level}	& Niveau du protocole: dans ce cas, la valeur {\`a} pr{\'e}ciser est {\tt SOL\_SOCK}	\\
+{\tt optname}	& Nom de l'option	\\
+{\tt optval}	& Pointeur sur les informations {\`a} transmettre ou re\c{c}ues	\\
+{\tt optlen}	& Volume en octet des informations transmises ou re\c{c}ues.	\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie le descripteur de socket	\\
+	Erreur	& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+		  indiquera avec plus de pr{\'e}cision les causes de l'erreur
+\end{tabular}
+\end{quote}
+\end{quote}
+
+%%%%%%%%%%%
+\subsection{\label{advnet-sockopt-stream}Options pour les sockets en mode connect{\'e}}
+
+%%%%%%%%%%%
+\subsubsection{Option {\tt SO\_KEEPALIVE}}
+
+Lorsque l'option {\tt SO\_KEEPALIVE} est positionn{\'e}e, au niveau de la
+couche {\sl transport}, le syst{\`e}me {\'e}met de fa\c{c}on p{\'e}riodique\footnote{L'intervalle de temps
+entre deux émissions est fixe et peut avoir une durée entre 45 secondes et 6 minutes.}
+depuis le port de communication local vers le port distant, en attendant un accus{\'e} de r{\'e}ception.
+Sachant que ceci se passe directement au niveau de la couche {\sl transport}, il n'est pas
+n{\'e}cessaire de rajouter du code {\`a} votre application. Cette option permet donc de contr{\^o}ler
+que la connexion entre les deux processus est toujours active. Si, par hasard, le
+port de communication distant n'est plus joignable, c'est {\`a} dire qu'il
+ne r{\'e}pond plus aux messages p{\'e}riodiques qui lui ont {\'e}t{\'e} envoy{\'e}s, la
+connexion est consid{\'e}r{\'e}e comme {\'e}tant coup{\'e}e. Dans ce cas~:
+\begin{itemize}
+	\item	le processus recevra le signal {\tt SIGPIPE} {\`a} la premi{\`e}re
+		tentative d'{\'e}criture,
+	\item	la premi{\`e}re tentative de lecture renverra une fin de fichier.
+\end{itemize}
+
+Cette option n'est disponible que pour les sockets en mode connect{\'e}
+utilisant le protocole IP.
+
+%%%%%%%%%%%
+\subsubsection{Option {\tt SO\_DONROUTE}}
+
+L'option {\tt SO\_DONROUTE} positionne une option dans l'ent{\^e}te IP
+du paquet comme {\'e}tant {\it non routable}, c'est-{\`a}-dire que le paquet
+ne peut {\^e}tre adress{\'e} qu'{\`a} une machine se trouvant dans le m{\^e}me r{\'e}seau
+IP (cf. section \ref{protip-route}).
+
+Par cons{\'e}quent, sachant que cette option ne s'applique qu'aux ports
+de communication en mode connect{\'e}, un canal cr{\'e}{\'e} avec cet option 
+sur un serveur, ne pourra satisfaire les requ{\^e}tes que des clients
+dont l'adresse IP correspond au m{\^e}me num{\'e}ro de r{\'e}seau. De m{\^e}me, si un
+client cr{\'e}e un canal avec cette option, il ne pourra {\'e}mettre des demandes
+de connexions qu'{\`a} un serveur se trouvant dans le m{\^e}me r{\'e}seau IP.
+
+Les routeurs ou {\sl gateways}\footnote{Les routeurs et les {\sl gateways}
+sont des {\'e}l{\'e}ments actifs du r{\'e}seau permettant d'acheminer les datagrammes
+IP d'un r{\'e}seau {\`a} l'autre. Les routeurs maintiennent des
+tables de routages entre les diff{\'e}rents r{\'e}seaux IP disponibles et se chargent
+d'acheminer les datagrammes du r{\'e}seau de d{\'e}part jusqu'au r{\'e}seau d'arriv{\'e}e.
+Les {\sl gateways} sont des machines en g{\'e}n{\'e}ral sous {\Unix} poss{\'e}dant
+deux interfaces r{\'e}seau, chacune appartenant {\`a} un r{\'e}seau IP distinct. Elles
+assurent alors une fonction de {\sl passerelle} entre les deux r{\'e}seaux IP~:
+les datagrammes {\`a} destination de l'un sont r{\'e}{\'e}mis sur l'autre, et
+vice-versa.} ne prendront pas en compte ce type de paquet.
+
+%%%%%%%%%%%
+\subsubsection{Options {\tt SO\_SNDBUF} et {\tt SO\_RCVBUF}}
+
+Les options {\tt SO\_SNDBUF} et {\tt SO\_RCVBUF} permettent de changer
+la taille des buffers de communication au niveau logiciel de la socket
+respectivement en {\'e}mission et en r{\'e}ception. Il est possible d'accro{\^\i}tre
+ces buffers {\`a} tout moment du programme. Par contre, la diminution de
+la taille des buffers ne peut se faire qu'au moment de l'{\'e}tablissement
+de la connexion. La taille maximum des buffers est de 65 535 octets.
+
+Ces options sont disponibles pour les sockets sur IP et celles de
+type {\Unix} (cf. chapitre \ref{unstream}).
+
+%%%%%%%%%%%
+\subsection{\label{advnet-sockopt-other}Autres options}
+
+%%%%%%%%%%%
+\subsubsection{Option {\tt SO\_REUSEADDR}}
+
+Nous avons vu que {\tt bind()} interdisait d'avoir deux ports
+de communications avec le m{\^e}me nom, c'est-{\`a}-dire avec le couple
+({\sl adresse-ip},{\sl num{\'e}ro-port}) identique pour deux sockets
+diff{\'e}rentes.
+
+Maintenant supposons qu'une connexion soit {\'e}tablie sur le port <<~3030~>>
+avec la machine dont l'adresse IP est <<~192.0.0.103~>>. Supposons que
+le serveur veuille cr{\'e}er une file d'attente sur ce port de communication
+<<~3030~>> sans aucune restriction d'adresse, c'est-{\`a}-dire avec
+l'option {\tt INADDR\_ANY}. Dans ce cas, l'appel {\`a} {\tt bind()} va
+{\'e}chouer car, en utilisant l'adresse <<~{\tt *.3030}~>>, {\tt bind()} va
+rentrer en conflit avec le port dont l'adresse est <<~{\tt 192.0.0.103.3030}~>>.
+
+Contrairement {\`a} ce qe l'on pourrait penser, cette situation n'a rien 
+d'exceptionnel pour un programme offrant un service sur le r{\'e}seau.
+Pour cela il suffit qu'un processus serveur suive la s{\'e}quence
+suivante~:
+\begin{order}
+	\item	il a effectu{\'e} un appel {\`a} {\tt bind()} et {\tt listen()} sur
+		une adresse contenant une adresse g{\'e}n{\'e}rique ({\sl wildcard}
+		{\tt INADDR\_ANY}),
+	\item	il a d{\'e}ja {\'e}tablit une connexion avec un client,
+	\item	il s'est interrompu de fa\c{c}on anormale sans avoir lib{\'e}rer les ressources,
+	\item	il est red{\'e}marr{\'e} par l'op{\'e}rateur,
+	\item	il doit donc {\`a} nouveau effectu{\'e} un appel {\`a} {\tt bind()} et à
+		{\tt listen()} sur une adresse contenant une adresse
+		g{\'e}n{\'e}rique ({\sl wildcard} {\tt INADDR\_ANY}), appels qui vont {\'e}chouer.
+\end{order}
+
+Lorsque l'option {\tt SO\_REUSEADDR} est positionn{\'e}e, {\tt bind()}
+va ignorer le fait qu'une connexion en cours, va satisfaire l'adresse
+g{\'e}n{\'e}rique pr{\'e}cis{\'e}e en argument. Dans ce cas, lorsque le serveur
+va red{\'e}marrer, {\tt bind()} se terminera normalement et nous pourrons
+continuer l'ex{\'e}cution du serveur normalement.
+
+\begin{remarque}
+Cette option n'est applicable que pour les sockets s'appuyant sur IP et
+fonctionnant en mode connect{\'e} (famille d'adresses {\tt AF\_INET}, famille
+de protocoles {\tt SOCK\_STREAM}), elle ne fonctionne pas avec les <<~{\Unix} Stream Sockets~>>.
+\end{remarque}
+
+\begin{remarque}
+Une fois que cette option est positionn{\'e}e, il n'est plus possible de l'annuler.
+\end{remarque}
+
+%%%%%%%%%%%
+\subsubsection{Options {\tt SO\_LINGER} et {\tt SO\_DONTLINGER}}
+
+Les options {\tt SO\_LINGER} et {\tt SO\_DONTLINGER} affectent le
+fonctionnement de l'appel syst{\`e}me {\tt close()}.
+
+Lorsque l'option {\tt SO\_LINGER} est positionn{\'e}e avec, comme option,
+une valeur non nulle de temporisation ({\sl timeout})\footnote{cf.
+section \ref{advnet-sockopt-syscall} sur l'appel syst{\`e}me
+{\tt setsockopt()}}, {\tt close()} bloquera l'ex{\'e}cution du programme
+tant que des donn{\'e}es sont présentes dans les {\sl buffers} syst{\`e}mes pour
+{\^e}tre {\'e}mises, ou bien tant que le protocole TCP n'aura pas perdu
+la connexion avec la machine distante (coupure de la connexion TCP
+au bout de 6 minutes de non-r{\'e}ponse de la machine distante). Ce type
+de fermeture de connexion peut {\^e}tre vue comme une {\sl fermeture en
+douceur} du canal de communication ({\sl graceful close}).
+
+\begin{remarque}
+Cette temporisation doit {\^e}tre consid{\'e}r{\'e}e comme une valeur bool\-{\'e}enne.
+Elle ne va pas changer la valeur du d{\'e}lai maximal du protocole TCP.
+Si cette valeur est non nulle, alors le programme bloquera jusqu'{\`a} ce
+que les donn{\'e}es restant dans les {\sl buffers} syst{\`e}mes pour
+{\^e}tre {\'e}mises, ou bien jusqu'{\`a} ce que le protocole TCP perde
+la connexion avec la machine distante.
+\end{remarque}
+
+Dans le cas o{\`u} cette valeur de temporisation est nulle, le canal est ferm{\'e} sans
+attendre. Ce type de fermeture de connexion peut {\^e}tre
+vue comme une {\sl fermeture s{\`e}che} du canal de communication ({\sl hard
+close}).
+
+L'option {\tt SO\_DONTLINGER} correspond au fonctionnement par d{\'e}faut,
+c'est-{\`a}-dire que la fermeture du canal correspond {\`a} une fermeture en
+douceur tout en faisant en sorte que {\tt close()} rende imm{\'e}iatement la
+main. Par cons{\'e}quent, lorsque le programme fait appel {\`a} {\tt close()},
+le syst{\`e}me lui rend la main imm{\'e}diatement, mais ex{\'e}cute en parall{\`e}le
+tout ce qui correspond {\`a} une fermeture en douceur du canal de communication.
+
+Le tableau \ref{advnet-linger-tab} r{\'e}sume les diff{\'e}rents comportements
+obtenus en fonction des options {\tt SO\_LINGER} et {\tt SO\_DONTLINGER}.
+
+\begin{table}[hbtp]
+\centering
+\begin{tabular}{|p{2.5cm}|c|c|c|}
+	\hline
+	Options & \parbox{3cm}{Temporisation}
+			& \parbox{3cm}{Fermeture en douceur}
+			& \parbox{3cm}{Fermeture s{\`e}che} \\
+	\hline \hline
+	{\tt SO\_DONTLINGER}	& {\sl N$/$A}		& Oui		&	\\
+	\hline
+	{\tt SO\_LINGER}		& Nul			& 		& Oui	\\
+					& Non Nul		& Oui		&	\\
+	\hline
+\end{tabular}\\[3ex]
+\begin{tabular}{|p{2.5cm}|c|c|c|}
+	\hline
+	Options & \parbox{3cm}{Temporisation}
+			& \parbox{3cm}{Blocage de {\tt close()}}
+			& \parbox{3cm}{
+				{\tt close()} rend la main imm{\'e}diatement}	\\
+	\hline \hline
+	{\tt SO\_DONTLINGER}	& {\sl N$/$A}		&		& Oui \\
+	\hline
+	{\tt SO\_LINGER}		& Nul			&		& Oui \\
+					& Non Nul		& Oui		& 	  \\
+	\hline
+\end{tabular}
+\caption{\label{advnet-linger-tab}Diff{\'e}rents comportements obtenus en fonction des options
+{\tt SO\_LINGER} et {\tt SO\_DONTLINGER}}
+\end{table}
+
+{\bf Exemple}
+\begin{quote}
+\begin{verbatim}
+setsockopt (sk, SOL_SOCKET, SO_LINGER, "1", 1)
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Appel syst{\`e}me {\tt shutdown()}}
+
+\subsection{Introduction, Description}
+
+L'appel syst{\`e}me {\tt shutdown()} peut {\^e}tre utilis{\'e} {\`a} la place
+de {\tt close()}. Alors que {\tt close()} rend l'identifiant du port de communication invalide (retour de l'appel syst{\`e}me
+{\tt socket()}), {\tt shutdown()} peut {\^e}tre utilis{\'e} pour fermer partiellement ou totalement ce canal.
+
+Ses caract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+int   shutdown (sk, how);
+int   sk, how;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{ll}
+{\tt sk}		& Descripteur sur la socket.			\\
+{\tt how}	& Description de la fermeture du canal.	\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie le descripteur de socket	\\
+	Erreur	& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+		  indiquera avec plus de pr{\'e}cision les causes de l'erreur.
+\end{tabular}
+\end{quote}
+\end{quote}
+
+Les valeurs possibles pour l'argument {\tt how}, pr{\'e}cisant le mode de fermeture, sont d{\'e}crites dans le tableau
+\ref{advnet-shutdown-values}.
+
+\begin{table}[hbtp]
+\centering
+\begin{tabular}{|l|p{10cm}|}
+	\hline
+	Valeur	&	Description \\
+	\hline
+	{\tt 0}	&
+	Il est possible d'{\'e}mettre toujours des donn{\'e}es sur le canal, mais
+	il ne sera plus possible d'en recevoir. Que ce soit les donn{\'e}es en
+	attente d'{\'e}mission (c'est-{\`a}-dire encore dans les {\sl buffers}
+	syst{\`e}me) ou pour les futures donn{\'e}es {\`a} {\'e}mettre, les appels syst{\`e}mes
+	{\tt send()}, {\tt sendto()} ou {\tt write()} ne g{\'e}n{\`e}reront pas
+	d'erreurs. Par contre, toute op{\'e}ration de lecture sur ce canal
+	renverra une fin de fichier. \\
+	\hline
+	{\tt 1}	&
+	Seules les donn{\'e}es en attente d'{\'e}mission (c'est-{\`a}-dire encore dans
+	les {\sl buffers} syst{\`e}me) pourront {\^e}tre {\'e}mises. Toute op{\'e}ration
+	d'{\'e}mission de donn{\'e}es renverra l'erreur {\tt EPIPE} dans la variable
+	{\tt errno}. De m{\^e}me, le noyau enverra le signal {\tt SIGPIPE} au
+	processus. Par contre, il sera toujours possible de recevoir des donn{\'e}es.\\
+	\hline
+	{\tt 2}	&
+	Cette option combine les deux cas pr{\'e}c{\'e}dents. Seules les donn{\'e}es
+	en attente d'{\'e}mission seront trait{\'e}es avant la fermeture. Vous ne
+	pourrez ni {\'e}mettre ni recevoir de donn{\'e}es.
+	\\
+	\hline
+\end{tabular}
+\caption{\label{advnet-shutdown-values}Options de comportement pour l'appel syst{\`e}me {\tt shutdown()}}
+\end{table}
+
+Par cons{\'e}quent,
+\begin{itemize}
+	\item	dans le cas d'un canal de communication fonctionnant en
+		mode non-connect{\'e} ({\sl datagram socket}), {\tt shutdown}
+		le marque comme ne pouvant plus utiliser les appels
+		{\tt sendto()} ou {\tt recvfrom()}, en fonction de la valeur
+		de l'argument {\tt how}. Une fois que ce type de canal ne
+		peut ni {\'e}mettre ni recevoir de donn{\'e}es, il est ferm{\'e}
+		compl{\`e}tement.
+	\item	dans le cas d'un canal de communication fonctionnant en mode
+		connect{\'e}, lorsque {\tt how} vaut <<~1~>> ou <<~2~>>, la connexion
+		se termine <<~{\sl en douceur}\footnote{Le terme anglo-saxon
+		utilis{\'e} est <<~{\sl graceful disconnect~}>>.}~>>. Le processus
+		de d{\'e}connexion est termin{\'e} lorsque les deux parties en
+		pr{\'e}sence ont fait appel {\`a} {\tt shutdown()}. {\tt shutdown}
+		ne suspend pas l'ex{\'e}cution du programme.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Application~: Fermeture d'un canal de communication}
+
+La description qui va suivre, montre comment il est possible d'{\'e}tablir 
+un protocole entre le client et le serveur afin de fermer le canal de communication.
+
+Le tableau \ref{advnet-closeconn} d{\'e}crit un des processus qu'il est possible de suivre.
+
+Tout d'abord, l'un des processus doit {\^e}tre {\`a} l'initiative de la s{\'e}quence {\`a}
+suivre pour la fermeture du canal. Celui-ci va envoyer un {\it drapeau}
+{\`a} tous les autres processus avec lesquels il veut arr{\^e}ter de
+communiquer. Ces derniers vont donc recevoir cette informations, ils
+continueront {\`a} {\'e}mettre des donn{\'e}es si cela est n{\'e}cessaire. Le processus,
+{\`a} l'initiative de la d{\'e}connexion va donc continuer {\`a} recevoir des
+donn{\'e}es. Lorsque tous les processus ayant re\c{c}us la demande de
+d{\'e}connexion auront termin{\'e} d'{\'e}mettre toutes leurs donn{\'e}es, ils r{\'e}{\'e}mettront
+le {\it drapeau} vers processus initiateur et fermeront leur canal de
+communication. Le processus initiateur va donc recevoir, en retour, le
+{\it drapeau} dont il a {\'e}t{\'e} {\`a} l'origine. Il peut alors fermer son
+ou ses canaux de communication.
+
+
+\begin{table}[hbtp]
+\begin{tabular}{|p{7cm}|p{7cm}|}
+	\hline
+	envoie message <<~{\sl d{\'e}connexion}~>>	&	r{\'e}ception de donn{\'e}es					\\
+	tant que des donn{\'e}es sont {\`a} recevoir	&	tant que des donn{\'e}es doivent {\^e}tre {\'e}mises		\\
+	\hspace{1cm}r{\'e}ception des donn{\'e}es	&	\hspace{1cm}{\'e}mission des donn{\'e}es			\\
+	fermeture du canal				&	si le message <<~{\sl d{\'e}connexion}~>> est re\c{c}u	\\
+							&	\hspace{1cm}fermeture du canal				\\
+	\hline
+\end{tabular}
+\caption{\label{advnet-closeconn}S{\'e}quence de d{\'e}connexion entre le client et le serveur}
+\end{table}

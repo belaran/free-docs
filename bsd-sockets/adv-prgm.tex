@@ -1,0 +1,1415 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Programmation avancée avec les BSD sockets
+%
+\chapter{\label{advpgm}Programmation avanc{\'e}e avec les {\sl BSD Sockets}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{advpgm-blockio}Entr{\'e}es/Sorties bloquantes/non
+bloquantes}
+
+\subsection{Introduction}
+
+Lorsqu'un programme effectue une entr{\'e}e$/$sortie bloquante, le syst{\`e}me
+suspend l'ex{\'e}cution du processus tant que la requ{\^e}te n'est pas termin{\'e}e.
+Par exemple, si le processus effectue une lecture sur un canal de
+communication, le syst{\`e}me ne rendra la main au programme seulement
+lorsque cette op{\'e}ration a été possible.
+
+Les quatre cas classiques de blocage sont~:
+\begin{itemize}
+	\item	pour l'appel syst{\`e}me {\tt connect()}, il y a blocage lorsqu'il
+			n'y a plus de place dans la file d'attente distante charg{\'e}e de
+			stocker les demandes de connexion (cr{\'e}{\'e}e avec {\tt listen()}),
+	\item	pour l'appel syst{\`e}me {\tt accept()}, il n'y a aucune demande
+			de connexion dans la file d'attente cr{\'e}{\'e}e avec {\tt listen()},
+	\item	pour les appels syst{\`e}me {\tt send()} et {\tt write()}, il n'y a
+			plus de place dans les buffers locaux pour transmettre les donn{\'e}es,
+	\item	pour les appels syst{\`e}me {\tt recv()} et {\tt read()}, il n'y a pas
+			d'informations {\`a} lire dans les buffers locaux.
+\end{itemize}
+
+Dans le cas des entr{\'e}e$/$sortie non-bloquantes, le syst{\`e}me n'attend pas que
+la requ{\^e}te soit termin{\'e}e pour rendre la main au programme. Par exemple,
+si le processus effectue une op{\'e}ration d'{\'e}criture sur le canal de
+communication, le programme a imm{\'e}diatement le contr{\^o}le avant m{\^e}me que
+le syst{\`e}me n'aie termin{\'e} de traiter la requ{\^e}te. De m{\^e}me, si le processus
+effectue une op{\'e}ration de lecture, le syst{\`e}me rendra la main au programme
+avant que le syst{\`e}me n'aie eu le temps de <<~remplir~>> les variables
+utilis{\'e}es pour stocker les donn{\'e}es. Le programme devra alors g{\'e}r{\'e} des {\'e}v{\`e}nements
+(signaux) correspondant {\`a} la fin de la requ{\^e}te de lecture.
+
+Le principe sous {\Unix} des appels syst{\`e}mes non-bloquants consiste
+{\`a} positionner un certain nombre d'options sur le canal de communication. Dans
+ce cas, le comportement des appels syst{\`e}me g{\'e}rant les entr{\'e}es$/$sorties
+({\tt read()}, {\tt write()}, {\tt send()}, {\tt recv()}) sera changé. Sur d'autres
+syst{\`e}mes, avec leur propre interface, les appels syst{\`e}mes asynchrones
+(non bloquants) ont un nom diff{\'e}rent des appels syst{\`e}mes synchrones (bloquants), les noms sont
+diff{\'e}rents.
+
+Il existe alors un autre appel syst{\`e}me permettant de positionner ces options~:
+\begin{itemize}
+	\item C'est l'appel syst{\`e}me {\tt fcntl(2)} pour les syst{\`e}mes bas{\'e}s sur
+		  <<{\sl SVR4}>>\footnote{System V Release 4}.
+	\item C'est l'appel syst{\`e}me {\tt ioctl(2)} pour les syst{\`e}mes bas{\'e}s sur
+		  <<{\sl BSD}>>.
+\end{itemize}
+
+{\tt read()} et {\tt recv()} bloquent normalement l'ex{\'e}cution
+du programme si il n'y a aucune donn{\'e}e {\`a} lire sur le canal de
+communication. De m{\^e}me, {\tt send()} et {\tt write()} bloquent l'ex{\'e}cution du
+programme lorsque les {\it buffers} syst{\`e}mes sont pleins pour envoyer des
+donn{\'e}es vers le r{\'e}seau ({\it buffers} de la carte r{\'e}seau, par exemple).
+
+S'il n'y a aucune demande de connexion {\`a} un serveur, {\tt accept()} suspend
+l'ex{\'e}cution du programme jusqu'{\`a} ce qu'un client fasse une demande de connexion.
+
+Enfin, lorsqu'une demande de connexion ne peut pas {\^e}tre satisfaite, l'appel
+syst{\`e}me {\tt connect()} bloque l'ex{\'e}cution du programme jusqu'{\`a} ce que cette
+demande puisse {\^e}tre prise en compte par le serveur.
+
+Avec les syst{\`e}mes de communications asynchrones (appels syst{\`e}mes non-bloquants),
+il est possible de s'affranchir de ces possibilit{\'e} de blocage de l'application.
+Il existe trois possibilit{\'e}s pour positionner les options pour avoir des
+appels syst{\`e}mes asynchrones~:
+\begin{itemize}
+	\item	l'option {\tt O\_NONBLOCK} de la norme {\sc Posix},
+	\item	l'option {\tt O\_NDELAY} propos{\'e}e avec les syst{\`e}mes de type SVID\footnote{System V.},
+	\item	l'option {\tt FIOSNBIO} propos{\'e}e avec les syst{\`e}mes de type BSD.
+\end{itemize}
+
+Lorsque la gestion du syst{\`e}me de communication entre deux processus se
+fait en mode asynchrone, le processus qui fonctionne de cette fa\c{c}on sera
+averti de l'arriv{\'e}e de donn{\'e}es sur le canal gr{\^a}ce {\`a} un signal~: le
+signal {\tt SIGIO}. Nous verrons dans la section ~\ref{advpgm-sig} comment
+associer une action lors de la r{\'e}ception d'un signal.
+
+Bien que bas{\'e}es sur des techniques de noyaux diff{\'e}rents, ces trois types
+d'options ont un comportement tr{\`e}s similaire. La seule diff{\'e}rence r{\'e}side uniquement
+au niveau des codes renvoy{\'e}s dans la variable syst{\`e}me {\tt errno} en cas
+d'erreur. Le tableau ~\ref{advpgm-tab-blockio} donne la liste des
+options pour les appels bloquants$/$non-bloquants ainsi que des codes d'erreurs
+pouvant {\^e}tre obtenus.
+
+\begin{table}[hbtp]
+\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
+\hline
+	Option			& {\tt O\_NONBLOCK}
+				& {\tt O\_NDELAY}
+				& {\tt FIOSNBIO} \\
+\hline \hline
+	Positionn{\'e} par	& {\tt fnctl(2)}
+				& {\tt fnctl(2)}
+				& {\tt ioctl(2)} \\
+\hline
+	Origine			& {\sc Posix}
+				& {\sl SVR4}
+				& {\sl BSD} \\
+\hline
+	Erreurs pour {\tt connect()}
+				& $-1$ en retour et {\tt EINPROGRESS} dans la variable {\tt errno}
+				& $-1$ en retour et {\tt EINPROGRESS} dans la variable {\tt errno}
+				& $-1$ en retour et {\tt EINPROGRESS} dans la variable {\tt errno} \\
+\hline
+	Erreurs pour {\tt accept()}
+				& $-1$ en retour et {\tt EAGAIN} dans la variable {\tt errno}
+				& $-1$ en retour et {\tt EWOULDBLOCK} dans la variable {\tt errno}
+				& $-1$ en retour et {\tt EWOULDBLOCK} dans la variable {\tt errno} \\
+\hline
+	Erreurs pour {\tt send()}, {\tt recv()}, {\tt write()}, {\tt read()}
+				& $-1$ en retour et {\tt EAGAIN} dans la variable {\tt errno}
+				& $0$
+				& $-1$ en retour et {\tt EWOULDBLOCK} dans la variable {\tt errno} \\
+\hline
+\end{tabular}
+\caption{\label{advpgm-tab-blockio}Codes d'erreurs pour les appels syst{\`e}mes non-bloquants}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{advpgm-sig}Gestion des signaux}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Introduction}
+
+La notion de signaux est un m{\'e}canisme disponible en particulier sous {\Unix} afin d'informer
+des processus de diff{\'e}rents {\'e}v{\`e}nemens ext{\'e}rieurs. Les processus
+les recevant sont alors libre d'ex{\'e}cuter un certain nombre d'actions ou
+bien de ne rien faire. La figure \ref{advpgm-fig-sig} illustre le fonctionnement des signaux sous {\Unix}.
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(231,100)
+	\thinlines
+	\put(102,47){\line(1,1){20}}
+	\put(102,47){\vector(1,0){39}}
+	\put(85,67){\vector(1,0){36}}
+	\put(10,53){\framebox(75,27){\'{E}v{\`e}nement}}
+	\put(188,47){Processus}
+	\put(161,50){\circle{40}}
+\end{picture}
+\caption{\label{advpgm-fig-sig}Principe de fonctionnement des signaux
+sous {\Unix}}
+\end{figure}
+
+L'utilisation de signaux implique donc deux types d'actions distinctes~:
+\begin{itemize}
+	\item	envoyer des signaux vers d'autres processus
+	\item	recevoir des signaux, c'est-{\`a}-dire remonter cette information
+			jusqu'au programme afin qu'il puisse l'associer {\`a} une
+			<<~{\sl fonction}~>> ou <<~{\sl sous-programme}~>>.
+\end{itemize}
+
+Les signaux sont donc toujours envoy{\'e}s par le noyau vers un processus. Pour
+avoir la liste des signaux disponibles, vous pouvez utiliser la commande \verb=kill -l=.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{R{\'e}ponse aux signaux}
+
+Un processus a trois choix possibles lorsqu'un signal arrive~:
+
+\begin{tabular}{lp{8cm}}
+	Comportement par d{\'e}faut	&
+	Le processus va laisser d{\'e}cider le noyau {\Unix} traiter le signal.
+	C'est le cas le plus usuel pour tous
+	les signaux de terminaison (interruption du programme). \\
+	
+	Ignorer le signal		&
+	Le processus peut demander au noyau {\Unix} de ne pas lui transmettre
+	un certain nombre de signaux. Dans ce cas, la r{\'e}ception de ces {\'e}v{\`e}nements
+	est purement et simplement ignor{\'e}e par le processus. \\
+	
+	Prise en compte sp{\'e}cifique	&
+	Le procesus peut demander au noyau {\Unix} de faire en sorte que le
+	programme s'interrompe pour ex{\'e}cuter une fonction ou programme sp{\'e}cifique
+	lors de la r{\'e}ception d'un ou plusieurs signaux bien pr{\'e}cis. Lorsque
+	l'ex{\'e}cution de cette fonction ou programme est termin{\'e}, le processus
+	reprend son ex{\'e}cution normale {\`a} l'endroit o{\`u} il a {\'e}t{\'e} interrompu.
+	Ce sont les {\sl handlers} de signaux.
+\end{tabular}
+
+La figure ~\ref{advpgm-fig-recvsig} illustre les diff{\'e}rents comportements
+qu'un processus peut adopter lorsqu'un signal arrive jusqu'{\`a} lui.
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(394,162)
+	\thinlines
+	\put(161,80){\line(-1,0){49}}	\put(161,69){\line(-1,0){49}}
+	\put(148,108){{\sl Noyau}}	\put(163,111){\oval(36,32)}
+	\put(182,87){\line(0,-1){24}}	\put(179,87){\line(0,-1){24}}
+	\put(186,10){\framebox(198,124){}}
+	\put(286,35){\oval(178,36)}	\put(286,97){\oval(178,36)}
+	\put(227,26){gestion des signaux}
+	\put(217,38){Programme associ{\'e} {\`a} la}
+	\put(218,87){{\`a} des signaux particuliers}
+	\put(205,101){Sp{\'e}cification de la r{\'e}ponse}
+	\put(195,56){{\sl Handler}}
+	\put(192,119){{\sl Programme}}
+	\put(196,143){{\sl Process}}
+	\put(10,85){{\sl Signaux}}
+	\put(180,40){\line(-1,0){88}}	\put(297,-29){\line(0,0){0}}
+	\put(92,27){\line(1,0){88}}
+	\put(94,30){Signal Handler}
+	\put(60,72){{\tt SIG\_IGN}}	\put(61,108){{\tt SIG\_DFL}}
+	\put(180,40){\line(0,1){7}}	\put(180,21){\line(0,1){7}}
+	\put(180,48){\line(1,-1){13}}	\put(180,21){\line(1,1){14}}
+	\put(161,80){\line(0,1){7}}	\put(161,61){\line(0,1){7}}
+	\put(161,88){\line(1,-1){13}}	\put(161,61){\line(1,1){14}}
+	\put(129,98){\line(1,1){14}}	\put(129,125){\line(1,-1){13}}
+	\put(107,105){\line(1,0){22}}	\put(129,98){\line(0,1){7}}
+	\put(129,117){\line(0,1){7}}	\put(107,117){\line(1,0){22}}
+\end{picture}
+\caption{\label{advpgm-fig-recvsig}R{\'e}ception d'un signal par un processus}
+\end{figure}
+
+Le programmeur doit donc pr{\'e}ciser, via l'appel syst{\`e}me {\tt sigvec(2)},
+laquelle des trois alternatives devra {\^e}tre adopt{\'e}e pour la r{\'e}ception de
+signaux. Si aucune précision n'est donnée, il est {\'e}vident que le comportement par d{\'e}faut est celui
+qui sera adopter.
+
+L'appel syst{\`e}me {\tt sigvecr(2)} poss{\`e}de trois arguments~:
+\begin{itemize}
+	\item	le premier est le num{\'e}ro du signal {\`a} prendre en compte\footnote{
+			Vous pouvez mettre la valeur num{\'e}rique du signal ou bien le
+			nom de la constante d{\'e}finie dans le fichier {\tt signal.h}.},
+	\item	le second permet de sp{\'e}cifier le comportement {\`a} adopter
+			lorsque ce signal arrive,
+	\item	le troisi{\`e}me contient le retour de l'action qui a {\'e}t{\'e} pr{\'e}cis{\'e}e en
+			second argument, une fois qu'elle a {\'e}t{\'e} ex{\'e}cut{\'e}e.
+\end{itemize}
+
+Les caract{\'e}ristiques de {\tt sigvector()} sont~:
+
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <signal.h>
+
+int sigvec (signal, vector, ovector);
+int signal;
+struct sigvec *vector, *ovector;
+
+fonction_handler(signal)
+int signal;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{10cm}}
+{\tt signal}	& Num{\'e}ro du signal auquel on veut attribuer certaines caract{\'e}ristiques.\\
+{\tt vector}	& Comportement {\`a} adopter lors de la r{\'e}ception de ce signal.\\
+{\tt ovector}	& Retour de l'action ex{\'e}cut{\'e}e lors de la r{\'e}ception du signal.\\
+{\tt fonction\_handler}
+				& Fonction {\'e}crite par le programmeur afin de traiter le signal.\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok		& Renvoie le nombre d'octets r{\'e}ellement {\'e}mis.	\\
+	Erreur		& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			  indiquera avec plus de pr{\'e}cision les causes de l'erreur
+\end{tabular}
+\end{quote}
+\end{quote}
+
+La structure {\tt sigvec} est composée des champs suivants:
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt void (*sv\_handler)()}	& Pointeur sur la fonction {\`a}
+ex{\'e}cuter, \\
+{\tt int sv\_mask}		& \\
+{\tt int sv\_flags}		& \\
+\end{tabular}
+\end{quote}
+
+\subsubsection{Exemple}
+
+\begin{verbatim}
+#include <signal.h>
+\end{verbatim}
+$\vdots$\\
+\begin{verbatim}
+main ()
+{
+    struct sigvec vec, ovec;    /* structures pour sigvec() */
+    void myhandler();           /* handler pour les signaux */
+\end{verbatim}
+$\vdots$\\
+\begin{verbatim}
+    /* Spécification du handler de signaux pour le signal SIGIO.
+    ** SIGIO sera généré par le noyau lorsqu'une donnée
+    ** est disonible surun port de communication (socket) 
+    ** et que celle-ci est en mode asynchrone,
+    ** c'est-à-dire en mode non bloquant.
+    */
+
+    vec.sv_handler = myhandler;
+    
+    /* Précision au noyau que le programme va gére ce signal. */
+    
+    sigvec (SIGIO, &vec, &ovec);
+\end{verbatim}
+$\vdots$\\
+\begin{verbatim}
+}
+
+void myhandler (sig)    /* Handler associé au signal SIGIO, */
+                        /* aucun code  de retour            */
+int sig;                /* Cet argument va contenir         */
+                        /* l'identifiant du signal qui      */
+                        /* arrive jusq'au handler           */
+{
+    /* Réponse au signal */
+\end{verbatim}
+$\vdots$\\
+\begin{verbatim}
+}
+\end{verbatim}
+
+Dans cet exemple, le processus associe une fonction de gestion de l'évènement lorsqu'il
+re\c{c}oit le signal {\tt SIGIO}. Le noyau va passer en argument {\`a} ce {\sl handler},
+le num{\'e}ro du signal qui a caus{\'e} son appel. Par cons{\'e}quent, un m{\^e}me
+{\sl handler} peut g{\'e}rer plusieurs signaux. Il suffit pour cela de faire
+plusieurs appels {\`a} {\tt sigvec(2)} avec des signaux diff{\'e}rents mais avec
+le m{\^e}me vecteur.
+
+De fa\c{c}on g{\'e}n{\'e}rale, le {\sl handler} est une fonction (ou proc{\'e}dure) {\'e}crite par
+le d{\'e}veloppeur qui sera appel{\'e} lors d'une d{\'e}livrance asynchrone d'un signal {\`a}
+un processus par le noyau.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Emission de signaux}
+
+L'{\'e}mission de signaux {\`a} un processus est simple {\`a} r{\'e}aliser. Il suffit de
+conna{\^\i}tre son num{\'e}ro\footnote{PID (Process Identifier)}. On utilise
+alors l'appel syst{\`e}me {\tt kill()} dont les caract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <signal.h>
+int kill (pid, sig);
+pid_t pid;
+int sig;
+\end{verbatim}
+\end{quote}
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{10cm}}
+{\tt pid}		& 	Num{\'e}ro du processus auquel on veut envoyer le signal.\\
+{\tt pid}		& 	Num{\'e}ro du signal {\`a} {\'e}mettre.\\
+\end{tabular}
+\end{quote}
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie la valeur \verb=0=	\\
+	Erreur	& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			  indiquera avec plus de pr{\'e}cision les causes de l'erreur
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{remarque}
+La liste des signaux disponibles ainsi que les constantes associ{\'e}es sont
+d{\'e}finies dans le fichier \verb=</usr/include/signal.h>= sur les syst{\`e}mes {\Unix}.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Application: reception d'un signal lors de l'arriv{\'e}e de donn{\'e}es}
+
+Lorsqu'on utilise des canaux de communication asynchrones, c'est-{\`a}-dire des
+entr{\'e}es$/$sorties non bloquantes, le programme doit y examiner
+r{\'e}guli{\`e}rement les informations pour savoir s'il doit effectuer une t{\^a}che ou non.
+Il appara{\^\i}t donc ici des probl{\`e}mes pour la performance du programme. Pour
+{\'e}viter ceci, il est possible de demander au noyau {\Unix} d'envoyer des
+signaux lorsqu'il y a un changement d'{\'e}tat au niveau de ces canaux. En
+utilisant l'appel syst{\`e}me {\tt ioctl()} par exemple, on pourra demander au
+syst{\`e}me d'envoyer le signal {\tt SIGIO} au processus pour le pr{\'e}venir
+que le programme a une entr{\'e}e$/$sortie {\`a} traiter.
+
+Pour pouvoir utiliser cette m{\'e}thode, il faudra faire deux appels {\`a} {\tt ioctl()}
+pour modifier le comportement de la socket~:
+\begin{itemize}
+	\item	le premier appel {\`a} {\tt ioctl()} utilise l'option {\tt SIOCSPGRP} pour
+		notifier au noyau {\Unix}, d'envoyer au processus le signal
+		{\tt SIGIO} lorsque des donn{\'e}es sont {\`a} lire sur le port de
+		communication.
+	\item	le second appel {\`a} {\tt ioctl()} utilise l'option {\tt FIOASYNC}
+		pour armer cette fonctionnalit{\'e}.
+\end{itemize}
+
+\begin{remarque}
+Pour plus de renseignements sur l'appel syst{\`e}me {\tt ioctl()} et les
+modifications des attributs d'un port de communication, reportez-vous {\`a} la section \ref{advpgm-modsoc}.
+\end{remarque}
+
+Evidemment, le processus qui recevra le signal {\tt SIGIO} devra prendre en
+compte, dans son code source, la gestion des signaux et plus particuli{\`e}rement
+celui-ci. L'appel syst{\`e}me {\tt signal()} (ou {\'e}quivalent pour les syst{\`e}mes 
+non-{\Unix}), va envoyer un {\'e}v{\`e}nement au processus afin qu'il entre dans
+une fonction sp{\'e}cifique ({\it handler routine} dans la terminologie {\Unix})
+lors de la recpetion du signal {\tt SIGIO}. Cette fonction devra alors effectuer
+l'op{\'e}ration d'entr{\'e}e$/$sortie sur le canal de communication.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{advpgm-modsoc}Modifications des attributs d'une socket}
+
+
+La modification des attributs d'un port de communication (ou {\sl socket}
+se fait gr{\^a}ce {\`a} l'appel syst{\`e}me {\tt ioctl()}, dont les caract{\'e}ristiques sont
+les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/ioctl.h>
+int ioctl (fildes, command, arg)
+int fildes, command, *arg;
+\end{verbatim}
+\end{quote}
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{10cm}}
+{\tt fildes}	& 	Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket()}).\\
+{\tt command}	&	Option {\`a} appliquer sur la socket. \\
+{\tt arg}		&	Arguments sp{\'e}cifiques d{\'e}pendant de l'option {\`a} appliquer {\`a} la socket.
+\end{tabular}
+\end{quote}
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie la valeur \verb=0=	\\
+	Erreur	& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			  indiquera avec plus de pr{\'e}cision les causes de l'erreur
+\end{tabular}
+\end{quote}
+{\sl Options sp{\'e}cifiques pour les sockets~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt FIOSNBIO}		&	Arme ou d{\'e}sarme le mode bloquant (mode synchrone).\\
+{\tt FIOASYNC}		&	Arme ou d{\'e}sarme le mode non-bloquant (mode asynchrone).\\
+{\tt SIOCSPGRP}	&	Arme la possibilit{\'e} d'envoyer un signal {\`a} un groupe de processus.\\
+{\tt SIOCGPGRP}	&	Renvoi la liste du groupe de processus devant recevoir un signal.\\
+{\tt FIONREAD}		&	Renvoie le nombre d'octets {\`a} lire dans le buffer du canal de communication.\\
+{\tt SIOCATMARK}	&	Renvoie le statut des donn{\'e}es pr{\'e}sentes avant la r{\'e}ception d'un message
+				urgent (cf. section \ref{advpgm-oob}).
+\end{tabular}
+\end{quote}
+\end{quote}
+
+L'appel syst{\`e}me {\tt ioctl()} est un moyen g{\'e}n{\'e}ral pour contr{\^o}ler
+les caract{\'e}ristiques de l'ensemble des canaux d'entr{\'e}es$/$sorties sur le syst{\`e}me.
+Il permet d'en modifier le comportement en fonction de certains crit{\`e}res.
+Il est {\'e}vident que ces commandes de modifications de comportement sont d{\'e}pendantes
+du pilote assurant la gestion des p{\'e}riph{\'e}riques d'entr{\'e}es$/$sorties comme les
+cartes r{\'e}seau. En ce qui concerne les canaux d'entr{\'e}es$/$sorties associ{\'e}s aux
+{\sl BSD Sockets}, vous trouverez l'ensemble de la documentation des diff{\'e}rentes
+commandes disponibles dans le manuel {\Unix} de {\tt socket(7)}.
+
+\subsubsection{Exemple}
+\begin{quote}
+\begin{verbatim}
+arg=1;
+ioctl (sk, FIOASYNC, &arg);
+\end{verbatim}
+$\vdots$
+\begin{verbatim}
+arg = getpid();
+ioctl (sk, SIOCSPGRP, &arg);
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Gestion de plusieurs sockets]
+	{\label{advpgm-mulsoc}Gestion de plusieurs sockets par une m{\^e}me application}
+
+\subsection{Introduction}
+
+Une situation typique pour les processus serveur sur le r{\'e}seau IP (par extension
+sur Internet), est de recevoir plusieurs demandes en simultan{\'e}. Pour optimiser leur
+d{\'e}bit d'entr{\'e}es$/$sorties, ces programmes sont amen{\'e}s {\`a} g{\'e}rer plusieurs
+canaux en m{\^e}me temps. Une solution consiste {\`a} n'avoir qu'un seul processus
+recevant toutes les donn{\'e}es en entr{\'e}e telle qu'elles sont et ensuite~:
+\begin{itemize}
+	\item	soit les traiter, ce qui risque de ralentir le processus de traitement,
+	\item	soit de les passer {\`a} un autre processus qui se chargera de faire
+		le traitement, ce qui est pr{\'e}f{\'e}rable.
+\end{itemize}
+La figure \ref{advpgm-mulsoc-fig} donne un exemple de processus serveur disposant
+de plusieurs canaux d'entr{\'e}es$/$sorties.
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(436,223)
+	\thinlines
+	\put(216,12){Processus de traitement des donn{\'e}es}
+	\put(10,179){\framebox(79,21){}}	\put(10,204){Socket}
+	\put(10,142){\framebox(79,21){}}	\put(10,167){Socket}
+	\put(10,105){\framebox(79,21){}}	\put(10,130){Socket}
+	\put(10,67){\framebox(79,21){}}		\put(10,92){Socket}
+	\put(10,27){\framebox(79,21){}}		\put(10,52){Socket}
+	\put(160,110){\fbox{\parbox{65pt}{Aiguillage des donn{\'e}es vers un
+		autre processus pour traitement}}}
+	\put(331,179){\circle{50}}			\put(331,114){\circle{50}}
+	\put(331,49){\circle{50}}
+	\put(240,113){\vector(1,1){64}}		\put(240,113){\vector(1,0){65}}
+	\put(240,113){\vector(1,-1){66}}	\put(88,191){\vector(4,-3){69}}
+	\put(88,152){\vector(3,-1){69}}		\put(88,117){\vector(1,0){69}}
+	\put(88,78){\vector(3,1){69}}		\put(88,38){\vector(4,3){69}}
+\end{picture}
+\caption{\label{advpgm-mulsoc-fig}Exemple de processus g{\'e}rants
+plusieurs canaux de communication}
+\end{figure}
+
+Dans le cas o{\`u} le processus serveur g{\'e}rant le service r{\'e}seau utilise un mode
+d'{\'e}change de donn{\'e}es synchrone (mode bloquant), il doit r{\'e}pondre aux
+entr{\'e}es$/$sorties pr{\'e}sentes sur les diff{\'e}rents ports de communication d{\`e}s
+que des donn{\'e}es s'y trouvent. Il doit donc faire une {\it s{\'e}lection}
+sur la {\it socket} afin d'{\'e}ffectuer l'op{\'e}ration ad{\'e}quate (lecture).
+
+Dans le cas o{\`u} ce processus utilise un mode d'{\'e}change de donn{\'e}es asynchrone
+(mode non-bloquant), il est confront{\'e} au m{\^e}me probl{\`e}me, c'est-{\`a}-dire
+d{\'e}terminer quel est le port de communication qui a g{\'e}n{\'e}r{\'e} un signal
+indiquant que des donn{\'e}es sont disponibles. Il devra donc faire une
+{\it s{\'e}lection} sur la {\it socket} afin d'{\'e}ffectuer l'op{\'e}ration de lecture.
+
+L'appel syst{\`e}me {\tt select()} permet de r{\'e}pondre {\`a} cette question. Il
+indiquera au processus, lorsque celui-ci utilise plusieurs ports de communication,
+quel est celui qui demande une op{\'e}ration d'entr{\'e}e$/$sortie.
+Les appels syst{\`e}mes {\tt read()} ou {\tt recv()} pourront alors effectuer
+leur action sur le bon port.
+
+\begin{remarque}
+L'appel syst{\`e}me {\tt select()} est {\bf bloquant}, c'est-{\`a}-dire qu'il
+fonctionne syst{\'e}matiquement en mode synchrone, m{\^e}me si votre programme
+g{\`e}re des ports de communication asynchrones. Il peut donc {\^e}tre la
+cause de bloquage du processus serveur.
+\end{remarque}
+
+\subsection{D{\'e}tection de l'identit{\'e} d'un client}
+
+Nous avons vu que si le processus serveur g{\`e}re plusieurs ports
+de communication, il peut traiter en simultan{\'e} des demandes de plusieurs
+clients. Le probl{\`e}me est donc de d{\'e}terminer quelle {\sl socket}
+doit attirer l'attention afin d'effectuer une op{\'e}ration d'entr{\'e}e$/$sortie.
+Nous avons vu dans la section pr{\'e}c{\'e}dente que la r{\'e}ponse {\'e}tait apport{\'e}e
+gr{\^a}ce {\`a} l'appel syst{\`e}me {\tt select()}.
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(263,184)
+	\thinlines
+	\put(54,32){\vector(0,1){13}}
+	\put(30,12){\fbox{\parbox{75pt}{Sockets en {\'e}coute de connexion}}}
+	\put(54,50){\line(1,0){99}}			\put(53,66){\line(1,0){99}}
+	\put(54,100){\line(1,0){99}}		\put(54,116){\line(1,0){99}}
+	\put(54,127){\line(6,1){99}}		\put(54,143){\line(6,1){99}}
+	\put(205,149){Client 1}				\put(205,106){Client 2}
+	\put(205,55){Client 3}
+	\put(140,43){\framebox(55,29){}}	\put(154,58){\circle*{16}}
+	\put(140,93){\framebox(55,29){}}	\put(154,108){\circle*{16}}
+	\put(140,135){\framebox(55,29){}}	\put(154,150){\circle*{16}}
+	\put(54,58){\circle*{16}}			\put(54,83){\circle*{16}}
+	\put(54,108){\circle*{16}}		\put(54,135){\circle*{16}}
+	\put(10,45){\framebox(59,103){}}
+	\put(12,165){Serveur}
+\end{picture}
+\caption{\label{advpgm-mclients-fig}Serveur poss{\'e}dant plusieurs
+ports de communication}
+\end{figure}
+
+Avec l'appel syst{\`e}me {\tt select()}, il est possible de sp{\'e}cifier un
+nombre donn{\'e} d'identifiant de {\sl fichiers}\footnote{Au sens {\Unix}
+du terme.} {\`a} examiner afin de voir s'il est n{\'e}cessaire d'y effectuer une
+op{\'e}ration d'entr{\'e}e$/$sortie. Dans le cas qui nous interesse, ces identifiants
+de {\sl fichiers} sont des ports de communications (des {\sl sockets}).
+
+Par exemple, consid{\'e}rons un processus serveur ayant plusieurs connexions
+ouvertes simultan{\'e}ement avec plusieurs clients. Au lieu d'avoir un blocage sur
+une seule op{\'e}ration de lecture associé à un seul port de communication, en utilisant
+{\tt select()}, l'ex{\'e}cution du processus serveur sera bloqu{\'e}e jusqu'{\`a} ce
+qu'un port de communication, parmi ceux disponibles, poss{\`e}de des donn{\'e}es
+pr{\^e}tes {\`a} {\^e}tre traiter. Lorsque ce cas de figure se produit, {\tt select()}
+rend la main au programme, les diff{\'e}rents arguments
+permettent de savoir quel sera le port concern{\'e} (cf. section \ref{advpgm-syscall-select}).
+
+{\tt select()} sera aussi tr{\`e}s utile dans les cas suivants~:
+\begin{itemize}
+	\item	pour une socket associ{\'e}e {\`a} une file d'attente des demandes de connexion~:
+		\begin{itemize}
+			\item[$\star$]	{\tt select()} permet de d{\'e}terminer quelle socket
+					vient de recevoir une demande de connexion dans
+					le cas d'un processus serveur,
+			\item[$\star$]	{\tt select()} permet de d{\'e}terminer quelle socket
+					vient de terminer sa phase d'{\'e}tablissement de
+					connexion dans le cas d'un processus client.
+		\end{itemize}
+	\item	pour une socket associ{\'e}e {\`a} un canal d'{\'e}change de donn{\'e}es~:
+		\begin{itemize}
+			\item[$\star$]	{\tt select()} permet de d{\'e}terminer quelle socket
+					poss{\`e}de des donn{\'e}es qu'il faudra lire,
+			\item[$\star$]	{\tt select()} permet de d{\'e}terminer quelle socket
+					pourra {\'e}mettre des donn{\'e}es sans entrainer un blocage
+					de l'ex{\'e}cution du processus. En effet, les appels
+					syst{\`e}mes {\tt write()}, {\tt send()} et {\tt sendto()}
+					suspendront l'ex{\'e}cution du processus tant que les
+					{\sl buffers} internes au syst{\`e}me ne pourront
+					pas admettre l'ensemble des donn{\'e}es {\`a} {\'e}mettre (cf.
+					sections \ref{instream-syscall-exchg} et \ref{inet-dgram-syscall-exchg}).
+		\end{itemize}
+\end{itemize}
+
+\subsection{\label{advpgm-syscall-select}Appel syst{\`e}me {\tt select()}}
+
+Les caract{\'e}ristiques de l'appel syst{\`e}me {\tt select()} sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <time.h>
+
+int select (nfds, readfds, writefds, exceptfds, timeout);
+int nfds, *readfds, *writefds, *exceptfds;
+struct timeval *timeout;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt nfds}	&	Nombre d'identifiants de {\it fichiers} (sockets) {\`a} interroger.	\\
+{\tt readfds}	&	Masque indiquant quels sont les identifiants de {\sl fichiers} (sockets) n{\'e}cessitant
+			une op{\'e}ration de lecture.		\\
+{\tt writefds}	&	Masque indiquant quels sont les identifiants de {\sl fichiers} (sockets) n{\'e}cessitant
+			une op{\'e}ration d'{\'e}criture.	\\
+
+{\tt exceptfds}	&	Masque indiquant quels sont les identifiants de {\sl fichiers} (sockets) ayant
+			g{\'e}n{\'e}r{\'e} une exception.	\\
+{\tt timeout}	&	Structure de type {\tt timeval} indiquant {\`a} {\tt select()} le temps {\`a} attendre
+			avant de rendre la main au processus si cela est jug{\'e} utile.	\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	&	Renvoie le nombre d'identifiants de {\sl fichiers} (sockets) n{\'e}cessitant une op{\'e}ration
+			d'entr{\'e}e$/$sortie. Les masques {\tt readfds} et {\tt writefds}Êindiqueront quels sont les
+			ports concern{\'e}s.\\
+	Erreur	&	Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			indiquera avec plus de pr{\'e}cision les causes de l'erreur. \\
+	Timeout	& Renvoie la valeur \verb=0=.
+\end{tabular}
+\end{quote}
+\end{quote}
+
+{\tt select()} examine les bits positionn{\'e}s {\`a} $1$ dans les masques
+{\tt readfds}, {\tt writefds} et {\tt exceptfds}. Chaque bit est associ{\'e}
+{\`a} un descripteur de {\sl fichier}\footnote{au sens {\Unix} du terme}, donc
+{\`a} un descripteur sur un port de communication dans le cas qui nous interresse.
+Les bits de $0$ {\`a} {\tt nfds - 1} sont examin{\'e}s. Lorsque {\tt select()}
+rend la main au processus, les trois masques, {\tt readfds}, {\tt writefds}
+et {\tt exceptfds}, sont mis {\`a} jour afin de refl{\`e}ter l'{\'e}tat dans lequel
+se trouve chaque socket~:
+\begin{itemize}
+	\item	si le bit correspondant {\`a} une socket est positionn{\'e} {\`a} $1$ dans
+			le masque {\tt readfds}, le port correspondant est en attente d'une op{\'e}ration de lecture.
+	\item	si le bit correspondant {\`a} une socket est positionn{\'e} {\`a} $1$ dans
+			le masque {\tt writefds}, le port correspondant est en attente d'une op{\'e}ration d'{\'e}criture.
+\end{itemize}
+
+\begin{remarque}
+Le masque {\tt exceptfds} n'est pas utilis{\'e} dans le cas des sockets.
+\end{remarque}
+
+Si le pointeur sur la structure {\tt timeout} est le pointeur {\tt NULL},
+alors {\tt select()} bloquera l'ex{\'e}cution du programme jusqu'{\`a} ce qu'un
+des ports de communications consid{\'e}r{\'e}s n{\'e}cessite une op{\'e}ration
+d'entr{\'e}e$/$sortie. Dans le cas contraire, le pointeur r{\'e}f{\'e}rencera une zone
+m{\'e}moire qui contiendra les informations indiquant combien de temps {\tt select()} suspendra
+au maximum l'ex{\'e}cution du processus.
+
+\subsubsection{Exemple}
+
+\begin{verbatim}
+#define MASK(n) (1<<n)
+\end{verbatim}
+$\vdots$\\
+\begin{verbatim}
+readfds = MASK(s1) | MASK(s2);
+nfds = select (s2 + 1, &readfds, 0, 0, 0);
+
+if ( MASK(s1) & readfds )
+    ns = accept (s1, &addr, &len);
+
+if ( MASK(s2) & readfds )
+    ns = accept (s2, &addr, &len);
+\end{verbatim}
+$\vdots$
+
+Cet exemple permet examiner si des requ{\^e}tes de connexion arrivent sur
+deux sockets diff{\'e}rentes. L'appel {\`a} {\tt select()} va suspendre 
+l'ex{\'e}cution du processus jusqu'{\`a} ce qu'une demande de connexion
+arrive sur l'une des deux sockets ({\tt s1} ou {\tt s2}). Lorsqu'il
+rend la main, le programme devra d{\'e}terminer qui a re\c{c}u cette requ{\^e}te.
+
+\begin{remarque}
+On suppose que {\tt s2} est un entier sup{\'e}rieur {\`a} {\tt s1} permettant
+de num{\'e}rotter les deux ports de communication. Par exemple, on pourra avoir
+<<~{\tt s1}~=~0>> et <<~{\tt s2}~=1~>>. Dans ce cas, la taille du masque sera de
+<<~{\tt s2 }~+~1~>>.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{advpgm-exe}Exemple d'{\'e}changes asynchrones}
+
+Cet exemple va montrer comment utiliser les entr{\'e}es$/$sorties asynchrones
+avec des sockets fonctionnant en mode connect{\'e} et non-connect{\'e}.
+
+Le programme serveur offre deux services~:
+\begin{itemize}
+	\item	{\tt sigex\_tcp} correspondant au service fonctionnant en mode connect{\'e},
+	\item	{\tt sigex\_udp} correspondant au service fonctionnant en mode non-connect{\'e}.
+\end{itemize}
+
+On supposera que les entr{\'e}es n{\'e}cessaires dans les fichiers de configuration (fichiers
+<<~{\tt /etc/services}~>> et <<~\texttt{/etc/hosts}~>>) auront {\'e}t{\'e} effectu{\'e}es que ce soit au
+niveau de la machine serveur que des postes clients.
+
+{\bf Algorithme du serveur~:}
+\begin{quote}
+\begin{order}
+	\item {\bf Configuration g{\'e}n{\'e}rale~:}
+		\begin{itemize}
+			\item Param{\`e}trage pour la capture du signal {\tt SIGIO}.
+			\item D{\'e}finition de la famille d'adresses: {\tt AF\_INET}.
+			\item Adresses IP accept{\'e}es: {\sl toutes}.
+		\end{itemize}
+	\item {\bf Configuration pour le port de communication en mode non-connect{\'e}~:}
+		\begin{itemize}
+			\item Acquisition du num{\'e}ro de port pour ce service.
+			\item Cr{\'e}ation de la socket.
+			\item Param{\`e}trage du port de communication.
+		\end{itemize}
+	\item {\bf Configuration pour le port de communication en mode connect{\'e}~:}
+		\begin{itemize}
+			\item Acquisition du num{\'e}ro de port pour ce service.
+			\item Cr{\'e}ation de la socket.
+			\item Param{\`e}trage du port de communication.
+			\item Cr{\'e}ation de la file d'attente pour les demandes de connexion.
+		\end{itemize}
+	\item {\bf Boucle d'attente du signal {\tt SIGIO}}
+\end{order}
+\end{quote}
+
+{\bf Algorithme ex{\'e}cut{\'e} lors de la r{\'e}ception du signal {\tt SIGIO} au niveau
+du serveur~:}
+\begin{quote}
+\begin{order}
+	\item {\bf Configuration g{\'e}n{\'e}rale}
+		\begin{itemize}
+			\item D{\'e}finition des diverses macros,
+			\item Affichage d'un message pour l'op{\'e}rateur, comme quoi le
+				  signal a bien {\'e}t{\'e} re\c{c}u.
+			\item Positionnement du masque de lecture pour les sockets
+				  (mode connect{\'e} et mode non-connect{\'e}).
+			\item Appel {\`a} {\tt select()} avec un {\it timeout} bloquant.
+		\end{itemize}
+	\item {\bf S{\'e}lection de la socket en fonction du retour de {\tt select()}}
+	\item {\bf Si les donn{\'e}es arrivent sur la socket fonctionnant en mode non-connect{\'e}}
+		\begin{itemize}
+			\item Lecture et affichage des donn{\'e}es {\`a} l'{\'e}cran.
+		\end{itemize}
+	\item {\bf Si les donn{\'e}es arrivent sur la socket fonctionnant en mode connect{\'e}}
+		\begin{itemize}
+			\item Validation de la demande de connexion (appel syst{\`e}me {\tt accept()}.
+			\item Lecture et affichage des donn{\'e}es {\`a} l'{\'e}cran.
+			\item Fermeture du port de communication.
+		\end{itemize}
+\end{order}
+\end{quote}
+
+{\bf Algorithme du client~:}
+\begin{quote}
+\begin{order}
+	\item {\bf Configuration et initialisation de l'environnement~:}
+		\begin{itemize}
+			\item Param{\`e}trages diverses pour {\'e}tablir une liaison au dessus
+				  du protocole IP.
+			\item Recherche de l'adresse IP du serveur.
+		\end{itemize}
+	\item {\bf Initialisation du port de communication en mode non-connect{\'e}~:}
+		\begin{itemize}
+			\item Cr{\'e}ation du port de communication.
+			\item Recherche des caract{\'e}ristiques du service.
+		\end{itemize}
+	\item {\bf Envoi des donn{\'e}es en mode non-connect{\'e}.}
+	\item {\bf Attente de 5 secondes.}
+	\item {\bf Initialisation du port de communication en mode connect{\'e}~:}
+		\begin{itemize}
+			\item Cr{\'e}ation du port de communication.
+			\item Recherche des caract{\'e}ristiques du service.
+			\item Envoi d'une demande de connexion.
+		\end{itemize}
+	\item {\bf Envoi des donn{\'e}es en mode non-connect{\'e}.}
+\end{order}
+\end{quote}
+
+\subsection{Source de la partie {\it serveur}}
+
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <signal.h>
+#include <stdio.h>
+#include <netdb.h>
+#include <time.h>
+
+int ds;      /* desc. socket mode non-connecté  */
+int ss;      /* desc. socket mode connecté      */
+
+struct hostent *hp;        /* ptr sur les infos réseau du clients */
+struct servent *sp;        /* ptr sur les infos du service        */
+struct sockaddr_in myaddr;      /* adresse locale   */
+
+/******************
+** MAIN
+*******************/
+
+main (argc, argv)
+int argc;
+char *argv[];
+{
+    struct sigvec vec;
+    int           io_handler(); /* handler pour SIGIO */
+
+    /*
+    ** Initalisation du handler
+    */
+
+    vec.sv_handler = (int *)io_handler;
+    vec.sv_mask = 0;
+    vec.sv_flags = 0;
+    if ( sigvector (SIGIO, &vec, (struct sigvec *)0 ) == -1 ) {
+        perror (" sigvector(SIGIO)");
+        exit (1);
+    }
+
+    /*
+    ** Création de la socket en mode non-connecté
+    */
+    myaddr.sin_family = AF_INET;
+    myaddr.sin_addr.s_addr = INADDR_ANY;
+
+    sp = getservbyname ("sigex_udp", "udp");
+    if (sp == NULL) {
+        printf ("sigex_udp inconnu dans /etc/services\n");
+        exit (1);
+    }
+    myaddr.sin_port = sp->a_port;
+
+    ds = socket (myaddr.sin_family, SOCK_DGRAM, 0);
+    if (ds == -1) {
+        perror (argv[0]);
+        printf ("%s: impossible de créer la dgram socket\n",
+            argv[0]);
+        exit (1);
+    }
+
+    /*
+    ** On la rend asynchrone
+    */
+    set_up_async (ds);
+
+    /*
+    ** Création de la socket en mode connecté
+    */
+    sp = getservbyname ("sigex_tcp", "tcp");
+    if (sp == NULL) {
+        printf ("sigex_tcp inconnu dans /etc/services\n");
+        exit (1);
+    }
+    myaddr.sin_port = sp->a_port;
+
+    ds = socket (myaddr.sin_family, SOCK_STREAM, 0);
+    if (ds == -1) {
+        perror (argv[0]);
+        printf ("%s: impossible de créer la stream socket\n",
+            argv[0]);
+        exit (1);
+    }
+
+    /*
+    ** On la rend asynchrone
+    */
+    set_up_async (ss);
+
+    /*
+    ** Création de la file d'attente pour les connexions
+    ** en mode connecté
+    */
+    if ( listen(ss, 5) == -1 ) {
+        perror (argv[0]);
+        printf ("%s: impossible de créer la file d'attente\n",
+            argv[0]);
+        exit (1);
+    }
+
+    /*
+    ** On est prêt a recevoir les demandes de connexions, les
+    ** signaux, etc.
+    ** On boucle indéfiniement. Le programme la quittera lors
+    ** de la réception de SIGIO.
+    ** Cette méthode n'est pas élégante. Il vaut mieux utiliser 
+    ** plus finement les signaux pour éviter des boucles infinies.
+    */
+
+    for (;;) {
+    }
+}
+/**
+** Fin MAIN
+**/
+
+/******
+** Fonction: set_up_async()
+**
+** Cette fonction permet de configurer une socket et
+** de la rendre asynchrone.
+**/
+
+set_up_async (s)
+int s;
+{
+    int flag = 1;
+
+    if ( bind(s, &myaddr, sizeof (myaddr)) == -1 ) {
+        perror (" impossible de configurer la socket\n");
+        exit (1);
+    }
+
+    if ( ioctl (s, FIOASYNC, & flag) == -1 ) {
+        perror (" impossible de rendre la socket asynchrone\n");
+        exit (1);
+    }
+
+    /* Le processus doit recevoir le signal SIGIO lorsque l'état
+    ** de la socket change.
+    ** Groupe de process négatif -> signal a délivrer au processus
+    */
+    flag = (-1) * getpid();
+    if ( ioctl (s, SIOCSPGRP, & flag) == -1 ) {
+        perror (" impossible d'obtenir le groupe de processus");
+        exit (1);
+    }
+}
+
+/******
+** Fonction: io_handler()
+**
+** Code à exécuter lors de la réception du signal SIGIO.
+**
+** NB: Constante NOFILE = nombre max de descripteur de fichiers
+** par processus.
+**/
+
+#include <sys/param.h>
+#define BPI           32    /* nbre de bits pour le type "int" */
+#define FD_ZERO(p)    memeset((char *)(p), 0, sizeof(*(p)))
+#define FD_SET(n,p)   ((p)->fdm_bits[(n)/BPI] |= (1<<((n) % BPI)))
+#define FD_CLR(n,p)   ((p)->fdm_bits[(n)/BPI] &= ~(1<<((n) % BPI)))
+#define FD_ISSET(n,p) ((p)->fdm_bits[(n)/BPI] & (1<<((n) % BPI)))
+#define DONT_CARE     (char *)0
+#define BUFLEN        100
+
+io_handler()
+{
+    struct fd_mask {
+        u_long fdm_bits[NOFILE / BPI + 1];
+    };
+    struct fd_mask     readmask;
+    int                numfds;
+    char               buf[BUFLEN];
+    int                count;
+    int                s;
+    int                peerlen;
+    struct sockaddr_in perraddr_in;
+    struct timeval {
+        unsigned long tv_sec;  /* secondes       */
+        long          tv_usec; /* micro-secondes */
+    } timeout;
+
+    memset (buf, 0, BUFLEN);
+
+    /* Notification de l'opérateur de l'arrivée du signal */
+    printf (" interruption SIGIO reçue !\n\n");
+
+    /* Initialisation des masques */
+    FD_ZERO (&readmask);
+    FD_SET (ds, &readmask);
+    FD_SET (ss, &readmask);
+
+    /* Initialisation du timeout */
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 0;
+
+    /* Sélection sur le descripteur de socket */
+    if ( (numfds = select(ss + 1, &readmask, DONT_CARE,
+                          DONT_CARE, &timeout))
+          < 0 ) {
+        perror ("erreur sur l'appel à select()");
+        exit (1);
+    }
+    if ( numfds == 0 ) {
+        printf (" retour de select() non cohérent");
+        exit (1);
+    }
+    if ( FD_ISSET(ds, &readmask) ) {
+        count = recv (ds, buff, BUFLEN, 0);
+        buf[count] = '\0';
+        printf (" Données reçues en mode non connecté : \"%s\"\n\n",
+            buf);
+    }
+    if ( FD_ISSET(ss, &readmask) ) {
+        peerlen = sizeof (struct sockaddr_in);
+        s = accept (ss, &peeraddr_in, &peerlen);
+        if ( s == -1 ) {
+            perror ("échec de l'acceptation de la connexion");
+            exit (1);
+        }
+        printf (" demande de connexion acceptée");
+
+        /* L'appel à recv() suivant bloquera jusqu'à ce que
+        ** des données soient disponibles.
+        */
+        count = recv (s, buf, BUFLEN, 0);
+        if ( count == -1 ) {
+            perror ("échec de la lecture");
+            exit (1);
+        }
+        buf[count] = '\0';
+        printf (" Données reçues en mode connecté : \"%s\"\n\n",
+            buf);
+        close (s);
+    }
+    printf (" async.serv: traitement des données terminé\n");
+    printf ("Fin du programme\n");
+    close (ss);
+    close (ds);
+    exit (0);
+}
+\end{verbatim}
+
+\subsection{Source de la partie {\it cliente}}
+
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <stdio.h>
+#include <netdb.h>
+
+int ds;    /* socket en mode non-connecté */
+int ss;    /* socket en mode connecté     */
+
+struct hostent *hp;   /* informations réseau sur le serveur distant */
+struct servent *sp;   /* information sur le service distant */
+
+struct sockaddr_in myaddr;      /* adresse locale   */
+struct sockaddr_in peeraddr_in; /* adresse distante */
+
+/******************
+** MAIN
+*******************/
+
+main (argc, argv)
+int argc;
+char *argv[];
+{
+    int addrlen;
+    int ds;    /* socket en mode non-connecté */
+    int ss;    /* socket en mode connecté     */
+
+    struct hostent *hp;   /* informations réseau sur le serveur
+                             distant */
+    struct servent *sp;   /* information sur le service distant */
+
+    struct sockaddr_in myaddr;      /* adresse locale   */
+    struct sockaddr_in peeraddr_in; /* adresse distante */
+
+    if (argc != 4 ) {
+        fprintf (stderr, "Usage: %s remote_host \"dgram-data\" ",
+                argv[0]);
+        fprintf (stderr, "\"stream-data\"\n\n");
+        exit (1);
+    }
+
+    /* Initialisation de la structure "peeraddr_in" */
+    peeraddr_in.sin_family = AF_INET;
+
+    hp = gethostbyname (argv[1]);
+    if (hp == NULL) {
+        fprintf (stderr, "%s: %s non défini dans l'annuaire ",
+            argv[0], argv[1]);
+        fprintf ("des machines sur le réseau\n");
+        exit (1);
+    }
+
+    peeraddr_in.sin_addr.s_addr =
+        ((struct in_addr *)(hp->h_addr))->s_addr;
+
+    /* Creation de la socket pour le mode non-connecté */
+    ds = socket (AF_INET, SOCK_DGRAM, 0);
+    if ( ds == -1 ) {
+        perror (argv[0]);
+        fprintf (stderr, "%s: impossible de créer la socket dgram\n",
+            argv[0]);
+        exit (1);
+    }
+
+    /* Récuperation des informations sur le service "sigex_udp" */
+    sp = getservbyname ("sigex_udp", "udp");
+    if ( sp == NULL ) {
+        fprintf (stderr, "%s: sigex_udp/udp service non défini",
+            argv[0]);
+        exit (1);
+    }
+    peeraddr_in.sin_port = sp->s_port;
+
+    /* Emission des données en mode connecté */
+    if ( sendto(ds, argv[2], strlen(argv[2]), 0, &peeraddr_in,
+                sizeof (struct sockaddr_in)) == -1 ) {
+        perror (argv[0]);
+        fprintf (stderr, "%s: échec de l'emission des données ",
+            argv[0]);
+        fprintf (stderr, "en mode non-connecté\n");
+        exit (1);
+    }
+    printf ("%s: émission des données en mode non-connecté OK\n",
+        argv[0]);
+    close (ds);
+    sleep (5);
+
+    /* Creation de la socket en mode connecté */
+    ss = socket (AF_INET, SOCK_STREAM, 0);
+    if ( ss == -1 ) {
+        perror (argv[0]);
+        fprintf (stderr, "%s: échec de création de la socket\n",
+            argv[0]);
+        exit (1);
+    }
+
+    sp = getservbyname ("sigex_tcp", "tcp");
+    if (sp == NULL ) {
+        perror (argv[0]);
+        fprintf (stderr, "%s: impossible de trouver le service\n",
+            argv[0]);
+        exit (1);
+    }
+    peeraddr_in.sin_port = sp->s_port;
+
+    /* Connexion au serveur */
+    if ( connect (ss, &peeraddr_in, sizeof (struct sockaddr_in))
+            == -1 ) {
+        perror (argv[0]);
+        fprintf (stderr, "%s: connexion impossible\n", argv[0]);
+        exit (1);
+    }
+
+    /* Emission des données en mode connecté */
+    if ( sendto (ss, argv[3], strlen(argv[3]), 0, &peeraddr_in,
+                 sizeof(struct sockaddr_in)) == -1 ) {
+        perror (argv[0]);
+        fprintf (stderr, "%s: échec d'émission\n", argv[0]);
+        exit (1);
+    }
+    printf ("%s: les données ont été émises\n", argv[0]);
+    close (ss);
+
+    printf ("%s: programme terminé\n", argv[0]);
+}
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{advpgm-oob}Les messages urgents~: {\it Out Of Band Data}}
+
+\subsection{Description}
+
+Les messages urgents ({\sl Out Of Band Data}) sont envoy{\'e}s vers le
+processus lorsqu'un {\'e}v{\`e}nement particulier se produit. La plupart du
+temps, un message urgent est envoy{\'e} au milieu de donn{\'e}es utilisant un
+canal de communication en mode connect{\'e}. {\bf Un message urgent est
+pr{\'e}c{\'e}d{\'e} par une <<~marque de message~>> ne faisant qu'un octet de long}.
+Cet octet est ins{\'e}r{\'e}, dans le flot des messages. Il va pr{\'e}c{\'e}der les
+donn{\'e}es transmises qui seront consid{\'e}r{\'e}es comme urgente. La notification
+de cette marque est d{\'e}livr{\'e}e imm{\'e}diatement au processus via le signal
+{\tt SIGURG}. Votre programme doit {\^e}tre capable de capturer ce signal
+gr{\^a}ce {\`a} l'appel syst{\`e}me {\tt signal()} ou {\'e}quivalent, et utiliser {\tt
+ioctl()} avec l'option {\tt SIOCSPGRP} pour sp{\'e}cifier au noyau du
+syst{\`e}me d'exploitation, l'endroit o{\`u} il doit {\^e}tre envoy{\'e}.
+
+La figure \ref{advpgm-oob-fig} illustre le m{\'e}canisme au niveau
+du flot de donn{\'e}es arrivant vers un processus.
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{1pt}
+\begin{picture}(295,99)
+	\thinlines
+	\put(15,80){Signalisation du message urgent par {\tt SIGURG}.}
+	\put(60,72){\vector(0,-1){22}}
+	\put(10,12){\line(1,0){273}}
+	\put(12,50){\line(1,0){273}}
+	\put(95,16){
+		\fbox{\parbox[b][30pt][c]{3cm}{{\bf Marque du message urgent}}}}
+	\put(205,26){Donn{\'e}es urgentes}
+	\put(32,26){Donn{\'e}es}
+	\put(95,4){\vector(-1,0){22}}
+	\put(100,1){Sens du flot des donn{\'e}es.}
+\end{picture}
+\caption{\label{advpgm-oob-fig}Message urgent au milieu d'un flot de
+	donn{\'e}es arrivant vers un processus}
+\end{figure}
+
+Une fois que votre programme d{\'e}clare la fonction sp{\'e}ciale devant prendre
+en compte le traitement sp{\'e}cifique {\`a} effectuer, {\tt ioctl()} avec
+l'option {\tt SIOCATMARK} positionnera un drapeau (flag) lorsque le pointeur de donn{\'e}es
+rencontrera l'octet correspondant au message urgent. L'appel syst{\`e}me
+{\tt recv()} avec l'option {\tt MSG\_OOB} pourra {\^e}tre utilis{\'e} pour
+extraire ce type de message\footnote{octet pr{\'e}sent dans le flot de
+donn{\'e}es}.
+
+Sachant que le signal {\tt SIGURG} peut se produire avant que l'octet
+correspondant au message urgent ne soit disponible, le processus client
+pourra r{\'e}p{\'e}ter les appels de lecture (appels {\`a} {\tt recv()} jusqu'{\`a}
+ce que cet octet arrive dans les {\sl buffers} de donn{\'e}es. Si, par hasard,
+un appel {\`a} {\tt recv()} inclut dans son op{\'e}ration de lecture,
+l'octet correspondant au message urgent, l'appel ) {\tt recv()} avec
+l'option {\tt MSG\_OOB} ne bloquera pas le d{\'e}roulement du programme.
+
+\begin{remarque}
+La notion de message urgent ne fonctionne qu'avec le mode connect{\'e},
+c'est-{\`a}-dire~:
+\begin{itemize}
+	\item famille d'adresses {\tt AF\_INET},
+	\item famille de protocoles {\tt SOCK\_STREAM}.
+\end{itemize}
+\end{remarque}
+
+L'exemple suivant donnera une aide pour illustrer ce concept au niveau de
+la programmation~:
+
+\begin{verbatim}
+while (1) {
+    /* Verification si la marque de message urgent a été lue */
+    if (ioctl (sk, SIOCATMARK, &atmark) < 0 ) {
+        perror ("ioctl (SIOCATMARK");
+        return;
+    }
+
+    /* La marque n'a pas été lue */
+    if (atmark)
+        break;
+
+    /* On ignore les données avant la marque.
+    */
+    if ( read (sk, flush, sizeof(flush)) <= 0 ) {
+        return; /* échec de lecture */
+    }
+}
+
+/* Réception de la marque de message urgent */
+recv (sk, &mark, 1, MSG_OOB);
+return;
+\end{verbatim}
+
+
+\subsection{Exemple de programme}
+
+Cet exemple illustre le cas d'un processus client devant g{\'e}r{\'e} l'arriv{\'e}e
+de messages urgents en provenance du serveur. Les {\'e}changes de donn{\'e}es mis
+en jeu avec le serveur peuvent se r{\'e}sumer {\`a} la figure \ref{advmgm-oob-ex-fig}.
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(469,184)
+	\thinlines
+	\put(355,31){Client}
+	\put(237,81){\vector(1,0){20}}
+	\put(237,37){\line(0,1){44}}
+	\put(205,87){\vector(0,-1){50}}
+	\put(185,87){\line(1,0){20}}
+	\put(185,110){\line(1,0){24}}
+	\put(209,143){\line(0,-1){9}}
+	\put(209,119){\line(0,-1){9}}
+	\put(190,118){\framebox(45,16){SIGURG}}
+	\put(178,165){\parbox{2cm}{Emission du signal {\tt SIGURG}}}
+	\put(209,143){\vector(1,0){43}}
+	\put(358,102){\oval(202,114)}
+	\put(50,23){\parbox{3cm}{Transmission des donn{\'e}es
+		pr{\'e}c{\'e}d{\'e}es de la marque}}
+	\put(98,100){\oval(176,96)}
+	\put(85,77){\parbox{1cm}{$\vdots$}}
+	\put(12,94){\framebox(174,23){{\tt send (sk, \& msg, 1, MSG\_OOB);}}}
+	\put(85,130){\parbox{1cm}{$\vdots$}}
+	\put(165,11){\framebox(30,25){OOB}}
+	\put(181,11){\line(1,0){91}}
+	\put(200,19){Donn{\'e}es}
+	\put(185,36){\line(1,0){91}}
+	\put(262,134){{\tt signal( ..., onurg\_handler, ...)}}
+	\put(270,128){\parbox{1cm}{$\vdots$}}
+	\put(262,102){{\tt ioctl (..., SIOCSPGRP, ...)}}
+	\put(270,96){\parbox{1cm}{$\vdots$}}
+	\put(262,66){{\tt onurg\_handler () \{ ...\}}}
+	\put(69,154){Serveur}
+\end{picture}
+\caption{\label{advmgm-oob-ex-fig}Exemple des messages {\'e}chang{\'e}s entre
+client et serveurs avec des messages urgents.}
+\end{figure}
+
+\begin{verbatim}
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+
+struct sigvec vec;
+void          onurg_handler();
+int           pid;
+int           sk;
+
+main ()
+{
+    /* Déclaration du handler "onurg_handler" au niveau
+    ** de la gestion des signaux. Cette fonction sera
+    ** appelée dès la réception du signal SIGURG.
+    */
+    vec.sv_handler = onurg_handler;
+    vec.sv_mask = 0;
+    vec.sv_onstack = 0;
+
+    if ( sigvector(SIGURG, & vec, (struct sigvec *)(0) )
+            < 0 ) {
+        perror ("sigvector(SIGURG)");
+        exit (-1);
+    }
+
+    /* Déclaration auprès du noyau pour que le processus
+    ** recoive le signal SIGURG, lorsqu'un message arrive
+    ** sur la socket "sk".
+    */
+    pid = (-1)  * getpid();
+    if ( ioctl(sk, SIOCSPGRP, (char *) &pid) < 0 ) {
+        perror ("ioctl (SIOCSPGRP)");
+        exit (-1);
+    }
+
+    /* Pour la suite, on a de code classique pour un client
+    ** utilisant les BSD sockets.
+    */
+\end{verbatim}
+\hfill \hfill $\vdots$
+\begin{verbatim}
+}
+
+void onurg_handler ()
+{
+    int  atmark;
+    char mark;
+    char flush[100];
+
+    while (1) {
+        /* On vérifie si la marque du message urgent
+        ** a été reçue.
+        */
+        if (ioctl (sk, SIOCATMARK, &atmark) < 0 ) {
+            perror ("ioctl (SIOCATMARK)");
+            return;
+        }
+
+        /* La marque n'a pas été lue */
+        if (atmark)
+            break;
+
+        /* On ignore les données avant la marque.
+        */
+        if ( read (sk, flush, sizeof(flush)) <= 0 ) {
+            return; /* {\'e}chec de lecture */
+        }
+    }
+
+    /* Réception de la marque de message urgent */
+    recv (sk, &mark, 1, MSG_OOB);
+    return;
+}
+\end{verbatim}

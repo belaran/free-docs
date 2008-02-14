@@ -1,0 +1,1420 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Les Internet Stream Sockets
+%
+\chapter{\label{instream}Les Internet Stream Sockets}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Mise en garde}
+
+Dans toute la suite de ce chapitre, nous ne nous attacherons qu'{\`a} d{\'e}crire l'utilisation des {\sl Internet Stream
+Sockets}, c'est-{\`a}-dire les canaux de communications en mode connect{\'e}, que dans le cas de la
+famille d'adresses d{\'e}crite par le protocole IP.
+
+Ces notions seront identiques {\`a} toutes les autres familles d'adresses
+(DECnet, AppleTalk, SNA, etc.). Seuls les appels aux couches sup{\'e}rieures changeront.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{instream-intro}Introduction}
+
+Les {\sl Internet Stream Sockets}, ou sockets en mode connect{\'e} associ{\'e}es
+au protocole IP, sont des canaux de communication bi-directionnels.
+Sachant qu'elles s'appuient sur le protocole de transport TCP (niveau
+4 du mod{\`e}le OSI), elles garantissent~:
+\begin{itemize}
+	\item	que les messages sont bien d{\'e}livr{\'e}s au processus destination,
+	\item	que les donn{\'e}es arrivent sans erreur,
+	\item	que l'ordre des messages est pr{\'e}serv{\'e}.
+\end{itemize}
+
+Par contre, elles ne garantissent pas la coh{\'e}rence au niveau de la
+longueur des messages. Une op{\'e}ration de lecture sur le canal de
+communication (appel syst{\`e}me {\tt read()} ou {\tt recv()}) peut lire un
+volume de donn{\'e}es inf{\'e}rieur ou sup{\'e}rieur {\`a} celui qui a {\'e}t{\'e} effectu{\'e} lors
+de l'op{\'e}ration d'{\'e}criture d'un seul message (appel syst{\`e}me {\tt write()} ou {\tt send()}).
+
+Les applications utilisant ce type de sockets se composent~:
+\begin{itemize}
+	\item 	d'un processus client demandant un service r{\'e}seau,
+	\item 	d'un processus serveur acceptant les demandes de connexions des
+		clients et offrant les services demand{\'e}s.
+\end{itemize}
+Par exemple, le service {\tt telnet} se d{\'e}compose en deux {\'e}l{\'e}ments~:
+\begin{itemize}
+	\item	Le premier est la commande {\tt telnet}Êaccessible {\`a} partir du
+		poste client. Elle permet {\`a} l'utilisateur de se connecter sur
+		un site distant en utilisant un protocole interne {\`a} cette
+		application~: le protocole \textsc{Telnet}.
+	\item	Le second est le processus serveur\footnote{ou d{\'e}mon sous 
+		{\Unix}} {\tt telnetd} acceptant les demandes de 
+		connexion issues des commandes {\tt telnet} sur les postes 
+		client. Les {\'e}changes d'informations entre les clients et le 
+		serveur utilisent le protocole propre {\`a} cette application: le 
+		protocole {\sc Telnet}.
+\end{itemize}
+
+Avant que les processus puissent communiquer, le syst{\`e}me {\'e}tablit un
+canal de communication {\`a} chaque point. Le point d'entr{\'e}e$/$sortie de
+ce canal, au niveau de chaque processus, se mat{\'e}rialise par un port de
+communication (ou {\it socket}).
+
+Le processus serveur va suivre les {\'e}tapes suivantes~:
+\begin{description}
+	\item[Premi{\`e}re {\'e}tape~:]\mbox{}\\
+		Le processus serveur va affecter une adresse {\`a} 
+		ce port afin qu'il puisse {\^e}tre localis{\'e} par les clients 
+		potentiels sur le r{\'e}seau.
+	\item[Seconde {\'e}tape~:]\mbox{}\\
+		Il va ensuite {\'e}couter sur la file d'attente  contenant les demandes de connexion.
+	\item[Troisi{\`e}me {\'e}tape~:]\mbox{}\\
+		Lorsqu'un client fait une demande de connexion, il va l'accepter. En m{\^e}me temps, il va alors
+		cr{\'e}er un nouveau port de communication d{\'e}di{\'e} uniquement aux {\'e}changes de
+		donn{\'e}es. Ce canal sera donc diff{\'e}rent de celui associ{\'e} {\`a} la file 
+		d'attente pour les demandes des clients.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Cr{\'e}ation d'un canal de communication]
+	{\label{instream-syscall-socket}Cr{\'e}ation d'un canal de communication~: appel syst{\`e}me {\tt socket()}}
+	
+\subsection{Introduction}
+
+Un {\sl descripteur de socket} est une structure de donn{\'e}es locale {\`a} un programme
+dont le comportement est identique {\`a} un descripteur de fichier.
+\begin{itemize}
+	\item	un descripteur de fichier permet de r{\'e}f{\'e}rencer un fichier local au syst{\`e}me,
+	\item	un descripteur de socket permet de r{\'e}f{\'e}rencer l'adresse d'un port de communication.
+\end{itemize}
+
+L'adresse de ce port de communication se compose de plusieurs informations~:
+\begin{itemize}
+	\item	une adresse r{\'e}seau,
+	\item	un num{\'e}ro de port,
+	\item	le type de protocole de transport utilis{\'e}.
+\end{itemize}
+
+Lors de la manipulation d'un descripteur de fichier, la liaison entre cet
+identificateur et le fichier r{\'e}sidant sur le syst{\`e}me local est fait directement
+avec l'appel syst{\`e}me {\tt open()}\footnote{cf. page du manuel {\Unix} {\tt open(2)} ou reportez-vous {\`a} 
+l'annexe \ref{ann-part-manunix}.}. Les entr{\'e}es$/$sorties sont effectu{\'e}es avec 
+l'identificateur qui sera renvoy{\'e} en retour.
+
+Lors de la manipulation d'un descripteur de socket, la liaison entre cet identificateur et le service r{\'e}seau
+correspondant ne peut pas se faire imm{\'e}diatement. Il faudra associer certains attributs {\`a} cet
+identificateur et ensuite {\'e}tablir la communication avec le processus distant.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Appel syst{\`e}me {\tt socket()}}
+
+L'appel syst{\`e}me {\tt socket()}\footnote{cf. page du manuel {\Unix} {\tt socket(2)} ou reportez-vous {\`a} l'annexe 
+\ref{ann-part-manunix}.} permet de cr{\'e}er ce descripteur en lui indiquant ses  caract{\'e}ristiques de base~:
+\begin{itemize}
+	\item	la famille d'adresses (adresse IP, adresse DECnet, etc.),
+	\item	le type de socket (mode connect{\'e} ou non connect{\'e}),
+	\item	le protocole de transport {\`a} utiliser.
+\end{itemize}
+
+Ses caract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int socket (af, type, protocol);
+int af, type, protocol;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{ll}
+{\tt af}		& Famille d'adresses			\\
+{\tt type}	& Type de socket			\\
+{\tt protocol}	& Protocole de transport {\`a} utiliser	\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie le descripteur de socket	\\
+	Erreur	& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+		   indiquera avec plus de pr{\'e}cision les causes de l'erreur.
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{remarque}
+En fonction de la famille d'adresses et le type de socket, le syst{\`e}me dispose
+d'un protocole de transport par d{\'e}faut. Par exemple, si le programmeur choisit
+les param{\`e}tres suivants~:
+\begin{itemize}
+	\item	la famille d'adresses IP,
+	\item	le mode connect{\'e} pour le type de canal de communication,
+\end{itemize}
+le protocole de transport par d{\'e}faut sera {\sl TCP}.
+
+Pour utiliser le protocole de transport par d{\'e}faut, il suffit de passer la
+valeur <<~\verb=0=~>> au niveau du champ <<~\verb=protocol=~>>.
+\end{remarque}
+
+Dans le cas qui nous int{\'e}resse ici, il nous faut donc les caract{\'e}ristiques 
+suivantes~:
+\begin{itemize}
+	\item	la famille d'adresses IP,
+	\item	le mode connect{\'e} correspondant au protocole de transport TCP.
+\end{itemize}.
+
+Nous aurons alors, au niveau de l'appel syst{\`e}me {\tt socket}~:
+
+\begin{tabular}{|l|l|}
+\hline
+	Param{\`e}tre			&	Constante utilis{\'e}e	\\
+\hline
+\hline
+	Type de socket		&	{\tt AF\_INET}		\\
+	Protocole de transport		&	{\tt SOCK\_STREAM}	\\
+\hline
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Exemple}
+
+\begin{quote}
+\begin{verbatim}
+sk = socket (AF_INET, SOCK_STREAM, 0);
+\end{verbatim}
+\end{quote}
+
+\begin{remarque}
+Les constantes utilis{\'e}es dans les champs <<~{\tt af}~>> et <<~{\tt type}~>> sont
+d{\'e}finies dans le fichier <<~\verb=#include <sys/types.h>=~>>.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{instream-syscall-bind}Assignation d'une adresse {\`a} une socket}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{instream-bind-defs}D{\'e}finitions}
+
+Lorsqu'une socket est cr{\'e}{\'e}e gr{\^a}ce {\`a} l'appel syst{\`e}me {\tt socket()} , on lui a
+associ{\'e} une famille d'adresses (IP, DECnet, AppleTalk, etc.) et un mode de
+connexion (protocole de transport TCP par exemple). Par contre, aucune adresse
+r{\'e}seau ne lui est affect{\'e}e. Il faut donc que le programmeur la lui alloue
+afin que les autres processus puissent r{\'e}f{\'e}rencer cette socket.
+
+L'allocation d'une adresse r{\'e}seau {\`a} une socket d'un processus client n'est pas 
+obligatoire, par contre, cette op{\'e}ration est n{\'e}cessaire pour tout processus serveur.
+
+Cette notion d'adresse correspond {\`a} la localisation de cette socket sur
+l'ensemble du r{\'e}seau. Elle comprend, dans le cas du protocole IP:
+\begin{itemize}
+	\item	un num{\'e}ro de port,
+	\item	une adresse IP (cf. section \ref{protip-defIP}),
+	\item	la famille d'adresses associ{\'e}e {\`a} l'adresse r{\'e}seau sp{\'e}cifi{\'e} (<<~{\tt AF\_INET}~>>
+		dans notre cas de figure).
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Port associ{\'e} {\`a} une socket}
+
+Lorsqu'un processus client demande un service {\`a} un processus serveur sur
+le r{\'e}seau, le client doit conna{\^\i}tre~:
+\begin{itemize}
+	\item	l'adresse r{\'e}seau de la machine sur laquelle se trouve le processus serveur,
+	\item	le protocole qui sera utilis{\'e} au niveau du transport des donn{\'e}es entre les deux processus,
+	\item	le num{\'e}ro du port de communication sur la machine serveur.
+\end{itemize}
+
+Pour ce qui est de l'adresse r{\'e}seau de la machine serveur et du protocole
+de transport utilis{\'e}, nous savons {\`a} quoi nous avons affaire.
+
+Nous allons d{\'e}taill{\'e} ici ce {\`a} quoi correspond le num{\'e}ro de port de communication.
+
+Un port de communication est un num{\'e}ro arbitraire compris entre $1$ et $65535$.
+Toutefois, certains de ces num{\'e}ros sont r{\'e}serv{\'e}s {\`a} des usages bien pr{\'e}cis. Par exemple~:
+\begin{itemize}
+	\item le port $21$ est utilis{\'e} par le service {\sl ftp},
+	\item le port $23$ est utilis{\'e} par le service {\sl telnet},
+	\item le port $25$ est utilis{\'e} par les services de messagerie (\textsl{smtp}),
+	\item le port $80$ est utilis{\'e} par les serveurs {\sc Web},
+	\item etc.
+\end{itemize}
+
+De fa\c{c}on g{\'e}n{\'e}rale, les d{\'e}veloppeurs d'applications r{\'e}seau utilisent des
+num{\'e}ros de ports sup{\'e}rieurs {\`a} $10000$. Lorsque leur application le n{\'e}cessite,
+ils d{\'e}posent une demande pour un num{\'e}ro de port qui, apr{\`e}s, sera communiqu{\'e} {\`a} 
+l'ensemble des utilisateurs potentiels.
+
+Parall{\`e}lement, il est possible d'associer {\`a} un nom, un num{\'e}ro de port et
+un mode de connexion. Ce nom correspondra {\`a} un service qui sera d{\'e}clar{\'e}\footnote{et
+non pas forc{\'e}ment disponible, c'est une autre {\'e}tape.} sur la machine locale.
+Le programmeur demandera alors au syst{\`e}me de lui communiquer, en fonction de ce
+{\sl nom de service}, le num{\'e}ro de port correspondant.
+
+Il est {\'e}vident qu'{\`a} un nom ne doit correspondre qu'un et un seul num{\'e}ro de
+port. Pour les num{\'e}ros de port inf{\'e}rieurs {\`a} $10000$, le nom est soumis {\`a} un organisme
+de normalisation qui donnera son approbation et un num{\'e}ro de port dans les zones normali
+{\'e}es (num{\'e}ros inf{\'e}rieurs {\`a} $1024$).
+
+Tous les services officiels, comme {\sl ftp}, {\sl telnet}, {\sl rlogin}, {\sl http}, etc. sont r{\'e}f{\'e}renc{\'e}s
+dans le fichier {\tt $/$etc$/$services} sur les syst{\`e}mes {\Unix}\footnote{ou {\'e}quivalent sur les autres
+syst{\`e}mes en fonction de l'implémentation du protocole IP.} (cf. section \ref{protip-etc-services}). 
+
+Par contre, pour un m{\^e}me num{\'e}ro, la socket utilisant le protocole TCP est distincte
+de la socket utilisant le protocole UDP. Par exemple, le port $12345$ utilisant
+TCP est un port diff{\'e}rent du port $12345$ utilisant UDP.
+
+Lorsque le programmeur demandera donc au syst{\`e}me de lui communiquer le num{\'e}ro de port
+associ{\'e} {\`a} un nom de service, il devra aussi lui pr{\'e}ciser quelle famille de protocoles
+est associ{\'e}e {\`a} ce service.
+
+Pour plus d'informations sur la notion de {\sl service}, reportez-vous {\`a} la section
+\ref{protip-etc-services}. Pour plus d'informations sur ces appels syst{\`e}mes, reportez-vous
+{\`a} la section ~\ref{nsyscall-infosvc}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{instream-bind-addr}Adresse IP associ{\'e}e {\`a} une socket}
+
+Il nous faut tout d'abord distinguer s{\'e}par{\'e}ment le cas du processus serveur et du processus client.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Pour le processus serveur}
+
+Lorsqu'une adresse IP est associ{\'e}e {\`a} une socket, seul un client sur la machine poss{\'e}dant
+cette adresse, pourra utiliser les services offerts par le processus serveur. L'adresse
+IP qui devra {\^e}tre sp{\'e}cifi{\'e}e sera sous forme hexad{\'e}cimale.
+
+Il est possible d'utiliser une adresse {\it joker}, ne limitant plus l'acc{\`e}s {\`a}
+ce port de communication {\`a} une seule machine~: l'adresse {\tt INADDR\_ANY}\footnote{constante d{\'e}finie dans
+les fichiers {\`a} inclure lors du  d{\'e}veloppement de l'application.}. Par cons{\'e}quent, toute machine
+du r{\'e}seau pourra se connecter {\`a} la machine sur ce port de communication. Les m{\'e}canismes de s{\'e}curit{\'e}
+sont donc {\`a} la charge~:
+\begin{itemize}
+	\item	de l'application pour les acc{\`e}s internes,
+	\item	en partie d'un <<~pare-feu~>> ou <<~{\it firewall}~>> Internet; pour les acc{\`e}s
+		provenant de l'ext{\'e}rieur, le plus gros du travail se trouvant toujours
+		au niveau de l'application.
+\end{itemize}
+
+Il est possible de conna{\^\i}tre l'adresse IP d'une machine en fonction de son nom. Pour
+cela, reportez-vous {\`a} la section \ref{netsyscall-infohost}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Pour le processus client}
+
+L'adresse IP sp{\'e}cifi{\'e}e au niveau de la socket d'un processus client n'est pas prise
+en compte. Cet argument ne vise qu'{\`a} limiter les demandes de connexions. Elle n'a
+donc d'int{\'e}r{\^e}ts que dans le cas des processus serveurs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Appel syst{\`e}me {\tt bind()}}
+
+Comme nous l'avons vu dans la section ~\ref{instream-bind-defs}, l'adresse d'une socket est 
+d{\'e}finie par~:
+\begin{itemize}
+	\item	un num{\'e}ro de port,
+	\item	une adresse r{\'e}seau,
+	\item	la famille d'adresses associ{\'e}e {\`a} l'adresse r{\'e}seau
+sp{\'e}cifi{\'e}.
+\end{itemize}
+
+Dans le cas du protocole IP,
+\begin{itemize}
+	\item	l'adresse r{\'e}seau correspondra {\`a} une adresse IP en notation hexad{\'e}cimale
+		ou bien l'adresse {\it joker} <<{\tt INADDR\_ANY}>> (cf. section \ref{instream-bind-addr})
+	\item	la famille d'adresses IP d{\'e}finie par la constante {\tt AF\_INET}.
+\end{itemize}
+
+L'appel syst{\`e}me {\tt bind()}\footnote{cf. page du manuel {\Unix} {\tt bind(2)} sur votre syst{\`e}me ou
+reportez-vous {\`a} l'annexe \ref{ann-part-manunix}.} fait un lien entre une adresse et une
+ressource du syst{\`e}me. Il permet d'associer au descripteur de socket cr{\'e}{\'e} gr{\^a}ce {\`a}
+l'appel syst{\`e}me {\tt socket()} , les ressources r{\'e}seau pr{\'e}sentes sur la machine en lui indiquant~:
+\begin{itemize}
+	\item	le num{\'e}ro de port qui lui est associ{\'e},
+	\item	l'adresse r{\'e}seau de la ou des machines autoris{\'e}es (une seule ou toutes),
+	\item	la famille d'adresses associ{\'e}e {\`a} l'adresse r{\'e}seau sp{\'e}cifi{\'e} (dans notre
+		cas de figure: le protocole IP).
+\end{itemize}
+
+Ses caract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+int bind (s, addr, addrlen);
+int s;
+struct sockaddr_in *addr;
+int addrlen;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{ll}
+{\tt s}			& Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket(2)}).	\\
+{\tt addr}		& Structure de d{\'e}finition des caract{\'e}ristiques de la socket.		\\
+{\tt addrlen}		& Taille en octet de la structure de d{\'e}finition. 				\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok		& Renvoie la valeur \verb=0=	\\
+	Erreur		& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			  indiquera avec plus de pr{\'e}cision les causes de l'erreur
+\end{tabular}
+\end{quote}
+\end{quote}
+
+Pour plus de pr{\'e}cisions sur la structure {\tt sockaddr\_in}, reportez-vous {\`a} l'annexe \ref{ann-struct-sockaddrin}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Exemple}
+
+\begin{quote}
+$\vdots$
+\begin{verbatim}
+sk = socket (AF_INET, SOCK_STREAM, 0);
+if (sk == -1)
+{
+        fprintf (STDERR, "%s: erreur lors de l'appel à socket().\n",
+                basename(argv[0]));
+        fprintf (STDERR, "%s: programme interrompu.\n",
+                basename(argv[0]));
+        exit (-1);
+}
+\end{verbatim}
+$\vdots$
+\begin{verbatim}
+addr.sin_family = AF_INET;
+addr.sin_addr.s_addr= INADDR_ANY;
+addr.sin_port= MY_PORT;
+status = bind (sk, &addr, sizeof (struct sockaddr_in));
+if (status == -1)
+{
+        fprintf (STDERR, "%s: erreur lors de l'appel à bind().\n",
+                basename(argv[0]));
+        fprintf (STDERR, "%s: programme interrompu.\n",
+                basename(argv[0]));
+        exit (-1);
+}
+\end{verbatim}
+$\vdots$
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Cr{\'e}ation de la file d'attente]{\label{instream-syscall-listen}Cr{\'e}ation de la file d'attente
+	pour traiter les demandes de connexion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Introduction - D{\'e}finitions}
+
+Une fois que le processus serveur a~:
+\begin{itemize}
+	\item	cr{\'e}{\'e} son port de communication gr{\^a}ce {\`a} l'appel syst{\`e}me {\tt socket(2)},
+	\item	affect{\'e} les caract{\'e}ristique du port de communication gr{\^a}ce {\`a} l'appel
+		syst{\`e}me {\tt bind(2)},
+\end{itemize}
+il doit initialis{\'e} une file d'attente pour les demandes de connexion {\`a} venir,
+comme il l'est montr{\'e} à la figure \ref{instream-listen-defs-fig}.
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(369,150)
+	\thinlines
+	\put(210,56){\vector(-4,1){72}}
+	\put(210,128){\vector(-3,-1){72}}
+	\put(210,91){\vector(-1,0){71}}
+	\put(210,44){\framebox(149,25){Demande de connexion}}
+	\put(210,79){\framebox(149,25){Demande de connexion}}
+	\put(210,115){\framebox(149,25){Demande de connexion}}
+	\put(117,32){\vector(0,1){50}}
+	\put(10,20){File d'attente pour}
+	\put(10,6){les demandes de connexion}
+	\put(102,85){\framebox(4,11){}}
+	\put(106,85){\framebox(4,11){}}
+	\put(110,85){\framebox(4,11){}}
+	\put(114,85){\framebox(4,11){}}
+	\put(118,85){\framebox(4,11){}}
+	\put(122,85){\framebox(4,11){}}
+	\put(126,85){\framebox(4,11){}}
+	\put(25,125){Processus serveur}
+	\put(80,91){\circle{58}}
+\end{picture}
+\caption{\label{instream-listen-defs-fig}Attente de connexions du processus serveur}
+\end{figure}
+
+Cette file d'attente permettra de traiter toutes les demandes de connexion,
+les {\'e}changes de donn{\'e}es avec les clients s'effectuant dans des canaux de
+communications s{\'e}par{\'e}s.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Appel syst{\`e}me {\tt listen()}}
+
+L'appel syst{\`e}me {\tt listen()}\footnote{cf. page du manuel {\Unix}
+{\tt listen(2)} sur votre syst{\`e}me ou reportez-vous {\`a} l'annexe
+\ref{ann-part-manunix}.} {\bf n'est pas} un appel syst{\`e}me bloquant.
+Il ne fait qu'initialiser un contexte d'ex{\'e}cution, ici une file d'attente
+pour accepter les demandes de connexion.
+
+Ses caract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+int listen (s, backlog);
+int s, backlog;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{10cm}}
+{\tt s}		& 	Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket(2)}).\\
+{\tt backlog}	& 	Nombre maximum de demandes de connexion en attente dans
+			la file. Ce nombre est un entier compris entre $1$
+			et $20$\footnote{ATTENTION, certains syst{\`e}mes d'exploitation
+			imposent une taille maximum de la file d'attente inf{\'e}rieure
+			{\`a} $20$.}. Lorsque la file est pleine et qu'une nouvelle
+			requ{\^e}te arrive, celle-ci est rejet{\'e}e et consid{\'e}r{\'e}e comme perdue.		\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	& Renvoie la valeur \verb=0=	\\
+	Erreur	& Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+		   indiquera avec plus de pr{\'e}cision les causes de l'erreur
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{remarque}
+Il est important de garder en m{\'e}moire que l'appel syst{\`e}me {\tt listen(2)} n'est pas
+bloquant, c'est-{\`a}-dire qu'il ne suspend pas l'ex{\'e}cution du processus serveur
+que la file d'attente soit vide ou pleine. Il ne fait qu'initialiser un
+contexte d'ex{\'e}cution pour cette file. L'appel syst{\`e}me bloquant, dans la 
+s{\'e}quence de traitement des demandes de connexions, est {\tt accept(2)} (cf. section \ref{instream-syscall-accept}).
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Exemple}
+
+\begin{quote}
+$\vdots$
+\begin{verbatim}
+sk = socket (AF_INET, SOCK_STREAM, 0);
+if (sk == -1)
+{
+        fprintf (STDERR, "%s: erreur lors de l'appel à socket().\n",
+                basename(argv[0]));
+        fprintf (STDERR, "%s: programme interrompu.\n",
+                basename(argv[0]));
+        exit (-1);
+}
+\end{verbatim}
+$\vdots$
+\begin{verbatim}
+addr.sin_family = AF_INET;
+addr.sin_addr.s_addr= INADDR_ANY;
+addr.sin_port= MY_PORT;
+status = bind (sk, &addr, sizeof (struct sockaddr_in));
+if (status == -1)
+{
+        fprintf (STDERR, "%s: erreur lors de l'appel à bind().\n",
+                basename(argv[0]));
+        fprintf (STDERR, "%s: programme interrompu.\n",
+                basename(argv[0]));
+        exit (-1);
+}
+
+status = listen (sk, 5);
+if (status == -1)
+{
+        fprintf (STDERR, "%s: erreur lors de l'appel à listen().\n",
+                basename(argv[0]));
+        fprintf (STDERR, "%s: programme interrompu.\n",
+                basename(argv[0]));
+        exit (-1);
+}
+\end{verbatim}
+$\vdots$
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{instream-syscall-connect}Initialisation d'une connexion au niveau du client}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Introduction}
+
+Au stade d{\'e}crit dans la section ~\ref{instream-syscall-listen}, le processus serveur
+est pr{\^e}t {\`a} accepter des demandes de connexion de la part de processus client.
+
+Nous allons voir maintenant quelles sont les actions que ce dernier doit mener.
+
+Avant de vouloir se connecter {\`a} processus serveur, le processus client
+doit initialiser son canal de communication, comme peut le faire le
+processus serveur. Il va donc suivre la m{\^e}me proc{\'e}dure que celle d{\'e}crite
+lors de la section ~\ref{instream-syscall-socket}.
+
+Contrairement au processus serveur, le processus client n'est pas oblig{\'e}
+d'invoquer l'appel syst{\`e}me {\tt bind()} (cf. section \ref{instream-syscall-bind}).
+Celui-ci sert essentiellement {\`a} d{\'e}crire les caract{\'e}ristiques du port de 
+communication d'un processus serveur afin de cr{\'e}er la file d'attente
+pour le traitement des demandes de connexion.
+
+Par contre, il doit {\^e}tre {\`a} l'initiative de la connexion au processus
+serveur. \`{A} partir de ce moment, il pr{\'e}cisera~:
+\begin{itemize}
+	\item	la famille d'adresses lui permettant de localiser la machine
+		sur laquelle le processus serveur r{\'e}side,
+	\item	l'adresse r{\'e}seau de cette machine distante,
+	\item	le num{\'e}ro du port de communication sur lequel le serveur est
+		{\`a} l'{\'e}coute des demandes de connexion.
+\end{itemize}
+bref, l'{\'e}quivalent des informations sp{\'e}cifi{\'e}es dans l'appel syst{\`e}me
+{\tt bind(2)} pour le processus serveur.
+
+L'appel syst{\`e}me correspondant {\`a} la demande de connexion du processus
+client {\`a} un processus serveur est: {\tt connect(2)}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Appel syst{\`e}me {\tt connect()}}
+
+L'appel syst{\`e}me {\tt connect()}\footnote{cf. page du manuel {\Unix}
+{\tt connect(2)} sur votre syst{\`e}me ou reportez-vous {\`a} l'annexe
+\ref{ann-part-manunix}.} envoie une demande de connexion {\`a} processus serveur
+r{\'e}sidant sur une machine distante et en {\'e}coute sur un port de communication donn{\'e}.
+
+Ses caract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+int connect (s, addr, addrlen);
+int s;
+struct sockaddr_in *addr;
+int addrlen;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt s}		& 	Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket(2)}).	\\
+{\tt addr}	&	Structure de d{\'e}finition des caract{\'e}ristiques de la socket	
+			(cf. annexe  \ref{ann-struct-sockaddrin}).					\\
+{\tt addrlen}	&	Taille en octet de la structure de d{\'e}finition.	 			\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	&	Renvoie la valeur \verb=0=	\\
+	Erreur	&	Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			indiquera avec plus de pr{\'e}cision les causes de l'erreur
+\end{tabular}
+\end{quote}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Exemple}
+
+\begin{quote}
+$\vdots$
+\begin{verbatim}
+sk = socket (AF_INET, SOCK_STREAM, 0);
+if (sk == -1)
+{
+        fprintf (STDERR, "%s: erreur lors de l'appel à socket().\n",
+                basename(argv[0]));
+        fprintf (STDERR, "%s: programme interrompu.\n",
+                basename(argv[0]));
+        exit (-1);
+}
+\end{verbatim}
+$\vdots$
+\begin{verbatim}
+addr.sin_family = AF_INET;
+addr.sin_addr.s_addr= SERVER_IP_ADDR;
+addr.sin_port= SERVER_PORT;
+status = connect (sk, &addr, sizeof (struct sockaddr_in));
+if (status == -1)
+{
+        fprintf (STDERR, "%s: erreur lors de l'appel à connect().\n",
+                basename(argv[0]));
+        fprintf (STDERR, "%s: programme interrompu.\n",
+                basename(argv[0]));
+        exit (-1);
+}
+\end{verbatim}
+$\vdots$\\
+{\tt SERVER\_IP\_ADDR} et {\tt SERVER\_PORT} sont des constantes du programme 
+d{\'e}crivant respectivement l'adresse IP du serveur et le port de communication
+auquel le client veut se connecter.
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Acceptation d'une demande de connexion]
+	{\label{instream-syscall-accept}Acceptation d'une demande de connexion d'un client par le serveur}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Rappels}
+
+Dans les sections ~\ref{instream-syscall-socket} et \ref{instream-syscall-bind}, nous avons
+vu comment cr{\'e}er un identifiant au niveau d'un programme pour acc{\'e}der {\`a} un
+port de communication.
+
+Dans la section \ref{instream-syscall-listen}, nous avons vu comment faire en sorte
+qu'un processus serveur se mette en attente de demandes de connexion de la part de processus client se
+trouvant {\'e}ventuellement sur des machines distantes.
+
+Dans la section \ref{instream-syscall-connect}, nous avons vu comment un processus
+client {\'e}met une demande de connexion vers un processus serveur.
+
+Nous pouvons dire qu'une connexion entre deux processus est d{\'e}finie par les
+{\'e}l{\'e}ments suivants~:
+\begin{itemize}
+	\item	un protocole de transport,
+	\item	l'adresse r{\'e}seau du client,
+	\item	l'adresse r{\'e}seau du serveur,
+	\item	un num{\'e}ro de port de communication connu sur le serveur, correspondant
+			{\`a} un service donn{\'e},
+	\item	un num{\'e}ro de port de communication unique sur le client, servant
+			de r{\'e}f{\'e}rence au canal de communication.
+\end{itemize}
+
+Lorsque ce processus serveur re\c{c}oit une demande de connexion au niveau de
+sa file d'attente, il doit accepter (ou rejeter) cette demande afin
+de pouvoir entrer dans une phase de communication: cette op{\'e}ration est
+effectu{\'e}e gr{\^a}ce {\`a} l'appel syst{\`e}me {\tt accept()}. Cet appel syst{\`e}me va
+permettre de cr{\'e}er un canal de communication au niveau du processus serveur
+qui sera d{\'e}di{\'e} aux {\'e}changes de donn{\'e}es (cf. figure \ref{instream-fig-accept-rappel}).
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(297,119)
+	\thinlines
+	\put(161,62){\vector(1,0){42}}
+	\put(145,75){\line(0,1){23}}
+	\put(161,75){\oval(32,26)[bl]}
+	\put(84,37){Canal de communication}
+	\put(101,100){File d'attente vide}
+	\put(211,28){\vector(-1,0){125}}
+	\put(86,31){\vector(1,0){125}}
+	\put(73,24){\framebox(152,10){}}
+	\put(225,24){\framebox(16,10){}}
+	\put(57,24){\framebox(16,10){}}
+	\put(204,52){\framebox(35,18){}}
+	\put(240,90){{\large Serveur}}
+	\put(26,90){{\large Client}}
+	\put(256,49){\circle{65}}
+	\put(41,49){\circle{65}}
+\end{picture}
+\caption{\label{instream-fig-accept-rappel}Validation de la demande de connexion}
+\end{figure}
+
+Le processus serveur peut donc disposer de plusieurs canaux de communication
+pour {\'e}changer des donn{\'e}es avec les diff{\'e}rents clients sur le r{\'e}seau.
+Les appels syst{\`e}mes concernant les {\sl BSD sockets} permettent de g{\'e}rer
+plusieurs demandes de connexion au processus serveur. Par contre,
+c'est {\`a} la charge de l'application de g{\'e}rer les {\'e}changes de donn{\'e}es entre tous
+ces processus. Ceci est fait en g{\'e}n{\'e}ral en cr{\'e}ant un sous processus du processus
+serveur qui sera d{\'e}di{\'e} {\`a} une connexion particuli{\`e}re.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Appel syst{\`e}me {\tt accept()}}
+
+L'appel syst{\`e}me {\tt accept()}\footnote{cf. page du manuel {\Unix} {\tt accept(2)} sur votre syst{\`e}me ou
+reportez-vous {\`a} l'annexe \ref{ann-part-manunix}.} permet {\`a} un serveur d'accepter une demande
+de connexion {\'e}mise par un processus client r{\'e}sidant sur une machine
+distante ou bien sur le m{\^e}me n{\oe}ud du r{\'e}seau. Plus précisémment, il retire de la file d'attente
+une demande de connexion émise par un client afin d'éffectuer le traitement adéquat.
+
+Ses caract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+int accept (s, addr, addrlen);
+int s;
+struct sockaddr_in *addr;
+int *addrlen;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+{\tt s}		& 	Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket(2)}).\\
+{\tt addr}	&	Structure de d{\'e}finition des caract{\'e}ristiques de la socket	
+			(cf. annexe \ref{ann-struct-sockaddrin}).		\\
+{\tt addrlen}	&	Taille en octet de la structure de d{\'e}finition. Cet argument
+			est modifi{\'e} par la fonction {\tt accept(2)}, en fonction du
+			type de socket utilis{\'e}e\footnote{associ{\'e} {\`a} la famille d'adresses utilis{\'e}e}.\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	&	Renvoie l'identifiant de la socket {\`a} utiliser pour les {\'e}changes d'informations.	\\
+	Erreur	& 	Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			indiquera avec plus de pr{\'e}cision les causes de l'erreur.
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{remarque}
+L'appel syst{\`e}me {\tt accept(2)} {\bf est bloquant}, c'est-{\`a}-dire que l'ex{\'e}cution du
+processus serveur est suspendue jusqu'{\`a} ce qu'une demande de connexion arrive
+dans la file d'attente.
+\end{remarque}
+
+Lorsque {\tt accept(2)} rend la main au programme, il aura effectu{\'e} les op{\'e}rations
+suivantes~:
+\begin{itemize}
+	\item	un nouveau port de communication aura été cr{\'e}{\'e},
+	\item	les caract{\'e}ristiques de la socket associ{\'e}e {\`a} la file d'attente seront
+		affect{\'e}es au nouveau port de communication,
+	\item	{\tt accept()} renverra au programme l'identifiant de cette nouvelle socket.
+\end{itemize}
+
+Cet appel syst{\`e}me va donc permettre au processus serveur d'{\'e}tablir la connexion avec un processus client.
+Il correspond {\`a} la r{\'e}ponse de l'appel syst{\`e}me {\tt connect(2)} {\'e}mis par le client.
+
+\begin{remarque}
+Les appels syst{\`e}mes {\tt accept()} et {\tt connect()} sont tous les deux
+bloquants, c'est-{\`a}-dire qu'ils suspendent l'ex{\'e}cution du programme. 
+Ils ne rendent la main seulement lorsque les deux phases suivantes s'ex{\'e}cutent simultan{\'e}ment~:
+\begin{itemize}
+	\item	le client {\'e}met un {\tt connect(2)},
+	\item	le serveur est en train d'ex{\'e}cuter {\tt accept(2)}.
+\end{itemize}
+\end{remarque}
+
+\begin{remarque}
+Lorsque des clients {\'e}mettent des demandes de connexions, elles arrivent 
+dans la file d'attente du port de communication du processus serveur. Par contre,
+le serveur ne peut préciser quelle requ{\^e}te il voudra {\it accepter}. Une
+fois qu'une demande de connexion a {\'e}t{\'e} accept{\'e}e via l'appel
+syst{\`e}me 
+{\tt accept()}, l'application peut examiner les caract{\'e}ristiques et
+l'identit{\'e} du
+client en vue de traitements sp{\'e}cifiques. Par cons{\'e}quent, si la
+demande
+de connexion arrive d'une machine ind{\'e}sirable, la communication doit
+{\^e}tre ferm{\'e}e 
+{\bf mais seulement apr{\`e}s l'avoir accept{\'e}e}.
+\end{remarque}
+
+\subsubsection{Exemple}
+
+\begin{quote}
+$\vdots$
+\begin{verbatim}
+addrlen = sizeof(struct sockaddr);
+addr.sin_family = AF_INET;
+addr.sin_addr.s_addr= SERVER_IP_ADDR;
+addr.sin_port= SERVER_PORT;
+ns = accept (sk, &addr, &addrlen);
+if (ns == -1)
+{
+        fprintf (STDERR, "%s: erreur lors de l'exécution de accept()\n",
+                basename(argv[0]));
+        fprintf (STDERR, "%s: programme interrompu.\n",
+                basename(argv[0]));
+        exit (-1);
+}
+\end{verbatim}
+$\vdots$\\
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{instream-syscall-exchg}\'{E}change de donn{\'e}es entre client et serveur}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{instream-syscall-exchg-intro}Introduction}
+
+Nous avons vu que les canaux de communications entre le processus serveur
+et le client sont bidirectionnels. On trouvera donc deux appels syst{\`e}mes
+permettant de lire ou d'{\'e}crire des donn{\'e}es sur un canal pr{\'e}cis. Celui-ci aura
+{\'e}t{\'e} cr{\'e}{\'e} et initialis{\'e} gr{\^a}ce {\`a} toutes les {\'e}tapes d{\'e}crites dans les sections
+pr{\'e}c{\'e}dentes.
+
+Les appels syst{\`e}mes {\`a} la disposition du programmeur sont~:
+\begin{itemize}
+	\item	{\tt recv()}\footnote{cf. page du manuel {\Unix} {\tt recv(2)} sur votre syst{\`e}me ou reportez-vous
+			{\`a} l'annexe \ref{ann-part-manunix}.} permet de recevoir des donn{\'e}es en entr{\'e}e d'un
+			processus,
+	\item	{\tt send()}\footnote{cf. page du manuel {\Unix} {\tt send(2)} sur votre syst{\`e}me ou reportez-vous
+			{\`a} l'annexe \ref{ann-part-manunix}.} permet d'{\'e}crire des donn{\'e}es en sortie
+			d'un processus.
+\end{itemize}
+
+La figure \ref{instream-fig-syscall-exchg-intro} d{\'e}crit les sens de communications
+associ{\'e}s aux diff{\'e}rents appels syst{\`e}mes.
+
+\begin{figure}[hbtp]
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(300,152)
+	\thinlines
+	\put(130,13){\vector(-1,0){20}}
+	\put(115,37){\oval(84,48)[bl]}
+	\put(73,37){\vector(0,1){21}}
+	\put(158,12){Canal de communication}
+	\put(147,53){\framebox(60,50){Processus}}
+	\put(74,67){{\tt send()}}
+	\put(70,71){\vector(-1,0){36}}
+	\put(98,87){{\tt recv()}}
+	\put(50,91){\vector(1,0){36}}
+	\put(10,58){\line(1,0){137}}
+	\put(10,98){\line(1,0){137}}
+\end{picture}
+\caption{\label{instream-fig-syscall-exchg-intro}Mod{\`e}les des entr{\'e}es$/$sorties associ{\'e}s aux
+appels syst{\`e}me {\tt send(2)} et {\tt recv(2)}}
+\end{figure}
+
+Les appels syst{\`e}me {\tt send()} et {\tt recv()} sont bloquants, c'est-{\`a}-dire
+que l'ex{\'e}cution du processus est suspendue jusqu'{\`a} ce que ces deux fonctions
+aient rempli leur fonctionnalit{\'e}~:
+\begin{description}
+	\item[pour {\tt recv(2)}]\mbox{}\\
+		il faut qu'il y aie quelque chose {\`a} lire dans le canal de communication
+		(un octet suffit),
+	\item[pour {\tt send(2)}]\mbox{}\\
+		il faut que le nombre d'octets sp{\'e}cifi{\'e}s en arguments soient mis dans
+		la file pour l'{\'e}mission dans le canal de communication.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{instream-send-recv}Appels syst{\`e}me {\tt send(2)} et {\tt recv(2)}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Appel syst{\`e}me {\tt send(2)}}
+
+Comme nous l'avons vu dans la section \ref{instream-syscall-exchg-intro}, l'appel syst{\`e}me
+{\tt send(2)} permet {\`a} un processus (client ou serveur) d'{\'e}mettre des
+donn{\'e}es sur le canal de communication qui a {\'e}t{\'e} {\'e}tabli avec un autre, 
+s'ex{\'e}cutant sur une machine distante ou bien sur le m{\^e}me n{\oe}ud du r{\'e}seau.
+
+Ses caract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int send (s, buffer, length, flags);
+int s;
+char *buffer;
+int length, flags;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{10cm}}
+{\tt s}		& 	Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket(2)}).\\
+{\tt buffer}	&	Pointeur sur le buffer de donn{\'e}es {\`a} {\'e}mettre.	
+\\
+{\tt length}	&	Taille en octet du buffer contenant les donn{\'e}es {\`a} {\'e}mettre.\\
+{\tt flags}	&	Options pour l'{\'e}mission des donn{\'e}es.\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	&	Renvoie le nombre d'octets r{\'e}ellement {\'e}mis.	\\
+	Erreur	&	Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			indiquera avec plus de pr{\'e}cision les causes de l'erreur.
+\end{tabular}
+\end{quote}
+
+{\sl Options~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt 0}			&	Aucune option sp{\'e}ciale. Le fonctionnement de {\tt send(2)}
+					{\'e}quivalent {\`a} l'appel syst{\`e}me {\tt write()}.	\\
+	{\tt MSG\_OOB}	&	Le message envoy{\'e} est trait{\'e} comme un message {\it urgent}
+					({\tt MSG\_OOB}: {\it Message Out Of Band}, cf. section ~\ref{advpgm-oob}). \\
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{remarque}
+Comme il l'a {\'e}t{\'e} pr{\'e}cis{\'e} lors de la section \ref{instream-syscall-exchg-intro},
+{\tt send(2)} bloque l'ex{\'e}cution du processus jusqu'{\`a} ce que toutes les donn{\'e}es
+pr{\'e}sentes dans le buffer soient plac{\'e}es dans une file interne pr{\^e}te pour l'{\'e}mission.
+\end{remarque}
+
+\begin{remarque}
+Si aucune option n'est pr{\'e}cis{\'e}e au niveau de l'appel syst{\`e}me {\tt send(2)}, il peut {\^e}tre substitu{\'e}
+par l'appel syst{\`e}me {\tt write(2)}\footnote{cf. page du manuel {\Unix} {\tt write(2)} sur votre syst{\`e}me ou
+reportez-vous {\`a} l'annexe \ref{ann-part-manunix}.}. On aura donc l'{\'e}quivalence suivante~:
+\begin{quote}
+	{\tt send~(s,~buffer,~length,~0)} \\
+	$\Leftrightarrow$ {\tt write~(s,~buffer,~length)}
+\end{quote}
+Avec~:\\[1ex]
+\begin{tabular}{l@{~:\hspace{2ex}}p{10cm}}
+	{\tt s}	& 	Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket(2)}).	\\[1ex]
+	{\tt buffer}	& Pointeur sur le buffer de donn{\'e}es {\`a} {\'e}mettre.			\\[1ex]
+	{\tt length}	& Taille en octet du buffer contenant les donn{\'e}es {\`a} {\'e}mettre.	\\[1ex]
+\end{tabular}
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Appel syst{\`e}me {\tt recv()}}
+
+Comme nous l'avons vu dans la section \ref{instream-syscall-exchg-intro}, l'appel syst{\`e}me
+{\tt recv()} permet {\`a} un processus (client ou serveur) de lire des donn{\'e}es sur le canal de
+communication qui a {\'e}t{\'e} {\'e}tabli avec un autre, s'ex{\'e}cutant sur une machine distante
+ou bien sur le m{\^e}me n{\oe}ud du r{\'e}seau.
+
+Ses caract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int recv (s, buffer, length, flags);
+int s;
+char *buffer;
+int length, flags;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{10cm}}
+{\tt s}		& 	Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket(2)}).	\\
+{\tt buffer}	&	Pointeur sur le buffer de donn{\'e}es {\`a} {\'e}mettre.			\\
+{\tt length}	& 	Taille en octet du buffer contenant les donn{\'e}es {\`a} {\'e}mettre.		\\
+{\tt flags}	&	Options pour l'{\'e}mission des donn{\'e}es.					\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	&	Renvoie le nombre d'octets r{\'e}ellement lus.	\\
+	Erreur	&	Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			indiquera avec plus de pr{\'e}cision les causes de l'erreur
+\end{tabular}
+\end{quote}
+
+{\sl Options~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt 0}			&	Aucune option sp{\'e}ciale. Le fonctionnement de {\tt recv(2)}
+					{\'e}quivalent {\`a} l'appel syst{\`e}me {\tt read(2)}.	\\
+	{\tt MSG\_PEEK}	&	Permet de lire les messages sans les {\it d{\'e}piler} de la
+					file d'attente. Le prochain appel {\`a} {\tt recv(2)} donnera
+					donc les m{\^e}mes informations. \\
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{remarque}
+Comme il l'a {\'e}t{\'e} pr{\'e}cis{\'e} lors de la section \ref{instream-syscall-exchg-intro},
+{\tt recv()} bloque l'ex{\'e}cution du processus jusqu'{\`a} ce qu'il y aie quelque chose
+{\`a} lire sur le canal de communication, {\bf pas forc{\'e}ment le nombre d'octets
+sp{\'e}cifi{\'e} en param{\`e}tre {\`a} l'appel syst{\`e}me {\tt recv()}}. Le nombre d'octets
+effectivement lus, est renvoy{\'e} au niveau de la variable en retour.
+\end{remarque}
+
+\begin{remarque}
+Si aucune option n'est pr{\'e}cis{\'e}e au niveau de l'appel syst{\`e}me {\tt recv()}, il peut {\^e}tre
+substitu{\'e} par l'appel syst{\`e}me {\tt read(2)}\footnote{cf. page du manuel {\Unix} {\tt read(2)} sur votre
+syst{\`e}me ou reportez-vous {\`a} l'annexe \ref{ann-part-manunix}.}. On aura donc
+l'{\'e}quivalence suivante~:
+\begin{quote}
+	{\tt recv~(s,~buffer,~length,~0)} \\
+	$\Leftrightarrow$ {\tt read~(s,~buffer,~length)}
+\end{quote}
+Avec~:\\[1ex]
+\begin{tabular}{l@{~:\hspace{2ex}}p{10cm}}
+	{\tt s}		& 	Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket(2)}).	\\[1ex]
+	{\tt buffer}	& 	Pointeur sur le buffer de donn{\'e}es reçues.					\\[1ex]
+	{\tt length}	& 	Taille en octet du buffer contenant les donn{\'e}es reçues.			\\[1ex]
+\end{tabular}
+\end{remarque}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{instream-syscall-close}Fermeture du canal de communication}
+
+Lorsqu'un processus  se termine, le syst{\`e}me ferme automatiquement tous
+les canaux de communications qui ont {\'e}t{\'e} ouverts.
+
+Par cons{\'e}quent, il n'est pas obligatoire de terminer une connexion {\bf seulement lorsque le processus se termine}.
+Ceci n'est applicable que dans le cas du processus client. Par contre, si les échanges de données sont
+terminés mais que l'exécution du processus doit continuer, il faudra fermer les canaux de communication.
+
+L'appel syst{\`e}me pour fermer un canal de communication est le m{\^e}me que
+celui utilis{\'e} pour les fichiers\footnote{Lorsqu'un processus ouvre un
+fichier avec l'appel syst{\`e}me {\tt open(2)}, il ouvre un {\sl canal de communication} avec celui-ci.
+Au niveau des {\sl BSD sockets}, on ouvre de la m{\^e}me fa\c{c}on, un canal de communication mais avec un
+autre processus. La philosophie reste donc la m{\^e}me: pour le fermer, on utilise
+l'appel syst{\`e}me {\tt close()}.}: l'appel syst{\`e}me {\tt close()}\footnote{cf. page du manuel {\Unix} {\tt close(2)}
+sur votre syst{\`e}me ou reportez-vous {\`a} l'annexe \ref{ann-part-manunix}.}.
+
+Ses caract{\'e}ristiques sont les suivantes~:
+\begin{quote}
+{\sl Synoptique~:}
+\begin{quote}
+\begin{verbatim}
+int close (sk);
+int sk;
+\end{verbatim}
+\end{quote}
+
+{\sl Avec~:}
+\begin{quote}
+\begin{tabular}{lp{10cm}}
+{\tt sk}		& 	Descripteur de la socket (cr{\'e}{\'e} lors de l'appel {\`a} {\tt socket(2)}).\\
+\end{tabular}
+\end{quote}
+
+{\sl Codes de retour~:}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	Ok	&	Renvoie la valeur \verb=0=	\\
+	Erreur	&	Renvoie la valeur \verb=-1=, la variable syst{\`e}me {\tt errno}
+			indiquera avec plus de pr{\'e}cision les causes de l'erreur.
+\end{tabular}
+\end{quote}
+\end{quote}
+
+\begin{remarque}
+Lorsque le processus fait appel {\`a} {\tt close()},
+\begin{itemize}
+	\item toutes les donn{\'e}es en attente d'{\'e}mission sont envoy{\'e}es,
+	\item toutes les donn{\'e}es non encore re\c{c}ues sont perdues.
+\end{itemize}
+Il s'{\'e}coule donc un certain temps entre l'appel {\`a} {\tt close(2)} et
+la lib{\'e}ration physique du canal, le temps de vider les buffers utilis{\'e}s pour la communication.
+\end{remarque}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{R{\'e}capitulatif}
+
+Le tableau \ref{instream-tab-syscall-recap} donne un r{\'e}capitulatif des diff{\'e}rents
+appels syst{\`e}me {\`a} utiliser afin d'{\'e}tablir un canal de communication entre deux processus.
+
+\begin{table}[hbtp]
+\centering
+\begin{tabular}{|l|l|l|}
+	\hline
+		Phase		&	Serveur			&	Client			\\
+	\hline \hline
+		1		&	{\tt socket()}			&	{\tt socket()}	\\
+	\hline
+		2		&	{\tt bind()}			&	{\tt bind()}\footnote{optionnel}	\\
+	\hline
+		3		&	{\tt listen()}			&					\\
+	\hline
+		4		&					&	{\tt connect()}	\\
+	\hline
+		5		&	{\tt accept()}			&					\\
+	\hline
+		6		&	{\tt send()}			&	{\tt recv()}	\\
+				&	{\tt recv()}			&	{\tt send()}	\\
+				&	{\tt write()}			&	{\tt read()}	\\
+				&	{\tt read()}			&	{\tt write()}	\\
+	\hline
+		7		&					&	{\tt close()}	\\
+				&	{\tt close()}			&					\\
+	\hline
+\end{tabular}
+\caption{\label{instream-tab-syscall-recap}Tableau r{\'e}capitulatif des appels syst{\`e}me
+	pour l'{\'e}tablissement d'un canal de communication entre deux processus.}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{instream-netstat-cmd}Commande {\Unix} {\tt netstat}}
+
+La commande {\tt netstat}\footnote{cf. page du manuel {\Unix} {\tt netstat(1)} sur votre syst{\`e}me
+ou reportez-vous {\`a} l'annexe ~\ref{ann-part-manunix}.} affiche les connexions actives sur le
+syst{\`e}me. Pour chaque connexion, elle donne les informations suivantes~
+\begin{itemize}
+	\item	le protocole de transport utilis{\'e},
+	\item	le nombre d'octets en attente d'{\^e}tre trait{\'e} par un processus
+		(donn{\'e}es re\c{c}ues sur le syst{\`e}me et encore en attente d'un appel
+		{\`a} {\tt recv(2)} ou {\tt read(2)}),
+	\item	le nombre d'octets en attente d'{\'e}mission de la part du syst{\`e}me
+		(donn{\'e}es envoy{\'e}es par un processus gr{\^a}ce {\`a} {\tt send(2)} ou 
+		{\tt write(2)} et encore pr{\'e}sentes dans les buffers du syst{\`e}me),
+	\item	l'adresse r{\'e}seau de la machine locale,
+	\item	l'adresse r{\'e}seau des syst{\`e}mes distants,
+	\item	l'{\'e}tat de la connexion si on utilise le protocole de transport TCP.
+\end{itemize}
+
+Le format utilis{\'e} pour montrer les adresses est de la forme~:
+\begin{quote}
+{\tt machine}.{\tt port}
+\end{quote}
+ou
+\begin{quote}
+{\tt r{\'e}seau}.{\tt port}
+\end{quote}
+Le format <<~{\tt r{\'e}seau}.{\tt port}~>> est utilis{\'e} lorsque, lors de la
+cr{\'e}ation du port de communication, le programmeur sp{\'e}cifie un num{\'e}ro de r{\'e}seau,
+c'est {\`a} dire une ou plusieurs machines quelconques appartenant {\`a} ce
+r{\'e}seau IP.
+
+Par d{\'e}faut, la commande {\tt netstat} assure la traduction entre l'adresse de la
+machine ou du r{\'e}seau avec le nom qui lui est associ{\'e}. Par cons{\'e}quent~:
+\begin{itemize}
+	\item 	<<~{\tt machine}~>> dans la sp{\'e}cification du nom de machine 
+		correspond {\`a} l'adresse IP enregistr{\'e}e dans le fichier
+		{\tt $/$etc$/$hosts} ou tout autre annuaire assurant la correspondance
+		entre adresse IP et nom de machine (comme {\sl DNS}\footnote{Domain Name
+		Server} et {\sl NIS}\footnote{Network Information Service}),
+	\item	<<~{\tt r{\'e}seau}~>> dans la sp{\'e}cification du nom de r{\'e}seau 
+		correspond {\`a} l'adresse IP associ{\'e}e {\`a} un r{\'e}seau enregistr{\'e}e dans le
+		fichier {\tt $/$etc$/$networks} ou tout autre annuaire assurant la
+		correspondance entre adresse IP et nom de machine (comme {\sl NIS}).
+\end{itemize}
+
+De m{\^e}me, s'il existe un nom associ{\'e} au num{\'e}ro de port sp{\'e}cifi{\'e} lors de la cr{\'e}ation
+du port de communication, la commande {\tt netstat} assure la traduction entre
+ce num{\'e}ro et le nom associ{\'e} enregistr{\'e} dans le fichier {\tt $/$etc$/$services}
+ou tout autre annuaire assurant la correspondance entre num{\'e}ro de port et nom
+de service (comme {\sl NIS}).
+
+Dans le cas o{\`u} la traduction ne serait pas possible, ou bien que l'option {\tt -n}
+aie {\'e}t{\'e} pr{\'e}cis{\'e}e sur la ligne de commande, aucune op{\'e}ration de traduction n'est
+effectu{\'e}e.
+
+Lorsqu'un processus serveur s'ex{\'e}cutant sur une machine attend les demandes
+de connexions d'{\'e}ventuels clients, on dit que la connexion est {\sl passive}.
+Pour d{\'e}terminer si un service particulier est disponible sur une machine, il
+suffit d'utiliser la commande <<~{\tt netstat -a}~>> ou <<~{\tt netstat -an}\footnote{pour
+{\'e}viter les traductions des noms de machines, de r{\'e}seau et de services.}~>>. Une
+connexion {\sl passive} utilisant le protocole de transport TCP, est marqu{\'e}e
+<<{\tt LISTEN}>> au niveau de la commande {\tt netstat}.
+
+Par exemple, si la commande {\tt netstat} affiche les informations suivantes sur la machine serveur <<{\tt lancelot}>>~:
+\begin{verbatim}
+lancelot>> netstat -a
+Active connections (including servers)
+Proto  Recv- Q  Send- Q  Local Adress     Foreign Address   (state)
+tcp          0        0  lancelot.1044    dulac.telnet      ESTABLISHED
+tcp          0        0  *.printer        *.*               LISTEN
+tcp          0        0  *.exec           *.*               LISTEN
+tcp          0        0  *.shell          *.*               LISTEN
+tcp          0        0  *.login          *.*               LISTEN
+tcp          0        0  *.telnet         *.*               LISTEN
+tcp          0        0  *.ftp            *.*               LISTEN
+tcp          0        0  *.who            *.*               LISTEN
+\end{verbatim}
+$\vdots$\\
+la machine <<~{\tt lancelot}~>> a une connexion <<~{\tt telnet}~>> établie avec la machine 
+cliente <<~{\tt dulac}~>>. Le port de communication utilis{\'e} sur le serveur, a le
+num{\'e}ro $1044$. Sur le client, le port de communication est le num{\'e}ro de port 
+standard, c'est-{\`a}-dire $21$. C'est donc la machine <<~\texttt{dulac}~>> qui a fait une demande
+de connexion <<~\texttt{telnet}~>> vers la machine <<~\texttt{lancelot}~>>.
+
+Pour plus de renseignements sur la commande {\tt netstat}, reportez-vous {\`a} la page de manuel
+{\tt netstat(1)} sur votre syst{\`e}me {\Unix}, ou bien {\`a} l'annexe \ref{ann-part-manunix}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exemple}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Partie <<serveur>>}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+main () {
+    int ls,                     /* Listen Socket                       */
+        sk,                     /* Socket de communication    */
+        addrlen,                /* Taille de la structure "sockaddr_in" */
+        nbr;                    /* Nombre d'octets réellement émis      */
+
+    struct sockaddr_in myaddr;  /* Structure définissant les           */
+                                /* caractéristiques du port de         */
+                                /* communication                       */
+    
+    struct sockaddr_in remaddr; /* Structure définissant les           */
+                                /* caractéristiques du port de         */
+                                /* communication avec le client        */
+    
+    char buffer[40];            /* Buffer de réception de donn{\'e}es       */
+    
+    /* Création de la socket */
+
+    if ( (ls = socket(AF_INET, SOCK_STREAM, 0)) == -1 ) {
+        perror ("programme serveur, erreur sur l'appel de socket()");
+    }
+    
+    /* Le serveur et le client ont décidé de communiquer en
+    ** utilisant le port 25001.
+    */
+
+    myaddr.sin_port = 25001;
+    
+    /* Aucune limitation sur les clients voulant se connecter
+    ** au serveur.
+    */
+
+    myaddr.sin_addr.s_addr = INADDR_ANY;
+    
+    /* On utilise le protocole IP */
+
+    myaddr.sin_family = AF_INET;
+    
+    /* Configuration du port de communication avec les paramètres
+    ** saisis.
+    */
+
+    if ( bind(ls, &myaddr, sizeof(struct sockaddr_in)) == -1) {
+        perror ("programme serveur, erreur sur l'appel de bind()");
+    }
+    
+    /* Configuration de la file d'attente des demandes de connexion */
+
+    if ( listen(ls, 1) == -1) {
+        perror ("programme serveur, erreur sur l'appel de listen()");
+    }
+    
+    /* Le serveur est attente maintenant pour accepter les
+    ** demandes de connexion.
+    */
+    
+    addrlen = sizeof(struct sockaddr_in);
+    
+    if ( (sk = accept (ls, &remaddr, &addrlen)) == -1 ) {
+        perror ("programme serveur, erreur sur l'appel de accept()");
+    }
+    
+    /* On envoie des données sur le canal de communication */
+    
+    if ( ( nbr = write (sk, "Ce port de communication fonctionne", 36))
+         == -1 ) {
+        perror ("programme serveur, erreur sur l'appel de write()");
+    }
+    
+    /* On reçoit des données du le canal de communication */
+    
+    if ( ( nbr = read (sk, buffer, 40))
+         == -1 ) {
+        perror ("programme serveur, erreur sur l'appel de read()");
+    }
+    printf ("Serveur: buffer recu = %s\n", buffer);
+    
+    
+    /* On ferme le canal de communication */
+    
+    close (sk);
+    
+}
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Partie <<~client~>>}
+
+Le programme ci-apr{\`e}s, fait appel {\`a} certaines fonctions et structures
+de donn{\'e}es du syst{\`e}mes qui seront examin{\'e}es dans le chapitre \ref{nsyscall}.
+
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+
+main () {
+    int sk,                     /* Socket de communication             */
+        addrlen,                /* Taille de la structure "sockaddr_in" */
+        nbr;                    /* Nombre d'octets réellement émis      */
+
+    struct sockaddr_in myaddr;  /* Structure définissant les           */
+                                /* caractéristiques  du port de        */
+                                /* communication                       */
+    
+    char buffer[40];            /* Buffer de réception de données       */
+
+    struct hostent *host_addr   /* Informations sur le serveur         */
+    
+    /* Création de la socket */
+
+    if ( (sk = socket(AF_INET, SOCK_STREAM, 0)) == -1 ) {
+        perror ("programme client, erreur sur l'appel de socket()");
+    }
+    
+    /* On recherche l'adresse IP du serveur */
+    host_addr = gethostbyname ("monserveur");
+    
+    myaddr.sin_addr.s_addr = 
+        ((struct in_addr *)(host_addr->h_addr))->s_addr;
+    
+    /* Le serveur et le client ont décidé de communiquer en
+    ** utilisant le port 25001.
+    */
+
+    myaddr.sin_port = 25001;
+    
+    /* On utilise le protocole IP */
+
+    myaddr.sin_family = AF_INET;
+    
+    /* Le client demande à se connecter au serveur */
+    
+    addrlen = sizeof(struct sockaddr_in);
+    
+    if ( connect (sk, &myaddr, addrlen)) == -1 ) {
+        perror ("programme client, erreur sur l'appel de connect()");
+    }
+    
+    /* On reçoit les données émises par le serveur */
+    
+    if ( ( nbr = read (sk, buffer, 40)) == -1 ) {
+        perror ("programme client, erreur sur l'appel de write()");
+    }
+    printf ("Client: buffer recu = %s\n", buffer);
+    
+    /* On répond au serveur  des données sur le canal de communication */
+    
+    if ( ( nbr = write (sk, "Ca fonctionne bien ici aussi", 29)) == -1 ) {
+        perror ("programme client, erreur sur l'appel de write()");
+    }
+    
+    /* On ferme le canal de communication */
+    
+    close (sk);
+    
+}
+\end{verbatim}
+\end{quote}

@@ -1,0 +1,463 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Commandes Unix BSD>>
+%
+\chapter{\label{cmds-bsd}Commandes de base {\sl BSD} au niveau {\Unix}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Les services {\sl BSD} les plus connus dans le monde {\Unix} sont les
+services utilis{\'e}s par les commandes {\Unix} suivantes~:
+\begin{itemize}
+	\item {\tt rlogin}, permettant la connexion {\`a} distance. Le service
+			{\'e}quivalent au niveau des services {\sc Arpa} est {\tt telnet}.
+	\item {\tt rcp}, permettant le transfert de fichiers. Le service
+			{\'e}quivalent au niveau des services {\sc Arpa} est {\tt ftp}.
+			Contrairement au service {\tt ftp},le service {\tt rcp} ne 
+			permet pas de faire du transfert de fichier de fa\c{c}on 
+			{\sl anonyme}.
+	\item {\tt rsh}\footnote{ou {\tt remsh} sur certains syst{\`e}mes 
+			{\Unix} comme {\sl HP-UX}} permet 
+			l'ex{\'e}cution de commandes {\`a} distance\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implantation sur des syst{\`e}mes {\Unix}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Fichiers de configuration}
+
+Les fichiers g{\'e}n{\'e}raux de configuration r{\'e}seau sur des syst{\`e}mes {\Unix} sont~:
+\begin{itemize}
+	\item	{\tt $/$etc$/$hosts} contenant la liste des noms de machines connus sur
+		le syst{\`e}me local avec leur adresse IP associ{\'e}e (cf. section 
+		\ref{protip-etc-hosts}),
+	\item	{\tt $/$etc$/$networks} contenant la liste des noms de r{\'e}seaux IP 
+		connus sur le syst{\`e}me local avec le num{\'e}ro de r{\'e}seau IP associ{\'e}
+		(cf. section \ref{protip-etc-network}),
+	\item	{\tt $/$etc$/$services} contenant la liste des noms des services r{\'e}seau
+		connus sur le syst{\`e}me local avec le num{\'e}ro de socket et le type
+		de protocole de transport associ{\'e} (cf. section \ref{protip-etc-services}),
+	\item	{\tt $/$etc$/$inetd.conf} contenant la liste des serveurs
+		r{\'e}seau\footnote{processus {\`a} d{\'e}marrer automatiquement lors
+		d'une demande de service} actifs sur le syst{\`e}me local (cf. sections \ref{protip-etc-inetd.conf}
+		et \ref{advnet-inetd}).
+\end{itemize} 
+
+En plus de ces fichiers de configuration, les commandes de base {\sl BSD} sur 
+des syst{\`e}mes {\Unix} acc{\`e}dent {\`a} deux autres fichiers pour contr{\^o}ler les acc{\`e}s
+au syst{\`e}me local~:
+\begin{itemize}
+	\item	{\tt $/$etc$/$hosts.equiv}
+	\item	{\tt \~{}$/$.rhosts}
+\end{itemize}
+
+\begin{remarque}
+Le r{\'e}pertoire {\Unix} <<{\tt \~{}$/$}>> d{\'e}signe le r{\'e}pertoire de connexion de l'utilisateur.
+\end{remarque}
+
+Dans le cas du fichier {\tt \~{}$/$.rhosts}, l'utilisateur local au syst{\`e}me pr{\'e}cise
+quels sont les utilisateurs distants autoris{\'e}s {\`a} utiliser les commandes r{\'e}seau
+{\sl BSD} sous son identit{\'e}. Par cons{\'e}quent, une personne voulant utiliser les
+services {\sl BSD} des commandes {\tt rlogin}, {\tt rcp} et {\tt rsh} sous
+l'identit{\'e} d'un utilisateur local, le syst{\`e}me ira examiner le contenu du fichier
+{\tt \~{}$/$.rhosts} de cet utilisateur pour autoriser ou non l'acc{\`e}s de la personne
+du syst{\`e}me distant.
+
+Dans o{\`u} l'utilisateur local ne dispose pas d'un fichier {\tt \~{}$/$.rhosts} dans
+son r{\'e}pertoire de connexion, le syst{\`e}me ira consulter le fichier 
+{\tt $/$etc$/$hosts.equiv} sp{\'e}cifiant les acc{\`e}s par d{\'e}faut pour tous les
+utilisateurs du syst{\`e}me local. Le contenu de ce fichier de configuration est 
+d{\'e}cid{\'e} par l'administrateur syst{\`e}me.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{{\tt rlogin}: connexion {\`a} distance}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Syntaxe}
+
+\begin{quote}
+\begin{verbatim}
+rlogin host [-l username]
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Description}
+
+La commande {\tt rlogin} connecte votre terminal du site local sur un n{\oe}ud
+distant. {\tt rlogin} agit comme un terminal virtuel sur le syst{\`e}me distant.
+Le nom de machine distante peut {\^e}tre le nom officiel ou bien un
+alias\footnote{nom secondaire}. Il est possible aussi d'utiliser l'adresse IP.
+
+Le type de terminal (indiqu{\'e} par la variable {\tt TERM})  est propag{\'e} {\`a}
+travers le r{\'e}seau et est utilis{\'e} pour initialiser la variable {\tt TERM} sur le site distant.
+
+Une fois connect{\'e} au site distant, vous pouvez ex{\'e}cuter des commandes
+sur le site local en utilisant le caract{\`e}re d'{\'e}chappement (par d{\'e}faut
+<<{\tt \~{}}>>). Une ligne commen\c{c}ant par <<{\tt \~{}!}>> cr{\'e}e un shell
+et vous permet d'ex{\'e}cuter temporairement des commandes sur le site
+local. Une ligne commen\c{c}ant par <<{\tt \~{}}>> vous d{\'e}connecte du site
+distant. Plus simplement, pour revenir {\`a} votre session de d{\'e}part, il
+suffit de taper la commande <<{\tt exit}>> sur le site distant.
+
+La commande {\tt rlogin} est associ{\'e}e {\`a} un processus serveur sur la machine
+distante: le processus {\tt rlogind}. Celui-ci est, en g{\'e}n{\'e}ral g{\'e}r{\'e} par le
+service {\tt inetd} (cf. section ~\ref{advnet-inetd}). La figure \ref{cmds-bsd-fig-desc-rlogin}
+d{\'e}crit les m{\'e}canismes mis en jeu par la commande {\tt rlogin} et son processus
+serveur associ{\'e} {\tt rlogind}.
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(422,211)
+	\thinlines
+	\put(130,46){\vector(0,-1){10}}
+	\put(26,10){\framebox(212,26){allocation {\`a} {\tt /dev/ptym} {\it slave}}}
+	\put(238,18){\vector(1,0){38}}
+	\put(276,28){\vector(-1,0){38}}
+	\put(309,22){\oval(68,24)}
+	\put(293,19){Shell}
+
+	\put(10,174){\framebox(193,26){connexion en local {\`a} {\tt /dev/tty0}}}
+	\put(203,189){\vector(1,0){25}}
+	\put(264,101){\oval(64,26)}
+	\put(244,99){{\tt rlogin}}
+	\put(261,175){\vector(0,-1){61}}
+	\put(232,101){\vector(-1,0){85}}
+	\put(151,92){\oval(42,18)[tl]}
+	\put(130,93){\vector(0,-1){21}}
+	\put(26,46){\framebox(212,26){connexion {\`a} {\tt /dev/ptym} {\it master}}}
+	\put(241,186){{\tt rlogind}}
+	\put(261,188){\oval(64,26)}
+	\put(370,123){distant}
+	\put(369,147){local}
+	\put(16,140){\line(1,0){379}}
+\end{picture}
+\caption{\label{cmds-bsd-fig-desc-rlogin}Description des m{\'e}canismes associ{\'e}s {\`a} la commande {\tt rlogin}}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Exemple}
+
+\begin{quote}
+\begin{verbatim}
+dragon % rlogin king -l arthur
+Password:
+Welcome on IRIX 4.5 4D/480 on node king
+king% ~!
+dragon %		 (vous êtes de retour sur votre terminal local)
+...
+dragon % exit	(vous retournez à la station distante)
+king%
+\end{verbatim}
+\end{quote}
+
+Les options de rlogin sont d{\'e}crites ci-dessous~:
+\begin{center}
+\begin{tabular}{l@{\hspace{2ex}}p{10cm}}
+	{\tt -e{\it c}}	&
+	Positionne le caract{\`e}re d'{\'e}chappement {\`a} <<~{\tt {\it c}}~>>.
+	Il n'y a pas d'espace entre le caract{\`e}re <<~{\tt e}~>>  et le caract{\`e}re d'{\'e}chappement.
+	\\[1.5ex]
+	{\tt -l {\sl username}} &
+	Met le nom de connexion de l'utilisateur sur le site distant {\`a} <<~\textsl{username}~>>. Par d{\'e}faut, le
+	nom de connexion de l'utilisateur sur le site local est utilis{\'e} pour se connecter au site distant.
+	\\
+\end{tabular}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Transfert de fichiers automatique: commande {\tt rcp}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Syntaxe}
+\begin{quote}
+{\tt rcp {\it source} {\it destination}}\\
+avec {\tt {\it source}} et {\tt {\it destination}} de la forme 
+{\tt [[{\it user}@]{\it host}:]{\it pathname}}
+\end{quote}
+
+La commande {\tt rcp} est similaire {\`a} la commande {\tt cp} d'{\Unix}.
+Comme {\tt cp}, {\tt rcp} aura un comportement diff{\'e}rent selon le nombre d'arguments~:
+\begin{itemize}
+\item	si elle ne poss{\`e}de que deux arguments, elle copie le fichier source sous le nouveau nom,
+\item	si elle poss{\`e}de plusieurs arguments, la destination est
+	obligatoirement un r{\'e}pertoire. Dans ce cas, elle copie les fichiers
+	sources dans le r{\'e}pertoire sp{\'e}cifi{\'e}.
+\end{itemize}
+
+{\tt rcp} ne demande pas de mot de passe si une {\'e}quivalence syst{\`e}me ou
+utilisateur a {\'e}t{\'e} configur{\'e}e. Dans le cas contraire, elle ne fonctionne
+pas\footnote{message d'erreur <<~{\tt Permission denied}~>>.}.
+
+{\tt rcp} autorise des transferts mettant en jeu plusieurs machines. Par
+exemple, si vous {\^e}tes connect{\'e} sur une machine, vous pouvez transf{\'e}rer
+des fichiers entre deux n{\oe}uds du r{\'e}seau totalement diff{\'e}rents.
+
+La source et la destination se pr{\'e}sentent sous la forme {\tt [[{\it user}@]{\it host}:]{\it pathname}} avec~:
+\begin{center}
+\begin{tabular}{l@{\hspace{2ex}}p{10cm}}
+	{\tt host}	&
+	Sp{\'e}cifie le syst{\`e}me sur lequel se trouve le fichier. Si <<{\tt host}>> n'est
+	pas pr{\'e}cis{\'e}, le syst{\`e}me local est utilis{\'e} par d{\'e}faut.
+	\\[1.5ex]
+	{\tt user}	&
+	Sp{\'e}cifie l'utilisateur sur <<{\tt host}>>. Si <<{\tt user}>> n'est pas pr{\'e}cis{\'e},
+	l'utilisateur sur le site distant est le m{\^e}me que sur le site local (les noms
+	des utilisateurs doivent correspondre d'un syst{\`e}me {\`a} l'autre).
+	\\[1.5ex]
+	{\tt pathname}	&
+	Donne le chemin du fichier {\`a} copier. Il peut {\^e}tre relatif ou absolu. Un chemin
+	relatif est interpr{\'e}t{\'e} de mani{\`e}re relative par rapport au r{\'e}pertoire de
+	connexion sur le site distant ou par rapport au r{\'e}pertoire courant sur le
+	site local.
+	\\
+\end{tabular}
+\end{center}
+
+Il est possible d'utiliser les m{\'e}tacaract{\`e}res pour r{\'e}f{\'e}rencer des
+fichiers. N'oubliez pas que le shell local interpr{\`e}te n'importe quel
+m{\'e}tacaract{\`e}re avant d'appeler {\tt rcp}. Pour emp{\^e}cher une substitution locale
+des m{\'e}tacaract{\`e}res devant {\^e}tre trait{\'e}s par le site distant, mettez-les
+entre simples quotes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Exemple}
+\begin{quote}
+On supposera que toutes les {\'e}quivalences utilisateur et syst{\`e}me ont {\'e}t{\'e} configur{\'e}es correctement.
+
+Dans la configuration d{\'e}crite dans la figure \ref{cmds-bsd-fig-ex-rcp}, on aura les diff{\'e}rents cas d{\'e}crits
+dans le tableau \ref{cmds-bsd-tab-ex-rcp}.
+
+\begin{table}[hbtp]
+\begin{tabular}{|c|p{10cm}|}
+\hline
+Exemple	&	Description	\\
+\hline \hline 
+	Cas 1
+	&
+	L'utilisateur {\it willow} sur la machine {\it dragon} copie le fichier
+	{\tt excalibur.c} de l'utilisateur {\it arthur} sur la machine {\it king}
+	dans son r{\'e}pertoire courant.\\
+\hline
+	Cas 2
+	&
+	L'utilisateur {\it willow} sur la machine {\it dragon} copie le fichier local
+	{\tt donjon.c} sur la machine {\it dragon} vers le r{\'e}pertoire de connexion de
+	l'utilisateur {\it willow} sur la machine {\it dulac}.\\
+\hline
+	Cas 3
+	&
+	L'utilisateur {\it willow} sur la machine {\it dragon} copie tous les fichiers
+	 <<{\tt {\it .c}}>> de l'utilisateur {\it arthur} sur la machine {\it king}
+	 vers son r{\'e}pertoire courant.\\
+\hline
+	Cas 4
+	&
+	L'utilisateur {\it willow} sur la machine {\it dragon} copie le fichier
+	{\tt excalibur.c} de l'utilisateur {\it arthur} sur la machine {\it king}
+	vers le r{\'e}pertoire de connexion de l'utilisateur {\it lancelot} sur la
+	machine {\it dulac}.\\
+\hline
+\end{tabular}
+\caption{\label{cmds-bsd-tab-ex-rcp}Ex{\'e}cution des commandes {\tt rcp}}
+\end{table}
+\end{quote}
+
+\begin{figure}[hbtp]
+	\centering
+	\setlength{\unitlength}{0.92pt}
+	\begin{picture}(474,175)
+		\thinlines
+		\put(82,162){\line(0,-1){14}}			\put(235,162){\line(0,-1){14}}
+		\put(389,162){\line(0,-1){14}}
+		\put(22,158){\framebox(6,7){}}			\put(439,158){\framebox(6,7){}}
+		\put(28,162){\line(1,0){411}}
+		\put(391,67){\oval(146,114)}			\put(236,67){\oval(146,114)}
+		\put(83,67){\oval(146,114)}
+		\put(37,129){\framebox(93,19){King}}
+\put(189,129){\framebox(93,19){Dulac}}
+		\put(342,129){\framebox(93,19){Dragon}}
+		\put(32,70){\line(0,-1){16}}			\put(233,71){\line(0,-1){16}}
+		\put(441,71){\line(0,-1){16}}
+		\put(32,86){\line(5,2){51}}			\put(134,86){\line(-5,2){51}}
+		\put(182,86){\line(5,2){51}}			\put(284,86){\line(-5,2){51}}
+		\put(338,86){\line(5,2){51}}			\put(440,86){\line(-5,2){51}}
+		\put(389,86){\line(0,1){19}}			\put(233,86){\line(0,1){19}}
+		\put(83,86){\line(0,1){19}}
+		\put(322,74){{\tt arthur}}			\put(366,74){{\tt lancelot}}
+		\put(424,74){{\tt willow}}
+		\put(167,74){{\tt arthur}}			\put(211,74){{\tt lancelot}}
+ 		\put(269,74){{\tt willow}}
+		\put(14,29){{\tt lance.c}}			\put(15,41){{\tt excalibur.c}}
+		\put(201,41){{\tt holly.graal}}			\put(397,41){{\tt donjon.doc}}
+		\put(115,74){{\tt willow}}
+		\put(57,74){{\tt lancelot}}			\put(13,74){{\tt arthur}}
+		\put(50,110){{\tt /home/users}}		\put(201,110){{\tt /home/users}}
+		\put(358,110){{\tt /home/users}}
+	\end{picture}\\
+	\begin{tabular}{ll}
+	\multicolumn{2}{c}{{\large Sur la machine Dragon}}			\\
+			& \verb=% whoami=					\\
+			& \verb=willow=					\\
+			& \verb=% pwd=					\\
+			& \verb=/home/users/willow=				\\
+	{\sl 1}	& \verb=% rcp arthur@king:excalibur.c .=			\\
+	{\sl 2} & \verb=% rcp donjon.doc dulac:=				\\
+	{\sl 3} & \verb=% rcp arthur@king:'*.c' .=				\\
+	{\sl 4} & \verb=% rcp arthur@king:excalibur.c lancelot@dulac:=	\\
+	\end{tabular}
+	\caption{\label{cmds-bsd-fig-ex-rcp}Exemples d'utilisation de la commande {\tt rcp}}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ex{\'e}cution d'une commande {\`a} distance: commande {\tt rsh}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Syntaxe}
+
+\begin{quote}
+{\tt rsh [-l {\it username} [-n] {\it commande}}\\
+{\tt remsh [-l {\it username} [-n] {\it commande}}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Description}
+
+Les commandes {\tt rsh} et {\tt remsh} sont {\'e}quivalentes. Sur certains syst{\`e}mes
+\begin {itemize}
+\item 	il n'existe que la commande {\tt rsh} ({\it SunOS}, {\it Solaris}, {\it Irix}, {\Linux}),
+\item 	sur d'autres, que la commande {\tt remsh} ({\it HP--UX}),
+\item 	sur d'autres, les deux cohabitent ({\it AIX}).
+\end{itemize}
+
+Dans toute la suite de ce paragraphe, on ne citera que {\tt rsh}.
+
+La commande {\tt rsh} ex{\'e}cute une commande non interactive sur un syst{\`e}me
+distant. Le nom du compte distant est le m{\^e}me que le nom du compte local {\`a} moins
+que vous ne sp{\'e}cifiez l'option <<{\tt -l}>>.
+
+Comme {\tt rcp}, {\tt rsh} ne demande pas de mot de passe si une
+{\'e}quivalence syst{\`e}me ou utilisateur a {\'e}t{\'e} configur{\'e}e. Dans le cas
+contraire, elle ne fonctionne pas\footnote{message d'erreur <<~{\tt Permission denied}~>>.}.
+
+La commande {\tt rsh} transmet les signaux <<{\tt INTERRUPT}>>, <<{\tt QUIT}>>
+et <<{\tt HUP}>> {\`a} la commande distante. Pour plus de pr{\'e}cisions, reportez-vous
+{\`a} {\tt signal(2)}.
+
+Il est possible d'utiliser les m{\'e}tacaract{\`e}res avec {\tt rsh}. Pour qu'ils soient interprétés sur le site distant,
+il faudra s'assurer que ceux-ci sont bien transmis et non pas pris en compte par le {\it shell} local.
+Pour cela, il suffira de s'assurer qu'ils soient bien entre simples quotes (<<~\verb='=~>>).
+
+\begin{remarque}
+{\tt rsh} ne peut pas ex{\'e}cuter des commandes en mode interactif comme {\tt vi}, {\tt emacs}, etc.
+\end{remarque}
+
+\begin{remarque}
+L'interpr{\'e}tation des m{\'e}tacaract{\`e}res se fait en local au niveau de la
+commande {\tt rsh}. Si vous d{\'e}sirez qu'ils soient interpr{\'e}t{\'e}s sur le
+site distant, il faudra inhiber leur {\'e}valuation par le {\it shell} local
+gr{\^a}ce au caract{\`e}re <<~\verb=\=~>> ou bien en mettant l'expression entre 
+simple quotes (<<~\verb='=~>>).
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Comparaisons {\tt telnet}/{\tt rlogin} et {\tt ftp}/{\tt rcp}}
+
+Les tableaux ~\ref{cmds-bsd-tab-cmp-telnet-rlogin} et ~\ref{cmds-bsd-tab-cmp-ftp-rcp} r{\'e}capitulent les 
+diff{\'e}rences entre les commandes {\tt telnet}/{\tt rlogin} et {\tt ftp}/{\tt rcp}.
+
+\begin{remarque}
+\label{cmds-bsd-nb-telnet-rlogin-ftp}
+	Notez que {\tt telnet} et {\tt rlogin} peuvent {\^e}tre appel{\'e}s depuis un programme
+	Shell, mais vous ne pouvez pas leur transmettre d'informations au clavier (comme vous pouvez le faire
+	avec {\tt ftp}).
+\end{remarque}
+
+\begin{table}
+\begin{tabular}{|p{6cm}|p{3cm}|p{3cm}|}
+\hline
+	&	{\tt telnet}	&	{\tt rlogin}	\\
+\hline \hline
+	Mode <<~\textsl{commande}~>> interne &
+	Oui	&
+	Non	\\
+\hline
+	Connexion {\`a} des syst{\`e}mes non {\Unix}	&
+	Oui	&
+	Non\footnote{Sauf implantation d'un serveur supportant ce type de connexion.} \\
+\hline
+	Connexion automatique	&
+	Non	&
+	Oui ({\tt /etc/hosts.equiv}, {\tt \~{}/.rhosts}) \\
+\hline
+	Utilisation de l'adresse IP pour la connexion	&
+	Oui	&
+	Oui	\\
+\hline
+	Sortie autoris{\'e}e	&
+	Oui (vers {\tt telnet} en mode commande)	&
+	Oui (vers le terminal local)\\
+\hline
+	Nombre de modes		&
+	2 (commande et connect{\'e})	&
+	1 (connect{\'e} seulement)	\\
+\hline
+	Lancement depuis un programme Shell	&
+	Non (cf. remarque ~\ref{cmds-bsd-nb-telnet-rlogin-ftp} page
+~\pageref{cmds-bsd-nb-telnet-rlogin-ftp})	&
+	Non (cf. remarque ~\ref{cmds-bsd-nb-telnet-rlogin-ftp} page
+~\pageref{cmds-bsd-nb-telnet-rlogin-ftp})	\\
+\hline
+\end{tabular}
+\caption{\label{cmds-bsd-tab-cmp-telnet-rlogin}Comparaison entre {\tt
+telnet} et {\tt rlogin}}
+\end{table}
+
+\begin{table}
+\begin{tabular}{|p{6cm}|p{3cm}|p{3cm}|}
+\hline
+	&	{\tt ftp}	&	{\tt rcp}	\\
+\hline \hline
+	Mode <<~\textsl{commande}~>> interne	&
+	Oui	&
+	Non	\\
+\hline
+	Transfert de fichiers sur un syst{\`e}me non {\Unix}	&
+	Oui	&
+	Non\footnote{Sauf implantation d'un serveur supportant ce type de connexion.}\\
+\hline
+	Exécution depuis un programme Shell	&
+	Oui	&
+	Oui	\\
+\hline
+	Mise en jeu de plus de 2 n{\oe}uds	&
+	Non	&
+	Oui	\\
+\hline
+	Utilisation de m{\'e}tacaract{\`e}res	&
+	Oui (commande interne {\tt glob})	&
+	Oui	\\
+\hline
+	Copie r{\'e}cursive	&
+	Non	&
+	Oui (option {\tt -r})	\\
+\hline
+	{\'E}quivalence utilisateur	&
+	Oui (fichier {\tt \~{}/.netrc})	&
+	Oui (fichiers {\tt /etc/hosts.equiv}, {\tt \~{}/.rhosts})	\\
+\hline
+	Equivalence utilisateur requise	&
+	Non	&
+	Oui	\\
+\hline
+	Utilisation d'une adresse IP pour la connexion	&
+	Oui	&
+	Oui	\\
+\hline
+\end{tabular}
+\caption{\label{cmds-bsd-tab-cmp-ftp-rcp}Comparaison entre {\tt ftp} et
+{\tt rcp}}
+\end{table}

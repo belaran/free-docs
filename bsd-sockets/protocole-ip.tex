@@ -1,0 +1,1143 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Introduction au protocole IP
+%
+\chapter{\label{protip}Introduction au protocole IP}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+IP\footnote{associ{\'e} par abus de langage {\`a} TCP, d'o{\`u} la d{\'e}nomination
+TCP/IP}, TCP et UDP sont des protocoles issus d'un projet de
+d{\'e}veloppement d'un standard de communication inter-applications lance
+par le DOD\footnote{Department Of Defense} pendant les ann{\'e}es 70 en plein milieu
+de la {\it guerre froide} entre le bloc sovi{\'e}tique et les \'{E}tats-Unis.
+
+Ces protocoles ont {\'e}t{\'e} finalis{\'e}s au d{\'e}but des ann{\'e}es 80, et adopt{\'e}s par
+l'universit{\'e} de Berkeley en Californie pour {\^e}tre implant{\'e}s sur {\Unix}.
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(195,165)
+	\thinlines
+	\put(10,116){4}
+	\put(11,86){3}
+	\put(11,55){2}
+	\put(12,23){1}
+	\put(184,127){\line(0,1){21}}
+	\put(102,127){\line(0,1){21}}
+	\put(20,127){\line(0,1){21}}
+	\put(102,106){\framebox(82,32){UDP}}
+	\put(20,106){\framebox(82,32){TCP}}
+	\put(20,74){\framebox(164,32){IP}}
+	\put(102,10){\framebox(82,64){Ethernet}}
+	\put(20,42){\framebox(82,32){802.2}}
+	\put(20,10){\framebox(82,32){802.3}}
+\end{picture}\caption{\label{protip-fig-IPOSI}Le mod{\`e}le OSI et les
+protocoles IP, TCP et UDP}
+\end{figure}
+
+Ils constituent un standard de fait, et sont impl{\'e}ment{\'e}s sur de nombreux
+syst{\`e}mes. Toutefois leurs caract{\'e}ristiques ne r{\'e}pondent pas exactement
+aux sp{\'e}cifications du mod{\`e}le OSI comme le montre la figure ~\ref{protip-fig-IPOSI},
+l'{\'e}laboration de IP s'{\'e}tant faite avant la finalisation du mod{\`e}le OSI.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les caract{\'e}ristiques du protocole IP}
+
+IP achemine des datagrammes entre une station {\'e}mettrice et une station
+r{\'e}ceptrice, {\`a} travers les diff{\'e}rents n{\oe}ud du r{\'e}seau. Au niveau de l'acheminement
+des datagrammes, IP~:
+\begin{itemize}
+	\item g{\`e}re les adresses et le routage,
+	\item fragmente et r{\'e}assemble les datagrammes,
+\end{itemize}
+
+IP n'{\'e}tablit pas de liaison logique entre les stations. Ce n'est donc
+pas un protocole fiable, des datagrammes peuvent {\^e}tre perdus, dupliqu{\'e}s,
+d{\'e}s{\'e}quenc{\'e}s ou erron{\'e}s. Il n'y a donc pas~:
+\begin{itemize}
+	\item d'acquittement,
+	\item de contr{\^o}le de flux,
+	\item de contr{\^o}le d'erreurs sur les donn{\'e}es.
+\end{itemize}
+
+De ce fait, IP est un protocole tr{\`e}s flexible qui pourra {\^e}tre utilisé
+sur une large gamme de r{\'e}seaux physiques. La fiabilit{\'e} devra
+{\^e}tre g{\'e}r{\'e}e dans les protocoles de niveau sup{\'e}rieur.
+
+\begin{remarque}
+IP ne fonctionne pas en mode connect{\'e} comme d'autres syst{\`e}mes
+(ATM et X.25 par exemple). Lorsqu'une application dispose d'un canal de communication
+fonctionnant en mode connect{\'e}, c'est une illusion que lui offrira le protocole de transport.
+Pour plus d'informations sur les modes connect{\'e}s et non-connect{\'e}s, reportez-vous {\`a} la section
+~\ref{intsock-conn-nconn}.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section {\label{protip-route}Les principes g{\'e}n{\'e}raux du routage}
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(319,101)
+	\thinlines
+	\put(86,10){\framebox(5,6){}}
+	\put(239,10){\framebox(5,6){}}
+	\put(90,14){\line(1,0){149}}
+	\put(211,24){\line(0,-1){10}}
+	\put(103,25){\line(0,-1){10}}
+	\put(268,68){\line(0,-1){10}}
+	\put(211,68){\line(0,-1){20}}
+	\put(180,58){\line(1,0){123}}
+	\put(15,58){\line(1,0){123}}
+	\put(175,55){\framebox(5,6){}}
+	\put(304,55){\framebox(5,6){}}
+	\put(10,55){\framebox(5,6){}}
+	\put(138,55){\framebox(5,6){}}
+	\put(44,68){\line(0,-1){10}}
+	\put(103,68){\line(0,-1){20}}
+	\put(19,67){\framebox(53,24){host A}}
+	\put(77,67){\framebox(53,24){host B}}
+	\put(77,24){\framebox(53,24){host C}}
+	\put(185,24){\framebox(53,24){host D}}
+	\put(185,67){\framebox(53,24){host E}}
+	\put(243,67){\framebox(53,24){host F}}
+\end{picture}
+\caption{\label{protip-fig-routIP}M{\'e}canisme du routage IP}
+\end{figure}
+
+Dans la figure ~\ref{protip-fig-routIP}, IP est capable d'acheminer des
+datagrammes de la station {\sl A} vers la station {\sl F}, au travers
+des passerelles {\sl C} et {\sl D}. Pour ce faire, il va utiliser deux
+fonctions:
+\begin{itemize}
+	\item 	un mode d'adressage hi{\'e}rarchique des n{\oe}ud du r{\'e}seau, permettant
+		de s{\'e}parer l'adresse en plusieurs champs,
+	\item	des tables de routage pour indiquer quels r{\'e}seaux sont accessibles
+		au travers d'une passerelle.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section {\label{protip-defIP}D{\'e}finition des adresses}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{G{\'e}n{\'e}ralit{\'e}s}
+
+\begin{figure}[hbtp]
+\centering
+\begin{tabular}{|cc|cc|cc|cc|}
+	\hline
+	$0000$ & $0000$ & $0000$ & $0000$ & $0000$ & $0000$ & $0000$ & $0000$
+\\
+	\hline
+	  n    &   n    &   n    &   n    &   n    &   n    &   n    &   n   
+\\
+	\hline
+\end{tabular}
+\caption{\label{protip-fig-addrIP}Structure d'une adresse IP}
+\end{figure}
+
+L'adresse IP se situe au niveau 3 (couche r{\'e}seau). Elle est d{\'e}finie
+par l'administrateur du r{\'e}seau en r{\'e}pondant aux conventions de la figure
+~\ref{protip-fig-addrIP}, puis enregistr{\'e}e dans les tables du syst{\`e}me d'exploitation de la
+machine.
+
+Le lien entre les adresses physiques et logiques se fait par des
+fonctionnalit{\'e}s r{\'e}seaux vues {\`a} la section ~\ref{protip-ARP}.
+
+L'adresse IP peut {\^e}tre exprim{\'e}e en binaire, ou sous forme de 8 nombres
+hexad{\'e}cimaux, mais pour des questions de lisibilit{\'e}, on l'exprime la
+plupart du temps en notation d{\'e}cimale : 4 champs s{\'e}par{\'e}s par des points
+({\sl dot notation}). Chaque champ, exprim{\'e} sur 8 bits, peut prendre
+une valeur de 0 {\`a} 255.
+
+Certaines adresses sont r{\'e}serv{\'e}es: par exemple, l'adresse
+<<~255.255.255.255~>> est dite <<~\textsl{adresse de broadcast}~>>, toutes les stations seront alors
+r{\'e}ceptrices de ce datagramme. De fa\c{c}on g{\'e}n{\'e}rale, les adresses avec <<~255~>>
+dans la partie <<r{\'e}seau>> sont r{\'e}serv{\'e}es. Pour plus de pr{\'e}cisions, reportez-vous
+{\`a} la section ~\ref{inet-dgram-brdmsg}.
+
+\subsubsection{Exemple:}
+\begin{quote}
+\begin{tabular}{ll}
+	en notation binaire			& {\tt 1000 0000 0000 1010 0000 0010 0000 0011}\\
+	en notation d{\'e}cimale		& {\tt 128.10.2.3}\\
+	en notation hexad{\'e}cimale	& {\tt 80 0A 02 03}\\
+\end{tabular}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Les classes d'adresses}
+
+Afin de fournir une flexibilit{\'e} dans l'affectation des adresses aux
+r{\'e}seaux, qui peuvent {\^e}tre plus ou moins importants, les adresses IP sont
+divis{\'e}es en trois classes dites {\sl A}, {\sl B} et {\sl C}. Selon la
+classe, le champ disponible pour la num{\'e}rotation des n{\oe}ud sera
+diff{\'e}rent.
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(460,230)
+	\thinlines
+	\put(11,224){Classe A: adresses de {\tt 0.0.0.0 {\`a}} {\tt 127.255.255.255}}
+	\put(11,182){\framebox(16,22){0}}
+	\put(27,182){\framebox(98,22){ID R{\'e}seau}}
+	\put(125,182){\framebox(337,22){ID Host}}
+	\put(11,208){{\tiny 0}}		\put(27,208){{\tiny 1}}
+	\put(115,208){{\tiny 7}}	\put(125,208){{\tiny 8}}
+	\put(228,208){{\tiny 15}}	\put(238,208){{\tiny 16}}
+	\put(342,208){{\tiny 23}}	\put(352,208){{\tiny 24}}
+	\put(454,208){{\tiny 31}}
+
+	\put(11,141){Classe B: adresses de {\tt 128.0.0.0} {\`a} {\tt 191.255.255.255}}
+	\put(11,102){\framebox(16,22){1}}
+	\put(27,102){\framebox(16,22){0}}
+	\put(43,102){\framebox(195,22){ID R{\'e}seau}}
+	\put(238,102){\framebox(225,22){ID Host}}
+	\put(10,127){{\tiny 0}}		\put(26,127){{\tiny 1}}		\put(41,127){{\tiny 2}}
+	\put(115,127){{\tiny 7}}	\put(125,127){{\tiny 8}}
+	\put(228,127){{\tiny 15}}	\put(238,127){{\tiny 16}}
+	\put(342,127){{\tiny 23}}	\put(346,127){{\tiny 24}}
+	\put(454,127){{\tiny 31}}
+
+	\put(11,49){Classe C: adresses de {\tt 192.0.0.0} {\`a} {\tt 223.255.255.255}}
+	\put(11,10){\framebox(16,22){1}}
+	\put(27,10){\framebox(16,22){1}}
+	\put(43,10){\framebox(16,22){0}}
+	\put(59,10){\framebox(292,22){ID R{\'e}seau}}
+	\put(351,10){\framebox(113,22){ID Host}}
+	\put(11,35){{\tiny 0}}		\put(27,35){{\tiny 1}}
+	\put(43,35){{\tiny 2}}		\put(59,35){{\tiny 3}}
+	\put(115,35){{\tiny 7}}		\put(125,35){{\tiny 8}}
+	\put(228,35){{\tiny 15}}	\put(238,35){{\tiny 16}}
+	\put(342,35){{\tiny 23}}	\put(352,35){{\tiny 24}}
+	\put(454,35){{\tiny 31}}
+\end{picture}
+\caption{\label{protip-fig-classes-IP}Les diff{\'e}rentes classes des
+adresses IP}
+\end{figure}
+
+L'identification de la classe se fait en fonction de la valeur de l'adresse
+elle-m{\^e}me:
+\begin{itemize}
+	\item pour la classe A, le bit de poid fort de l'adresse est nul,
+	\item pour la classe B, les deux bits de poid fort de l'adresse ont la
+		  valeur <<~$10$~>>,
+	\item pour la classe C, les trois bits de poid fort de l'adresse ont la
+		  valeur <<~$110$~>>.
+\end{itemize}
+
+On obtient alors le d{\'e}coupage d{\'e}crit {\`a} la figure ~\ref{protip-fig-classes-IP}.
+
+Par cons{\'e}quent~:
+\begin{itemize}
+	\item	La classe A permet d'identifier 127 r{\'e}seaux ayant chacun jusqu'{\`a}
+		16 millions de n{\oe}ud ($2^{24} = 16 777 216$).
+
+	\item	La classe B permet d'identifier 16K r{\'e}seaux ($16 \times 1024$) ayant
+		chacun jusqu'{\`a} 65K n{\oe}ud ($65 \times 1024$).
+
+	\item	La classe C permet d'identifier 2M r{\'e}seaux ($2^{21} = 2 \times 1024 \times 1024$)
+		avec 256 n{\oe}uds chacun.
+\end{itemize}
+
+
+Le champ identificateur de r{\'e}seau est impos{\'e} {\`a} l'administrateur r{\'e}seau
+en fonction du premier nombre dans l'adresse IP. Lorsque le r{\'e}seau local est 
+reli{\'e} {\`a} {\sl Internet}, le num{\'e}ro de r{\'e}seau est impos{\'e} par l'organisme local 
+g{\'e}rant la liaison {\sl Internet}.
+
+Il existe aussi une dernière classe d'adresses, couvrant la zone non affectée (à partir de \texttt{224.0.0.0}).
+Ces adresses sont réservés pour des usages précis. Elles servent entre autre pour les adressages
+\textsl{multicast}. Les adresses \textsl{multicast} permettent d'adresser un ensemble de machines dont le rôle
+a été identifié sur le réseau. On aura, par exemple~:
+\begin{itemize}
+	\item	\textit{\textsc{All Routers}} (tous les routeurs du réseau),
+	\item	\textit{\textsl{All Designated Routers}} (un ensemble de routeurs précis, utilisé dans le protocole OSPF),
+	\item	etc.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Les sous-r{\'e}seaux}
+
+Le sch{\'e}ma classique de d{\'e}coupage de l'adresse IP en num{\'e}ro de r{\'e}seau et
+num{\'e}ro de n{\oe}ud, peut {\^e}tre modifi{\'e} {\`a} convenance. Le num{\'e}ro de r{\'e}seau
+correspondant alors {\`a} une plage,  peut {\^e}tre diff{\'e}rent de celui obtenu
+par d{\'e}faut en fonction des diff{\'e}rentes classes d'adresses.
+
+Dans le cas de la figure ~\ref{protip-fig-subnet},
+\begin{itemize}
+	\item	le premier sch{\'e}ma donne le cas classique d'une adresse sans 
+		notion de {\it sous r{\'e}seau},
+	\item	le second sch{\'e}ma donne un exemple d'adresse avec un sous-r{\'e}seau;
+		le num{\'e}ro de r{\'e}seau effectif correspond {\`a} la zone {\sl r{\'e}seau} et
+		{\`a} la zone {\sl sous-r{\'e}seau}.
+\end{itemize}
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(417,137)
+	\thinlines    
+	\put(10,96){\framebox(200,31){Identificateur {\sl r{\'e}seau}}}
+	\put(210,96){\framebox(200,31){Identificateur {\sl machine}}}
+	\put(10,10){\framebox(200,31){Identificateur {\sl r{\'e}seau}}}
+	\put(210,10){\framebox(100,31){ID {\sl sous-r{\'e}seau}}}
+	\put(310,10){\framebox(100,31){ID {\sl machine}}}
+\end{picture}
+\caption{\label{protip-fig-subnet}Les sous-r{\'e}seaux}
+\end{figure}
+
+Pour {\'e}viter qu'en cas de probl{\`e}me, un datagramme ne circule ind{\'e}finiment
+sur le r{\'e}seau, l'en-t{\^e}te IP contient un compteur, d{\'e}cr{\'e}ment{\'e} de une ou
+plusieurs secondes dans chaque passerelle. Quand le compteur est {\`a} z{\'e}ro,
+IP d{\'e}truit le datagramme.
+
+Les informations li{\'e}es {\`a} IP se trouvent dans la partie des trames
+Ethernet ou 802.3. Si IP est transport{\'e} dans une trame Ethernet, le
+champ type de cette trame sera {\'e}gale {\`a} $0800h$. Si IP est transporte dans
+une trame 802.3, l'acc{\`e}s {\`a} la couche IP se fera au niveau de la SAP
+\footnote{{\sl Service Access Point}} qui sera {\'e}gale {\`a} $06h$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{protip-ARP}Les m{\'e}canismes de r{\'e}solution d'adresse~: le protocole {\sl ARP}}
+
+\begin{figure}[hbtp]
+\centering
+\begin{tabular}{lp{10cm}}
+{\it $1^{e}$ {\'e}tape:}	&	Interrogation des stations sur le r{\'e}seau correspondant
+				{\`a} l'adresse IP sp{\'e}cifi{\'e}e (la machine {\sl A} envoie une
+				requ{\^e}te en {\it broadcast} avec l'adresse IP de la  machine {\sl E}) \\
+\end{tabular}
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(290,111)
+	\thinlines
+	\put(14,53){\line(1,0){268}}
+	\put(10,51){\framebox(4,4){}}
+    \put(282,51){\framebox(4,4){}}
+	\put(69,100){\line(1,0){175}}
+
+	\put(25,10){\framebox(30,30){A}}
+	\put(40,40){\line(0,1){13}}
+	\put(35,40){\vector(0,1){40}}
+	\put(69,70){\oval(68,60)[tl]}
+
+	\put(80,10){\framebox(30,30){B}}
+	\put(95,40){\line(0,1){13}}
+	\put(100,80){\vector(0,-1){40}}
+	\put(66,70){\oval(68,60)[tr]}
+
+	\put(135,10){\framebox(30,30){C}}
+	\put(150,40){\line(0,1){13}}
+	\put(155,80){\vector(0,-1){40}}
+	\put(121,70){\oval(68,60)[tr]}
+
+	\put(190,10){\framebox(30,30){D}}
+	\put(205,40){\line(0,1){13}}
+	\put(214,80){\vector(0,-1){40}}
+	\put(180,70){\oval(68,60)[tr]}
+
+	\put(245,10){\framebox(30,30){E}}
+	\put(260,40){\line(0,1){13}}
+	\put(265,80){\vector(0,-1){40}}
+	\put(231,70){\oval(68,60)[tr]}
+\end{picture}
+
+\begin{tabular}{lp{10cm}}
+{\it $2^{nde}$ {\'e}tape:}	&	R{\'e}ponse de la station avec son adresse physique
+					(la machine {\sl E} renvoie son adresse physique {\`a} la machine {\sl A}) \\
+\end{tabular}
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(290,111)
+	\thinlines
+	\put(14,53){\line(1,0){268}}
+	\put(10,51){\framebox(4,4){}}
+    \put(282,51){\framebox(4,4){}}
+	\put(69,100){\line(1,0){175}}
+
+	\put(25,10){\framebox(30,30){A}}
+	\put(40,40){\line(0,1){13}}
+	\put(35,80){\vector(0,-1){40}}
+	\put(69,70){\oval(68,60)[tl]}
+
+	\put(80,10){\framebox(30,30){B}}
+	\put(95,40){\line(0,1){13}}
+
+	\put(135,10){\framebox(30,30){C}}
+	\put(150,40){\line(0,1){13}}
+
+	\put(190,10){\framebox(30,30){D}}
+	\put(205,40){\line(0,1){13}}
+
+	\put(245,10){\framebox(30,30){E}}
+	\put(260,40){\line(0,1){13}}
+	\put(265,40){\vector(0,1){40}}
+	\put(231,70){\oval(68,60)[tr]}
+\end{picture}
+
+\caption{\label{protip-fig-desc-ARP}M{\'e}canisme de r{\'e}solution
+d'adresse:
+	{\sl ARP}}
+\end{figure}
+
+ARP est un protocole de niveau 3 (couche {\it r{\'e}seau}) qui va servir {\`a} mettre
+{\`a} jour des tables de liaison entre l'adresse physique ({\it niveau 2}) et l'adresse IP ({\it niveau 3}).
+
+En effet, l'administrateur r{\'e}seau configure sur une station l'ensemble
+des adresses IP des n{\oe}uds que cette station peut joindre sur le
+r{\'e}seau. Il lui affecte donc un num{\'e}ro de r{\'e}seau et un num{\'e}ro de machine.
+Dans notre cas particulier, cela repr{\'e}sentera l'adresse IP de celle-ci.
+Mais les trames sont envoy{\'e}es {\`a} une adresse physique (adresse {\sl ethernet} par exemple).
+Il est donc n{\'e}cessaire d'{\'e}tablir un lien entre les deux.
+
+ARP fonctionne en deux temps comme on peut le voir dans la figure \ref{protip-fig-desc-ARP}~:
+\begin{itemize}
+	\item	la station qui {\'e}met la requ{\^e}te envoie une adresse {\it Broadcast} vers
+		toutes les stations d'un m{\^e}me r{\'e}seau (exemple: {\tt 192.9.200.255}
+		pour une classe C) sp{\'e}cifiant l'adresse IP de la station avec qui elle
+		veut communiquer.
+	\item	la station concern{\'e}e r{\'e}pond {\`a} la station {\'e}mettrice en lui communiquant
+		son adresse physique.
+\end{itemize}
+
+Il est clair que cet algorithme n'est pas exécuté à chaque demande de résolution d'adresse. Pour cela, chaque
+station disposera d'un cache qui contiendra la liste des adresses déjà résolues. Ainsi, pour toute communication
+utilisant une adresse IP, nous aurons~:
+\begin{itemize}
+\item	l'adresse IP a-t-elle déjà fait l'objet d'une résolution (présente dans le cache) ?
+\item	si oui, les informations du cache sont utilisées,
+\item	si non, on lance le mécanisme de résolution d'adresse.
+\end{itemize}
+
+La notion de cache présente l'avantage indéniable d'économiser la bande passante du réseau. Cependant, elle ne
+reflète pas la réalité. En effet, il est possible de réaffecter une adresse IP à une machine différente de celle
+dont l'adresse matérielle est enregistrée dans le cache <<~ARP~>>. Dans ce cas, la communication entre
+les deux machines ne pourra s'effectuer. Il faudra~:
+\begin{itemize}
+\item	soit supprimer manuellement l'entrée dans le cache <<~ARP~>> avec la commande <<~\texttt{arp(1)}~>>,
+\item	soit attendre l'invalidation de cette entrée dans le cache (time out),
+\item	soit réinitialiser la couche logiciel lié au protocole IP sur la station (reboot).
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les protocoles associ{\'e}s {\`a} la couche {\sl transport} du
+mod{\`e}le OSI}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{protip-TCP}Le protocole TCP}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Introduction}
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(441,180)
+	\thinlines
+	\put(240,153){\oval(172,28)}
+	\put(167,150){Transport de bout en bout}
+
+	\put(10,55){\framebox(100,20){Interf. r{\'e}seau}}
+	\put(10,80){\framebox(100,20){IP}}
+	\put(10,105){\framebox(100,20){TCP}}
+	\put(10,130){\framebox(100,20){Application}}
+	\put(60,75){\line(0,1){5}}
+ 	\put(60,100){\line(0,1){5}}
+ 	\put(60,125){\line(0,1){5}}
+
+	\put(130,55){\framebox(100,20){Interf. r{\'e}seau}}
+	\put(190,80){\framebox(100,20){IP}}
+	\put(250,55){\framebox(100,20){Interf. r{\'e}seau}}
+	\put(210,75){\line(0,1){5}}
+	\put(270,75){\line(0,1){5}}
+
+	\put(370,55){\framebox(100,20){Interf. r{\'e}seau}}
+	\put(370,80){\framebox(100,20){IP}}
+	\put(370,105){\framebox(100,20){TCP}}
+	\put(370,130){\framebox(100,20){Application}}
+	\put(420,75){\line(0,1){5}}
+	\put(420,100){\line(0,1){5}}
+	\put(420,125){\line(0,1){5}}
+
+	\put(340,21){r{\'e}seau 2}		\put(362,23){\oval(94,26)}
+	\put(94,21){r{\'e}seau 1}		\put(116,23){\oval(94,26)}
+
+	\put(160,140){\vector(-2,-1){50}}	\put(320,140){\vector(2,-1){50}}
+	\put(60,55){\line(2,-1){38}}		\put(180,55){\line(-2,-1){38}}
+	\put(300,55){\line(2,-1){38}}		\put(420,55){\line(-2,-1){38}}
+\end{picture}
+\caption{\label{protip-fig-desc-TCP}Description du protocole TCP}
+\end{figure}
+
+Le r{\^o}le de TCP est d'assurer un transport de bout en bout des donn{\'e}es
+(cf. figure ~\ref{protip-fig-desc-TCP}). C'est un protocole orient{\'e}
+connexion pour des applications supportant le fonctionnement {\`a} travers
+des r{\'e}seaux multiples. TCP occupe le niveau transport ({\it niveau 4})
+dans une structure de communication hi{\'e}rarchis{\'e}e en couches.
+
+TCP fournit une communication fiable entre deux applications travaillant
+sur deux syst{\`e}mes distincts interconnect{\'e}s. Il suppose peu de choses
+concernant les couches qui lui sont inf{\'e}rieures (il lui faut tout de
+m{\^e}me IP). En principe, il est capable de travailler au dessus d'une
+large gamme de syst{\`e}mes de communication tels que les r{\'e}seaux {\`a}
+commutation de paquets ou {\`a} commutation de circuit.
+
+TCP se situe, dans le mod{\`e}le OSI, au dessus du protocole IP. IP apporte
+{\`a} TCP la possibilit{\'e} d'{\'e}mettre et de recevoir des segments de donn{\'e}es de
+longueur variable, de dialoguer {\`a} travers divers r{\'e}seaux. IP prend en
+charge la fragmentation et le r{\'e}assemblage des segments TCP.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Fonctions de TCP}
+
+TCP g{\`e}re les trois phases de contr{\^o}le d'une connexion qui sont:
+\begin{itemize}
+	\item	la synchronisation des deux {\'e}quipements extr{\^e}mes pour
+		l'{\'e}tablissement de 	la connexion,
+	\item	le contr{\^o}le des donn{\'e}es pendant toute la dur{\'e}e de la connexion; 
+		ceci comprend l'acquittement de donn{\'e}es bien re\c{c}ues et la retransmission
+		des donn{\'e}es perdues ou erron{\'e}es.
+	\item	la lib{\'e}ration de la connexion {\`a} la fin du transfert.
+\end{itemize}
+
+TCP permet d'{\'e}mettre des informations avec un degr{\'e} de priorit{\'e}
+sup{\'e}rieur {\`a} celui des donn{\'e}es {\'e}chang{\'e}es. Ces donn{\'e}es urgentes seront
+trait{\'e}es au plus vite. Dans une application de terminal virtuel, il faut
+pouvoir ex{\'e}cuter imm{\'e}diatement un {\tt CTRL$/$C} par exemple.
+
+TCP poss{\`e}de une fonction de recouvrement d'erreurs. A l'{\'e}mission d'une
+s{\'e}quence de donn{\'e}es, il y a d{\'e}clenchement d'une temporisation. Si cette
+s{\'e}quence est perdue ou d{\'e}fectueuse, le niveau TCP {\'e}metteur ne recevra
+pas l'acquittement en retour. Alors {\`a} l'expiration de la temporisation,
+cette s{\'e}quence sera r{\'e}{\'e}mise.
+
+TCP est temporel. Il ne se contente pas de v{\'e}rifier qu'une
+donn{\'e}e est d{\'e}livr{\'e}e, il contr{\^o}le {\'e}galement si ceci a {\'e}t{\'e}
+effectu{\'e} en un temps raisonnable. Il utilise {\`a} cet effet un ensemble de temporisations.
+
+TCP effectue un contr{\^o}le de flux. Ainsi il s'assure que le r{\'e}cepteur est
+effectivement pr{\^e}t {\`a} recevoir les donn{\'e}es propos{\'e}es par l'{\'e}metteur.
+
+TCP effectue un contr{\^o}le d'erreurs de bout en bout ind{\'e}pendants de ceux
+r{\'e}alis{\'e}s par la couche liaison ({\sl niveau 2}) et par IP ({\sl niveau 3}). Les
+contr{\^o}les d'erreurs effectu{\'e}s par IP ou par la couche liaison ({\sl Ethernet}
+ou {\sl 802.3}) sont recalcul{\'e}s au niveau de chaque passerelle, ce qui risque
+d'apporter des erreurs (TCP suppose que le r{\'e}seau n'est pas fiable).
+Un contr{\^o}le au niveau de TCP sera capable de les d{\'e}tecter.
+
+TCP est oriente <<flots d'octets>>. La m{\'e}thode utilis{\'e}e num{\'e}rote chaque
+octet {\`a} {\'e}mettre. Ceci permet, au niveau du r{\'e}cepteur, de retrouver
+l'ordre exacte des donn{\'e}es {\`a} l'{\'e}mission.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Exemple de connexion {\`a} travers {\tt telnet}}
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(279,160)
+	\thinlines 
+	\put(207,68){\line(0,-1){11}}		\put(140,68){\line(0,-1){9}}
+	\put(190,25){\framebox(39,32){}}	\put(194,29){\framebox(31,25){B}}
+	\put(190,26){\line(-1,-1){14}}		\put(229,26){\line(-1,-1){14}}
+	\put(176,12){\line(1,0){39}}		\put(107,14){\line(1,0){39}}
+	\put(160,28){\line(-1,-1){14}}		\put(121,28){\line(-1,-1){14}}
+	\put(121,27){\framebox(39,32){}}	\put(125,31){\framebox(31,25){A}}
+	\put(173,96){\line(0,1){13}}		\put(60,118){\line(0,-1){9}}
+	\put(10,106){\framebox(5,6){}}		\put(15,109){\line(1,0){247}}
+	\put(262,106){\framebox(5,6){}}
+	\put(104,67){\framebox(141,29){Serveur Terminaux}}
+	\put(31,117){\framebox(59,33){Station}}
+\end{picture}\\
+\begin{quote}
+{\sl Adresses utilis{\'e}es pour la connexion avec le terminal A:} \\[2ex]
+\begin{tabular}{|l|l|}
+	\hline
+	adresse niveau liaison	& serveur terminaux + station \\
+	adresse IP			& serveur terminaux + station \\
+	port TCP			& Telnet + port dynamique ($4056$ par exemple)\\
+	\hline
+\end{tabular}
+\end{quote}
+\begin{quote}
+{\sl Adresses utilis{\'e}es pour la connexion avec le terminal B:}\\[2ex]
+\begin{tabular}{|l|l|}
+	\hline
+	adresse niveau liaison	& serveur terminaux + station \\
+	adresse IP			& serveur terminaux + station \\
+	port TCP			& Telnet + port dynamique (4057 par exemple)\\
+	\hline
+\end{tabular}
+\end{quote}
+\caption{\label{protip-fig-exTCP}Exemple d'utilisation de TCP}
+\end{figure}
+
+Les ports TCP servent au multiplexage des connexions. Dans l'exemple de
+la figure ~\ref{protip-fig-exTCP}, deux terminaux sont connect{\'e}s au m{\^e}me
+serveur de terminaux.
+
+Au niveau du serveur de terminaux, les adresses physiques sont
+identiques pour les deux connections. Il en est de m{\^e}me pour les
+adresses IP. Les deux {\'e}quipements sont reli{\'e}s au port Telnet de la
+station.
+
+Le serveur de terminaux affecte dynamiquement un port pour chaque connexion.
+
+Une connexion TCP est d{\'e}finie par le couple des adresses IP et TCP.
+Parce que deux serveurs de terminaux peuvent affecter dynamiquement la
+m{\^e}me valeur de port, l'adresse IP est n{\'e}cessaire pour diff{\'e}rencier les connexions.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{protip-UDP}Le protocole UDP}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Introduction}
+
+UDP est un protocole sans connexion, permettant l'{\'e}change de paquets
+avec v{\'e}rification de l'int{\'e}grit{\'e} des donn{\'e}es.
+
+UDP est utilis{\'e} lorsque les protocoles de niveaux sup{\'e}rieurs ne
+n{\'e}cessitent pas l'{\'e}tablissement de circuit ralentissant et chargeant le r{\'e}seau.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{D{\'e}multipexage bas{\'e} sur le num{\'e}ro de port}
+
+\begin{figure}[hbtp]
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(340,187)
+	\thinlines
+	\put(170,98){\vector(-3,1){127}}
+	\put(170,98){\vector(3,1){123}}
+	\put(170,98){\vector(0,1){45}}
+	\put(170,45){\vector(0,1){19}}
+	\put(116,63){\framebox(104,35){UDP: d{\'e}multiplexage}}
+	\put(134,10){\framebox(72,35){Couche IP}}
+	\put(258,142){\framebox(72,35){Port \#3}}
+	\put(134,142){\framebox(72,35){Port \#2}}
+	\put(10,142){\framebox(72,35){Port \#1}}
+\end{picture}
+\caption{\label{protip-fig-ex-udp}Exemple d'utilisation de UDP:
+D{\'e}multiplexage bas{\'e} sur le num{\'e}ro de port}
+\end{figure}
+
+Le protocole UDP travaille sur un r{\'e}seau sans effectuer de connexion
+en vue d'{\'e}tablir un circuit virtuel. Son r{\^o}le, en tant que
+protocole de transport se limite {\`a} multiplexer les donn{\'e}es provenant des
+diff{\'e}rentes applications. En plus UDP effectue un contr{\^o}le d'erreurs sur les
+donn{\'e}es transpos{\'e}es.
+
+Chaque application poss{\`e}de un num{\'e}ro de port et chaque <<~datagramme~>> {\'e}mis,
+poss{\`e}de en en-t{\^e}te le num{\'e}ro  du port destinataire.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fichiers de configuration sur des syst{\`e}mes {\Unix}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{protip-etc-hosts}Liste des noms de machine~: fichier {\tt $/$etc$/$hosts}}
+
+Sur les syst{\`e}mes {\Unix}, chaque machine poss{\`e}de un fichier contenant la liste
+des noms des machines distantes qu'elle conna{\^\i}t. Les utilisateurs de ce poste
+pourront donc utiliser les noms au lieu des adresses r{\'e}seau pour acc{\'e}der aux
+ressources des diff{\'e}rents sites. Ils pourront tout de m{\^e}me acc{\'e}der {\`a}
+tout autre poste du r{\'e}seau, m{\^e}me si leur nom n'est pas enregistr{\'e} dans ce 
+fichier. Il leur faudra pour cela la r{\'e}f{\'e}rencer gr{\^a}ce {\`a} leur adresse IP.
+
+\begin{remarque}
+La correspondance <<adresse IP>>$/$<<nom de machine>> est locale. Une m{\^e}me
+machine peut {\^e}tre enregistr{\'e}e sous plusieurs noms \textbf{mais avec la m{\^e}me adresse
+r{\'e}seau}. Les utilisateurs de ces sites acc{\`e}deront {\`a} la m{\^e}me machine en utilisant
+des noms diff{\'e}rents {\bf mais en utilisant la m{\^e}me adresse IP}.
+\end{remarque}
+
+Chaque ligne du fichier {\tt $/$etc$/$hosts} correspond {\`a} une entr{\'e}e sp{\'e}cifique
+permettant d'associer une adresse IP {\`a} un ou plusieurs noms.
+
+Chaque enregistrement de ce fichier aura le format suivant~:
+\begin{quote}
+\begin{tabular}{lll}
+{\tt {\it adresse-IP}}	&	{\tt {\it nom-machine}}	& {\tt {\it
+aliases}...}\\
+\end{tabular}
+\begin{itemize}
+	\item	Le champ <<{\tt {\it adresse-IP}}>> correspond {\`a} l'adresse IP
+		{\`a} laquelle on veut associer les noms qui suivent. La notation
+		utilis{\'e}e est la notation d{\'e}cimale (cf. section \ref{protip-defIP}).
+	\item	Le champ <<{\tt {\it nom-machine}}>> pr{\'e}cise le nom {\`a} associer {\`a}
+		l'adresse IP.
+	\item	Le champ <<{\tt {\it aliases}...}>> contient une liste de noms de
+		machines s{\'e}par{\'e}s par des espaces que l'on pourra aussi utiliser 
+		pour r{\'e}f{\'e}rencer cette adresse r{\'e}seau. Ce champ est optionnel.
+\end{itemize}
+\end{quote}
+
+Il existe d'autres m{\'e}canismes au niveau {\Unix} pour faire la liaison entre
+une adresse IP et un nom de machine. Les plus utilis{\'e}s sont~:
+\begin{itemize}
+	\item 	DNS ou <<~Domain Name Server~>>, utilis{\'e} sur Internet,
+	\item 	NIS\footnote{anciennement {\sl Yellow Pages}} ou <<~Network Information
+		Service~>> de Sun Microsystems principalement utilis{\'e} sur les sites
+		disposant d'un nombre important de machines mais sans connexion {\`a}
+		Internet.
+\end{itemize}
+
+\begin{remarque}
+Les services DNS et NIS ne sont pas incompatibles. Il est tout {\`a} fait possible
+d'utiliser DNS pour la gestion des <<~adresses IP$/$noms de machines~>>
+et NIS pour les autres fonctionnalit{\'e}s de ce service.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Exemple de fichier {\tt $/$etc$/$hosts}}
+
+\begin{quote}
+\begin{verbatim}
+127.0.0.1      localhost    loopback
+192.155.1.2    machine1     machine1.mon-domaine
+192.155.1.5    machine2     machine2.mon-domaine
+144.2.3.2      machin44     machine.reseau-B
+193.1.2.4      machine55    machine.autre-reseau
+13.0.1.2       machine66    machine.reseau-A
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{protip-etc-network}Liste des noms de r{\'e}seaux IP~: fichier {\tt $/$etc$/$networks}}
+
+Comme pour le fichier {\tt $/$etc$/$hosts}, sur les syst{\`e}mes {\Unix}, chaque machine poss{\`e}de un
+fichier contenant la liste des noms des r{\'e}seaux IP qu'elle conna{\^\i}t. Gr{\^a}ce {\`a} des commandes
+d'administration\footnote{comme la commande {\tt netstat(1)}, cf. section \ref{instream-netstat-cmd}},
+l'administrateur de ce poste pourra avoir des informations sur le trafic ou bien les chemins emprunt{\'e}s pour
+acc{\'e}der jusqu'{\`a} un r{\'e}seau IP donn{\'e}.
+
+\begin{remarque}
+Pour rappel, un r{\'e}seau IP correspond {\`a} un ensemble de machines dont le num{\'e}ro
+de r{\'e}seau contenu dans l'adresse est identique.
+\end{remarque}
+
+Chaque enregistrement de ce fichier aura le format suivant:
+\begin{quote}
+\begin{tabular}{lll}
+\texttt{\textit{num{\'e}ro-r{\'e}seau}}	&	\texttt{\textit{nom-r{\'e}seau}}	& \texttt{\textit{aliases}...}\\
+\end{tabular}
+\begin{itemize}
+	\item	Le champ <<~\texttt{\textit{num{\'e}ro-r{\'e}seau}}~>> correspond au num{\'e}ro de r{\'e}seau
+		auquel on veut associer un ou plusieurs noms. La notation
+		utilis{\'e}e correspond {\`a} la partie <<~num{\'e}ro de r{\'e}seau~>> dans l'adresse
+		IP exprim{\'e}e en notation d{\'e}cimale. Celle-ci va donc d{\'e}pendre
+		de la classe de l'adresse (cf. section ~\ref{protip-defIP}).
+	\item	Le champ <<~\texttt{\textit{nom-r{\'e}seau}}~>> pr{\'e}cise le nom {\`a} associer au
+		r{\'e}seau IP, c'est-{\`a}-dire au groupement d'adresses IP.
+	\item	Le champ <<~\texttt{\textit{aliases}...}~>> contient une liste de noms de
+		r{\'e}seaux s{\'e}par{\'e}s par des espaces que l'on pourra aussi utiliser 
+		pour r{\'e}f{\'e}rencer ce r{\'e}seau IP. Ce champ est optionnel.
+\end{itemize}
+\end{quote}
+
+\begin{remarque}
+La gestion du fichier {\tt $/$etc$/$networks} peut {\^e}tre
+centralis{\'e}e gr{\^a}ce au 
+service NIS.
+\end{remarque}
+
+\textbf{Exemple de fichier {\tt $/$etc$/$network}}
+\begin{quote}
+\begin{verbatim}
+192.155.2  mon-reseau
+144.2      reseau-B
+193.1.2    autre-reseau
+13         reseau-A
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection[Noms des protocoles de transport]{\label{protip-etc-protocols}	Liste des noms de protocols r{\'e}seau~:
+		fichier {\tt $/$etc$/$protocols}}
+
+Comme nous l'avons vu, le protocole IP est un protocole r{\'e}seau
+se situant au niveau de la couche 3 du mod{\`e}le OSI. De m{\^e}me,
+il est possible d'avoir plusieurs protocoles de transport. Chaque protocole
+est associ{\'e} {\`a} un num{\'e}ro r{\'e}f{\'e}renc{\'e} aupr{\`e}s des
+organismes de standardisation.
+
+Le fichier {\tt $/$etc$/$protocols} sert {\`a} assurer cette correspondance
+entre num{\'e}ro de protocole et son nom.
+
+Chaque enregistrement de ce fichier aura le format suivant:
+\begin{quote}
+\begin{tabular}{lll}
+	\texttt{\textit{nom-protocole}}	&
+	\texttt{\textit{num{\'e}ro-protocole}}	&
+	\texttt{\textit{aliases}...}\\
+\end{tabular}
+\begin{itemize}
+	\item	Le champ <<~\texttt{\textit{nom-protocole}}>> pr{\'e}cise le nom {\`a} associer
+		au protocole correspondant au num{\'e}ro sp{\'e}cifi{\'e} sur la m{\^e}me ligne.
+	\item	Le champ <<~\texttt{\textit{num{\'e}ro-protocole}}~>> correspond au num{\'e}ro de
+		protocole auquel on veut associer un ou plusieurs noms.
+	\item	Le champ <<~\texttt{\textit{aliases}...}~>> contient une liste de noms
+		s{\'e}par{\'e}s par des espaces que l'on pourra aussi utiliser 
+		pour r{\'e}f{\'e}rencer ce protocole. Ce champ est optionnel.
+\end{itemize}
+\end{quote}
+
+\begin{remarque}
+La gestion du fichier {\tt $/$etc$/$protocols} peut {\^e}tre centralis{\'e}e gr{\^a}ce au service NIS.
+\end{remarque}
+
+Le tableau \ref{tab-protocols} donne une liste non exhaustive de la référence des protocoles les plus usuels.
+
+\begin{table}[hbtp]
+\begin{tabular}{|l|c|p{10cm}|}
+	\hline
+		Mnémonique		&
+		N$^o$ Protocole	&
+		Description		\\
+	\hline \hline
+	\texttt{ah}	&	51	&
+	Header d'authentification IPv6 (RFC 1826)
+	\\ \hline
+	\texttt{eigrp}	&	88	&
+	Enhanced Interior Gateway Routing Protocol.
+	\\ \hline
+	\texttt{esp}	&	50	&
+	Encapsulated Security Payload for IPv6 (RFC 1827).
+	\\ \hline
+	\texttt{ggp}	&	3	&
+	Gateway-Gateway Protocol.
+	\\ \hline
+	\texttt{gre}	&	47	&
+	General Routing Encapsulation.
+	\\ \hline
+	\texttt{icmp}	&	1	&
+	Internet Control Message Protocol (RFC 792).
+	\\ \hline
+	\texttt{igrp}	&	9	&
+	Interior Gateway Routing Protocol (RFC 1112).
+	\\ \hline
+	\texttt{ip}	&	0	&
+	Internet Protocol.
+	\\ \hline
+	\texttt{ipinip}	&	4	&
+	IP-in-IP encapsulation.
+	\\ \hline
+	\texttt{nos}	&	94	&
+	Network Operating System (Novell Netware).
+	\\ \hline
+	\texttt{ospf}	&	89	&
+	Open Shortest Path First routing protocol (RFC 1247).
+	\\ \hline
+	\texttt{pcp}	&	108	&
+	Payload Compression Protocol.
+	\\ \hline
+	\texttt{snp}	&	109	&
+	Sitara Networks Protocol.
+	\\ \hline
+	\texttt{tcp}	&	6	&
+	Transmission Control Protocol (RFC 793).
+	\\ \hline
+	\texttt{udp}	&	17	&
+	User Datagram Protocol (RFC 768).
+	\\ \hline
+\end{tabular}
+\caption{\label{tab-protocols}Liste non exhaustive de numéros de protocoles.}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Exemples}
+
+\begin{quote}
+\begin{verbatim}
+#
+# protocols This file describes the various protocols that are
+#       available from the TCP/IP subsystem.  It should be
+#       consulted instead of using the numbers in the ARPA
+#       include files, or, worse, just guessing them.
+#
+
+ip      0   IP      # internet protocol, pseudo protocol number
+icmp    1   ICMP    # internet control message protocol
+igmp    2   IGMP    # internet group multicast protocol
+ggp     3   GGP     # gateway-gateway protocol
+tcp     6   TCP     # transmission control protocol
+pup     12  PUP     # PARC universal packet protocol
+udp     17  UDP     # user datagram protocol
+idp     22  IDP     # WhatsThis?
+raw     255 RAW     # RAW IP interface
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{protip-etc-services}Liste des noms de services r{\'e}seau~: fichier {\tt $/$etc$/$services}}
+
+De fa\c{c}on g{\'e}n{\'e}ral, les sockets sont r{\'e}f{\'e}renc{\'e}es par des num{\'e}ros de ports.
+Certains d'entre eux sont maintenant standardis{\'e}s\footnote{comme ceux
+associ{\'e}s {\`a} {\tt ftp}, {\tt telnet}, {\tt http}, etc.}. Il est {\'e}vident qu'il
+est plus facile de les r{\'e}f{\'e}rencer par leur nom et que par un simple num{\'e}ro.
+
+Le fichier {\tt $/$etc$/$services} sert {\`a} assurer cette correspondance
+entre num{\'e}ro de socket et nom de service. Il sert aussi {\`a} pr{\'e}ciser quel est
+le protocole applicatif utilisé (cf. section \ref{intsock-conn-nconn}).
+
+Chaque enregistrement de ce fichier aura le format suivant~:
+\begin{quote}
+\begin{tabular}{lll}
+	\texttt{\textit{nom-service}}							&
+	\texttt{\textit{num{\'e}ro-socket}}$/$\texttt{\textit{protocole-transport}}	&
+	\texttt{\textit{aliases}...}\\
+\end{tabular}
+\begin{itemize}
+	\item	Le champ <<~\texttt{\textit{nom-service}}~>> pr{\'e}cise le nom {\`a} associer au
+		service r{\'e}seau correspondant au num{\'e}ro de socket sp{\'e}cifi{\'e} sur
+		la m{\^e}me ligne.
+	\item	Le champ <<~\texttt{\textit{num{\'e}ro-socket}}~>> correspond au num{\'e}ro de socket
+		auquel on veut associer un ou plusieurs noms.
+	\item	Le champ <<~\texttt{\textit{protocole-transport}}~>> sp{\'e}cifie le nom
+		du protocole de transport {\`a} utiliser. Les mots clef valides sont ceux spécifiés dans
+		le fichier <<~\texttt{/etc/protocols}~>>. On aura, par exemple~:
+			\begin{itemize}
+				\item	{\tt tcp} pour le protocole TCP,
+				\item	{\tt udp} pour le protocole UDP.
+			\end{itemize}
+	\item	Le champ <<~\texttt{\textit{aliases}...}~>> contient une liste de noms de
+		service s{\'e}par{\'e}s par des espaces que l'on pourra aussi utiliser 
+		pour r{\'e}f{\'e}rencer ce service r{\'e}seau. Ce champ est optionnel.
+\end{itemize}
+\end{quote}
+
+Le tableau \ref{tab-services} donne une liste non exhaustive des services ou protocoles applicatifs les
+plus usuels.
+
+%\begin{table}[hbtp]
+\tablehead{
+	\hline
+		\multicolumn{3}{|r|}{Suite de la page pr{\'e}c{\'e}dente $\cdots$}	\\
+	\hline
+		Mnémonique	&
+		N$^o$ Port	&
+		Description	\\
+	\hline \hline
+}
+\tablefirsthead{
+	\hline
+		Mnémonique	&
+		N$^o$ Port	&
+		Description	\\
+	\hline \hline
+}
+\bottomcaption{\label{tab-services}Liste non exhaustive des services ou protocoles applicatifs les plus usuels.}
+\tabletail{
+	\hline
+		\multicolumn{3}{|r|}{Suite page suivante $\cdots$}	\\
+	\hline
+}
+\tablelasttail{
+	\hline
+}
+\begin{supertabular}{|l|c|p{10cm}|}
+	\texttt{bgp}		&	179	&
+	Border Gateway Protcol (RFC1163)
+	\\ \hline
+	\texttt{biff}		&	512	&
+	Utilisé par les systèmes de messagerie pour notifier les utilisateurs
+	qu'un nouveau message vient d'être reçu.
+	\\ \hline
+	\texttt{bootpc}		&	68	&
+	Bootstrap Procotol Client
+	\\ \hline
+	\texttt{bootps}		&	67	&
+	Bootstrap Protocol Server
+	\\ \hline
+	\texttt{chargen}	&	19	&
+	Character generator
+	\\ \hline
+	\texttt{cmd}		&	514	&
+	Similaire à <<~\texttt{exec}~>> sauf que <<~texttt{cmd}~>> dispose
+	d'une authentification automatique.
+	\\ \hline
+	\texttt{daytime}	&	13	&
+	Day Time (RFC 867).
+	\\ \hline
+	\texttt{discard}	&	8	&
+	Discard.
+	\\ \hline
+	\texttt{domain}		&	53	&
+	DNS (Domain Name Server).
+	\\ \hline
+	\texttt{dnsix}		&	195	&
+	DNSIX Session Management Module Audit Redirector.
+	\\ \hline
+	\texttt{echo}		&	7	&
+	Echo.
+	\\ \hline
+	\texttt{exec}		&	512	&
+	Remote Process Execution.
+	\\ \hline
+	\texttt{finger}		&	79	&
+	Finger.
+	\\ \hline
+	\texttt{ftp}		&	21	&
+	File Transfert Protocol (control port).
+	\\ \hline
+	\texttt{ftp-data}	&	20	&
+	File Transfert Protocol (data port).
+	\\ \hline
+	\texttt{gopher}		&	70	&
+	Gopher.
+	\\ \hline
+	\texttt{hostname}	&	101	&
+	NIC Host Name Server.
+	\\ \hline
+	\texttt{nameserver}	&	42	&
+	Host Name Server.
+	\\ \hline
+	\texttt{ident}		&	113	&
+	Ident Authentication Service.
+	\\ \hline
+	\texttt{irc}		&	194	&
+	Internet Relay Chat Protocol.
+	\\ \hline
+	\texttt{isakmp}		&	500	&
+	ISAKMP.
+	\\ \hline
+	\texttt{klogin}		&	543	&
+	KLOGIN.
+	\\ \hline
+	\texttt{kshell}		&	544	&
+	Korn Shell.
+	\\ \hline
+	\texttt{lpd}		&	515	&
+	Line Printer Daemon.
+	\\ \hline
+	\texttt{login}		&	513	&
+	Remote Login.
+	\\ \hline
+	\texttt{mobile-ip}	&	434	&
+	Mobile IP Agent.
+	\\ \hline
+	\texttt{netbios-ns}	&	137	&
+	NetBIOS Name Service.
+	\\ \hline
+	\texttt{netbios-dgm}	&	138	&
+	NetBIOS Datagram Service.
+	\\ \hline
+	\texttt{nntp}		&	119	&
+	Network News Transfert Protocol.
+	\\ \hline
+	\texttt{ntp}		&	123	&
+	Network Time Protocol.
+	\\ \hline
+	\texttt{pim-auto-rp}	&	496	&
+	Protocol Independent Multicast, reverse path flooding, dense mode.
+	\\ \hline
+	\texttt{pop2}		&	109	&
+	Post Office Protocol V.2.
+	\\ \hline
+	\texttt{pop3}		&	110	&
+	Post Office Protocol V.3.
+	\\ \hline
+	\texttt{raduis}		&	1645, 1646	&
+	Remote Authentication Dial-In User Service.
+	\\ \hline
+	\texttt{rip}		&	520	&
+	Routing Information Protocol.
+	\\ \hline
+	\texttt{smtp}		&	25	&
+	Simple Mail Transport Protocol.
+	\\ \hline
+	\texttt{snmp}		&	161	&
+	Simple Network Management Protocol.
+	\\ \hline
+	\texttt{snmptrap}	&	162	&
+	Simple Network Management Protocol - Trap.
+	\\ \hline
+	\texttt{sqlnet}		&	1521	&
+	Structured Query Language Network.
+	\\ \hline
+	\texttt{sunrpc}		&	111	&
+	Sun RPC (Remote Procedure Call).
+	\\ \hline
+	\texttt{syslog}		&	514	&
+	System Log.
+	\\ \hline
+	\texttt{tacacs}		&	49	&
+	TACAS+ (Terminal Access Controller Access Control System).
+	\\ \hline
+	\texttt{talk}		&	517	&
+	Talk.
+	\\ \hline
+	\texttt{telnet}		&	23	&
+	 Telnet Protocol (RFC 854).
+	\\ \hline
+	\texttt{tftp}		&	69	&
+	Trivial File Transfert Protocol.
+	\\ \hline
+	\texttt{time}		&	37	&
+	Time.
+	\\ \hline
+	\texttt{uucp}		&	540	&
+	{\Unix}-to-{\Unix} Copy Program.
+	\\ \hline
+	\texttt{who}		&	513	&
+	Who.
+	\\ \hline
+	\texttt{whois}		&	43	&
+	Who Is.
+	\\ \hline
+	\texttt{www}		&	80	&
+	World Wide Web.
+	\\ \hline
+	\texttt{xdmcp}		&	177	&
+	X Display Control Protocol, utilisé pour la communication entre
+	les terminaux et les stations utilisant le protocole d'affichage X.
+	\\
+\end{supertabular}
+
+\begin{remarque}
+La gestion du fichier {\tt $/$etc$/$services} peut {\^e}tre centralis{\'e}e gr{\^a}ce au service NIS.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Exemples}
+
+\begin{quote}
+\begin{verbatim}
+ftp    21/tcp
+telnet 23/tcp
+http   80/tcp   web
+\end{verbatim}
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\label{protip-etc-inetd.conf}Liste des serveurs r{\'e}seau~: fichier {\tt $/$etc$/$inetd.conf}}
+
+Par d{\'e}faut, un service r{\'e}seau sous {\Unix} est un processus en {\'e}coute
+constante sur un port de communication. Afin d'{\'e}viter une trop
+grande profusion de processus ne faisant qu'{\'e}couter, il existe un processus
+assurant la gestion d'une liste de ports sp{\'e}cifi{\'e}s dans son fichier de
+configuration: le processus {\tt inetd} \footnote{Internet Daemon}.
+
+Lorsqu'une demande sera faite sur l'un deux, il lancera le processus
+correspondant au service demand{\'e} et lui affectera les bons types de
+canaux de communications. Au niveau du client, ces {\'e}tapes
+pr{\'e}liminaires
+sont totalement transparentes.
+
+Lorsque la communication est achev{\'e}e, le processus serveur
+s'arr{\^e}te (il
+ne reste pas actif sur le syst{\`e}me local).
+
+Pour plus de renseignement sur ce service, reportez-vous {\`a} la
+section 
+~\ref{advnet-inetd}.
+
+\begin{remarque}
+Si plusieurs demandes de connexion arrivent pour le m{\^e}me service,
+{\tt
+inetd} lancera autant de processus serveur que cela est n{\'e}cessaire.
+\end{remarque}

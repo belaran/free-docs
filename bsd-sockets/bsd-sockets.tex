@@ -1,0 +1,176 @@
+\documentclass[titlepage,twoside,a4paper]{book}
+
+\usepackage{t1enc}
+\usepackage[latin1]{inputenc}
+\usepackage[french]{babel}
+\usepackage{graphics}
+\usepackage{longtable}
+\usepackage{supertabular}
+
+\usepackage{fancybox}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+
+\makeindex						%% Generation des indexs
+
+\newcounter{remarque-cnt}
+\setcounter{remarque-cnt}{1}
+
+\renewcommand{\chaptermark}[1]{
+	\markboth{\chaptername\  \thechapter. #1}{}
+}
+\renewcommand{\sectionmark}[1]{
+	\markright{\thesection. #1}{}
+}
+
+\setlength{\parskip}{1.5ex}
+\setlength{\topsep}{0cm}
+\setlength{\partopsep}{0cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Entete et pied de page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\lhead[\leftmark]{\rightmark}
+\chead{}
+\rhead[]{}
+\lfoot[\thepage]
+	{S. \textsc{Baudry}, v\docversion}
+\cfoot{}
+\rfoot[S. \textsc{Baudry}, v\docversion]
+	{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Version du document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\docversion}{2.3}			% Version actuelle
+\newcommand{\docdate}{Ao{\^u}t 2003}		% Date de publication
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macros specifiques du document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\key}[1]{\fbox{#1}}
+\newcommand{\seqkey}[2]{\fbox{#1}--\fbox{#2}}
+\newcommand{\control}[1]{\fbox{\textsc{ctrl}}--\fbox{#1}}
+\newcommand{\escape}[1]{\fbox{\textsc{esc}}--\fbox{#1}}
+\newcommand{\ctrlkey}{\key{\textsc{ctrl}}\ }
+\newcommand{\esckey}{\key{\textsc{esc}}\ }
+\newcommand{\altkey}{\key{\textsc{alt}}\ }
+\newcommand{\shiftkey}{\key{\textsc{shift}}\ }
+\newcommand{\tabkey}{\key{\textsc{tab}}\ }
+\newcommand{\returnkey}{\key{\textsc{return}}\ }
+\newcommand{\spacekey}{\key{\textsc{space}}\ }
+
+\newcommand{\Unix}{\textsc{Unix}}
+\newcommand{\Linux}{\textsc{Linux}}
+\newcommand{\OpenVMS}{Open\textsc{Vms}}
+\newcommand{\DOS}{\textsf{MS-DOS}}
+\newcommand{\MacOS}{\textsf{MacOS}}
+\newcommand{\Windows}{\textsf{Windows}}
+\newcommand{\WindowsNT}{\textsf{Windows--NT}}
+\newcommand{\ASCII}{\texttt{ASCII}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Page de garde
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+	Introduction {\`a} la notion de {\sl BSD Sockets}
+}
+\author{
+	Sylvain \textsc{Baudry}\\[3ex]
+	ESME-Sudria\thanks{T{\'e}l: +33 (0) 1 49 54 07 50}\\
+	\textsl{D{\'e}partement Informatique}\\
+	4, rue Blaise Desgoffe\\
+	75006 \textsc{Paris}\\[3ex]
+	Version \docversion
+}
+\date{\docdate}
+
+\makeindex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Declaration du document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\newenvironment{remarque}{
+	\begin{sloppypar}
+	\noindent
+	\textbf{Remarque~\arabic{remarque-cnt}~:}\\
+	\hspace*{\fill} \linebreak \vspace{-7ex}
+	\begin{quote}\it
+}
+{	
+	\end{quote}
+	\stepcounter{remarque-cnt}
+	\end{sloppypar}
+}
+
+
+
+\maketitle				%% Page de garde
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table des matieres
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \frontmatter
+\clearpage				%% Table des matieres
+\newpage
+
+\tableofcontents
+
+\clearpage
+\listoffigures
+
+\clearpage
+\listoftables
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Corps du document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+
+\include{introduction}			%% Introduction
+
+\include{rappels}			%% Rappels
+
+\include{protocole-ip}			%% Introduction au protocole IP
+
+\include{cmds-bsd}			%% Commandes de base BSD au niveau Unix
+
+\include{intro-sockets}		%% Introduction aux Berkeley Sockets
+
+\include{inet-stream}			%% Les Internet Stream Sockets
+
+\include{unix-stream}			%% Les Unix Stream Sockets
+
+\include{inet-dgram}			%% Les Internet Datagram Sockets
+
+\include{adv-prgm}			%% Programmation avancee avec les BSD sockets
+
+\include{adv-network}			%% Notions avancees de reseau sur les systemes Unix
+
+\include{netsyscall}			%% Les appels systemes associes aux services reseau
+
+\include{annexes}			%% Annexes
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Index
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+\printindex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Fin 
+%
+\end{document}

@@ -1,0 +1,1382 @@
+\documentclass[slidesonly,a4,semlayer]{seminar}
+
+\usepackage[applemac]{inputenc}
+\usepackage{epsf}
+\usepackage{epsfig}
+\usepackage{fancybox}
+%\usepackage{french}
+    
+\landscapeonly
+\slideframe{none}
+\slidestyle{empty}
+
+\newcommand{\heading}[1]{%
+  \begin{center}
+    \vspace{-1cm} \Large \bf  #1 \\
+    \vspace{-0.5cm} \hrulefill 
+  \end{center}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Page de garde
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+	Introduction {\`a} la notion de {\sl BSD Sockets} \\[0.15cm]
+		$\widetilde{\;\;\;\;\;\;\;}$\\[0.15cm]
+}
+\author{
+	{\rm Sylvain {\sc Baudry}}
+}
+\date{}
+
+\newpagestyle{MH}%
+  {}{\tiny S. {\sc Baudry}, Introduction {\`a} la notion de {\sl BSD Sockets} \hfill Page \thepage}
+\pagestyle{MH}
+
+\begin{document}
+\setlength{\paperheight}{297mm}
+\setlength{\paperwidth}{210mm}
+\setlength{\slidetopmargin}{0mm}
+\setlength{\slidetopmargin}{0mm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Declaration du document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\pagestyle{empty}
+\maketitle
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Pr{\'e}-requis}
+
+\begin{itemize}
+	\item	Connaissance de base du protocole IP.
+	\item	M{\'e}canisme de r{\'e}solution d'adresses.
+	\item	Fonctionnement du protocoles TCP.
+	\item	Fonctionnement du protocole UDP.
+	\item	Diff{\'e}rence entre les modes connect{\'e}s et non connect{\'e}s.
+	\item	Connaissance du langage C.
+	\item	Utilisation d'un environnement de d{\'e}veloppement.
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Plan}
+
+\begin{itemize}
+	\item	Introduction aux {\sl Berkeley Sockets}.
+	\item	Les {\sl Internet Stream Sockets}.
+	\item	Les {\sl {\sc Unix} Stream Sockets}.
+	\item	Les {\sl Internet Datagram Sockets}.
+	\item	Programmation avanc{\'e}e avec les {\sl BSD Sockets}.
+	\item	Notions avanc{\'e}es de r{\'e}seau sur les syst{\`e}mes {\sc Unix}.
+	\item	Les appels syst{\`e}mes associ{\'e}s aux services r{\'e}seau.
+	\item	Conclusions.
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Introduction aux {\sl Berkeley Sockets}}
+
+Lorsqu'une application peut se d{\'e}composer en plusieurs processus, 
+\begin{itemize}
+\item l'un va demander un service: {\bf c'est le client},
+\item l'autre le fournit: {\bf c'est le serveur}.
+\end{itemize}
+
+Une {\sl socket} est l'{\'e}l{\'e}ment de base pour ce type de communication. Elle
+permet d'{\'e}mettre et de recevoir des messages entre les processus.
+
+Deux types de {\sl sockets}~:
+\begin{itemize}
+\item les sockets en {\'e}coute utilis{\'e}es pour cr{\'e}er une connexion,
+\item les sockets utilis{\'e}es pour {\'e}changer des donn{\'e}es.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Sc{\'e}nario de connexion}
+
+\begin{tabular}{|l|l|}
+	\hline
+	\multicolumn{1}{|c|}{Client}			&
+		\multicolumn{1}{|c|}{Serveur}		\\
+	\hline\hline
+	Cr{\'e}ation de la socket.	&	Cr{\'e}ation de la socket.				\\
+							&	Assignation d'un num{\'e}ro de port.		\\
+							&	Attente de demandes de connexion.	\\
+	Demande de connexion.	&										\\
+							&	{\'E}tablissement de la connexion.		\\
+	Envoi des donn{\'e}es.		&										\\
+							&	R{\'e}ception de donn{\'e}es.				\\
+	Lib{\'e}ration {\'e}ventuelle.	&	Lib{\'e}ration {\'e}ventuelle.				\\
+	\hline
+\end{tabular}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Connexion BSD - {\'E}tape 1}
+
+\vspace{-0.5cm}
+\begin{center}
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(300,133)
+	\thinlines
+	\put(216,22){\vector(0,1){43}}
+	\put(161,12){File d'attente vide}
+	\put(205,64){\framebox(35,18){}}
+	\put(242,35){Socket B}
+	\put(17,35){Socket A}
+	\put(240,114){{\large Serveur}}
+	\put(26,114){{\large Client}}
+	\put(256,73){\circle{66}}
+	\put(41,73){\circle{66}}
+\end{picture}
+\end{center}
+\begin{tabular}{lp{7cm}}
+au niveau du client:	&	le client a cr{\'e}{\'e} une socket~: {\tt socket()},		\\
+au niveau du  serveur:	&	le serveur a cr{\'e}{\'e} une socket~: {\tt socket()},		\\
+						&	il lui assigne un num{\'e}ro de port~: {\tt bind()},	\\
+						&	il a initialis{\'e} la file d'attente~: {\tt listen()}.	\\
+\end{tabular}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Connexion BSD - {\'E}tape 2}
+
+\vspace{-0.5cm}
+\begin{center}
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(300,134)
+	\thinlines
+	\put(72,75){\vector(1,0){112}}
+	\put(190,65){\framebox(48,18){}}
+	\put(198,65){\framebox(8,18){}}
+	\put(206,65){\framebox(8,18){}}
+	\put(214,65){\framebox(8,18){}}
+	\put(222,65){\framebox(8,18){}}
+	\put(230,65){\framebox(8,18){}}
+	\put(180,65){\line(1,0){20}}
+	\put(180,83){\line(1,0){20}}
+	\put(176,12){File d'attente}
+	\put(216,23){\vector(0,1){43}}
+	\put(242,35){Socket B}
+	\put(17,35){Socket A}
+	\put(240,115){{\large Serveur}}
+	\put(26,115){{\large Client}}
+	\put(256,74){\circle{68}}
+	\put(41,74){\circle{68}}
+\end{picture}
+\end{center}
+\begin{tabular}{lp{7cm}}
+au niveau du client:	&	le client envoie une demande de connexion:
+							{\tt connect()}										\\
+au niveau du  serveur:	&	le serveur confirme la connexion: {\tt accept()}
+
+\end{tabular}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Connexion BSD - {\'E}tape 3}
+
+\begin{center}
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(297,119)
+	\thinlines
+	\put(161,62){\vector(1,0){42}}
+	\put(145,75){\line(0,1){23}}
+	\put(161,75){\oval(32,26)[bl]}
+	\put(194,12){Socket C}
+	\put(84,37){Canal de communication}
+	\put(101,100){File d'attente vide}
+	\put(211,28){\vector(-1,0){125}}
+	\put(86,31){\vector(1,0){125}}
+	\put(73,24){\framebox(152,10){}}
+	\put(225,24){\framebox(16,10){}}
+	\put(57,24){\framebox(16,10){}}
+	\put(204,52){\framebox(35,18){}}
+	\put(191,74){Socket B}
+	\put(51,12){Socket A}
+	\put(240,90){{\large Serveur}}
+	\put(26,90){{\large Client}}
+	\put(256,49){\circle{65}}
+	\put(41,49){\circle{65}}
+\end{picture}
+\end{center}
+
+\begin{itemize}
+	\item La socket A est assign{\'e}e {\`a} un port de communication.
+	\item La socket B est assign{\'e}e {\`a} un port en reception de requ{\^e}tes.
+	\item La socket C est assign{\'e}e {\`a} un port de communication.
+	\item Les sockets A et C permettent des {\'e}changes de donn{\'e}es.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{D{\'e}finitions}
+
+\begin{description}
+	\item[Domaine de communication]\mbox{}\\
+		Un domaine d{\'e}finit un ensemble de caract{\'e}ristiques utilis{\'e}es par des
+		processus communiquant {\`a} travers des {\sl sockets}.\\[1ex]
+	\item[Famille d'adresses]\mbox{}\\
+		La famille d'adresses d{\'e}finit le syst{\`e}me de nommage utilis{\'e} au niveau de
+		la num{\'e}rotation. On aura, entre-autre~:
+		\begin{itemize}
+			\item	{\tt AF\_INET} correspondant au protocole IP,
+			\item	{\tt AF\_UNIX} permettant de faire de la communication inter-process,
+			\item	{\tt AF\_CCITT} correspondant {\`a} l'utilisation de X.25,
+			\item	etc.
+		\end{itemize}
+\end{description}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Famille de protocoles}
+
+Au dessus de IP, on va trouver~:
+
+\begin{tabular}{|l|l|c|}
+	\hline
+		\multicolumn{1}{|p{3.5cm}|}{Domaine	de communication}	&
+		\multicolumn{1}{|p{3.5cm}|}{Famille de protocoles}		&
+		\multicolumn{1}{|p{3.5cm}|}{Protocole correspondant}	\\
+	\hline \hline
+	{\tt AF\_INET}	& {\tt SOCK\_STREAM}	& TCP/IP		\\
+	{\tt AF\_INET}	& {\tt SOCK\_DGRAM}		& UDP/IP		\\
+	\hline
+\end{tabular}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Mode connect{\'e}}
+
+{\'E}tablissement d'un canal de communication avant tout {\'e}change de donn{\'e}es.
+
+Ce type de service garantit que :
+\begin{itemize}
+	\item 	les donn{\'e}es sont transmises sans erreur,
+	\item	l'ordre de r{\'e}ception des donn{\'e}es est identique {\`a} l'ordre d'{\'e}mission.
+\end{itemize}
+
+Cependant~:
+\begin{itemize}
+	\item	la taille des flots de donn{\'e}es n'est pas conserv{\'e}e.
+	\item	risque d'une erreur de lecture sur le canal de communication,
+	\item	risque d'un mauvais remplissage des structures de donn{\'e}es.
+	\item	{\bf L'application doit assurer la gestion des tailles des flots}.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Mode non connect{\'e}}
+
+Les flots de donn{\'e}es {\'e}chang{\'e}es en mode non connect{\'e} sont appel{\'e}s {\sl datagrammes}.
+
+Les datagrammes sont envoy{\'e}s vers leur(s) destinataire(s)
+sans aucune phase d'{\'e}tablissement de connexion et sans aucune garanti.
+
+Par cons{\'e}quent, l'{\'e}metteur n'est pas inform{\'e}~:
+\begin{itemize}
+	\item	si le destinataire existe ou est accessible sur le r{\'e}seau,
+	\item	si les datagrammes {\'e}mis sont bien arriv{\'e}s {\`a} destination,
+	\item	s'ils sont arriv{\'e}s dans le m{\^e}me ordre dans lequel ils ont {\'e}t{\'e} {\'e}mis.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Comparaison entre les deux modes}
+
+\begin{tabular}{|p{4cm}|c|c|}
+	\hline
+	Caract{\'e}ristiques	& Mode connect{\'e}	&	Mode non connect{\'e}		\\
+						& {\tt AF\_INET$/$SOCK\_STREAM}
+						& {\tt AF\_INET$/$SOCK\_DGRAM}				\\
+	\hline \hline
+	Fiabilit{\'e}								&	Oui		& 	Non		\\
+	Pr{\'e}servation de l'ordre des donn{\'e}es		&	Oui		& 	Non		\\
+	Non duplication							&	Oui		& 	Non		\\
+	Canaux bidirectionnels					&	Oui		& 	Oui		\\
+	Pr{\'e}servation des limites de messages	&	Non		& 	Oui		\\
+	Messages urgent							&	Oui		& 	Non		\\
+	\hline	
+\end{tabular}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Familles de protocoles associ{\'e}es}
+
+Les deux types de sockets les plus utilis{\'e}s sont~:
+\begin{itemize}
+	\item	{\tt SOCK\_STREAM} associ{\'e} {\`a} un mode connect{\'e},
+	\item	{\tt SOCK\_DGRAM}Êassoci{\'e} {\`a} un mode non connect{\'e}.
+\end{itemize}
+
+Avec le protocole IP,
+\begin{itemize}
+	\item	les sockets utilisant un mode non connect{\'e} s'appuient sur le protocole
+			de transport {\bf UDP}: {\sl User Datagram Protocol},
+	\item	les sockets utilisant un mode connect{\'e} s'appuient sur le protocole
+			de transport {\bf TCP}: {\sl Transmission Control Protocol}.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Les Internet Stream Sockets -- Introduction}
+
+Les {\sl Internet Stream Sockets},Êou sockets en mode connect{\'e} associ{\'e}es
+au protocole IP, sont des canaux de communication bi-directionnels s'appuyant sur le
+protocole de transport TCP.
+
+Elles garantissent~:
+\begin{itemize}
+	\item	que les messages sont bien d{\'e}livr{\'e}s au processus destination,
+	\item	que les donn{\'e}es arrivent sans erreur,
+	\item	que l'ordre des messages est pr{\'e}serv{\'e}.
+\end{itemize}
+Par contre, elles ne garantissent pas la coh{\'e}rence au niveau de la
+longueur des messages.
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Internet Stream Sockets}
+
+\begin{description}
+	\item[Premi{\`e}re {\'e}tape~:] Affectation d'une adresse au port de communication.
+	\item[Seconde {\'e}tape] {\'E}coute sur la file d'attente 
+			contenant les demandes de connexion.
+	\item[Troisi{\`e}me {\'e}tape~:] Lorsqu'un client fait une demande de connexion~:
+		\begin{itemize}
+			\item	Acceptation de la connexion (ou rejet),
+			\item	Cr{\'e}ation d'un nouveau port de communication d{\'e}di{\'e} uniquement
+					aux {\'e}changes de donn{\'e}es.
+		\end{itemize}
+	\item[Quatri{\`e}me {\'e}tape~:] {\'E}change des donn{\'e}es.
+	\item[Cinqui{\`e}me {\'e}tape~:] Fermeture de la liaison.
+\end{description}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Cr{\'e}ation d'un canal de communication}
+
+L'adresse du port de communication se compose de~:
+\begin{itemize}
+	\item	une adresse r{\'e}seau,
+	\item	un num{\'e}ro de port,
+	\item	le type de protocole de transport utilis{\'e}.
+\end{itemize}
+
+Appel syst{\`e}me {\tt socket(2)}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+int socket (af, type, protocol);
+int af, type, protocol;
+\end{verbatim}
+\end{quote}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Assignation d'une adresse {\`a} une socket}
+
+\begin{itemize}
+	\item	Permet de r{\'e}f{\'e}rencer le service sur la machine.
+	\item	Op{\'e}ration n{\'e}cessaire sur le serveur et optionnelle sur le client.
+\end{itemize}
+
+Elle comprend, dans le cas du protocole IP:
+\begin{itemize}
+	\item	un num{\'e}ro de port,
+	\item	une adresse IP,
+	\item	la famille d'adresses associ{\'e}e {\`a} l'adresse r{\'e}seau sp{\'e}cifi{\'e} ({\tt AF\_INET}).
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Port associ{\'e} {\`a} une socket}
+
+Lorsqu'un processus client demande un service {\`a} un processus serveur, le client doit
+conna{\^\i}tre~:
+\begin{itemize}
+	\item	l'adresse r{\'e}seau de la machine sur laquelle se trouve le
+			processus serveur,
+	\item	le protocole qui sera utilis{\'e} au niveau du transport des
+			donn{\'e}es entre les deux processus,
+	\item	le num{\'e}ro du port de communication sur la machine serveur.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Adresse IP associ{\'e}e {\`a} une socket}
+
+\begin{description}
+	\item[Pour le processus serveur]\mbox{}\\
+		Si une adresse IP est associ{\'e}e {\`a} une socket, seul le client sur la machine poss{\'e}dant
+		cette adresse, pourra utiliser les services offerts par le processus serveur.
+		Il est possible d'utiliser une adresse {\it joker}~: l'adresse
+		{\tt INADDR\_ANY}.
+	\item[Pour le processus client]\mbox{}\\
+		L'adresse IP sp{\'e}cifi{\'e}e au niveau de la socket d'un processus client n'est pas prise
+		en compte.
+\end{description}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appel syst{\`e}me {\tt bind()}}
+
+{\sl Synopsis:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+int bind (s, addr, addrlen);
+int s;
+struct sockaddr_in *addr;
+int addrlen;
+\end{verbatim}
+\end{quote}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appel syst{\`e}me {\tt bind()} -- Exemple}
+
+\begin{quote}
+$\vdots$
+\begin{verbatim}
+sk = socket (AF_INET, SOCK_STREAM, 0);
+\end{verbatim}
+$\vdots$
+\begin{verbatim}
+addr.sin_family = AF_INET;
+addr.sin_addr.s_addr= INADDR_ANY;
+addr.sin_port= MY_PORT;
+bind (sk, &addr, sizeof (struct sockaddr_in));
+\end{verbatim}
+$\vdots$
+\end{quote}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Cr{\'e}ation de la file d'attente}
+
+\centering
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(369,150)
+	\thinlines
+	\put(210,56){\vector(-4,1){72}}
+	\put(210,128){\vector(-3,-1){72}}
+	\put(210,91){\vector(-1,0){71}}
+	\put(210,44){\framebox(149,25){Demande de connexion}}
+	\put(210,79){\framebox(149,25){Demande de connexion}}
+	\put(210,115){\framebox(149,25){Demande de connexion}}
+	\put(117,32){\vector(0,1){50}}
+	\put(10,20){File d'attente pour}
+	\put(10,6){les demandes de connexion}
+	\put(102,85){\framebox(4,11){}}
+	\put(106,85){\framebox(4,11){}}
+	\put(110,85){\framebox(4,11){}}
+	\put(114,85){\framebox(4,11){}}
+	\put(118,85){\framebox(4,11){}}
+	\put(122,85){\framebox(4,11){}}
+	\put(126,85){\framebox(4,11){}}
+	\put(25,125){Processus serveur}
+	\put(80,91){\circle{58}}
+\end{picture}
+
+\begin{quote}
+\begin{verbatim}
+int listen (s, backlog);
+int s, backlog;
+\end{verbatim}
+\end{quote}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appel syst{\`e}me {\tt listen()} -- Exemple}
+
+Exemple~:
+\begin{quote}
+$\vdots$
+\begin{verbatim}
+sk = socket (AF_INET, SOCK_STREAM, 0);
+\end{verbatim}
+$\vdots$
+\begin{verbatim}
+addr.sin_family = AF_INET;
+addr.sin_addr.s_addr= INADDR_ANY;
+addr.sin_port= MY_PORT;
+bind (sk, &addr, sizeof (struct sockaddr_in));
+
+listen (sk, 5);
+\end{verbatim}
+$\vdots$
+\end{quote}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Initialisation d'une connexion client}
+
+\begin{enumerate}
+	\item	Initialisation du canal de communication (\texttt{socket(2)}).
+	\item	Optionnellement, affectation de l'adresse du port (\texttt{bind(2)}).
+	\item	Demande de connexion au serveur (\texttt{connect(2)}).
+\end{enumerate}
+{\sl Synopsis:}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+int connect (s, addr, addrlen);
+int s;
+struct sockaddr_in *addr;
+int addrlen;
+\end{verbatim}
+\end{quote}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appel syst{\`e}me {\tt connect()} -- Exemple}
+$\vdots$
+\begin{verbatim}
+sk = socket (AF_INET, SOCK_STREAM, 0);
+\end{verbatim}
+$\vdots$
+\begin{verbatim}
+addr.sin_family = AF_INET;
+addr.sin_addr.s_addr= SERVER_IP_ADDR;
+addr.sin_port= SERVER_PORT;
+connect (sk, &addr, sizeof (struct sockaddr_in));
+\end{verbatim}
+$\vdots$\\
+{\tt SERVER\_IP\_ADDR} et {\tt SERVER\_PORT}Êsont des constantes du programme 
+d{\'e}crivant respectivement l'adresse IP du serveur et le port de communication
+auquel le client veut se connecter.
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Acceptation d'une demande de connexion}
+
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(297,119)
+	\thinlines
+	\put(161,62){\vector(1,0){42}}
+	\put(145,75){\line(0,1){23}}
+	\put(161,75){\oval(32,26)[bl]}
+	\put(84,37){Canal de communication}
+	\put(101,100){File d'attente vide}
+	\put(211,28){\vector(-1,0){125}}
+	\put(86,31){\vector(1,0){125}}
+	\put(73,24){\framebox(152,10){}}
+	\put(225,24){\framebox(16,10){}}
+	\put(57,24){\framebox(16,10){}}
+	\put(204,52){\framebox(35,18){}}
+	\put(240,90){{\large Serveur}}
+	\put(26,90){{\large Client}}
+	\put(256,49){\circle{65}}
+	\put(41,49){\circle{65}}
+\end{picture}
+
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appel syst{\`e}me {\tt accept()}}
+
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+int accept (s, addr, addrlen);
+int s;
+struct sockaddr_in *addr;
+int *addrlen;
+\end{verbatim}
+\end{quote}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Remarques -- {\tt connect()} et {\tt accept()}}
+
+Les appels syst{\`e}mes {\tt accept()} et {\tt connect()} sont tous les deux
+bloquants, c'est-{\`a}-dire qu'ils suspendent l'ex{\'e}cution du programme. 
+Ils ne rendent la main seulement lorsque les deux phases suivantes
+s'ex{\'e}cutent simultan{\'e}ment :
+\begin{itemize}
+	\item	le client {\'e}met un {\tt connect()},
+	\item	le serveur est en train d'ex{\'e}cuter {\tt accept()}.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{\'{E}change de donn{\'e}es entre client et serveur}
+
+Appels syst{\`e}mes disponibles~:
+\begin{itemize}
+	\item	{\tt recv()} permet de recevoir des donn{\'e}es en entr{\'e}e d'un
+			processus,
+	\item	{\tt send()} permet d'{\'e}crire des donn{\'e}es en sortie
+			d'un processus.
+\end{itemize}
+
+Les appels syst{\`e}me {\tt send()} et {\tt recv()} sont bloquants, c'est-{\`a}-dire~:
+\begin{description}
+	\item[pour {\tt recv()}]
+		il faut qu'il y aie quelque chose {\`a} lire dans le canal de communication
+		(un octet suffit),
+	\item[pour {\tt send()}]
+		il faut que le nombre d'octets sp{\'e}cifi{\'e}s en arguments soient mis dans
+		la file pour l'{\'e}mission dans le canal de communication.
+\end{description}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appel syst{\`e}me {\tt send()}}
+
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int send (s, buffer, length, flags);
+int s;
+char *buffer;
+int length, flags;
+\end{verbatim}
+\end{quote}
+
+Si aucune option n'est pr{\'e}cis{\'e}e au niveau de l'appel syst{\`e}me {\tt
+send()}, il peut {\^e}tre substitu{\'e} par l'appel syst{\`e}me {\tt
+write()}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appel syst{\`e}me {\tt recv()}}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int recv (s, buffer, length, flags);
+int s;
+char *buffer;
+int length, flags;
+\end{verbatim}
+\end{quote}
+Si aucune option n'est pr{\'e}cis{\'e}e au niveau de l'appel syst{\`e}me {\tt
+recv()}, il peut {\^e}tre substitu{\'e} par l'appel syst{\`e}me {\tt
+read()}.
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Fermeture du canal de communication}
+{\sl Synopsis~:}
+\begin{quote}
+\begin{verbatim}
+int close (sk);
+int sk;
+\end{verbatim}
+\end{quote}
+
+Lorsque le processus fait appel {\`a} {\tt close()},
+\begin{itemize}
+	\item toutes les donn{\'e}es en attente d'{\'e}mission sont envoy{\'e}es,
+	\item toutes les donn{\'e}es non encore re\c{c}ues sont perdues.
+\end{itemize}
+Il s'{\'e}coule donc un certain temps entre l'appel {\`a} {\tt close()} et
+la lib{\'e}ration physique du canal, le temps de vider les buffers utilis{\'e}s
+pour la communication.
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{R{\'e}capitulatif}
+
+\begin{tabular}{|p{2cm}|p{3.5cm}|p{3.5cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Phase}		&
+		\multicolumn{1}{|c|}{Serveur}	&
+		\multicolumn{1}{|c|}{Client}	\\
+	\hline \hline
+		1		&	{\tt socket()}	&	{\tt socket()}	\\
+	\hline
+		2		&	{\tt bind()}	&	{\tt bind()}	\\
+	\hline
+		3		&	{\tt listen()}	&					\\
+	\hline
+		4		&					&	{\tt connect()}	\\
+	\hline
+		5		&	{\tt accept()}	&					\\
+	\hline
+		6		&	{\tt send()}	&	{\tt recv()}	\\
+				&	{\tt recv()}	&	{\tt send()}	\\
+				&	{\tt write()}	&	{\tt read()}	\\
+				&	{\tt read()}	&	{\tt write()}	\\
+	\hline
+		7		&	{\tt close()}	&	{\tt close()}	\\
+	\hline
+\end{tabular}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Les {\sc Unix} Stream Sockets}
+
+Les {\sl {\sc Unix} Stream Sockets} sont utilis{\'e}es pour permettre {\`a} deux
+processus {\bf sur une m{\^e}me machine}, d'{\'e}changer des informations.
+
+La famille d'adresses correspondante est {\tt AF\_UNIX}.
+
+Ce type de canal de communication a un comportement quasi similaire aux
+{\sl Internet Stream Sockets}. On
+retrouvera les caract{\'e}ristiques essentielles suivantes~:
+\begin{itemize}
+	\item	les canaux sont bidirectionnels,
+	\item	les messages sont bien d{\'e}livr{\'e}s au processus destination,
+	\item	les donn{\'e}es arrivent sans erreur,
+	\item	l'ordre des messages est pr{\'e}serv{\'e}.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Les Internet Datagram Sockets}
+
+\begin{itemize}
+	\item	Utilisent le mode de communication \textsl{non connect{\'e}}.
+	\item	Associ{\'e}es au protocole de transport UDP.
+	\item	Transmettent des flots de donn{\'e}es tout en pr{\'e}servant la longueur.
+	\item	Les canaux de communications associ{\'e}s au protocole de transport UDP {\'e}mettent
+			et re\c{c}oivent des donn{\'e}es {\bf sans aucun {\'e}tablissement de connexion}.
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Internet Datagram Sockets -- Appels syst{\`e}mes}
+
+Les appels syst{\`e}mes et les processus {\`a} suivre pour ce type de canal de
+communications seront donc simples {\`a} mettre en {\oe}uvre. Il suffit
+\begin{itemize}
+\item	cr{\'e}er le port de communication (appel syst{\`e}me {\tt socket()}),
+\item	lui affecter ses caract{\'e}ristiques (appel syst{\`e}me {\tt bind()}),
+\item	{\'e}changer des donn{\'e}es en effectuant des lectures ou des {\'e}critures
+		sur ce nouveau canal (appels syst{\`e}mes {\tt recvfrom()} et
+		{\tt sendto()}).
+\end{itemize}
+
+\textbf{Remarque~:}
+\begin{quote}
+Il n'existe pas d'{\'e}quivalent pour ce mode de communication intra-machine
+comme on a pu l'avoir entre le mod{\`e}le {\tt AF\_UNIX} et {\tt AF\_INET}.
+\end{quote}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Cr{\'e}ation d'un canal de communication}
+
+La cr{\'e}ation de ce canal de communication se fait via l'appel syst{\`e}me 
+{\tt socket()}. La seule diff{\'e}rence ici ne concerne que le protocole de transport~:
+le protocole UDP.
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+	Param{\`e}tre				&	Constante utilis{\'e}e	\\
+\hline
+\hline
+	Type de socket			&	{\tt AF\_INET}		\\
+	Protocole de transport	&	{\tt SOCK\_DGRAM}	\\
+\hline
+\end{tabular}
+\end{center}
+
+Exemple~:
+\begin{quote}
+\begin{verbatim}
+sk = socket (AF_INET, SOCK_DGRAM, 0);
+\end{verbatim}
+\end{quote}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Assignation d'une adresse {\`a} une socket}
+
+On retrouvera donc la m{\^e}me syntaxe~:
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+int bind (s, addr, addrlen);
+int s;
+struct sockaddr_in *addr;
+int addrlen;
+\end{verbatim}
+\end{quote}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Assignation d'une adresse {\`a} une socket -- Exemple}
+
+Exemple~:
+\begin{quote}
+\begin{verbatim}
+addr.sin_family = AF_INET;
+addr.sin_addr.s_addr = INADDR_ANY;
+addr.sin_port = MYPORT;
+
+bind (sk, &addr, sizeof (struct sockaddr));
+\end{verbatim}
+\end{quote}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{\'{E}change de donn{\'e}es entre client et serveur}
+
+Les appels syst{\`e}mes associ{\'e}es {\`a} l'{\'e}change de donn{\'e}es en mode non-connect{\'e}
+sont~:
+\begin{center}
+\begin{tabular}{lp{8cm}}
+	{\tt sendto()}		&
+	permet de transmettre des messages sur le port de communication.
+	\\
+	{\tt recvfrom()}	&
+	permet de lire des messages sur le port de communication.
+	\\
+\end{tabular}
+\end{center}
+{\tt sendto()} et {\tt recvfrom()} sont simulaires aux appels
+syst{\`e}me {\tt send()} et {\tt recv()}, sauf que l'on pr{\'e}cise en plus l'adresse
+IP de la machine distante.
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appels syst{\`e}mes \texttt{recvfrom()} et \texttt{sendto()}}
+
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int sendto (s, buffer, bufflen, flags, to_addr, to_addrlen);
+int s, bufflen, flags, to_addrlen;
+char *buffer;
+struct sockaddr_in *to_addr;
+
+int recvfrom (s, buffer, bufflen, flags, from_addr, from_addrlen);
+int s, bufflen,flags, *from_addrlen;
+char *buffer;
+struct sockaddr_in *from_addr;
+\end{verbatim}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appels syst{\`e}mes \texttt{recvfrom()} et \texttt{sendto()} -- Exemple}
+
+\begin{verbatim}
+strcpy (buffer, "Message ˆ envoyer");
+length = strlen(buffer);
+
+to.sin_family = AF_INET;
+to.sin_addr.s_addr = MON_SERVEUR;
+to.sin_port = PORT_MON_SERVEUR;
+
+n = sendto (s, buffer, length, flags, &to,
+            strlen(struct sockaddr_in));
+
+fromlength = sizeof (struct sockaddr);
+n = recvfrom ( s, buffer, &length, flags, &from, &fromlength);
+\end{verbatim}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Adresse de destination -- appel syst{\`e}me {\tt connect}}
+
+{\tt connect()} peut {\^e}tre utilis{\'e} pour pr{\'e}ciser une
+adresse par d{\'e}faut pour {\tt sendto()} et {\tt recvfrom()}.
+\begin{itemize}
+	\item[$\rightarrow$] possibilit{\'e} d'utilisation de {\tt read()} et {\tt write()},
+	\item[$\rightarrow$] le champ {\sl adresse} de {\tt sendto()} doit contenir une
+			adresse IP nulle,
+	\item[$\rightarrow$] possibilit{\'e} d'utilisation de {\tt recv()} et {\tt read()}
+			{\`a} la place de {\tt recvfrom()},
+	\item[$\rightarrow$] {\tt connect()} utilis{\'e} avec des canaux de communications
+			non-connect{\'e} est non bloquant.
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Messages {\sl broadcast}}
+
+Un message {\sl broadcast} est un message {\'e}mis {\`a} partir d'une machine
+sur l'ensemble du r{\'e}seau.
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(337,157)
+	\thinlines
+	\put(266,36){\framebox(61,29){R{\'e}cepteur}}
+ 	\put(202,23){\framebox(61,29){R{\'e}cepteur}}
+	\put(138,10){\framebox(61,29){R{\'e}cepteur}}
+	\put(74,23){\framebox(61,29){R{\'e}cepteur}}
+	\put(10,36){\framebox(61,29){R{\'e}cepteur}}
+	\put(144,120){\vector(-4,-3){66}}
+	\put(153,120){\vector(-3,-4){37}}
+	\put(161,120){\vector(-1,-3){17}}
+	\put(186,120){\vector(3,-2){77}}
+	\put(178,120){\vector(1,-1){52}}
+	\put(172,120){\vector(1,-2){25}}
+	\put(166,120){\vector(0,-1){51}}
+	\put(124,120){\framebox(92,28){Emetteur message}}
+\end{picture}
+
+Les messages de {\sl broadcast} ne traversent pas les routeurs IP.
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Messages {\sl multicast} et {\sl unicast}}
+
+Les messages {\sl multi-cast} sont des messages adress{\'e}s
+{\`a} un groupe bien d{\'e}fini de machines sur un m{\^e}me r{\'e}seau.
+
+Pour atteindre toutes les machines d'un m{\^e}me num{\'e}ro
+de r{\'e}seau IP, il suffit de:
+\begin{itemize}
+	\item	pr{\'e}ciser au niveau de l'adresse destination, le num{\'e}ro de r{\'e}seau
+			qui nous interresse,
+	\item	de mettre tous les bits {\`a} $1$ dans la zone associ{\'e}e au num{\'e}ro
+			de machine.
+\end{itemize}
+
+Les messages {\sl unicast} sont des messages adress{\'e}s
+{\`a} une machine quelconque d'un groupe bien d{\'e}fini sur un m{\^e}me r{\'e}seau.
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{R{\'e}capitulatif}
+
+\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Phase}			&
+			\multicolumn{1}{|c|}{Serveur}	&
+			\multicolumn{1}{|c|}{Client}	\\
+	\hline \hline
+		1		&	{\tt socket()}								&	{\tt socket()}								\\
+	\hline
+		2		&	{\tt bind()}								&	{\tt bind()}								\\
+	\hline
+	\hline
+		3		&	{\tt connect()}\dag{}						&	{\tt connect()}\dag{}						\\
+	\hline
+		4		&	{\tt sendto()}								&	{\tt recvfrom()}							\\
+				&	{\tt recvfrom()}							&	{\tt sendto()}								\\
+				&	{\tt recv()}\ddag{}/{\tt send()}\ddag{}		&	{\tt send()}\ddag{}/{\tt recv()}\ddag{}		\\
+				&	{\tt read()}\ddag{}/{\tt write()}\ddag{}	&	{\tt write()}\ddag{}/{\tt read()}\ddag{}	\\
+	\hline
+		5		&	{\tt close()}								&	{\tt close()}								\\
+	\hline
+\end{tabular}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Aspects avanc{\'e}s}
+
+\begin{itemize}
+	\item	Entr{\'e}es/Sorties bloquantes/non bloquantes.
+	\item	Gestion des signaux.
+	\item	Modifications des attributs d'une socket.
+	\item	Gestion de plusieurs sockets.
+	\item	D{\'e}tection de l'identit{\'e} d'un client.
+	\item	Appel syst{\`e}me {\tt select()}.
+	\item	Les messages urgents: {\it Out Of Band Data}.
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Service {\sc Unix} {\tt inetd}}
+
+\begin{enumerate}
+	\item	{\tt inetd} est en {\'e}coute sur tous les ports de communication
+			d{\'e}crits dans son fichier de configuration,
+	\item	lorsqu'une demande de connexion est re\c{c}ue sur l'un des ports,
+			{\tt inetd} examine son fichier de configuration afin de conna{\^\i}tre
+			le serveur (programme) {\`a} lancer,
+	\item	{\tt inetd} va cr{\'e}er un sous-process dans lequel il  ex{\'e}cutera
+			le programme serveur ad{\'e}quate,
+	\item	le programme serveur h{\'e}ritera des canaux d'entr{\'e}e$/$sortie
+			via les canaux classiques {\tt stdin} et {\tt stdout}:
+		\begin{itemize}
+				\item	{\tt stdin} correspondra au canal par lequel
+						arriveront les donn{\'e}es,
+				\item	{\tt stdout} correspondra au canal par lequel
+						les donn{\'e}es devront {\^e}tre {\'e}mises.
+		\end{itemize}
+\end{enumerate}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appels syst{\`e}mes avanc{\'e}s}
+
+\begin{tabular}{lp{8cm}}
+	{\tt getsockopt()}	&	permet d'avoir la liste des options
+							positionn{\'e}es sur la socket.				\\
+	{\tt setsockopt()} 	&	permet de positionner une option.		\\
+	{\tt shutdown()}	&	utilis{\'e} pour fermer
+							partiellement ou totalement ce canal.	\\
+\end{tabular}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Appels syst{\`e}mes avanc{\'e}s}
+
+Options des sockets~:\\
+\begin{tabular}{lp{8cm}}
+	{\tt SO\_KEEPALIVE}		&	Contr{\^o}le de la connexion (pour des r{\'e}seaux non fiables).	\\
+	{\tt SO\_DONROUTE}		&	Paquet non routable.										\\
+	{\tt SO\_SNDBUF}		&	Changement de la taille des buffers d'{\'e}mission.				\\
+	{\tt SO\_RCVBUF}		&	Changement de la taille des buffers d'r{\'e}ception.			\\
+	{\tt SO\_REUSEADDR}		&	{\tt bind()} ignore les connexions en cours.				\\
+	{\tt SO\_LINGER}		&	{\tt close()} bloque jusqu'au vidage complet des buffers.	\\
+	{\tt SO\_DONTLINGER}	&	{\tt close()} rend la main imm{\'e}diatement.					\\
+\end{tabular}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Informations sur les canaux de communication}
+
+\begin{itemize}
+	\item	{\tt getsockname()} permet {\`a} un processus d'obtenir toutes les
+			informations disponibles sur un port de communication,
+	\item	{\tt getpeername()} permet {\`a} un processus d'obtenir les informations
+			disponibles sur le port de communication distant, c'est-{\`a}-dire
+			la socket distante li{\'e}e {\`a} la socket locale.
+\end{itemize}
+
+\begin{quote}
+\begin{verbatim}
+int getsockname (sk, &addr, &addrlen);
+int getpeername (sk, &addr, &addrlen);
+
+int             sk,
+                addrlen;
+struct sockaddr addr;
+\end{verbatim}
+\end{quote}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Informations sur la liste des machines d{\'e}clar{\'e}es du r{\'e}seau}
+
+La fonctionnalit{\'e} du {\sl resolver} permet d'obtenir, en fonction d'une information, toutes
+les informations IP d'un n{\oe}ud du r{\'e}seau.
+
+\begin{tabular}{lp{8cm}}
+	{\tt gethostbyname()}	&
+		Permet d'obtenir les informations en fonction d'un nom officiel pour une machine.	\\
+	{\tt gethostbyaddr()}	&
+		Permet d'obtenir les informations en fonction d'une adresse IP pour une machine.	\\
+	{\tt sethostent()}		&
+		Initialisation du contexte pour {\tt gethostent()}.									\\
+	{\tt gethostent()}		&
+		Les appels successifs {\`a} {\tt gethostent()} permettent d'obtenir
+		les entr{\'e}es disponible du {\sl resolver}.											\\
+	{\tt endhostent()}		&
+		Cloture du contexte pour {\tt gethostent()}.										\\
+\end{tabular}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Informations sur la liste des r{\'e}seaux d{\'e}clar{\'e}s}
+
+\begin{tabular}{lp{8cm}}
+	{\tt getnetbyname()}		&
+		Permet d'obtenir les informations en fonction d'un nom  pour
+		un r{\'e}seau IP.															\\
+	{\tt getnetbyaddr()}		&
+		Permet d'obtenir les informations en fonction d'une adresse pour
+		un r{\'e}seau IP.															\\
+	{\tt setnetent()}		&
+		Initialisation du contexte pour {\tt getnetent()}. 						\\
+	{\tt getnetent()}		&
+		Les appels successifs {\`a} {\tt getnetent()} permettent d'obtenir
+		les entr{\'e}es disponibles.												\\
+	{\tt endnetent()}		&
+		Cloture du contexte pour {\tt getnetent()}.								\\
+\end{tabular}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Informations sur la liste des protocoles d{\'e}clar{\'e}s}
+
+\begin{tabular}{lp{8cm}}
+	{\tt getprotobyname()}		&
+		Permet d'obtenir les informations en fonction d'un nom officiel pour
+		un protocole.																\\
+	{\tt getprotobynumber()}	&
+		Permet d'obtenir les informations en fonction d'un num{\'e}ro officiel pour
+		un protocole.																\\
+	{\tt setprotoent()}			&
+		Initialisation du contexte pour {\tt getprotoent()}. 						\\
+	{\tt getprotoent()}			&
+		Les appels successifs {\`a} {\tt getprotoent()} permettent d'obtenir
+		les entr{\'e}es disponibles.													\\
+	{\tt endprotoent()}			&
+		Cloture du contexte pour {\tt getprotoent()}.								\\
+\end{tabular}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Informations sur la liste des services r{\'e}seau d{\'e}clar{\'e}s}
+
+\begin{tabular}{lp{8cm}}
+	{\tt getservbyname()}	&
+		Permet d'obtenir les informations en fonction d'un nom officiel pour
+		un service.																\\
+	{\tt getservbynumber()}	&
+		Permet d'obtenir les informations en fonction d'un num{\'e}ro officiel pour
+		un service.																\\
+	{\tt setservent()}		&
+		Initialisation du contexte pour {\tt getservent()}. 					\\
+	{\tt getservent()}		&
+		Les appels successifs {\`a} {\tt getservent()} permettent d'obtenir
+		les entr{\'e}es disponibles.												\\
+	{\tt endservent()}		&
+		Cloture du contexte pour {\tt getservent()}.							\\
+\end{tabular}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Adresses IP -- Manipulation et Conversions}
+
+\begin{tabular}{lp{7.5cm}}
+	{\tt inet\_addr(cp)}	&
+		Convertit une adresse IP sous sa forme d{\'e}cimale, contenue dans une chaine
+		de caract{\`e}res, en un entier long non sign{\'e} (repr{\'e}sentation num{\'e}rique de
+		l'adresse IP) \\
+
+	{\tt inet\_ntoa(in)}	&
+		Convertit une adresse IP sous sa forme num{\'e}rique (entier long non sign{\'e})
+		en une chaine de caract{\`e}res la donnant sous sa forme d{\'e}cimale. \\
+	
+	{\tt inet\_lnaof(in)}	&
+		Renvoie la partie "{\sl num{\'e}ro de machine}" {\`a} partir d'une adresse IP
+		fournie sous sa forme num{\'e}rique (entier long non sign{\'e}) ou bien disponible
+		via la structure {\tt in\_addr}.\\
+	
+\end{tabular}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Adresses IP -- Manipulation et Conversions}
+
+\begin{tabular}{lp{7.5cm}}
+	{\tt inet\_netof(in)}	&
+		Renvoie la partie "{\sl num{\'e}ro de r{\'e}seau}" {\`a} partir d'une adresse IP
+		fournie sous sa forme num{\'e}rique (entier long non sign{\'e}) ou bien disponible
+		via la structure {\tt in\_addr}.\\
+	
+	{\tt inet\_makeaddr(net,lna)} &
+		Permet de construire une adresse IP sous forme de chaine de caract{\`e}res
+		en notation d{\'e}cimale {\`a} partir d'un num{\'e}ro de r{\'e}seau et d'un num{\'e}ro de machine
+		contenus dans deux variables num{\'e}riques.\\
+	
+	{\tt inet\_network(cp)} 	&
+		Convertit une adresse IP sous sa forme num{\'e}rique contenu dans
+		une chaine de caract{\`e}res, en un entier long non sign{\'e}. Cette adresse sera
+		prise tel-quel. Au cas o{\`u} elle ne serait pas compl{\`e}te, seules les {\sl octets}
+		sp{\'e}cifi{\'e}s seront convertis.
+\end{tabular}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Adresses IP -- Conversions de type}
+
+\begin{tabular}{|p{3cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|}
+	\hline
+		\multicolumn{1}{|c|}{Macro} &
+			\multicolumn{2}{|c|}{Entr{\'e}e} &
+			\multicolumn{2}{|c|}{Sortie} \\
+	\hline \hline
+		{\tt htonl} & {\tt host} &	{\tt long}  & {\tt net}  &	{\tt long} \\
+		{\tt htons} & {\tt host} &	{\tt short} & {\tt net}  &	{\tt short} \\
+		{\tt ntohl} & {\tt net}  &	{\tt long}  & {\tt host} &	{\tt long} \\
+		{\tt ntohs} & {\tt net}	 &	{\tt short} & {\tt host} &	{\tt short} \\
+	\hline
+\end{tabular}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide}
+\centerslidesfalse
+\heading{Conclusions}
+
+\vspace{0.5cm}
+{\centering
+\Huge
+Questions    \\[2ex]
+et peut-{\^e}tre \\[2ex]
+R{\'e}ponses	 \\
+} 
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

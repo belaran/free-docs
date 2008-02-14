@@ -1,0 +1,361 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Les Unix Stream Sockets
+%
+\chapter{\label{unstream}Les {\Unix} Stream Sockets}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Rappels}
+
+Les {\sl {\Unix} Stream Sockets} sont utilis{\'e}es pour permettre {\`a} deux
+processus {\bf sur une m{\^e}me machine}, d'{\'e}changer des informations.
+
+Nous introduirons donc ici une nouvelle famille d'adresses~: la famille <<~{\tt AF\_UNIX}~>>.
+
+Ce type de canal de communication a un comportement quasi similaire aux
+{\sl Internet Stream Sockets} (cf. chapitre ~\ref{instream}). On
+retrouvera les caract{\'e}ristiques essentielles suivantes~:
+\begin{itemize}
+	\item	les canaux sont bidirectionnels,
+	\item	les messages sont bien d{\'e}livr{\'e}s au processus destination,
+	\item	les donn{\'e}es arrivent sans erreur,
+	\item	l'ordre des messages est pr{\'e}serv{\'e}.
+\end{itemize}
+
+De la m{\^e}me fa\c{c}on, ces canaux de communications ne garantissent pas la
+coh{\'e}rence au niveau de la longueur des messages. Une op{\'e}ration de
+lecture sur le canal de communication (appel syst{\`e}me {\tt read(2)} ou {\tt recv(2)}) peut lire un volume de
+donn{\'e}es inf{\'e}rieur ou sup{\'e}rieur {\`a} celui qui a {\'e}t{\'e} effectu{\'e} lors de l'op{\'e}ration
+d'{\'e}criture d'un seul message (appel syst{\`e}me {\tt write(2)} ou {\tt send(2)}).
+
+Comme nous l'avons vu dans la section \ref{intsock-intro-fam-proto}, la
+famille {\tt AF\_UNIX} n'admet qu'un seul mode de connexion~: le mode
+connect{\'e} ({\tt SOCK\_STREAM}) (cf. figure \ref{intsock-fig-famille-protocole}). Nous avons vu que ce type de
+socket est plus avantageux que la notion de {\sl loopback} dans IP\footnote{adresse IP sp{\'e}ciale permettant
+{\`a} la machine de se r{\'e}f{\'e}rencer elle-m{\^e}me}. Comme on peut le voir sur la figure
+\ref{intsock-fig-loopback-local},
+\begin{itemize}
+	\item	lorsqu'on utilise la famille d'adresses {\tt AF\_UNIX}, les donn{\'e}es
+		sont directement envoy{\'e}es vers le processus destination au niveau
+		4 du mod{\`e}le OSI (couche {\sl transport}),
+	\item	lorsqu'on utilise la famille d'adresses {\tt AF\_INET}, les donn{\'e}es
+		doivent descendre jusqu'au niveau 2 du mod{\`e}le OSI (couche
+		{\sl liaison}) pour se rendre compte qu'il ne faut pas partir sur le
+		support physique. Les donn{\'e}es devront donc traverser {\`a} nouveau toutes
+		les couches interm{\'e}diaires (pour arriver jusqu'au niveau 4 (couche {\sl transport}).
+\end{itemize}
+
+La similitude entre les {\sl {\Unix} Stream Sockets} et les {\sl Internet Stream
+Sockets}, est assez grande. Nous ne donnerons, dans toute la suite de ce
+chapitre, que les diff{\'e}rences entre les deux.
+
+Dans la section ~\ref{unstream-recap}, nous ferons un r{\'e}sum{\'e} de la s{\'e}quence
+des appels syst{\`e}mes n{\'e}cessaires et un r{\'e}capitulatif des structures de donn{\'e}es
+en montrant la diff{\'e}rence entre les {\sl {\Unix} Stream Sockets} et les
+{\sl Internet Stream Sockets}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Attributs des sockets du domaine {\tt AF\_UNIX}}
+
+Sachant que les communications autoris{\'e}es pour le domaine {\tt AF\_UNIX}
+ne sont qu'intra-machine, beaucoup de champs que nous avons vus {\`a} la  cr{\'e}ation
+d'un port de communications dans le chapitre ~\ref{instream} ne sont plus n{\'e}cessaires.
+
+Pour les {\sl Internet Stream Sockets}, le programmeur se servait de la structure {\tt sockaddr\_in}
+(cf. annexe \ref{ann-struct-sockaddrin}) pour sp{\'e}cifier les diff{\'e}rentes caract{\'e}ristiques de la socket.
+Dans le cas des {\sl {\Unix} Stream Sockets}, la structure utilis{\'e}e est {\tt sockaddr\_un}.
+Elle est d{\'e}finie dans le fichier {\tt sys$/$un.h} de la façon suivante~:
+\begin{quote}
+\begin{verbatim}
+#include <sys/un.h>
+
+struct sockaddr_un {
+    short  sun_family;
+    u_char sun_path[108];
+}
+\end{verbatim}
+\end{quote}
+
+Pour plus de pr{\'e}cisions sur cette structure, reportez vous {\`a} l'annexe \ref{ann-struct-sockaddrun}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{unstream-recap}R{\'e}capitulatif}
+
+Le tableau ~\ref{unstream-syscall-recap} donne un r{\'e}capitulatif des diff{\'e}rents
+appels syst{\`e}mes {\`a} utiliser afin d'{\'e}tablir un canal de communication
+entre deux processus.
+
+Les appels syst{\`e}mes marqu{\'e}s de <<~\dag{}~>> ou de <<~\ddag{}~>> ont des
+arguments diff{\'e}rents de ceux utilis{\'e}s pour les {\sl Internet Stream Sockets}.
+
+Les appels syst{\`e}mes marqu{\'e}s de <<\dag{}>> prennent en argument
+une 
+structure du type {\tt sockaddr\_un}.
+
+Les appels syst{\`e}mes marqu{\'e}s de <<\ddag{}>> sp{\'e}cifient le
+domaine
+{\tt AF\_UNIX}.
+
+Pour ce qui est des autres, le comportement est strictement identique
+(m{\^e}me
+arguments, m{\^e}me type de retour, etc.).
+
+\begin{table}[hbtp]
+\centering
+\begin{tabular}{|l|l|l|}
+	\hline
+		Phase	&	Serveur					&	Client					\\
+	\hline \hline
+		1		&	{\tt socket()}\ddag{}	&	{\tt socket()}\ddag{}	\\
+	\hline
+		2		&	{\tt bind()}\dag{}		&	{\tt bind()}\dag{}\footnote{optionel}		\\
+	\hline
+		3		&	{\tt listen()}			&							\\
+	\hline
+		4		&							&	{\tt connect()}\ddag{}	\\
+	\hline
+		5		&	{\tt accept()}\dag{}		&					\\
+	\hline
+		6		&	{\tt send()}			&	{\tt recv()}			\\
+				&	{\tt recv()}			&	{\tt send()}			\\
+				&	{\tt write()}			&	{\tt read()}			\\
+				&	{\tt read()}			&	{\tt write()}			\\
+	\hline
+		7		&					&	{\tt close()}			\\
+				&	{\tt close()}			&					\\
+	\hline
+\end{tabular}
+\caption{\label{unstream-syscall-recap}Tableau r{\'e}capitulatif des
+appels syst{\`e}mes
+	pour l'{\'e}tablissement d'un canal de communication entre deux
+processus}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exemple}
+
+Le but de ce programme est d'assurer un transfert de fichier entre deux
+processus. 
+\begin{itemize}
+\item Le client envoie le nom du fichier et son contenu.
+\item Le serveur re\c{c}oit ce nom de fichier et {\'e}crit le contenu
+sur le disque.
+\end{itemize}
+
+Le programme serveur s'ex{\'e}cute comme un processus serveur {\Unix},
+c'est-{\`a}-dire qu'il tourne en permanence et attend les requ{\^e}tes des clients.
+Le seul moyen de l'arr{\^e}ter est de le tuer manuellement gr{\^a}ce {\`a} la commande
+{\Unix} {\tt kill(1)}, ou bien, carr{\'e}ment, red{\'e}marrer la machine.
+
+Lorsqu'une requ{\^e}te arrive, le serveur cr{\'e}e un sous processus pour traiter
+la requ{\^e}te, et ainsi, continuer {\`a} prendre en compte les demandesd'autres clients.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Partie <<~serveur~>>}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <stdio.h>
+#include <fcntl.h>
+
+#define BUFLEN 1000
+#define QUEUE_DEPTH 5
+#define NET_FILE "/tmp/asocket"
+
+main ()
+{
+    int                 ls, nsock, client_len;
+    int                 cpid;
+    struct sockaddr_un  serv_addr, client_addr;
+    
+    /* Création du port de communication */
+    if ((ls = socket(AF_UNIX, SOCK_STREAM, 0)) == -1 ) {
+        perror ("serveur: erreur appel système socket()");
+        exit (-1);
+    }
+    
+    /* Attributs du port de communication */
+    serv_addr.sun_family = AF_UNIX;
+    strcpy (serv_addr.sun_path, NET_FILE);
+    if ( bind (ls, &serv_addr, sizeof(struct sockaddr_un)) == -1) {
+        perror ("serveur: erreur appel système bind()");
+        exit (-1);
+    }
+    
+    /* Paramétrage de la file d'attente */
+    if ( listen(ls, QUEUE_DEPTH) == -1) {
+        perror ("serveur: erreur appel système listen()");
+        exit (-1);
+    }
+    
+    /* On fait en sorte que le processus serveur tourne en permanence.
+    ** On le rattache au processus système Unix "init".
+    **
+    ** Le processus père crée un processus fils indépendant, charge le
+    ** programme correspondant et se termine.
+    */
+    
+    /* On fait en sorte que les processus fils soient indépendant du
+    ** processus père.
+    */
+
+    setpgrp();
+
+    if ((cpid=fork()) > 0) {
+        /* pere */
+        exit (0);
+    }
+    if (cpid == -1) {
+        perror ("serveur: erreur appel système fork()");
+        exit (-1);
+    }
+    
+    /* Boucle infinie pour le traitement des demandes de connexion */
+
+    client_len = sizeof (struct sockaddr_un);
+    
+    while (1) {
+        if ( (nsock = accept(ls, &client_addr, &client_len)) == -1 ) {
+            perror ("serveur: erreur appel système accept()");
+            exit (-1);
+        }
+        
+        /* Création d'un sous processus pour gérer la connexion avec le
+        ** client. Le processus pere continue à traiter les demandes
+        ** de connexion qui arrivent.
+        */
+        
+        if ( (cpid = fork()) == 0 ) {
+            /* On charge le programme correspondant au traitement
+            ** des requêtes du client
+            */
+            request_clt (ls, nsock);
+            exit (0);
+        }
+        
+        if ( cpid == -1 ) {
+            perror ("serveur: erreur fork() pour le traitement de requêtes");
+            exit (-1);
+        }
+        
+        /* Fermeture du canal de communication */
+        close (nsock);
+    }
+}
+
+request_clt ( listen_socket, sk)
+int listen_socket, sk;
+{
+    int     fd, len;
+    char    dest[BUFLEN], buf[BUFLEN];
+    
+    /* Fermeture du canal correspondant à la socket en écoute, héritée
+    ** du processus père.
+    */
+    close (listen_socket);
+    
+    /* Reception du nom du fichier destination */
+    if ( (len = read(sk, dest, BUFLEN)) == -1 ) {
+        perror ("request_client: erreur de reception du nom de fichier");
+        exit (-1);
+    }
+    
+    /* Ouverture du fichier destination */
+    if ( (fd = open (dest, O_WRONLY | O_CREAT, 0700)) == -1) {
+        perror ("request_client: erreur d'ouverture sur la destination");
+        exit (-1);
+    }
+    
+    /* Lecture des données du client et ecriture vers le fichier
+    ** destination
+    */
+    while ((len = read (sk, buf, BUFLEN)) != 0 ) {
+        if ( write (fd, buf, len) == -1 ) {
+            perror ("request_client: erreur d'écriture sur la destination");
+            exit (-1);
+        }
+    }
+    
+    /* Fermeture du fichier destination */
+    
+    close (fd);
+    
+    /* Fermeture du port de communication */
+    
+    close (sk);
+}
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Partie <<~client~>>}
+\begin{verbatim}
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+
+#define BUFLEN 1000
+#define NET_FILE "/tmp/asocket"
+
+int write_buf;
+
+main (argc, argv)
+int   argc;
+char *argv[];
+{
+    int                 fd, sk, len, destlen;
+    char                *source, *dest, buf[BUFLEN];
+    struct sockaddr_un  peeraddr;
+    
+    if (argc != 3) {
+        fprintf (stderr, "usage: %s source_file destination_file\n", argv[0]);
+        exit (0);
+    }
+    
+    source  = argv[1];
+    dest    = argv[2];
+    destlen = strlen (argv[2]) + 1;
+    
+    /* Creation du port de communication */
+    if ( (sk = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
+        perror ("client: erreur appel syst{\`e}me socket()");
+        exit (-1);
+    }
+    
+    /* Envoi d'une demande de connexion au serveur */
+    strcpy (peeraddr.sun_path, NET_FILE);
+    peeraddr.sun_family = AF_UNIX;
+    
+    if ( connect(sk, &peeraddr, sizeof(struct sockaddr_un)) == -1) {
+        perror ("client: erreur appel système connect()");
+        exit (-1);
+    }
+    
+    /* Envoi du nom du fichier destination */
+    
+    if ( write(sk, dest, destlen) == -1 ) {
+        perror ("client: erreur d'émission du fichier destination");
+        exit (-1);
+    }
+    
+    if ( (fd = open (source, O_RDONLY)) == -1 ) {
+        perror ("client: erreur d'ouverture de la source");
+        exit (-1);
+    }
+    
+    while ( (len = read(fd, buf, BUFLEN)) != 0) {
+        if ( write (sk, buf, len) == -1 ) {
+            perror ("client: erreur d'émission des données");
+            exit (-1);
+        }
+    }
+    
+    /* Fermeture du fichier source */
+    close (fd);
+    
+    /* Fermeture du port de communication */
+    close (sk);
+}
+\end{verbatim}

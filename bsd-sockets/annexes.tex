@@ -1,0 +1,2076 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Annexes
+%
+\clearpage
+\newpage
+\begin{appendix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\label{ann-def-structures}Prototype des structures
+utilis{\'e}es pour les
+{\sl BSD Sockets}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{ann-struct-sockaddrin}Structure {\tt sockaddr\_in}}
+
+La structure {\tt sockaddr\_in} se compose des champs
+suivants:
+\begin{quote}
+\begin{tabular}{|l|l|p{8cm}|}
+	\hline
+	Type			&	Nom du champ	&	Description	\\
+	\hline
+	{\tt short int}		&	{\tt sin\_family}	& 
+		Sp{\'e}cifie la famille d'adresses. Dans le cas du protocole IP, on 
+		initialise ce champ {\`a} la valeur de la constante {\tt AF\_INET}.\\
+	{\tt unsigned short}	&	{\tt sin\_port}		& 
+		Contient le num{\'e}ro du port de communication {\`a} utiliser.\\
+	{\tt struct in\_addr}	&	{\tt sin\_addr}		& 
+		Structure permettant de pr{\'e}ciser l'adresse IP (cf. section
+		\ref{ann-struct-inaddr}) \\
+	{\tt char}				&	{\tt sin\_zero[8]}	&
+		Zone de {\it padding} non utilis{\'e}e dans le cas de IP. Sa
+		pr{\'e}sence dans la structure <<~{\tt sockadd\_in}~>> permet {\`a} toutes
+		les structures ``{\tt sockaddr\_{\it XX}}'' d'avoir la m{\^e}me taille.\\
+	\hline
+\end{tabular}
+\end{quote}
+
+\begin{remarque}
+Pour chaque type de famille d'adresses, on aura une structure ``{\tt
+sockaddr}''. L'identifiant {\`a} la fin du nom du prototype de la structure
+indique la famille d'adresses concern{\'e}e. Par exemple~:
+
+\begin{tabular}{lp{8cm}}
+{\tt in}	&	Structure associ{\'e}e {\`a} IP	\\
+{\tt un}	&	Structure associ{\'e}e {\`a} la famille {\tt AF\_UNIX} permettant de faire
+		de la communication entre processus sur une m{\^e}me machine (cf. chapitre
+		\ref{unstream})
+\end{tabular}
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{ann-struct-inaddr}Structure {\tt in\_addr}}
+
+La structure {\tt in\_addr} a le format suivant~:
+\begin{quote}
+\begin{verbatim}
+struct in_addr {
+    union {
+        struct { u_char s_b1,s_b2,s_b3,s_b4; } S_un_b;
+        struct { u_short s_w1,s_w2; } S_un_w;
+        u_long S_addr;
+    } S_un;
+#define s_addr  S_un.S_addr         /* can be used for most tcp & ip
+code */
+#define s_host  S_un.S_un_b.s_b2    /* host on imp */
+#define s_net   S_un.S_un_b.s_b1    /* network */
+#define s_imp   S_un.S_un_w.s_w2    /* imp */
+#define s_impno S_un.S_un_b.s_b4    /* imp # */
+#define s_lh    S_un.S_un_b.s_b3    /* logical host */
+};
+\end{verbatim}
+\end{quote}
+o{\`u} 
+\begin{itemize}
+	\item {\tt u\_long} d{\'e}signe un type entier non sign{\'e} sur 32 bits,
+	\item {\tt u\_word} d{\'e}signe un type entier non sign{\'e} sur 16 bits,
+	\item {\tt u\_char} d{\'e}signe un type entier non sign{\'e} sur 8 bits,
+\end{itemize}
+
+Toutefois, sur la majeure partie des syst{\`e}mes {\Unix} actuels, cette structure
+ne comporte plus qu'un seul et unique champ. Elle se r{\'e}duit {\`a}~:
+\begin{quote}
+\begin{verbatim}
+struct in_addr {
+    u_long s_addr;
+};
+\end{verbatim}
+\end{quote}
+
+Elle reste donc compatible avec le format d{\'e}crit pr{\'e}c{\'e}demment gr{\^a}ce aux diff{\'e}rentes
+{\it macros}.
+
+Toutefois, la quasi-totalit{\'e} des appels syst{\`e}mes manipulant des adresses IP, renverrons une
+adresse stock{\'e}e sur un entier non-sign{\'e} de 32 bits.
+Cela correspond bien {\`a} l'unique champ qui reste dans cette <<{\sl structure}>>.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\label{ann-struct-sockaddrun}Structure {\tt sockaddr\_un}}
+
+La structure {\tt sockaddr\_un} a le format suivant~:
+\begin{quote}
+\begin{verbatim}
+struct sockaddr_un {
+    unsigned short sun_family;      /* AF_UNIX */
+    char sun_path[UNIX_PATH_MAX];   /* pathname */
+};
+\end{verbatim}
+\end{quote}
+
+Le champ {\tt sun\_family} permet de sp{\'e}cifier la famille d'adresse. Le
+champ {\tt sun\_path} contient le chemin d'acc{\`e}s au fichier servant de {\sl port de communication}
+entre les processus locaux.
+
+\begin{remarque}
+La constante {\tt UNIX\_PATH\_MAX} d{\'e}pend des syst{\`e}mes. Par exemple, sous
+Linux 2.0, ce param{\`e}tre a pour valeur 105.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\label{ann-part-manunix}Pages particuli{\`e}res du manuel {\sc Unix}}
+
+Les pages qui vont suivre sont extraites du manuel {\Unix} livr{\'e}es
+avec {\sl Linux 2.0}. Elles sont donc en anglais.
+
+%%%%%%%%%%%%%%%
+\section{Pages du manuel de la section 2 (appels syst{\`e}mes)}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt accept()}}
+\begin{english}
+{\sl ACCEPT(2)}\\
+
+{\sl NAME}
+\begin{quote}
+ {\tt accept} - accept a connection on a socket
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+int accept(int s, struct sockaddr *addr, int *addrlen);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	The argument {\tt s} is a socket that has been created with {\tt
+socket(2)},
+	bound to an address with {\tt bind(2)}, and is listening for 
+	connections after a {\tt listen(2)}. The accept argument extracts the 
+	first connection request on the queue of pending connections,
+	creates a new socket with the same properties of s and allocates a
+	new file descriptor for the socket. If no pending connections are
+	present on the queue, and the socket is not marked as 
+	non-blocking, {\tt accept} blocks the caller until a connection is
+	present. If the socket is marked non-blocking and no pending
+	connections are present on the queue, accept returns an error as
+	described below. The accepted socket may not be used to accept 
+	more connections. The original socket s remains open.
+
+	The argument {\tt addr} is a result parameter that is filled in with the
+	address of the connecting entity, as known to the communications
+	layer. The exact format of the addr parameter is determined by
+	the domain in which the communication is occurring. The {\tt addrlen} is
+	a value-result parameter; it should initially contain the 
+	amount of space pointed to by {\tt addr}; on return it will contain the 
+	actual length (in bytes) of the address returned. This call is
+	used with connection-based socket types, currently with
+	{\tt SOCK\_STREAM}.
+
+	It is possible to {\tt select(2)} a socket for the purposes of doing an
+	{\tt accept} by selecting it for read.
+
+	For certain protocols which require an explicit confirmation, such
+	as ISO or DATAKIT, accept can be thought of as merely dequeuing the
+	 next connection request and not implying confirmation. 
+	Confirmation can be implied by a normal read or write on the new 
+	file descriptor, and rejection can be implied by closing the new
+	socket.
+
+	One can obtain user connection request data without confirming the
+	connection by issuing a {\tt recvmsg(2)} call with an {\tt msg\_iovlen} of 0
+	and a non-zero {\tt msg\_controllen}, or by issuing a {\tt getsockopt(2)}
+	request. Similarly, one can provide user connection rejection
+	information by issuing a {\tt sendmsg(2)} call with providing only the 
+	control information, or by calling {\tt setsockopt(2)}.
+\end{quote}
+
+{\sl RETURN VALUES}
+\begin{quote}
+	The call returns -1 on error. If it succeeds, it returns a
+	non-negative integer that is a descriptor for the accepted
+	socket.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EBADF}		&	The descriptor is invalid.\\
+	{\tt ENOTSOCK}	&	The descriptor references a file, not a socket.\\
+	{\tt EOPNOTSUPP}	&	The referenced socket is not of type {\tt SOCK\_STREAM}.\\
+	{\tt EFAULT}		&	The addr parameter is not in a writable part of
+							the user address space.\\
+	{\tt EWOULDBLOCK}	&	The socket is marked non-blocking and no connections
+							are present to be accepted.
+\end{tabular}
+\end{quote}
+
+{\sl HISTORY}
+\begin{quote}
+ The accept function appeared in BSD 4.2.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt bind(2)}, {\tt connect(2)}, {\tt listen(2)}, {\tt select(2)},
+	{\tt socket(2)}
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt bind()}}
+\begin{english}
+{\sl BIND(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt bind} - bind a name to a socket
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int bind(int sockfd, struct sockaddr *my_addr, int addrlen);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	{\tt bind} gives the socket, sockfd, the local address {\tt my\_addr}.
+	{\tt my\_addr} is addrlen bytes long. Traditionally, this is
+	called ``assigning a name to a socket'' (when a socket is
+	created with {\tt socket(2)}, it exists in a name space (address
+	family) but has no name assigned.)
+\end{quote}
+
+{\sl NOTES}
+\begin{quote}
+	Binding a name in the {\Unix} domain creates a socket in the
+	file system that must be deleted by the caller when it is
+	no longer needed (using {\tt unlink(2)}).
+
+	The rules used in name binding vary between communication
+	domains. Consult the manual entries in section 4 for
+	detailed information.
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	On success, zero is returned. On error, -1 is returned,
+	and {\tt errno} is set appropriately.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EBADF}		& {\tt sockfd} is not a valid descriptor.\\
+	{\tt EINVAL}	& The socket is already bound to an address. This
+				may change in the future: see {\tt linux/unix/sock.c}
+				for details.\\
+	{\tt EACCES}	& The address is protected, and the user is not the
+				super-user.
+\end{tabular}
+
+	The following errors are specific to {\Unix} domain ({\tt AF\_UNIX})
+	sockets:\\
+\begin{tabular}{lp{8cm}}
+	{\tt EINVAL}	& The {\tt addr\_len} was wrong, or the socket was not in
+			the {\tt AF\_UNIX} family.\\
+	{\tt EROFS}		& The socket inode would reside on a read-only file
+			system.\\
+	{\tt EFAULT}	& {\tt my\_addr} points outside your accessible address
+			space.\\
+	{\tt ENAMETOOLONG}	& {\tt my\_addr} is too long.\\
+	{\tt ENOENT}	& The file does not exist.\\
+	{\tt ENOMEM}	& Insufficient kernel memory was available.\\
+	{\tt ENOTDIR}	& A component of the path prefix is not a directory.\\
+	{\tt EACCES}	& Search permission is denied on a component of the
+			path prefix.\\
+	{\tt ELOOP}		& {\tt my\_addr} contains a circular reference (i.e., via a
+			symbolic link) \\
+\end{tabular}
+\end{quote}
+
+{\sl HISTORY}
+\begin{quote}
+	The {\tt bind} function call appeared in BSD 4.2.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt accept(2)}, {\tt connect(2)}, {\tt listen(2)}, {\tt socket(2)}, 
+	{\tt getsockname(2)}
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt close}}
+\begin{english}
+{\sl CLOSE(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt close} - close a file descriptor
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <unistd.h>
+
+int close(int fd);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	{\tt close} closes a file descriptor, so that it no longer
+	refers to any file and may be reused.
+
+	If {\tt fd} is the last copy of a particular file descriptor the
+	resources associated with it are freed; for example any
+	locks held are removed and if the descriptor was the last
+	reference to a file which has been removed using unlink
+	the file is deleted.
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	{\tt close} returns zero on success, or -1 if an {\tt error} occurred.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EBADF}	& {\tt fd} isn't a valid open file descriptor.
+\end{tabular}
+\end{quote}
+
+{\sl CONFORMING TO}
+\begin{quote}
+	SVID, AT\&T, POSIX, X/OPEN, BSD 4.3
+\end{quote}
+
+{\sl NOTES}
+\begin{quote}
+	Not checking the return value of {\tt close} is a common but
+	nevertheless serious programming error. File system
+	implementations which use techniques as ``write-behind''
+	to increase performance may lead to {\tt write(2)} succeeding,
+	although the data has not been written yet. The error
+	status may be reported at a later write operation, but it
+	is guaranteed to be reported on closing the file. Not
+	checking the return value when closing the file may lead
+	to silent loss of data. This can especially be observed
+	with NFS and disk quotas.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt open(2)}, {\tt fcntl(2)}, {\tt shutdown(2)}, {\tt unlink(2)},
+	{\tt fclose(3)}.
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt connect()}}
+\begin{english}
+{\sl CONNECT(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt connect} - initiate a connection on a socket
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int connect(int sockfd, struct sockaddr *serv_addr,
+            int addrlen );
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	The parameter {\tt sockfd} is a socket. If it is of type {\tt
+	SOCK\_DGRAM}, this call specifies the peer with which the socket
+	is to be associated; this address is that to which datagrams are
+	to be sent, and the only address from which datagrams are to be
+	received. If the socket is of type {\tt SOCK\_STREAM}, this
+	call attempts to make a connection to another socket. The other 
+	socket is specified by {\tt serv\_addr}, which is an address in
+	the communications space of the socket. Each communications space 
+	interprets the {\tt serv\_addr}, parameter in its own way. 
+	Generally, stream sockets may successfully connect only once;
+	datagram sockets may use connect multiple times to change their
+	association. Datagram sockets may dissolve the association by
+	connecting to an invalid address, such as a null address.
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	If the connection or binding succeeds, zero is returned.
+	On error, -1 is returned, and {\tt errno} is set appropriately.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+	See the Linux kernel source code for details.
+\end{quote}
+
+{\sl HISTORY}
+\begin{quote}
+	The connect function call first appeared in BSD 4.2.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt accept(2)}, {\tt bind(2)}, {\tt listen(2)}, {\tt socket(2)},
+	{\tt getsockname(2)}
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt ioctl()}}
+\begin{english}
+{\sl IOCTL(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt ioctl} - control device
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/ioctl.h>
+
+int ioctl(int d, int request, ...)
+\end{verbatim}
+
+The ``third'' argument is traditionally {\tt char *argp}, and
+will be so named for this discussion.
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	The {\tt ioctl} function manipulates the underlying device
+	parameters of special files. In particular, many operating
+	characteristics of character special files (e.g. terminals) may be
+	controlled with {\tt ioctl} requests. The argument {\tt d} must be
+	an open file descriptor.
+
+	An {\tt ioctl} request has encoded in it whether the argument is an 
+	in parameter or out parameter, and the size of the argument {\tt
+	argp} in bytes. Macros and defines used in specifying an {\tt
+	ioctl} request are located in the file {\tt sys/ioctl.h}.
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	On success, zero is returned. On error, -1 is returned,
+	and {\tt errno} is set appropriately.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EBADF}		& {\tt d} is not a valid descriptor.\\
+	{\tt ENOTTY}	& {\tt d} is not associated with a character special
+					  device.\\
+	{\tt ENOTTY}	& The specified request does not apply to the kind of
+					  object that the descriptor d references.\\
+	{\tt EINVAL}	& Request or {\tt argp} is not valid.
+\end{tabular}
+\end{quote}
+
+{\sl HISTORY}
+\begin{quote}
+	An {\tt ioctl} function call appeared in Version 7 AT\&T {\Unix}.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt execve(2)}, {\tt fcntl(2)}, {\tt mt(4)}, {\tt sd(4)}, {\tt tty(4)}
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt kill()}}
+\begin{english}
+{\sl KILL(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt kill} - send signal to a process
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <signal.h>
+
+int kill(pid_t pid, int sig);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	{\tt kill()} can be used to send any signal to any process group or
+	process.
+
+	If {\tt pid} is positive, then signal {\tt sig} is sent to {\tt
+	pid}. In this case, $0$ is returned on success, or a negative
+	value on error.
+
+	If {\tt pid} equals $-1$, then {\tt sig} is sent to every process
+	except for the first one, from higher numbers in the proc table to
+	lower. In this case, $0$ is returned on success, or the last error
+	condition from {\tt send\_sig()} is returned.
+
+	If {\tt pid} is less than $-1$, then {\tt sig} is sent to every
+	process in the process group {\tt -pid}. In this case, the number
+	 of processes the signal was sent to is returned, or a negative
+	value for failure.
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	On success, zero is returned. On error, $-1$ is returned, and {\tt
+	errno} is set appropriately.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EINVAL}	&	An invalid signal is sent.\\
+	{\tt ESRCH}		&	The {\tt pid} or process group does not exist.\\
+	{\tt EPERM}		&	The effective userid of the process calling
+						{\tt kill()} is not equal to the effective userid of
+						{\tt pid}, unless the superuser called {\tt kill()}.
+\end{tabular}
+\end{quote}
+
+{\sl BUGS}
+\begin{quote}
+	It is impossible to send a signal to task number one, the {\tt
+	init} process, for which it has not installed a signal handler. 
+	This is done to assure the system is not brought down
+	accidentally.
+\end{quote}
+
+{\sl CONFORMING TO}
+\begin{quote}
+	SVID, AT\&T, POSIX.1, X/OPEN, BSD 4.3
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt \_exit(2)}, {\tt exit(2)}, {\tt signal(2)}, {\tt signal(7)}
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt listen()}}
+\begin{english}
+{\sl LISTEN(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt listen} - listen for connections on a socket
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/socket.h>
+
+int listen(int s, int backlog);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	To accept connections, a socket is first created with {\tt
+	socket(2)}, a willingness to accept incoming connections and a 
+	queue limit for incoming connections are specified with listen, and
+	then the connections are accepted with {\tt accept(2)}. The 
+	listen call applies only to sockets of type {\tt SOCK\_STREAM} or
+	{\tt SOCK\_SEQPACKET}.
+
+	The {\tt backlog} parameter defines the maximum length the queue of 
+	pending connections may grow to. If a connection request
+	arrives with the queue full the client may receive an error with 
+	an indication of {\tt ECONNREFUSED}, or, if the underlying protocol
+	supports retransmission, the request may be ignored so that
+	retries may succeed.
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	On success, zero is returned. On error, -1 is returned,
+	and {\tt errno} is set appropriately.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EBADF}			& The argument {\tt s} is not a valid descriptor.\\
+	{\tt ENOTSOCK}		& The argument {\tt s} is not a socket.\\
+	{\tt EOPNOTSUPP}	& The socket is not of a type that supports the
+						  operation {\tt listen}.
+\end{tabular}
+\end{quote}
+
+{\sl HISTORY}
+\begin{quote}
+	The {\tt listen} function call appeared in BSD 4.2.
+\end{quote}
+
+{\sl BUGS}
+\begin{quote}
+	If the socket is of type {\tt af\_inet}, and the {\tt backlog}
+	argument is greater than 128 it is silently truncated to  128.  For
+	portable  applications  don't rely on this value since BSD (and at
+	least some BSD derived systems) limit the  {\tt backlog} to 5.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt accept(2)}, {\tt connect(2)}, {\tt socket(2)}
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt open()}}
+\begin{english}
+{\sl OPEN(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt open}, {\tt creat} - open and possibly create a file or device
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+int open(const char *pathname, int flags);
+int open(const char *pathname, int flags, mode_t mode);
+int creat(const char *pathname, mode_t mode);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	{\tt open} attempts to open a file and return a file descriptor (a
+	small, non-negative integer for use in {\tt read}, {\tt write},
+	etc.)
+
+	{\tt flags} is one of {\tt O\_RDONLY}, {\tt O\_WRONLY} or {\tt
+	O\_RDWR} which request opening the file read-only, write-only or
+	read/write, respectively.
+
+	{\tt flags} may also be bitwise-or'd with one or more of the
+	following:
+	\begin{description}
+		\item[{\tt O\_CREAT}]\mbox{}\\
+		If the file does not exist it will be created. \\
+
+		\item[{\tt O\_EXCL}]\mbox{}\\
+		When used with {\tt O\_CREAT}, if the file already exists
+		it is an error and the open will fail. See {\sl BUGS}
+		below, though. \\
+
+		\item[{\tt O\_NOCTTY}]\mbox{}\\
+		If pathname refers to a terminal device -- see
+		{\tt tty(4)} -- it will not become the process's controlling
+		terminal even if the process does not have one.\\
+
+		\item[{\tt O\_TRUNC}]\mbox{}\\
+		If the file already exists it will be truncated. \\
+
+		\item[{\tt O\_APPEND}]\mbox{}\\
+		The file is opened in append mode. Initially, and
+		before each write, the file pointer is positioned
+		at the end of the file, as if with {\tt lseek}. \\
+
+		\item[{\tt O\_NONBLOCK} or {\tt O\_NDELAY}]\mbox{}\\
+		The file is opened in non-blocking mode. Neither
+		the open nor any subsequent operations on the file
+		descriptor which is returned will cause the calling
+		process to wait. \\
+
+		\item[{\tt O\_SYNC}]\mbox{}\\
+		The file is opened for synchronous I/O. Any writes
+		on the resulting file descriptor will block the
+		calling process until the data has been physically
+		written to the underlying hardware. See {\sl BUGS}
+		below, though.
+	\end{description}
+
+	Some of these optional flags can be altered using {\tt fcntl}
+	after the file has been opened.
+
+	{\tt mode} specifies the permissions to use if a new file is
+	created. It is modified by the process's umask in the usual
+	way: the permissions of the created file are (mode \& \~umask).
+
+	{\tt mode} should always be specified when {\tt O\_CREAT} is in 
+	the flags, and is ignored otherwise.
+
+	{\tt creat} is equivalent to open with flags equal to {\tt
+	O\_CREAT}\verb=|={\tt O\_WRONLY}\verb=|={\tt O\_TRUNC}.
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	{\tt open} and {\tt creat} return the new file descriptor, or -1 if
+	an error occurred (in which case, {\tt errno} is set appropriately).
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{description}
+	\item[{\tt EEXIST}]\mbox{}\\
+		{\tt pathname} already exists and {\tt O\_CREAT} and {\tt O\_EXCL}
+were
+		used.
+
+	\item[{\tt EISDIR}]\mbox{}\\
+		{\tt pathname} refers to a directory and the access
+		requested involved writing.
+
+	\item[{\tt ETXTBSY}]\mbox{}\\
+		{\tt pathname} refers to an executable image which is
+		currently being executed and write access was requested.
+
+	\item[{\tt EFAULT}]\mbox{}\\
+		{\tt pathname} points outside your accessible address space.
+
+	\item[{\tt EACCES}]\mbox{}\\
+		The requested access to the file is not allowed, or one of the
+		directories in pathname did not allow search ({\sl execute})
+permission.
+
+	\item[{\tt ENAMETOOLONG}]\mbox{}\\
+		{\tt pathname} was too long.
+
+	\item[{\tt ENOENT}]\mbox{}\\
+		A directory component in pathname does not exist or is a dangling
+		symbolic link.
+
+	\item[{\tt ENOTDIR}]\mbox{}\\
+		A component used as a directory in {\tt pathname} is not, in fact,
+		a directory.
+
+	\item[{\tt EMFILE}]\mbox{}\\
+		The process already has the maximum number of files open.
+
+	\item[{\tt ENFILE}]\mbox{}\\
+		The limit on the total number of files open on the system has
+		been reached.
+
+	\item[{\tt ENOMEM}]\mbox{}\\
+		Insufficient kernel memory was available.
+
+	\item[{\tt EROFS}]\mbox{}\\
+		{\tt pathname} refers to a file on a read-only filesystem and
+		write access was requested.
+
+	\item[{\tt ELOOP}]\mbox{}\\
+		{\tt pathname} contains a reference to a circular symbolic
+		link, ie a symbolic link whose expansion contains a reference to itself.
+
+	\item[{\tt ENOSPC}]\mbox{}\\
+		{\tt pathname} was to be created but the device containing pathname
+		has no room for the new file.
+\end{description}
+\end{quote}
+
+{\sl CONFORMING TO}
+\begin{quote}
+	SVID, AT\&T, POSIX, X/OPEN, BSD 4.3
+\end{quote}
+
+{\sl BUGS}
+\begin{quote}
+	There are many infelicities in the protocol underlying NFS, 
+	affecting amongst others {\tt O\_SYNC}, {\tt O\_NDELAY}, and
+	{\tt O\_APPEND}.
+
+	{\tt O\_EXCL} is broken on NFS file systems, programs which rely on
+	 it for performing locking tasks will contain a race condition. 
+	The solution for performing atomic file locking using a {\sl lockfile}
+	is to create a unique file on the same fs (e.g., incorporating 
+	{\sl hostname} and {\sl pid}), use {\tt link(2)} to make a link to the
+	lockfile and use {\tt stat(2)} on the unique file to check if its
+	link count has increased to 2. Do not use the return value of the
+	{\tt link()} call.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt read(2)}, {\tt write(2)}, {\tt fcntl(2)}, {\tt close(2)}, {\tt
+	unlink(2)}, {\tt mknod(2)}, {\tt stat(2)}, {\tt umask(2)}, {\tt
+	mount(2)}, {\tt socket(2)}, {\tt socket(2)}, {\tt fopen(3)}, {\tt
+	link(2)}.
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt read()}}
+\begin{english}
+{\sl READ(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt read} - read from a file descriptor
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <unistd.h>
+
+int read(int fd, char *buf, size_t count);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	{\tt read} reads up to count bytes from file descriptor {\tt
+	fd} into the buffer starting at {\tt buf}.
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	On success, the number of bytes read are returned (zero indicates
+	end of file). On error, -1 is returned, and {\tt errno} is set
+	appropriately.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EINTR}		&	The call was interrupted by a signal before any
+						data was read.\\
+	{\tt EAGAIN}	&	Non-blocking I/O has been selected using
+						{\tt O\_NONBLOCK} and no data was immediately
+						available for reading.\\
+	{\tt EISDIR}	&	{\tt fd} refers to a directory.\\
+	{\tt EBADF}		&	{\tt fd} is not a valid file descriptor or is not open
+						for reading.\\
+	{\tt EINVAL}	&	{\tt fd} is attached to an object which is unsuitable
+						for reading.\\
+	{\tt EFAULT}	&	{\tt buf} is outside your accessible address space.\\
+\end{tabular}
+	Other errors may occur, depending on the object connected to {\tt
+	fd}.
+\end{quote}
+
+{\sl CONFORMING TO}
+\begin{quote}
+	SVID, AT\&T, POSIX, X/OPEN, BSD 4.3
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt readdir(2)}, {\tt write(2)}, {\tt write(2)}, {\tt fcntl(2)},
+	{\tt close(2)}, {\tt lseek(2)}, {\tt select(2)}, {\tt readlink(2)},
+	{\tt ioctl(2)}, {\tt fread(3)}.
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt recv()} et de {\tt recvfrom()}}
+\begin{english}
+{\sl RECV(2)}\\
+
+{\sl NAME}
+\begin{quote}
+ 	{\tt recv}, {\tt recvfrom}, {\tt recvmsg} - receive a message from a
+socket
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int recv(int s, void *buf, int len, unsigned int flags);
+
+int recvfrom(int s, void *buf, int len, unsigned int flags
+             struct sockaddr *from, int *fromlen);
+
+int recvmsg(int s, struct msghdr *msg, unsigned int flags);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	WARNING: This is a BSD man page. As of Linux 0.99.11, {\tt recvmsg}
+	was not implemented.
+
+	{\tt recvfrom} and {\tt recvmsg} are used to receive messages from a
+	socket, and may be used to receive data on a socket whether or not
+	it is connection-oriented.
+
+	If from is non-nil, and the socket is not connection-oriented, the
+	source address of the message is filled in. {\tt fromlen} is a
+	value-result parameter, initialized to the size of the buffer
+	associated with from, and modified on return to indicate the actual
+	size of the address stored there.
+
+	The {\tt recv} call is normally used only on a connected socket (see
+	{\tt connect(2)}) and is identical to {\tt recvfrom} with a nil from
+	parameter. As it is redundant, it may not be supported in future
+	releases.
+
+	All three routines return the length of the message on successful
+	completion. If a message is too long to fit in the supplied buffer,
+	excess bytes may be discarded depending on the type of socket the
+	message is received from (see {\tt socket(2)}).
+
+	If no messages are available at the socket, the receive call waits
+	for a message to arrive, unless the socket is nonblocking (see {\tt
+	fcntl(2)}) in which case the value -1 is returned and the external
+	variable errno set to {\tt EWOULDBLOCK}. The receive calls normally
+	return any data available, up to the requested amount, rather than
+	waiting for receipt of the full amount requested; this behavior is
+	affected by the socket-level options {\tt SO\_RCVLOWAT} and {\tt SO\_RCVTIMEO}
+	described in {\tt getsockopt(2)}.
+
+	The {\tt select(2)} call may be used to determine when more data
+	arrive.
+
+ 	The flags argument to a recv call is formed by or'ing one
+ 	or more of the values:\\
+	\begin{tabular}{lp{8cm}}
+		{\tt MSG\_OOB}	&
+			process out-of-band data\\
+		{\tt MSG\_PEEK}	&
+			peek at incoming message\\
+		{\tt MSG\_WAITALL}	&
+			wait for full request or error
+	\end{tabular}
+
+	The {\tt MSG\_OOB} flag requests receipt of out-of-band data that
+	would not be received in the normal data stream. Some protocols
+	place expedited data at the head of the normal data queue, and thus
+	this flag cannot be used with such protocols. The {\tt MSG\_PEEK}
+	flag causes the receive operation to return data from the beginning
+	of the receive queue without removing that data from the queue.
+	Thus, a subsequent receive call will return the same data. The {\tt
+	MSG\_WAITALL} flag requests that the operation block until the full
+	request is satisfied. However, the call may still return less data
+	than requested if a signal is caught, an error or disconnect occurs,
+	or the next data to be received is of a different type than that
+	returned.
+
+	The {\tt recvmsg} call uses a {\tt msghdr} structure to minimize the
+	number of directly supplied parameters. This structure has the
+	following form, as defined in {\tt sys/socket.h}:
+	\begin{verbatim}
+	struct msghdr {
+	    caddr_t msg_name; /* optional address */
+	    u_int msg_namelen; /* size of address */
+	    struct iovec *msg_iov; /* scatter/gather array */
+	    u_int msg_iovlen; /* # elements in msg_iov */
+	    caddr_t msg_control; /* ancillary data, see below */
+	    u_int msg_controllen; /* ancillary data buffer len */
+	    int msg_flags; /* flags on received message */
+	};
+	\end{verbatim}
+
+	Here {\tt msg\_name} and {\tt msg\_namelen} specify the destination
+	address if the socket is unconnected; {\tt msg\_name} may be given
+	as a null pointer if no names are desired or required. {\tt
+	msg\_iov} and {\tt msg\_iovlen} describe scatter gather locations,
+	as discussed in {\tt read(2)}. {\tt msg\_control}, which has length
+	{\tt msg\_controllen}, points to a buffer for other protocol control
+	related messages or other miscellaneous ancillary data. The messages
+	are of the form:\\
+	\begin{verbatim}
+	struct cmsghdr {
+	    u_int cmsg_len; /* data byte count, including hdr */
+	    int cmsg_level; /* originating protocol */
+	    int cmsg_type; /* protocol-specific type */
+	    /* followed by u_char cmsg_data[]; */
+	};
+	\end{verbatim}
+
+	As an example, one could use this to learn of changes in the
+	data-stream in XNS/SPP, or in ISO, to obtain user-connection-request
+	data by requesting a {\tt recvmsg} with no data buffer provided
+	immediately after an accept call.
+
+	Open file descriptors are now passed as ancillary data for {\tt AF\_UNIX}
+	domain sockets, with {\tt cmsg\_level} set to {\tt SOL\_SOCKET} and {\tt
+	cmsg\_type} set to {\tt SCM\_RIGHTS}.
+
+	The {\tt msg\_flags} field is set on return according to the message
+	received. {\tt MSG\_EOR} indicates end-of-record; the data returned
+	completed a record (generally used with sockets of type {\tt
+	SOCK\_SEQPACKET}). {\tt MSG\_TRUNC} indicates that the trailing
+	portion of a datagram was discarded because the datagram was larger
+	than the buffer supplied. {\tt MSG\_CTRUNC} indicates that some
+	control data were discarded due to lack of space in the buffer for
+	ancillary data. {\tt MSG\_OOB} is returned to indicate that
+	expedited or out-of-band data were received.
+\end{quote}
+
+{\sl RETURN VALUES}
+\begin{quote}
+ 	These calls return the number of bytes received, or -1 if
+ 	an error occurred.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EBADF} &
+		The argument s is an invalid descriptor.\\
+	{\tt ENOTCONN} &
+		The socket is associated with a connection-oriented protocol
+		and has not been connected (see {\tt connect(2)} and {\tt
+accept(2)}).\\
+
+	{\tt ENOTSOCK} &
+		The argument {\tt s} does not refer to a socket.\\
+	{\tt EWOULDBLOCK} &
+		The socket is marked non-blocking, and the receive
+		operation would block, or a receive timeout had
+		been set, and the timeout expired before data were
+		received.\\
+	{\tt EINTR} &
+		The receive was interrupted by delivery of a signal before any data
+		were available.\\
+	{\tt EFAULT} &
+		The receive buffer pointer(s) point outside the process's address
+space.
+\end{tabular}
+\end{quote}
+
+{\sl HISTORY}
+\begin{quote}
+ 	These function calls appeared in BSD 4.2.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt fcntl(2)}, {\tt read(2)}, {\tt select(2)}, {\tt getsockopt(2)},
+	{\tt socket(2)}
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt select()}}
+\begin{english}
+{\sl SELECT(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt select} - synchronous I/O multiplexing
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int select(int n, fd_set *readfds, fd_set *writefds,
+       fd_set *exceptfds, struct timeval *timeout);
+
+FD_CLR(int fd, fd_set *set);
+FD_ISSET(int fd, fd_set *set);
+FD_SET(int fd, fd_set *set);
+FD_ZERO(fd_set *set);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	{\tt select} waits for a number of file descriptors to change status.
+
+	Three independent sets of descriptors are watched. Those listed in
+	{\tt readfds} will be watched to see if characters become available 
+	for reading, those in {\tt writefds} will be watched to see if it is ok
+	to immediately write on them, and those in {\tt exceptfds} will be
+	watched for exceptions. On exit, the sets are modified in place 
+	to indicate which descriptors actually changed status.
+
+	Four macros are provided to manipulate the sets.
+	\begin{itemize}
+		\item {\tt FD\_ZERO} will clear a set.
+		\item {\tt FD\_SET} add a given descriptor from a set.
+		\item {\tt FD\_CLR} remove a given descriptor from a set.
+		\item {\tt FD\_ISSET} tests to see if a descriptor is part
+				of the set; this is useful after select returns.
+	\end{itemize}
+
+	{\tt n} is the highest-numbered descriptor in any of the three sets,
+	plus 1.
+
+	{\tt timeout} is an upper bound on the amount of time elapsed before 
+	select returns. It may be zero, causing select to return
+	immediately. If the timeout is {\tt NULL} (no timeout), select can block
+	indefinitely.
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	On success, {\tt select} returns the number of descriptors contained in
+	the descriptor sets, which may be zero if the timeout expires 
+	before anything interesting happens. On error, -1 is returned, and
+	{\tt errno} is set appropriately; the sets and timeout become undefined,
+	so do not rely on their contents after an error.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EBADF}	&
+		An invalid file descriptor was given in one of the sets.\\
+	{\tt EINTR}	&
+		A non blocked signal was caught.\\
+	{\tt EINVAL} &
+		{\tt n} is negative.\\
+	{\tt ENOMEM} &
+		{\tt select} was unable to allocate memory for internal
+		tables.
+\end{tabular}
+\end{quote}
+
+{\sl NOTES}
+\begin{quote}
+	Some code calls {\tt select} with all three sets empty, {\tt n} zero,
+	and a non-null {\tt timeout} as a fairly portable way to sleep with
+	subsecond precision.
+
+	On Linux, {\tt timeout} is modified to reflect the amount of time
+	not slept; most other implementations do not do this. This causes
+	problems both when Linux code which reads {\tt timeout} is 
+	ported to other operating systems, and when code is ported to Linux
+	that reuses a {\tt struct timeval} for multiple selects in a 
+	loop without reinitializing it. Consider {\tt timeout} to be
+	undefined after select returns.
+\end{quote}
+
+{\sl EXAMPLE}
+\begin{quote}
+\begin{verbatim}
+#include <stdio.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main(void)
+{
+    fd_set rfds;
+    struct timeval tv;
+    int retval;
+
+    /* Watch stdin (fd 0) to see when it has input. */
+    FD_ZERO(&rfds);
+    FD_SET(0, &rfds);
+    /* Wait up to five seconds. */
+    tv.tv_sec = 5;
+    tv.tv_usec = 0;
+
+    retval = select(1, &rfds, NULL, NULL, &tv);
+    /* Don't rely on the value of tv now! */
+
+    if (retval)
+        printf("Data is available now.\n");
+        /* FD_ISSET(0, &rfds) will be true */
+    else
+        printf("No data within five seconds.\n");
+    exit(0);
+}
+\end{verbatim}
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt accept(2)}, {\tt connect(2)}, {\tt read(2)}, {\tt recv(2)},
+	{\tt send(2)}, {\tt write(2)}
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt send()} et {\tt sendto()}}
+\begin{english}
+{\sl SEND(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt send}, {\tt sendto}, {\tt sendmsg} - send a message from a socket
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int send(int s, const void *msg, int len ,
+         unsigned int flags);
+
+int sendto(int s, const void *msg, int len,
+           unsigned int flags, const struct sockaddr *to,
+           int tolen);
+
+int sendmsg(int s, const struct msghdr *msg ,
+            unsigned int flags);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	WARNING: This is a BSD man page. As of Linux 0.99.11, {\tt sendmsg}
+	was not implemented.
+
+	{\tt send}, {\tt sendto}, and {\tt sendmsg} are used to transmit a
+	message to another socket. Send may be used only when the socket
+	is in a connected state, while {\tt sendto} and {\tt sendmsg} may
+	be used at any time.
+
+	The address of the target is given by to with tolen specifying its
+	size. The length of the message is given by {\tt len}. If the
+	message is too long to pass atomically through the underlying
+	protocol, the error {\tt EMSGSIZE} is returned, and the message is
+	not transmitted.
+
+	No indication of failure to deliver is implicit in a send. Locally
+	detected errors are indicated by a return value of -1.
+
+	If no messages space is available at the socket to hold the 
+	message to be transmitted, then send normally blocks, unless the
+	socket has been placed in non-blocking I/O mode. The {\tt
+	select(2)} call may be used to determine when it is possible to send
+	more data.
+
+	The flags parameter may include one or more of the following:
+	\begin{verbatim}
+		#define MSG_OOB        0x1  /* process out-of-band data */
+		#define MSG_DONTROUTE  0x4  /* bypass routing, use direct
+		                               interface */
+	\end{verbatim}
+
+	The flag {\tt MSG\_OOB} is used to send out-of-band data on sockets
+	that support this notion (e.g. {\tt SOCK\_STREAM}); the
+	underlying protocol must also support out-of-band data. {\tt
+	MSG\_DONTROUTE} is usually used only by diagnostic or routing
+	programs.
+
+	See {\tt recv(2)} for a description of the {\tt msghdr} structure.
+\end{quote}
+
+{\sl RETURN VALUES}
+\begin{quote}
+	The  call  returns the number of characters sent, or -1 if an error
+	occurred.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EBADF} &
+		An invalid descriptor was specified.\\
+	{\tt ENOTSOCK} &
+		The argument s is not a socket.\\
+	{\tt EFAULT} &
+		An invalid user space address was specified for a
+		parameter.\\
+	{\tt EMSGSIZE} &
+		The socket requires that message be sent atomically,
+		and the size of the message to be sent made
+		this impossible.\\
+	{\tt EWOULDBLOCK} &
+		The socket is marked non-blocking and the
+		requested operation would block.\\
+	{\tt ENOBUFS} &
+		The system was unable to allocate an internal
+		buffer. The operation may succeed when buffers
+		become available.\\
+	{\tt ENOBUFS} &
+		The output queue for a network interface was full.
+		This generally indicates that the interface has
+		stopped sending, but may be caused by transient
+		congestion.
+\end{tabular}
+\end{quote}
+
+{\sl HISTORY}
+\begin{quote}
+	These function calls appeared in BSD 4.2.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt fcntl(2)}, {\tt recv(2)}, {\tt select(2)}, {\tt getsockopt(2)},
+	{\tt socket(2)}, {\tt write(2)}
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt signal()}}
+\begin{english}
+{\sl SIGNAL(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt signal} - ANSI C signal handling.
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <signal.h>
+
+void (*signal(int signum, void (*handler)(int)))(int);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	The {\tt signal} system call installs a new signal handler for signal
+	{\tt signum}. The signal handler is set to handler which may be a user
+	specified function, or one of the following:
+
+	\begin{tabular}{lp{8cm}}
+		{\tt SIG\_IGN} & Ignore the signal.\\
+		{\tt SIG\_DFL} & Reset the signal to its default behavior.
+	\end{tabular}
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	{\tt signal} returns the previous value of the signal handler, or
+	{\tt SIG\_ERR} on error.
+\end{quote}
+
+{\sl NOTES}
+\begin{quote}
+	Signal handlers cannot be set for {\tt SIGKILL} or {\tt SIGSTOP}.
+
+	Unlike BSD systems, signals under Linux are reset to their default
+	behavior when raised.
+
+	If you're confused by the prototype at the top of this manpage,
+	it may help to see it separated out thus:
+	\begin{verbatim}
+		typedef void (*sighandler_t)(int);
+		sighandler_t signal(int signum, sighandler_t handler);
+	\end{verbatim}
+\end{quote}
+
+{\sl CONFORMING TO}
+\begin{quote}
+	ANSI C
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt kill(1)}, {\tt kill(2)}, {\tt killpg(2)}, {\tt pause(2)}, {\tt
+raise(3)},
+	{\tt sigaction(2)}, {\tt signal(7)}, {\tt sigsetops(3)}, {\tt
+sigvec(2)}
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt socket()}}
+\begin{english}
+{\sl SOCKET(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt socket} - create an endpoint for communication
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int socket(int domain, int type, int protocol);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	{\tt socket} creates an endpoint for communication and returns a
+	descriptor.
+
+	The {\tt domain} parameter specifies a communications domain within 
+	which communication will take place; this selects the protocol
+	family which should be used. These families are defined in the
+	include file {\tt sys/socket.h}. The currently understood formats are:
+	\begin{quote}
+	\begin{tabular}{lp{5cm}}
+		{\tt AF\_UNIX}		&	(UNIX internal protocols)\\
+		{\tt AF\_INET}		&	(ARPA Internet protocols)\\
+		{\tt AF\_ISO}		&	(ISO protocols)\\
+		{\tt AF\_NS}			&	(Xerox Network Systems protocols)\\
+		{\tt AF\_IMPLINK}	&	(IMP ``host at IMP'' link layer)
+	\end{tabular}
+	\end{quote}
+
+	The socket has the indicated type, which specifies the semantics of
+	communication. Currently defined types are:
+	\begin{quote}
+		{\tt SOCK\_STREAM}\\
+		{\tt SOCK\_DGRAM}\\
+		{\tt SOCK\_RAW}\\
+		{\tt SOCK\_SEQPACKET}\\
+		{\tt SOCK\_RDM}
+	\end{quote}
+	
+	A {\tt SOCK\_STREAM} type provides sequenced, reliable, two-way connection
+	based byte streams. An out-of-band data transmission mechanism 
+	may be supported. A {\tt SOCK\_DGRAM} socket supports datagrams
+	(connectionless, unreliable messages of a fixed (typically small)
+	maximum length). A {\tt SOCK\_SEQPACKET} socket may provide a sequenced, 
+	reliable, two-way connection-based data transmission path for
+	datagrams of fixed maximum length; a consumer may be required to 
+	read an entire packet with each read system call. This facility is
+	protocol specific, and presently implemented only for {\tt PF\_NS}. 
+	{\tt SOCK\_RAW} sockets provide access to internal network protocols and 
+	interfaces. The types {\tt SOCK\_RAW}, which is available only to the
+	super-user, and {\tt SOCK\_RDM}, which is planned, but not yet 
+	implemented, are not described here.
+
+	The protocol specifies a particular protocol to be used with
+	the socket. Normally only a single protocol exists to support a
+	particular socket type within a given protocol family. However,
+	it is possible that many protocols may exist, in which case a
+	particular protocol must be specified in this manner. The protocol
+	number to use is particular to the ``communication domain'' in
+	which communication is to take place; see {\tt protocols(5)}.
+
+	Sockets of type {\tt SOCK\_STREAM} are full-duplex byte streams, similar 
+	to pipes. A stream socket must be in a connected state before any
+	data may be sent or received on it. A connection to another
+	socket is created with a {\tt connect(2)} call. Once connected, data 
+	may be transferred using {\tt read(2)} and {\tt write(2)} calls or some
+	variant of the {\tt send(2)} and {\tt recv(2)} calls. When a session has been 
+	completed a {\tt close(2)} may be performed. Out-of-band data may also
+	be transmitted as described in {\tt send(2)} and received as
+	described in {\tt recv(2)}.
+
+	The communications protocols used to implement a
+	{\tt SOCK\_STREAM} insure that data is not lost or duplicated. If a
+	piece of data for which the peer protocol has buffer space cannot be
+	successfully transmitted within a reasonable length of time, 
+	then the connection is considered broken and calls will indicate an
+	error with -1 returns and with {\tt ETIMEDOUT} as the specific
+	code in the global variable {\tt errno}. The protocols optionally keep
+	sockets warm by forcing transmissions roughly every minute in the
+	absence of other activity. An error is then indicated if no 
+	response can be elicited on an otherwise idle connection for a
+	extended period (e.g. 5 minutes). A {\tt SIGPIPE} signal is raised 
+	if a process sends on a broken stream; this causes naive processes,
+	which do not handle the signal, to exit.
+
+	{\tt SOCK\_SEQPACKET} sockets employ the same system calls as
+	{\tt SOCK\_STREAM} sockets. The only difference is that {\tt read(2)} calls 
+	will return only the amount of data requested, and any remaining in
+	the arriving packet will be discarded.
+
+	{\tt SOCK\_DGRAM} and {\tt SOCK\_RAW} sockets allow sending of datagrams to 
+	correspondents named in {\tt send(2)} calls. Datagrams are generally
+	received with {\tt recvfrom(2)}, which returns the next datagram with
+	its return address.
+
+	An {\tt fcntl(2)} call can be used to specify a process group to receive a
+	{\tt SIGURG} signal when the out-of-band data arrives. It may also enable
+	non-blocking I/O and asynchronous notification of I/O events via
+	{\tt SIGIO}.
+
+	The operation of sockets is controlled by socket level options. 
+	These options are defined in the file {\tt sys/socket.h}. 
+	{\tt setsockopt(2)} and {\tt getsockopt(2)} are used to set and get options,
+	respectively.
+\end{quote}
+
+{\sl RETURN VALUES}
+\begin{quote}
+	A  -1 is returned if an error occurs, otherwise the return
+	value is a descriptor referencing the socket.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+\begin{tabular}{lp{8cm}}
+	{\tt EPROTONOSUPPORT}	&
+		The protocol type or the specified protocol is not supported within
+		this domain.\\
+	{\tt EMFILE}	&
+		The per-process descriptor table is full.\\
+	{\tt ENFILE}	&
+		The system file table is full.\\
+	{\tt EACCESS}	&
+		Permission to create a socket of the specified type and/or protocol
+		is denied.\\
+	{\tt ENOBUFS}	&
+		Insufficient buffer space is available. The socket cannot be created
+		until sufficient resources are freed.
+	\end{tabular}
+\end{quote}
+
+{\sl HISTORY}
+\begin{quote}
+	The socket function call appeared in BSD 4.2.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt accept(2)}, {\tt bind(2)}, {\tt connect(2)}, {\tt
+	getprotoent(3)}, {\tt getsockname(2)}, {\tt getsockopt(2)}, {\tt
+	ioctl(2)}, {\tt listen(2)}, {\tt read(2)}, {\tt recv(2)}, {\tt
+	select(2)}, {\tt send(2)}, {\tt shutdown(2)}, {\tt socketpair(2)},
+	{\tt write(2)}
+
+	<<~An Introductory 4.3 BSD Interprocess Communication Tutorial~>> is
+	reprinted in {\Unix} Programmer's Supplementary Documents Volume 1
+
+	<<~BSD Interprocess Communication Tutorial~>> is reprinted in {\Unix}
+	Programmer's Supplementary Documents Volume 1
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt write()}}
+\begin{english}
+{\sl WRITE(2)}\\
+
+{\sl NAME}
+\begin{quote}
+	write - write to a file descriptor
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+#include <sys/types.h>
+#include <unistd.h>
+
+size_t write(int fd, const char *buf, size_t count);
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	{\tt write} writes up to {\tt count} bytes from file descriptor
+	{\tt fd} from the buffer starting at {\tt buf}.
+\end{quote}
+
+{\sl RETURN VALUE}
+\begin{quote}
+	On success, the number of bytes written are returned (zero indicates
+	 nothing was written). On error, -1 (or {\tt MAXINT}, as {\tt
+	size\_t} is unsigned) is returned, and {\tt errno} is set
+	appropriately.
+\end{quote}
+
+{\sl ERRORS}
+\begin{quote}
+	\begin{tabular}{lp{8cm}}
+		{\tt EBADF}	&
+			{\tt fd} is not a valid file descriptor or is not open for writing.\\
+		{\tt EINVAL}	&
+			{\tt fd} is attached to an object which is unsuitable for writing.\\
+		{\tt EFAULT}	&
+			{\tt buf} is outside your accessible address space.\\
+		{\tt EPIPE}	&
+			{\tt fd} is connected to a pipe or socket whose reading end is closed. When
+			this happens the writing process will receive a {\tt SIGPIPE} signal; if
+			it catches, blocks or ignores this the error {\tt EPIPE} is returned.\\
+		{\tt EAGAIN}	&
+			Non-blocking I/O has been selected using {\tt O\_NONBLOCK} and there was no
+			room in the pipe or socket connected to {\tt fd} to write the data
+			immediately.\\
+		{\tt EINTR}	&
+			The call was interrupted by a signal before any data was written.\\
+		{\tt ENOSPC}	&
+			The device containing the file referred to by {\tt fd} has no room for the
+			data.\\
+	\end{tabular}
+
+	Other errors may occur, depending on the object connected to {\tt fd}.
+\end{quote}
+
+{\sl CONFORMING TO}
+\begin{quote}
+	SVID, AT\&T, POSIX, X/OPEN, BSD 4.3
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt open(2)}, {\tt read(2)}, {\tt fcntl(2)}, {\tt close(2)},
+	{\tt lseek(2)}, {\tt select(2)}, {\tt ioctl(2)}, {\tt fwrite(3)}.
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\section{Pages du manuel de la section 8 (commandes administrateur)}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de {\tt inetd}}
+\begin{english}
+{\sl INETD(8)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt inetd} - internet ``super-server''
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+	{\tt inetd [-d] [configuration file]}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	Inetd should be run at boot time by {\tt /etc/rc.local} (see {\tt
+	rc(8)}). It then listens for connections on certain internet
+	sockets. When a connection is found on one of its sockets, it
+	decides what service the socket corresponds to, and invokes a
+	program to service the request. After the program is finished, it
+	continues to listen on the socket (except in some cases which will
+	be described below). Essentially, inetd allows running one daemon
+	to invoke several others, reducing load on the system.
+
+	The option available for {\tt inetd}:
+	\begin{description}
+		\item[{\tt -d}] Turns on debugging.
+	\end{description}
+
+	Upon execution, {\tt inetd} reads its configuration information from
+	a configuration file which, by default, is {\tt /etc/inetd.conf}.
+	There must be an entry for each field of the configuration file,
+	with entries for each field separated by a tab or a space.  Comments
+	are denoted by a ``{\tt \#}'' at the beginning of a line.  There
+	must be an entry for each field.  The fields of the configuration
+	file are as follows:
+	\begin{itemize}
+		\item service name
+		\item socket type
+		\item protocol
+ 		\item wait/nowait[.max]
+		\item user[.group]
+		\item server program
+		\item server program arguments
+	\end{itemize}
+
+	To specify an Sun-RPC based service, the entry would contain these
+	fields.
+	\begin{itemize}
+		\item service name/version
+		\item socket type
+		\item rpc/protocol
+		\item wait/nowait[.max]
+		\item user[.group]
+		\item server program
+		\item server program arguments
+	\end{itemize}
+
+	The service-name entry is the name of a valid service in the
+	file {\tt /etc/services}. For ``internal'' services (discussed
+	below), the service name must be the official name of the service
+	(that is, the first entry in {\tt /etc/services}). When used to
+	specify a Sun-RPC based service, this field is a valid RPC service
+	name in the file {\tt /etc/rpc}. The part on the right of the ``{\tt
+	/}'' is the RPC version number. This can simply be a single numeric
+	argument or a range of versions. A range is bounded by the low
+	version to the high version - ``{\tt rusers/1-3}''.
+
+	The socket-type should be one of ``{\tt stream}'', ``{\tt dgram}'',
+	``{\tt raw}'', ``{\tt rdm}'', or ``{\tt seqpacket}'', depending on
+	whether the socket is a stream, datagram, raw, reliably delivered
+	message, or sequenced packet socket.
+
+	The protocol must be a valid protocol as given in {\tt /etc/protocols}.
+	Examples might be ``{\tt tcp}'' or ``{\tt udp}''. Rpc based services are
+	specified with the ``{\tt rpc/tcp}'' or ``{\tt rpc/udp}'' service type.
+
+	The {\tt wait}/{\tt nowait} entry is applicable to datagram sockets
+	only (other sockets should have a ``{\tt nowait}'' entry in this
+	space). If a datagram server connects to its peer, freeing the
+	socket so {\tt inetd} can received further messages on the socket,
+	it is said to be a ``multi-threaded'' server, and should use the
+	``{\tt nowait}'' entry. For datagram servers which process all
+	incoming datagrams on a socket and eventually time out, the server
+	is said to be ``single-threaded'' and should use a ``{\tt wait}''
+	entry. {\tt comsat(8)} ({\tt biff(1)}) and {\tt talkd(8)} are both
+	examples of the latter type of datagram server. {\tt tftpd(8)} is
+	an exception; it is a datagram server that establishes
+	pseudo-connections. It must be listed as ``{\tt wait}'' in order to
+	avoid a race; the server reads the first packet, creates a new
+	socket, and then forks and exits to allow {\tt inetd} to check for
+	new service requests to spawn new servers. The optional ``{\tt
+	max}'' suffix (separated from ``{\tt wait}'' or ``{\tt nowait}'' by
+	a dot) specifies the maximum number of server instances that may be
+	spawned from {\tt inetd} within an interval of 60 seconds. When
+	omitted, ``{\tt max}'' defaults to 40.
+
+	The user entry should contain the user name of the user as whom the
+	server should run. This allows for servers to be given less
+	permission than root. An optional group name can be specified by
+	appending a dot to the user name followed by the group name. This
+	allows for servers to run with a different (primary) group id than
+	specified in the password file. If a group is specified and user is
+	not root, the supplementary groups associated with that user will
+	still be set.
+
+	The server-program entry should contain the pathname of the program
+	which is to be executed by {\tt inetd} when a request is found on
+	its socket. If {\tt inetd} provides this service internally, this entry
+	should be ``internal''.
+
+	The server program arguments should be just as arguments normally
+	are, starting with {\tt argv[0]}, which is the name of the program. 
+	If the service is provided internally, the word ``internal'' should
+	take the place of this entry.
+
+	{\tt inetd} provides several ``trivial'' services internally by use
+	of routines within itself. These services are ``{\tt echo}'',
+	``{\tt discard}'', ``{\tt chargen}'' (character generator), ``{\tt
+	daytime}'' (human readable time), and ``{\tt time}'' (machine
+	readable time, in the form of the number of seconds since midnight,
+	January 1, 1900). All of these services are tcp based. For details
+	of these services, consult the appropriate RFC from the Network
+	Information Center.
+
+	{\tt inetd} rereads its configuration file when it receives a hangup
+	signal, {\tt SIGHUP}. Services may be added, deleted or modified
+	when the configuration file is reread. {\tt inetd} creates a file
+	{\tt /etc/inetd.pid} that contains its process identifier.
+\end{quote}
+
+{\sl SEE ALSO}
+\begin{quote}
+	{\tt comsat(8)}, {\tt fingerd(8)}, {\tt ftpd(8)}, {\tt rexecd(8)},
+	{\tt rlogind(8)}, {\tt rshd(8)}, {\tt telnetd(8)}, {\tt tftpd(8)}
+\end{quote}
+
+{\sl HISTORY}
+\begin{quote}
+	The {\tt inetd} command appeared in 4.3BSD. Support for Sun-RPC based
+	services is modelled after that provided by Sun-OS 4.1.
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%
+\subsection{Manuel de la commande {\tt netstat}}
+\begin{english}
+{\sl NETSTAT(8)}\\
+
+{\sl NAME}
+\begin{quote}
+	{\tt netstat} - Display active network connections
+\end{quote}
+
+{\sl SYNOPSIS}
+\begin{quote}
+\begin{verbatim}
+netstat [[-a | [-t | -u | -w]] [-n | -o]  -x] [-c]
+
+netstat -i [-a] [-c]
+
+netstat -r [-c] [-n]
+
+netstat -v
+\end{verbatim}
+\end{quote}
+
+{\sl DESCRIPTION}
+\begin{quote}
+	{\tt netstat} displays the status of network connections on
+	either {\tt TCP}, {\tt UDP}, {\tt RAW} or {\Unix} sockets to 
+	the system. By default, {\tt netstat} only displays status on
+	active sockets which are not in the {\tt LISTEN} state (i.e. 
+	connections to active processes). To obtain information about the
+	kernel routing table, {\tt netstat} may be invoked with the option
+	{\tt -r}
+
+	{\tt netstat}'s display includes the following information for each
+	socket:
+	\begin{description}
+		\item[{\sl Proto}]\mbox{}\\
+			The protocol (either {\tt TCP} or {\tt UDP}) used by the socket.
+		\item[{\sl Recv-Q}]\mbox{}\\
+			The count of bytes not copied by the user program connected
+			to this socket.
+		\item[{\sl Send-Q}]\mbox{}\\
+			The count of bytes not acknoledged by the remote host.
+		\item[{\sl Local Address}]\mbox{}\\
+			The local address (local hostname) and port number of the
+			socket. Unless the {\tt -n} switch is given, the socket address
+			is resolved to its canonical hostname, and the port number
+			is translated into the corresponding service name.
+		\item[{\sl Foreign Address}]\mbox{}\\
+			The remote address (remote hostname) and port number of the
+			socket. As with the local {\tt address:port}, the {\tt -n} switch
+			turns off hostname and service name resolution.
+		\item[{\sl (State)}]\mbox{}\\
+			The state of the socket. Since there are no states in {\tt RAW}
+			and usually no states used in {\tt UDP}, this row may be left
+			blank. Normally this can be one of several values:
+			\begin{description}
+				\item[{\tt ESTABLISHED}]\mbox{}\\
+					The socket has an established connection.
+				\item[{\tt SYN\_SENT}]\mbox{}\\
+					The socket is actively attempting to establish a
+					connection.
+				\item[{\tt SYN\_RECV}]\mbox{}\\
+					The connection is being initialized.
+				\item[{\tt FIN\_WAIT1}]\mbox{}\\
+					The socket is closed, and the connection is shutting down.
+				\item[{\tt FIN\_WAIT2}]\mbox{}\\
+					Connection is closed, and the socket is waiting for
+					a shutdown from the remote end.
+				\item[{\tt TIME\_WAIT}]\mbox{}\\
+					The socket is waiting after close for remote shutdown
+					retransmission.
+				\item[{\tt CLOSED}]\mbox{}\\
+					The socket is not being used.
+				\item[{\tt CLOSE\_WAIT}]\mbox{}\\
+					The remote end has shut down, waiting for the
+					socket to close.
+				\item[{\tt LAST\_ACK}]\mbox{}\\
+					The remote end shut down, and the socket is closed.
+					Waiting for acknowledgement.
+				\item[{\tt LISTEN}]\mbox{}\\
+					The socket is listening for incoming connections.
+				\item[{\tt CLOSING}]\mbox{}\\
+					Both sockets are shut down but we still don't have
+					all our data sent.
+				\item[{\tt UNKNOWN}]\mbox{}\\
+					The state of the socket is unknown.
+				\end{description}
+	\end{description}
+	
+	If {\tt netstat} is invoked with the option {\tt -o} , 
+	additional information will be displayed behind the state
+	info. These informations are shown like this: ``{\tt
+	rx-retransmission byte count}'' ``{\tt tx-retransmission byte
+	count}'' ``{\tt timer state}'' ``{\tt (time/backoff)}''. Timer state
+	may now be either on or off. The time (in seconds) being displayed
+	is how long it will take the timer to expire. All these options are
+	subject to be removed in later releases of the {\tt NET} software.
+
+	Being invoked with the option {\tt -x} , {\tt netstat} displays a
+	list of all active {\Unix} internal communication sockets.
+
+	{\tt netstat}'s display includes the following information for each
+	socket:
+	\begin{description}
+		\item[{\sl Proto}]\mbox{}\\
+			The protocol (usually {\Unix}) used by the socket.
+		\item[{\sl RefCnt}]\mbox{}\\
+			The reference count (i.e. attached processes via this
+			socket).
+		\item[{\sl Flags}]\mbox{}\\
+			The only displayed flag is {\tt SO\_ACCEPTON} (displayed as {\tt ACC})
+			otherwise left blank. {\tt SO\_ACCECPTON} is used on unconnected
+			sockets if their corresponding processes are waiting for a
+			connect request. The other flags are not of normal interest and
+			not displayed.
+		\item[{\sl Type}]\mbox{}\\
+			There are several types of socket access:
+			\begin{description}
+				\item[{\tt SOCK\_DGRAM}]\mbox{}\\
+					The socket is used in Datagram (connectionless)
+					mode.
+				\item[{\tt SOCK\_STREAM}]\mbox{}\\
+					This is a stream (connection) socket.
+				\item[{\tt SOCK\_RAW}]\mbox{}\\
+					The socket is used as a raw socket.
+				\item[{\tt SOCK\_RDM}]\mbox{}\\
+					This one serves reliably-delivered messages.
+				\item[{\tt SOCK\_SEQPACKET}]\mbox{}\\
+					This is a sequential packet socket.
+				\item[{\tt SOCK\_PACKET}]\mbox{}\\
+					{\tt RAW} interface access socket.
+				\item[{\tt UNKNOWN}]\mbox{}\\
+					Who ever knows, what the future will bring us -
+					just fill in here :-)
+			\end{description}
+		\item[{\sl State}]\mbox{}\\
+			This field will contain one of the following Keywords:
+			\begin{description}
+				\item[{\tt FREE}]\mbox{}\\
+					The socket is not allocated
+				\item[{\tt LISTENING}]\mbox{}\\
+					The socket is listening for a connection request.
+				\item[{\tt UNCONNECTED}]\mbox{}\\
+					The socket is not connected to another one.
+				\item[{\tt CONNECTING}]\mbox{}\\
+					The socket is about to establish a connection.
+				\item[{\tt CONNECTED}]\mbox{}\\
+					The socket is connected.
+				\item[{\tt DISCONNECTING}]\mbox{}\\
+					The socket is disconnecting.
+				\item[{\tt UNKNOWN}]\mbox{}\\
+					This state should never happen.
+			\end{description}
+		\item[{\sl Path}]\mbox{}\\
+			This displays the path name as which the corresponding
+			processes attached to the socket.
+	\end{description}
+
+	The network routing table (invoked with {\tt netstat -r}) shows up
+	the following information:
+	\begin{description}
+		\item[{\sl Destination net/address}]\mbox{}\\
+			The destination adress of a resolved host or hand-entered
+			network is displayed. Unless the option {\tt -n} is given, the
+			hosts or nets are resolved. An entry named ``{\tt default}'' shows
+			up the default route for the kernel.
+		\item[{\sl Gateway address}]\mbox{}\\
+			If there is no Asterisk (``{\tt *}'') displayed - any data will be
+			routed to the dedicated gateway.
+		\item[{\sl Flags}]\mbox{}\\
+			Possible routeing flags are:\\
+			\begin{tabular}{lp{8cm}}
+				{\tt U} & This route is useable \\
+				{\tt G} & Destination is a gateway \\
+				{\tt H} & Destination is a Host entry \\
+				{\tt R} & Route will be reinstated after time-out \\
+				{\tt D} & This one is created dynamically (by redirection) \\
+				{\tt M} & This one is modified dynamically (by redirection)
+			\end{tabular}
+		\item[{\sl RefCnt}]\mbox{}\\
+			Reference count for this route
+		\item[{\sl Use}]\mbox{}\\
+			How many times this route was used yet
+		\item[{\sl Iface}]\mbox{}\\
+			This is the name of the Interface, where this route
+			belongs to.
+	\end{description}
+
+	The device statistics table (invoked with {\tt netstat -i})
+	displays information about the interfaces:
+	\begin{description}
+		\item[{\sl Iface}]\mbox{}\\
+			The name this interface.
+		\item[{\tt MTU}]\mbox{}\\
+			Maximum size for transmission on this interface. This
+			should be the size of data transferred on this interface
+			without interface specific headers.
+		\item[{\tt RX-OK}]\mbox{}\\
+			error free received packets for this interface.
+		\item[{\tt RX-ERR}]\mbox{}\\
+			buggy received packets.
+		\item[{\tt RX-DRP}]\mbox{}\\
+			dropped received packets (due to memory lack ?).
+		\item[{\tt RX-OVR}]\mbox{}\\
+			packets that we were unable to receive that fast way.
+		\item[{\tt TX-OK}]\mbox{}\\
+			error free transmitted packets for this interface.
+		\item[{\tt TX-ERR}]\mbox{}\\
+			buggy transmitted packets.
+		\item[{\tt TX-DRP}]\mbox{}\\
+			dropped transmitteded packets.
+		\item[{\tt TX-OVR}]\mbox{}\\
+			packets that we were unable to transmit.
+		\item[{\sl Flags}]\mbox{}\\
+			The following flags may occur on the given interfaces:\\
+			\begin{tabular}{lp{8cm}}
+			{\tt A} & This interface will receive all Multicast adresses.\\
+			{\tt B} & Broadcasts are ok here.\\
+			{\tt D} & Debugging is turned on.\\
+			{\tt L} & Interface is a loopback device.\\
+			{\tt M} & All packets are received (Promisc-Mode).\\
+			{\tt N} & Trailers are avoided.\\
+			{\tt O} & No Addres Resolution Protocol on this Interface.\\
+			{\tt P} & Interface is a Point-to-Point connection.\\
+			{\tt R} & Interface is running.\\
+			{\tt U} & Interface is up.
+			\end{tabular}
+	\end{description}
+
+	Options:\\
+	\begin{tabular}{lp{8cm}}
+	{\tt -a}	&	Display information about all internet sockets,
+					i.e. {\tt TCP}, {\tt UDP}, {\tt RAW} and {\Unix}
+					including those sockets that are listening only.\\
+	{\tt -i}	&	Show network devices statistics.\\
+	{\tt -c}	&	Generate a continuous listing of network status:
+					network status is displayed every second until the
+					program is interrupted.\\
+	{\tt -n}	&	Causes {\tt netstat} not to resolve hostnames and service
+					names when displaying remote and local address and
+					port information.\\
+	{\tt -o}	&	Display timer states, expiration times and backoff
+					state.\\
+	{\tt -r}	&	Display kernel routing table.\\
+	{\tt -t}	&	Display information about {\tt TCP} sockets only, including
+					those that are listening.\\
+	{\tt -u}	&	Display information about {\tt UDP} sockets only.\\
+	{\tt -v}	&	Print version information.\\
+	{\tt -w}	&	Display information about raw sockets.\\
+	{\tt -x}	&	Display information about {\Unix} domain sockets.
+	\end{tabular}
+\end{quote}
+
+{\sl FILES}
+\begin{quote}
+	{\tt /etc/services} -- The services translation file\\
+
+	{\tt /proc/net/socket} -- devices information\\
+
+	{\tt /proc/net/raw} -- {\tt RAW} socket information\\
+
+	{\tt /proc/net/route} -- Kernel routing information\\
+
+	{\tt /proc/net/tcp} -- {\tt TCP} socket information\\
+
+	{\tt /proc/net/udp} -- {\tt UDP} socket information\\
+
+	{\tt /proc/net/unix} -- {\Unix} domain socket information
+\end{quote}
+
+{\sl BUGS}
+\begin{quote}
+	Occasionally strange information may appear if a socket changes
+	as it is viewed. This is unlikely to occur.
+\end{quote}
+
+{\sl AUTHORS}
+\begin{quote}
+	The netstat user interface was written by Fred Baumgarten\footnote{{\tt
+	dc6iq@insu1.etec.uni-karlsruhe.de}} the man page basically by Matt
+	Welsh\footnote{{\tt mdw@tc.cornell.edu}}. It was updated by Alan
+	Cox\footnote{{\tt Alan.Cox@linux.org}} but could do with a bit more
+	work.
+\end{quote}
+\end{english}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Fin Annexes
+%
+\end{appendix}

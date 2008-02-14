@@ -1,0 +1,159 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Introduction
+%
+\chapter{Introduction}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Préliminaires}
+
+Dans l'ensemble de ce document, nous ferons référence souvent au système d'exploitation {\Unix}. Par ce
+terme générique, nous désignerons l'ensemble des {\Unix}s commerciaux du marché tel que~:
+\begin{itemize}
+\item	<<~AIX~>>, l'{\Unix} d'IBM,
+\item	<<~HP-UX~>>, l'{\Unix} de Hewlett-Packard,
+\item	<<~Solaris~>>, l'{\Unix} de Sun Microsystems,
+\item	<<~Irix~>>, l'{\Unix} de Silicon Graphics,
+\item	etc.
+\end{itemize}
+Nous désignerons aussi, par la même occasion, l'ensemble des {\Unix} libres tel que~:
+\begin{itemize}
+\item	{\Linux},
+\item	les différentes variantes des {\Unix} BSD, comme \textsc{OpenBSD}, \textsc{NetBSD},
+\item	etc.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Objectifs}
+
+Ce support vise {\`a} introduire la notion des {\sl BSD Sockets}, utilis{\'e}es par les
+programmeurs pour permettre {\`a} plusieurs processus de communiquer, que ceux-ci
+soient sur la m{\^e}me machine ou sur des ordinateurs diff{\'e}rents.
+
+Ce moyen de communication fut d{\'e}velopp{\'e} {\`a} la base sur {\Unix} en utilisant le
+protocole {\sc IP}. Les {\sl BSD Sockets} sont disponibles actuellement sur tout
+syst{\`e}me supportant {\sc IP}, on pourra les retrouver sur~:
+\begin{itemize}
+\item {\OpenVMS},
+\item {\sl Macintosh},
+\item les variantes des systèmes {\Windows},
+\item etc.
+\end{itemize}
+
+Cette librairie de fonctions ne se limite plus au seul protocole IP. Il est possible
+de l'utiliser pour assurer la communication entre plusieurs machines utilisant un
+m{\^e}me protocole r{\'e}seau comme :
+\begin{itemize}
+	\item AppleTalk,
+	\item DECnet (ou DNA),
+	\item SNA,
+	\item etc.
+\end{itemize}
+
+L'objectif de ce document est donc de donner les bases pour permettre le
+d{\'e}veloppement de programmes utilisant cette biblioth{\`e}que de fonctions.
+
+Dans toute la suite, les prototypes utilis{\'e}s seront ceux du langage C.
+On supposera donc que le lecteur~:
+\begin{itemize}
+\item a d{\'e}j{\`a} des notions de programmation avec ce langage,
+\item sait appeler le compilateur sur les syst{\`e}mes de son choix.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Description du document}
+
+Ce document se d{\'e}compose de la fa\c{c}on suivante:
+\begin{description}
+\item[Rappels~:]\mbox{}\\
+Nous ferons un bref rappel sur le mod{\`e}le OSI\footnote{Open Systems Interconnect} et le parall{\`e}le que l'on
+peut faire au niveau de diff{\'e}rents protocoles de communications utilis{\'e}s dans le monde informatique.
+
+\item[Introduction {\`a} IP~:]\mbox{}\\
+Nous verrons les principes de base du protocole IP, 
+protocole de communication essentiellement utilis{\'e} avec les {\sl BSD Sockets}.
+Nous donnerons un aper\c{c}u sur~:
+\begin{itemize}
+	\item les caract{\'e}ristiques du protocole IP,
+	\item les principes g{\'e}n{\'e}raux du routage,
+	\item la d{\'e}finition des adresses\footnote{dans la version 4 du protocole IP},
+	\item les m{\'e}canismes de r{\'e}solution d'adresse: le protocole {\sl ARP},
+	\item les protocoles associ{\'e}s {\`a} la couche {\sl transport} du mod{\`e}le OSI~: les
+		  protocoles TCP et UDP.
+\end{itemize} 
+
+\item[Commandes de base {\sl BSD} au niveau {\Unix}~:]\mbox{}\\
+Nous ferons un bref aper\c{c}u des commandes {\sl BSD} utilis{\'e}es sous {\Unix}~:
+\begin{itemize}
+\item la connection {\`a} un site distant~: {\tt rlogin}
+\item le transfert de fichiers~: {\tt rcp}
+\item l'ex{\'e}cution {\`a} distance~: {\tt rsh}\footnote{{\tt remsh} sur certains syst{\`e}mes
+{\Unix} comme >>~HP-UX~>> de Hewlett-Packard}
+\end{itemize}
+
+\item[Introduction aux <<~BSD Sockets~>>~:]\mbox{}\\
+Nous verrons les g{\'e}n{\'e}ralit{\'e}s sur les {\sl BSD sockets}, comme~:
+\begin{itemize}
+\item les IPC\footnote{{\sl Inter Process Communication}},
+\item la d{\'e}finition des {\sl sockets},
+\item la d{\'e}finition des termes de <<~domaine de communication~>>
+	  \footnote{{\sl communication domain}}, <<~famille de protocoles~>>
+	  \footnote{{\sl protocol family}}, <<~famille d'adresses~>>
+	  \footnote{{\sl address family}},
+\item la diff{\'e}rence entre le mode connect{\'e} et le mode non connect{\'e},
+\item le mod{\`e}le client/serveur utilis{\'e} au niveau de la programmation avec  les <<~BSD Sockets~>>.
+\end{itemize}
+
+\item[Les {\sl Internet Stream Sockets}~:]\mbox{}\\
+Nous verrons la d{\'e}finition et les caract{\'e}ristiques des {\sl Internet Stream Sockets}, ainsi que les
+diff{\'e}rents appels pour les utiliser. Les {\sl Internet Stream Sockets} sont des canaux
+de communications fonctionnant en << mode connect{\'e}>> (cf. section ~\ref{intsock-conn-nconn}).
+
+\item[Les {\sl {\Unix} Stream Sockets}~:]\mbox{}\\
+Nous verrons la d{\'e}finition et les caract{\'e}ristiques des {\sl {\Unix} Stream Sockets}, ainsi que les
+diff{\'e}rents appels pour les utiliser. Les {\sl {\Unix} Stream Sockets} sont des canaux
+de communication entre processus {\bf sur une m{\^e}me machine} {\Unix} fonctionnant en
+<< mode connect{\'e}>> (cf. section ~\ref{intsock-conn-nconn}).
+
+
+\item[Les {\sl Internet Datagram Sockets}~:]\mbox{}\\
+Nous verrons la d{\'e}finition et les caract{\'e}ristiques des {\sl Internet Datagram Sockets}, ainsi que les
+diff{\'e}rents appels pour les utiliser. Les {\sl Internet Datagram Sockets} sont des
+canaux de communications fonctionnant en << mode non-connect{\'e}>> (cf. section ~\ref{intsock-conn-nconn}).
+
+\item[Programmation avanc{\'e}e avec les {\sl BSD Sockets}~:]\mbox{}\\
+Nous verrons les diff{\'e}rentes fonctions  pour une utilisation avanc{\'e}e des {\sl BSD Sockets}.
+
+Nous aborderons les points suivants~:
+	\begin{itemize}
+	\item	les entr{\'e}es$/$sorties bloquantes (synchrones) et non-bloquantes (asynchrone),
+	\item	une introduction {\`a} la gestion des signaux re\c{c}us par un processus,
+	\item	la modification des attributs d'une socket,
+	\item	la gestion simultan{\'e}e de plusieurs sockets au niveau du serveur,
+	\item	les messages urgents.
+	\end{itemize}
+
+\item[Notions avanc{\'e}es de r{\'e}seau sur les syst{\`e}mes {\Unix}~:]\mbox{}\\
+Nous verrons quelques notions avanc{\'e}es du syst{\`e}me {\Unix} pour
+offrir des services r{\'e}seau avec le processus {\tt inetd}. L'{\'e}quivalent de
+ce processus 	se retrouvera avec l'implantation du protocole IP sur diff{\'e}rents
+syst{\`e}mes 	d'exploitation. Nous verrons aussi~:
+	\begin{itemize}
+		\item les options disponibles pour les sockets,
+		\item examiner et modifier les options d'une socket,
+		\item certains appels syst{\`e}mes avanc{\'e}s.
+	\end{itemize}
+
+\item[Les appels syst{\`e}mes associ{\'e}s aux services r{\'e}seau~:]\mbox{}\\
+Nous verrons les appels syst{\`e}mes avanc{\'e}s sous {\Unix}\footnote{dont
+on retrouvera une adaptation sur la plupart des implémentations du protocole {\sc IP} sur les syst{\`e}mes non {\Unix}.}
+associ{\'e}s aux r{\'e}seau.
+
+Nous examinerons comment obtenir des informations sur les appels aux annuaires~:
+	\begin{itemize}
+	\item	des noms de machine afin de conna{\^\i}tre l'adresse r{\'e}seau,
+	\item	des caract{\'e}ristiques syst{\`e}mes des services r{\'e}seau disponibles,
+	\item	des r{\'e}seaux IP,
+	\item	des protocoles IP.
+	\end{itemize}
+\end{description}
