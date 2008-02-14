@@ -1,0 +1,11 @@
+div.main {
+	margin : 10%;
+	text-align : center;
+	border : solid red 1px;
+}
+
+div.session_form {
+	margin : 10%;
+	text-align : center;
+	border : solid blue 1px;
+}
