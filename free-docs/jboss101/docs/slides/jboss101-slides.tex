@@ -82,7 +82,7 @@
 		\end{block}
 		\begin{block}{Purpose of the specification}
 			\begin{itemize}
-				\item Basicly, J2EE specification defines what an application server should do (not how is should do it)
+				\item Basicly, J2EE specification defines what an application server should do (not how it should do it)
 				\item Application development is focused on business logic
 			\end{itemize}
 		\end{block}
@@ -128,7 +128,7 @@
 	\end{frame}
 	\begin{frame}
 	 	\begin{block}{Deployement order}
-			JBoss deploys application according to there suffix, plus some jboss-specific mecanism
+			JBoss deploys applications according to the filename suffix, plus some jboss-specific mecanism
 			\begin{enumerate}
 				\item deploy.first/, if this directory exist in deploy folder
 				\item *.sar 
@@ -142,7 +142,7 @@
 		\begin{block}{How to deploy}
 			Simply put the file/directory, with the proper suffix, into the server/\textit{config}/deploy directory to deploy it.
 			\begin{itemize}
-				\item Remote loading is possible (seldom used)
+				\item Remote deploy is possible (but seldom used)
 				\item \textbf{Russian Doll} packaging (ex: a jar containing a war and an other jar)
 				\item Creates a \textbf{Classloader} per top-level deployement
 			\end{itemize}
@@ -187,13 +187,16 @@
 	\end{frame}
 \section{JBoss Sliming and Tuning}
 	\begin{frame}
-		TODO: JBoss Sliming and TUning
 		\begin{block}{Removing unused services}
 			Services are deployed in deploy, if you don't use them, just remove them !
 		\end{block}
 		\begin{block}{Tuning static configuration}
 			Static services, such as the deployement scanner, may also be tuned, in the \textit{conf/} directory of jboss
 		\end{block}
+		\begin{block}{More about tuning...}
+			\url{http://wiki.jboss.org/wiki/Wiki.jsp?page=JBossASTuningSliming}{JBoss Sliming and Tuning}
+		\end{block}
+
 	\end{frame}
 \section{TD : Tuning the server}
 	\begin{frame}
