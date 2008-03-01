@@ -483,6 +483,16 @@ une seule chose. C'est la combinaison de ces commandes {\'e}l{\'e}mentaires,
 gr{\^a}ce au m{\'e}canisme des \textsl{pipes} qui permet l'obtention de r{\'e}sultats
 {\'e}labor{\'e}s.
 
+\subsection{Suppression des donn{\'e}es d'une sortie}
+
+Dans bien des cas, on peut souhaiter que les donn{\'e}es affich{\'e}es sur une sortie soient 
+simplement supprim{\'e}es. Pour cela, il suffit de rediriger la sortie vers un p{\'e}riph{\'e}rique
+virtuel, nomm{\'e} /dev/null. 
+\begin{center}
+ 	\fbox{\texttt{commande > /dev/null}}
+\end{center}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\label{basic-metacars}G{\'e}n{\'e}ration de noms de fichiers - Les m{\'e}tacaract{\`e}res}
 
