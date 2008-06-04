@@ -205,6 +205,11 @@ Le tableau \ref{tab-basnot-variables} donne la liste des
 \caption{\label{tab-basnot-variables}Liste des variables les plus usuelles.}
 \end{longtable}
 
+\begin{remarque}
+Comme l'illustre le contenu du tableau ci dessus, la pratique veut que les noms de variables
+soient {\'e}crites int{\'e}gralement en majuscules.
+\end{remarque}
+
 %%%%%%%%%%%
 \subsection{\label{basicnot-visuvariable}Visualisation d'une variable}
 
@@ -226,7 +231,7 @@ schmoll
 \end{example}
 
 Comme pour tout langage de programmation, le nom d'une variable est une suite de caract\`{e}res
-quelconques. Comme en langage C, les noms de variables sont sensibles à la casse (distinction entre
+quelconques. Comme en langage C, les noms de variables sont sensibles \`{a} la casse (distinction entre
 majuscules et minuscules). Par cons\'{e}quent, << \texttt{variable}~>> et <<~\texttt{VARIABLE}~>>
 sont deux entit\'{e}s diff\'{e}rentes.
 \begin{example}
@@ -269,6 +274,11 @@ la m\^{e}me r\`{e}gle de syntaxe afin de combiner l'appels au contenu d'une vari
 \index{variable!expression d'initialisation}expression. L'{\'e}valuation par le le shell {\Unix}
 renverra alors une valeur suivant le contexte.
 
+\begin{remarque}
+Il est consid{\'e}r{\'e} comme une bonne pratique \`{a} respecter de syst{\'e}matiquement encadrer ses 
+variables par des accolades, comme d{\'e}crit ci dessus, m{\^e}me si cela n'est pas n{\'e}cessaire.
+Cette pratique am{\'e}liore la visibilit{\'e} des scripts.
+\end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\label{basicnot-exec}Ex{\'e}cution d'une commande}
 
