@@ -419,21 +419,48 @@ Vous pouvez utiliser les m{\'e}tacaract{\`e}res avec <<~{\tt rsh}~>>. Si vous vo
 \end{remarque}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Connexion chiffr{\'e}e {\`a} une autre machine -- commande {\tt ssh}}
 
+%TODO: add link to http://fr.wikipedia.org/wiki/Secure_shell
+%TODO http://www.openssh.org/fr/index.html
+\section{Connexion chiffr{\'e}e {\`a} une autre machine -- commande {\tt ssh}}
+Les commandes précédentes ont non seulement des limitations (<<~{\tt rsh}~>> ne permet, par exemple, d'exécuter des commandes interactives) mais posent aussi des problèmes de sécurité. Désormais, le protocole \index{ssh@\texttt{ssh}}<<~\texttt{ssh}~>> (Secure SHell), et la commande qui lui est associé, est donc aujourd'hui le plus souvent utilisé, à la place de rlogin ou rsh .
+Caractéristique important, le protocole impose, au début de la communication, l'échange de clé de cryptage, permettant au reste de la dialogue de s'effectuer de manière chiffré.
+L'implementation de <<~{\tt ssh}~>> la plus courament utilisé est celle du projet libre OpenSSH.
 \begin{definition}{Syntaxe}
 \begin{verbatim}
 ssh [user]@[host:[port]]
 \end{verbatim}
 \end{definition}
+Un rapide exemple de connexion sur une machine distante à l'aide de ssh:
 
-\section{Transfert chiffr{\'e}e de fichier -- commande ssh}
+ssh -l arthur percival -p 22
 
+La syntaxe suivante, plus explicite, est aussi possible:
+
+ssh arthur@percival:22 
+
+% LINK to http://www.unixgarden.com/index.php/administration-systeme/principes-et-utilisation-de-ssh
+\begin{remarque}
+Le client <<~{ssh}~>> est un outil extremement puissant, qui permet, entre autres l'établissement de tunnel chiffré, à travers plusieurs machines. N'hésitez pas à en explorer les capacités. 
+\end{remarque}
+
+\begin{remarque}
+Le client <<~{ssh}~>> peut être utilisé comme un filtre, mais de manière assez particulière. Un rapide exemple pour illuster ce point:
+cat mon_fichier | ssh percival "cat > mon_fichier_distant" 
+La commande local cat va transférer vers ssh le contenu du mon_fichier, ce dernier va le mettre à disposition sur le flux d'entré du serveur distant (percival). Sur ce dernier, la commande cat va permettre de rediriger le flux vers mon_fichier_distant. 
+\end{remarque}
+
+\section{Transfert chiffr{\'e}e de fichier -- commande scp}
+La commande  \index{scp@\texttt{scp}}<<~\texttt{scp}~>> permet d'utiliser le protocole ssh pour transférer des fichiers, mais dans un flux chiffré. 
+
+Attention, il est important (et évident) de retenir que tout échange de fichier par ssh sera plus long et plus consommateur de resources du système qu'un simple transfert en clair.
 \begin{definition}{Syntaxe}
 \begin{verbatim}
 scp [user]@[host:[port]]file [user]@[host:[port]]fichier 
 \end{verbatim}
 \end{definition}
+
+
 
 \subsection{Comparaisons \texttt{telnet}/\texttt{rlogin} et \texttt{ftp}/\texttt{rcp}}
 
