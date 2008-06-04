@@ -37,7 +37,7 @@ sont plus de neuf.
 
 Le fait de lancer un programme shell cr{\'e}e un process dans lequel un
 shell s'ex{\'e}cute pour interpr{\'e}ter les commandes du Shell Script.
-La variable \index{variable!\$@\texttt{\$}}<<~\verb=$=~>> renvoie le PID
+La variable \index{variable!\$@\texttt{\$}}<<~\texttt{\$}~>> renvoie le PID
 du nouveau shell qui est lanc{\'e}.
 
 La variable \index{variable!\!@\texttt{\!}}<<~\verb=!=~>> renvoie le
@@ -88,11 +88,11 @@ non nul indique une erreur.
 \begin{example}
 \begin{tabular}{l@{\hspace{3ex}}p{9cm}}
 	\multicolumn{2}{l}{{\tt \% nom\_prog arg1 arg2 arg3}}				\\[0.5ex]
-	\verb=echo $#=	&	affiche <<~{\tt 3}~>> dans le programme shell.	\\
-	\verb=echo $*=	&	affiche la chaine <<~\verb*=arg1 arg2 arg3=~>>
+	\texttt{echo \$\#}	&	affiche <<~{\tt 3}~>> dans le programme shell.	\\
+	\texttt{echo \$*}	&	affiche la chaine <<~\verb*=arg1 arg2 arg3=~>>
 						dans le programme shell, <<~\verb*= =~>>
 						repr{\'e}sentant \spacekey.	\\
-	\verb=echo $$=	&	affiche le num{\'e}ro du processus dans le programme shell
+	\texttt{echo \$\$}	&	affiche le num{\'e}ro du processus dans le programme shell
 						s'ex{\'e}cute.\\
 \end{tabular}
 \end{example}
@@ -105,7 +105,7 @@ Il est possible de combiner des appels {\`a} une variable avec une
 {\'e}valu{\'e}e par le shell et, ainsi, renverra une valeur suivant le
 contexte.
 
-\begin{longtable}{|l|p{7cm}|}
+\begin{longtable}{|l|p{8cm}|}
 	\hline
 	\multicolumn{2}{|r|}{Suite de la page pr{\'e}c{\'e}dente.} \\
 	\hline

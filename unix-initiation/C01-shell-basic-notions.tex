@@ -207,7 +207,7 @@ Le tableau \ref{tab-basnot-variables} donne la liste des
 
 \begin{remarque}
 Comme l'illustre le contenu du tableau ci dessus, la pratique veut que les noms de variables
-soient {\'e}crites int{\'e}gralement en majuscules.
+d'environnement soient {\'e}crites int{\'e}gralement en majuscules.
 \end{remarque}
 
 %%%%%%%%%%%
@@ -247,8 +247,9 @@ sh_ksh%
 Il reste cependant une derni\`{e}re probl\'{e}matique~: celle de pouvoir fusionner le contenu de
 deux ou plusieurs variables avec une ou plusieurs cha\^{i}nes de caract\`{e}res. Par exemple~:
 
-\begin{tabular}{|c@{\hspace{2pt}}|@{\hspace{2pt}}l@{\hspace{2pt}}|@{\hspace{2pt}}p{5cm}|}
-	Langage			& \multicolumn{1}{c|}{Instruction}		&	\multicolumn{1}{c}{R\'{e}sultat}			\\[2ex]
+\begin{tabular}{|c|l|p{5cm}|}
+	Langage			& \multicolumn{1}{|c|}{Instruction}
+					& \multicolumn{1}{|c|}{R\'{e}sultat}			\\[2ex]
 	\hline \hline
 	Fortran			& \verb:STR='C''est un ':				&	\verb,C'est un exemple,						\\
 					& \verb:WRITE(*,*) STR//'exemple':		&												\\[2ex]
@@ -278,7 +279,8 @@ renverra alors une valeur suivant le contexte.
 Il est consid{\'e}r{\'e} comme une bonne pratique \`{a} respecter de syst{\'e}matiquement encadrer ses 
 variables par des accolades, comme d{\'e}crit ci dessus, m{\^e}me si cela n'est pas n{\'e}cessaire.
 Cette pratique am{\'e}liore la visibilit{\'e} des scripts.
-\end
+\end{remarque}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\label{basicnot-exec}Ex{\'e}cution d'une commande}
 
@@ -697,7 +699,7 @@ consid{\'e}r{\'e} comme tel. \textbf{C'est le m{\'e}canisme de recours aux quote
 		\verb=echo '$ABC > Bonjour'=	&	renvoie la cha{\^\i}ne <<~\verb=$ABC > Bonjour=~>> {\`a} l'{\'e}cran.\\
 	\end{tabular}
 
-	\item[\index{''@\texttt{''}}\textbf{doubles quotes <<~\texttt{"}~>>}]\mbox{}\\
+	\item[\index{"@\texttt{"}}\textbf{doubles quotes <<~\texttt{"}~>>}]\mbox{}\\
 		Annule l'interpr{\'e}tation de tous les caract{\`e}res entre les doubles quotes, {\`a} l'exception des
 		caract{\`e}res \verb=\=, \texttt{"}, \texttt{\$} et \texttt{`} (back quote).\\[0.5cm]
 	\textsl{Exemple~:}\\
@@ -790,7 +792,7 @@ consid{\'e}r{\'e} comme tel. \textbf{C'est le m{\'e}canisme de recours aux quote
 		\multicolumn{1}{|c|}{\textsl{Aucune.}} 					\\
 	\hline
 
-	\index{''@\texttt{''}}\texttt{"} (\textsl{double quotes})		&
+	\index{"@\texttt{"}}\texttt{"} (\textsl{double quotes})		&
 		Caract{\`e}re d'{\'e}chap\-pement						&
 		Annule l'interpr{\'e}tation de tous les caract{\`e}res
 		entre les <<~\texttt{"}~>>.								&

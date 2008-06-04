@@ -64,15 +64,21 @@ d'interruption, reportez vous {\`a} la section \ref{multi-task-fg-bg}.
 \end{remarque}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\label{multi-task-backq}Substitution de commande - caract{\`e}re {\sl back quote}}
+\section{\label{multi-task-backq}Substitution de commande}
 
 \begin{definition}{Syntaxe}
 \begin{tabular}{@{\hspace{1cm}}l}
-	{\tt `commande`}\\[0.2cm]
+	{\tt `\textsl{commande}`}\\[0.2cm]
+	{\tt \$(\textsl{commande})}	\\[0.2cm]
 \end{tabular}
 \end{definition}
 
-La substitution de commande se fait en utilisant le caract{\`e}re back quote (<<~\index{`@\texttt{`}}\texttt{`}~>>) pour lancer des commandes {\`a} ins{\'e}rer dans une cha{\^\i}ne de caract{\`e}res.
+La substitution de commande se fait en utilisant le caract{\`e}re back quote (<<~\index{`@\texttt{`}}\texttt{`}~>>)
+pour lancer des commandes {\`a} ins{\'e}rer dans une cha{\^\i}ne de caract{\`e}res. La substituion peut aussi
+s'effectuer en d\'{e}limitant la commande respectivement par <<~\texttt{\$(}~>> et <<~\texttt{)}~>>. Il est \`{a}
+noter que la deuxi\`{e}me syntaxe pr\'{e}cis\'{e}e ici est plus r\'{e}cente que la premi\`{e}re. Sur d'anciens
+interpr\'{e}teurs, celle-ci pourra ne pas \^{e}tre accept\'{e}e. Par contre, elle ne posera aucun probl\`{e}me
+dans les environnements plus r\'{e}cents comme le Bash.
 
 La substitution de commandes dans une cha{\^\i}ne de caract{\`e}res est une autre facilit{\'e} offerte par le shell. Elle permet de capturer la sortie d'une commande et de l'assigner {\`a} une variable ou de l'utiliser comme un argument d'une autre commande. Comme beaucoup de commandes {\Unix} g{\'e}n{\`e}rent une sortie, la substitution de commandes peut {\^e}tre tr{\`e}s int{\'e}ressante.
 
@@ -85,7 +91,15 @@ A propos de l'efficacit{\'e}, il est plus rapide, dans certains cas, d'effectuer
 % cd /etc
 % cd $current_dir
 \end{verbatim}
+
+\begin{verbatim}
+% echo "my current shell is $(basename $SHELL)"
+% current_dir=$(pwd)
+% cd /etc
+% cd $current_dir
+\end{verbatim}
 \end{example}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Commandes associ{\'e}es}
