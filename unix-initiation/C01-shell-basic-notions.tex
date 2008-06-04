@@ -206,7 +206,7 @@ Le tableau \ref{tab-basnot-variables} donne la liste des
 \end{longtable}
 
 %%%%%%%%%%%
-\subsection{Visualisation d'une variable}
+\subsection{\label{basicnot-visuvariable}Visualisation d'une variable}
 
 Pour rappeler le contenu d'une \index{variable!visualisation}variable
 (locale ou d'environnement), il suffit de faire pr{\'e}c{\'e}der son nom
@@ -224,6 +224,50 @@ sh_ksh% echo $my_var
 schmoll
 \end{verbatim}
 \end{example}
+
+Comme pour tout langage de programmation, le nom d'une variable est une suite de caract\`{e}res
+quelconques. Comme en langage C, les noms de variables sont sensibles à la casse (distinction entre
+majuscules et minuscules). Par cons\'{e}quent, << \texttt{variable}~>> et <<~\texttt{VARIABLE}~>>
+sont deux entit\'{e}s diff\'{e}rentes.
+\begin{example}
+\begin{verbatim}
+sh_ksh% variable=schmoll
+sh_ksh% echo $variable
+schmoll
+sh_ksh% echo $VARIABLE
+sh_ksh% 
+\end{verbatim}
+\end{example}
+
+Il reste cependant une derni\`{e}re probl\'{e}matique~: celle de pouvoir fusionner le contenu de
+deux ou plusieurs variables avec une ou plusieurs cha\^{i}nes de caract\`{e}res. Par exemple~:
+
+\begin{tabular}{|c@{\hspace{2pt}}|@{\hspace{2pt}}l@{\hspace{2pt}}|@{\hspace{2pt}}p{5cm}|}
+	Langage			& \multicolumn{1}{c|}{Instruction}		&	\multicolumn{1}{c}{R\'{e}sultat}			\\[2ex]
+	\hline \hline
+	Fortran			& \verb:STR='C''est un ':				&	\verb,C'est un exemple,						\\
+					& \verb:WRITE(*,*) STR//'exemple':		&												\\[2ex]
+	\hline
+	Langage C		& \verb:strcpy(str,"exemple");:			&	\verb,C'est un exemple,						\\
+					& \verb:printf ("c'est un %s", str);:	&												\\[2ex]
+	\hline
+	Shell {\Unix}	& \verb:STR="C'est un ":				&	Rien ne s'affiche car la variable
+															    <<~\texttt{STRexemple}~>> n'existe pas.		\\
+					& \texttt{echo \$STRexemple}			& \\[2ex]
+	\hline
+\end{tabular}
+
+Il nous faudra donc d\'{e}limiter le nom de la variable \`{a} l'aide des accolades <<~\verb={=~>> et
+<<~\verb=}=~>>. Ainsi, si nous reprenons l'exemple pr\'{e}c\'{e}dent, nous devrons \'{e}crire~:
+\begin{quote}
+	\texttt{echo \$\{STR\}exemple}
+\end{quote}
+
+En conclusion, les accolades <<~\verb={=~>> et <<~\verb=}=~>> servent \`{a} d\'{e}limiter le nom d'une
+variable dont on veut appeler le contenu. Nous verrons au paragraphe \ref{variables-manip} l'utilisation de
+la m\^{e}me r\`{e}gle de syntaxe afin de combiner l'appels au contenu d'une variable avec une
+\index{variable!expression d'initialisation}expression. L'{\'e}valuation par le le shell {\Unix}
+renverra alors une valeur suivant le contexte.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\label{basicnot-exec}Ex{\'e}cution d'une commande}
