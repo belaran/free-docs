@@ -419,41 +419,43 @@ Vous pouvez utiliser les m{\'e}tacaract{\`e}res avec <<~{\tt rsh}~>>. Si vous vo
 \end{remarque}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%TODO: add link to http://fr.wikipedia.org/wiki/Secure_shell
-%TODO http://www.openssh.org/fr/index.html
 \section{Connexion chiffr{\'e}e {\`a} une autre machine -- commande {\tt ssh}}
-Les commandes pr{\'e}c{\'e}dentes ont non seulement des limitations (<<~{\tt rsh}~>> ne permet, par exemple, d'ex{\'e}cuter des commandes interactives) mais posent aussi des problèmes de s{\'e}curit{\'e}. D{\'e}sormais, le protocole \index{ssh@\texttt{ssh}}<<~\texttt{ssh}~>> (Secure SHell), et la commande qui lui est associ{\'e}, est donc aujourd'hui le plus souvent utilis{\'e}, à la place de rlogin ou rsh .
-Caract{\'e}ristique important, le protocole impose, au d{\'e}but de la communication, l'{\'e}change de cl{\'e} de cryptage, permettant au reste de la dialogue de s'effectuer de manière chiffr{\'e}.
-L'implementation de <<~{\tt ssh}~>> la plus courament utilis{\'e} est celle du projet libre OpenSSH.
+Les commandes pr{\'e}c{\'e}dentes ont non seulement des limitations (<<~{\tt rsh}~>> ne permet, par exemple, d'ex{\'e}cuter des commandes interactives) mais posent aussi des probl{\`e}mes de s{\'e}curit{\'e}. D{\'e}sormais, le protocole \index{ssh@\texttt{ssh}}<<~\texttt{ssh}~>> (\href{http://fr.wikipedia.org/wiki/Secure_shell/}{Secure SHell}), et la commande qui lui est associ{\'e}, est donc aujourd'hui le plus souvent utilis{\'e}, {\`a} la place de rlogin ou rsh .
+Caract{\'e}ristique important, le protocole impose, au d{\'e}but de la communication, l'{\'e}change de cl{\'e} de cryptage, permettant au reste de la dialogue de s'effectuer de mani{\`e}re chiffr{\'e}.
+L'implementation de <<~{\tt ssh}~>> la plus courament utilis{\'e} est celle du projet libre \href{http://www.openssh.org/fr/index.html}{OpenSSH}.
 \begin{definition}{Syntaxe}
 \begin{verbatim}
 ssh [user]@[host:[port]]
 \end{verbatim}
 \end{definition}
-Un rapide exemple de connexion sur une machine distante à l'aide de ssh:
-
+Un rapide exemple de connexion sur une machine distante {\`a} l'aide de ssh:
+\begin{verbatim}
 ssh -l arthur percival -p 22
+\end{verbatim}
 
 La syntaxe suivante, plus explicite, est aussi possible:
-
+\begin{verbatim}
 ssh arthur@percival:22 
+\end{verbatim}
 
-% LINK to http://www.unixgarden.com/index.php/administration-systeme/principes-et-utilisation-de-ssh
+
 \begin{remarque}
-Le client <<~{ssh}~>> est un outil extremement puissant, qui permet, entre autres l'{\'e}tablissement de tunnel chiffr{\'e}, à travers plusieurs machines. N'h{\'e}sitez pas à en explorer les capacit{\'e}s. 
+Le client <<~{ssh}~>> est un outil extremement puissant, qui permet, entre autres l'{\'e}tablissement de tunnel chiffr{\'e}, {\`a} travers plusieurs machines. N'h{\'e}sitez pas {\`a} en explorer les capacit{\'e}s. L'article \href{http://www.unixgarden.com/index.php/administration-systeme/principes-et-utilisation-de-ssh}{principe et utilisation de SSH} vous permettra d'aller plus loin.
 \end{remarque}
-
+% 
 \begin{remarque}
-Le client <<~{ssh}~>> peut tre utilis{\'e} comme un filtre, mais de manière assez particulière. Un rapide exemple pour illuster ce point:
-cat mon_fichier | ssh percival "cat > mon_fichier_distant" 
-La commande local cat va transf{\'e}rer vers ssh le contenu du mon_fichier, ce dernier va le mettre à disposition sur le flux d'entr{\'e} du serveur distant (percival). Sur ce dernier, la commande cat va permettre de rediriger le flux vers mon_fichier_distant. 
+Le client <<~{ssh}~>> peut tre utilis{\'e} comme un filtre, mais de mani{\`e}re assez particuli{\`e}re. Un rapide exemple pour illuster ce point:
+\begin{verbatim}
+cat mon\_fichier | ssh percival ``cat > mon\_fichier\_distant'' 
+\end{verbatim}
+
+La commande local cat va transf{\'e}rer vers ssh le contenu du mon\_fichier, ce dernier va le mettre {\`a} disposition sur le flux d'entr{\'e} du serveur distant (percival). Sur ce dernier, la commande cat va permettre de rediriger le flux vers mon\_fichier\_distant. 
 \end{remarque}
 
 \section{Transfert chiffr{\'e}e de fichier -- commande scp}
 La commande  \index{scp@\texttt{scp}}<<~\texttt{scp}~>> permet d'utiliser le protocole ssh pour transf{\'e}rer des fichiers, mais dans un flux chiffr{\'e}. 
 
-Attention, il est important (et {\'e}vident) de retenir que tout {\'e}change de fichier par ssh sera plus long et plus consommateur de resources du système qu'un simple transfert en clair.
+Attention, il est important (et {\'e}vident) de retenir que tout {\'e}change de fichier par ssh sera plus long et plus consommateur de resources du syst{\`e}me qu'un simple transfert en clair.
 \begin{definition}{Syntaxe}
 \begin{verbatim}
 scp [user]@[host:[port]]file [user]@[host:[port]]fichier 
@@ -462,61 +464,71 @@ scp [user]@[host:[port]]file [user]@[host:[port]]fichier
 
 
 
-\subsection{Comparaisons \texttt{telnet}/\texttt{rlogin} et \texttt{ftp}/\texttt{rcp}}
+\subsection{Comparaisons \texttt{telnet}/\texttt{rlogin}/\texttt{ssh} et \texttt{ftp}/\texttt{rcp}/\texttt{scp}}
 
-\index{telnet@\texttt{telnet}!comparaison avec \texttt{rlogin}}
+\index{telnet@\texttt{telnet}!comparaison avec \texttt{rlogin} et \texttt{ssh}}
+\index{ssh@\texttt{ssh}!comparaison avec \texttt{rlogin} et \texttt{telnet}}
 \index{rlogin@\texttt{rlogin}!comparaison avec \texttt{telnet}}
-\begin{longtable}{|p{7cm}|p{3.5cm}|p{3.5cm}|}
+\begin{longtable}{|p{6.5cm}|p{2cm}|p{2cm}|p{2cm}|}
 	\hline
-		\multicolumn{3}{|r|}{Suite de la page pr{\'e}c{\'e}dente.} \\
+		\multicolumn{4}{|r|}{Suite de la page pr{\'e}c{\'e}dente.} \\
 	\hline
 		\multicolumn{1}{|c|}{Fonctionnalit{\'e}}	&
 		\multicolumn{1}{|c|}{{\tt telnet}}	&
-		\multicolumn{1}{|c|}{rlogin}	\\
+		\multicolumn{1}{|c|}{rlogin}	&
+		\multicolumn{1}{|c|}{ssh}	\\
 	\hline
 \endhead
 	\hline
 		\multicolumn{1}{|c|}{Fonctionnalit{\'e}}	&
 		\multicolumn{1}{|c|}{{\tt telnet}}	&
-		\multicolumn{1}{|c|}{rlogin}	\\
+		\multicolumn{1}{|c|}{rlogin}	&
+		\multicolumn{1}{|c|}{ssh}	\\
 	\hline \hline
 \endfirsthead
 	\hline
-		\multicolumn{3}{|r|}{Suite page suivante $\cdots$} \\
+		\multicolumn{4}{|r|}{Suite page suivante $\cdots$} \\
 	\hline
 \endfoot
 	\hline
 \endlastfoot
 	\hline
-		Ensemble de commandes.			&
-		Oui								&
-		Non								\\
+		Ensemble de commandes.		&
+		Oui				&
+		Non				&
+		Oui				\\
 	\hline
 		Peut se connecter {\`a} des syst{\`e}mes non {\Unix}.	&
 		Oui								&
-		Non\footnote{D{\'e}pend de l'implantation sur le syst{\`e}me non-{\Unix}.}	\\
+		Non\footnote{D{\'e}pend de l'implantation sur le syst{\`e}me non-{\Unix}.}	&
+		Oui\footnote{Si le syst{\`e} h{\^o}te dispose d'un serveur SSH, ce qui est g{\'e}n{\'e}ralement le cas. Pour indication, OpenSSH fonctionne sur Windows et OpenVMS.} \\
 	\hline
 		Peut {\^e}tre configur{\'e} en connexion automatique.	&
-		Non												&
-		Oui (fichiers {\tt /etc/hosts.equiv} et {\tt \~/.rhosts})	\\
+		Non								&
+		Oui (fichiers {\tt /etc/hosts.equiv} et {\tt \~/.rhosts})	&
+		Oui(Utilisation de cl{\'e} priv{\'e}e)	\\
 	\hline
 		Peut utiliser l'adresse IP pour la connexion.	&
 		Oui								&
-		Oui								\\
+		Oui								&
+		Non								\\
 	\hline
 		Sortie autoris{\'e}e.				&
 		Oui (vers <<~{\tt telnet}~>> en mode commande)	&
-		Oui (vers le terminal local)					\\
+		Oui (vers le terminal local)			&
+		Oui						\\
 	\hline
 		Nombre de modes.				&
-		2 (commande et connect{\'e})		&
-		1 (connect{\'e} seulement)			\\
+		2 (commande et connect{\'e})			&
+		1 (connect{\'e} seulement)			&
+		1 (connection partageable\footnote{Avec l'option -o ControlMaster})	\\
 	\hline
 		Peut {\^e}tre lac{\'e} depuis un programme Shell.	&
 		Non													&
-		Non													\\
+		Non													&
+		Oui													\\
 	\hline
-\caption{Comparaisons {\tt telnet}/{\tt rlogin}} \\
+\caption{Comparaisons {\tt telnet}/{\tt rlogin}/{\tt ssh}} \\
 \end{longtable}
 
 \begin{remarque}
@@ -525,25 +537,28 @@ depuis un programme Shell, mais vous ne pouvez pas leur transmettre des
 informations au clavier (comme vous pouvez le faire avec <<~{\tt ftp}~>>).
 \end{remarque}
 
-\index{ftp@\texttt{ftp}!comparaison avec \texttt{rcp}}
-\index{rcp@\texttt{rcp}!comparaison avec \texttt{ftp}}
-\begin{longtable}{|p{7cm}|p{3.5cm}|p{3.5cm}|}
+\index{ftp@\texttt{ftp}!comparaison avec \texttt{rcp} et \texttt{scp}}
+\index{rcp@\texttt{rcp}!comparaison avec \texttt{ftp} et \texttt{scp}}
+\index{scp@\texttt{scp}!comparaison avec \texttt{ftp} et \texttt{rcp}}
+\begin{longtable}{|p{6.5cm}|p{2cm}|p{2cm}|p{2cm}|}
 	\hline
-		\multicolumn{3}{|r|}{Suite de la page pr{\'e}c{\'e}dente.} \\
+		\multicolumn{4}{|r|}{Suite de la page pr{\'e}c{\'e}dente.} \\
 	\hline
 		\multicolumn{1}{|c|}{Fonctionnalit{\'e}}	&
 		\multicolumn{1}{|c|}{{\tt ftp}}			&
-		\multicolumn{1}{|c|}{{\tt rcp}}		\\
+		\multicolumn{1}{|c|}{{\tt rcp}}			&
+		\multicolumn{1}{|c|}{{\tt scp}}		\\
 	\hline
 \endhead
 	\hline
 		\multicolumn{1}{|c|}{Fonctionnalit{\'e}}	&
 		\multicolumn{1}{|c|}{{\tt ftp}}			&
-		\multicolumn{1}{|c|}{{\tt rcp}}		\\
+		\multicolumn{1}{|c|}{{\tt rcp}}			&
+		\multicolumn{1}{|c|}{{\tt scp}}		\\
 	\hline \hline
 \endfirsthead
 	\hline
-		\multicolumn{3}{|r|}{Suite page suivante $\cdots$} \\
+		\multicolumn{4}{|r|}{Suite page suivante $\cdots$} \\
 	\hline
 \endfoot
 	\hline
@@ -551,40 +566,50 @@ informations au clavier (comme vous pouvez le faire avec <<~{\tt ftp}~>>).
 	\hline
 		Ensemble de commandes	&
 		Oui						&
-		Non						\\
+		Non						&
+		Oui						\\
 	\hline
 		Peut transf{\'e}rer des fichiers sur un syst{\`e}me non {\Unix}	&
 		Oui						&
 		Non\footnote{Sauf impl{\'e}mentation d'un serveur supportant
-		ce type de connexion.}	\\
+		ce type de connexion.}				&
+		Non\footnote{Sauf impl{\'e}mentation d'un serveur supportant
+		ce type de connexion.}				\\
 	\hline
 		Peut {\^e}tre ex{\'e}cut{\'e} dans un programme Shell	&
+		Oui						&
 		Oui						&
 		Oui						\\
 	\hline
 		Peut mettre en jeu 3 n{\oe}uds	&
 		Non		&
-		Oui		\\
-	\hline
-		Autorise les m{\'e}tacaract{\`e}res	&
-		Oui (commande <<~{\tt glob}~>>)	&
-		Oui		\\
-	\hline
-		Peut faire une copie r{\'e}cursive	&
-		Non		&
-		Oui (option <<~{\tt -r}~>>)	\\
-	\hline
-		Peut configurer une {\'e}quivalence utilisateur	&
-		Oui (fichier <<~{\tt \~/.netrc}~>>)			&
-		Oui (fichiers <<~{\tt /etc/hosts.equiv}~>>, <<~{\tt \~/.rhosts}~>>)	\\
-	\hline
-		Equivalence utilisateur requise				&
-		Non		&
-		Oui		\\
-	\hline
-		Peut utiliser une adresse IP pour la connexion	&
 		Oui		&
 		Oui		\\
 	\hline
-\caption{Comparaisons {\tt ftp}/{\tt rlogin}} \\
+		Autorise les m{\'e}tacaract{\`e}res	&
+		Oui (commande <<~{\tt glob}~>>)		&
+		Oui					&
+		Non					\\
+	\hline
+		Peut faire une copie r{\'e}cursive	&
+		Non					&
+		Oui (option <<~{\tt -r}~>>)		&
+		Oui (option <<~{\tt -r}~>>)		\\
+	\hline
+		Peut configurer une {\'e}quivalence utilisateur				&
+		Oui (fichier <<~{\tt \~/.netrc}~>>)					&
+		Oui (fichiers <<~{\tt /etc/hosts.equiv}~>>, <<~{\tt \~/.rhosts}~>>)	&
+		Oui (cl{\'e} priv{\'e}e)	\\
+	\hline
+		Equivalence utilisateur requise		&
+		Non					&
+		Oui					&
+		Oui					\\
+	\hline
+		Peut utiliser une adresse IP pour la connexion	&
+		Oui		&
+		Oui		&
+		Non		\\
+	\hline
+\caption{Comparaisons {\tt ftp}/{\tt rlogin}/{\tt scp}} \\
 \end{longtable}
