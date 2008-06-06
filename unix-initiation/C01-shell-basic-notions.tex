@@ -27,7 +27,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-
+\subsection{M{\'e}canisme d'{\'e}valuation du Shell}
 Le \index{shell}shell est un interpr{\'e}teur de commandes qui~:
 \begin{itemize}
 	\item initialise l'environnement,
@@ -45,10 +45,18 @@ Quand une commande est valid{\'e}e, le shell
 C'est le \index{shell!m{\'e}canisme
 d'{\'e}valuation}\textbf{m{\'e}canisme d'{\'e}valuation du shell}. Ces
 {\'e}tapes sont {\`a} garder en {\'e}moire pour toute commande saisie au
-clavier ou bien enregistr{\'e}e dans un script.{\Large Ce n'est pas ce
-qui est saisi qui sera ex{\'e}cut{\'e} \textbf{mais le r{\'e}sultat de
-l'{\'e}valuation de l'expression}.}
+clavier ou bien enregistr{\'e}e dans un script. Il faut donc bien retenir que:
 
+\begin{center}
+	\fcolorbox{white}{yellow}
+	{
+		\parbox[c]{0.8\textwidth}{\Large Ce n'est pas ce qui est saisi qui sera ex{\'e}cut{\'e} 
+		mais le r{\'e}sultat de l'{\'e}valuation de l'expression.
+		} 
+	}
+\end{center}
+
+\subsection{Les diff{\'e}rents Shells existants}
 Il existe plusieurs shells sous {\Unix}~:
 \begin{itemize}
 	\item	le Bourne Shell (not{\'e} \index{shell!sh@\texttt{sh}}<<~\texttt{sh}~>>) anc{\^e}tre de tous les shells,
