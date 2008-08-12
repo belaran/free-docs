@@ -4,14 +4,19 @@
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
 
-\usetheme{CambridgeUS}
+\usetheme{Warsaw}
 
 \title{TP - Programmation Orientée Objet}
 \author{Romain PELISSE}
-\institute{ESME Sudria}
+\institute{
+ESME Sudria \\ 
+\\
+\\
+\includegraphics[scale=0.3]{../img/logo-cc.png}
+}
 \date{\today}
 
-\logo{\includegraphics[scale=0.3]{../img/logo-cc.png}}
+%\logo{}
 
 \begin{document}
 % Definition de l'affichage de l'ensemble des codes
@@ -28,7 +33,7 @@
 % end...
 \frame{\titlepage}
 
-\section[Outline]{}
+\section[Agenda]{}
 \frame{\tableofcontents[part=1]}
 \part{1}
 \section{Rappel}
@@ -83,25 +88,25 @@
 
 
 \subsection{Héritage en Java}
-\subsubsection{Super classe Object}
+%^\subsection{Super classe Object}
 \begin{frame}
 	\begin{block}{La ``super'' classe 'Object'}
-	\end{block}
 	Tout objet hérite de manière implicite de 'Object':
 		\begin{itemize}
 			\item 'String toString()' retourne l'objet sous forme de chaîne.
 			\item 'boolean equals(Object other)' permet de comparer 2 objets.
 			\item 'Class getClass()' qui permet de récupérer une instance de la classe de l'objet ( voir plus loin la partie sur la réflexion ).
-			\item ... et quelques autres qui dépassent le cadre du TP
+%			\item ... et quelques autres qui dépassent le cadre du TP
 		\end{itemize}
+	\end{block}
 
 	\begin{block}{Héritage implicite}
+		\lstinputlisting[first=3,last=4]{../examples/org/esme/samples/ImplicitInheritance.java}
 	\end{block}
-	\lstinputlisting[first=3,last=4]{../examples/org/esme/samples/ImplicitInheritance.java}
 % Exemple peu pertinent...	 	\lstinputlisting[first=2,last=13]{../examples/org/esme/samples/ImplicitInheritanceExample.java}
 \end{frame}
 
-\subsubsection{Abscence d'héritage multiple}
+%^\subsection{Abscence d'héritage multiple}
 
 \begin{frame}
 	\frametitle{Absence d'héritage multiple}
@@ -149,16 +154,15 @@
 % La machine Java sait quel objet ne ''sert plus`` ( simplement quand il n'y a plus 
 % % aucune variable contenant une référence vers ce dernier ) et peut donc le libérer. 
 	\begin{block}{Plus de delete !}
+		Si l'objet n'est plus \textit{référencé}, la mémoire est libérée. 
 	\end{block}
-	Si l'objet n'est plus \textit{référencé}, la mémoire est libérée. 
 	\begin{block}{Attention...}
-		{\color{red}
-			\begin{center}
+		\begin{center}
+			\begin{itemize}
 				\item Ne supprime pas le risque de fuite mémoire
 				\item Réflechir à l'allocation de tout objet
-			\end{center}
-
-		}	
+			\end{itemize}
+		\end{center}	
 	\end{block}
 \end{frame}
 
@@ -167,9 +171,9 @@
 \begin{frame}
 	\frametitle{Surcharge d'opérateur en Java}
 	\begin{block}{Java interdit la surcharge d'opérateur :}
+		\lstinputlisting{../examples/org/esme/samples/MilkBottle.java}
 	\end{block}
 
-	\lstinputlisting{../examples/org/esme/samples/MilkBottle.java}
 \end{frame}
 
 \section{Nouvelles notions}
@@ -281,8 +285,8 @@
 
 \begin{frame}
 	\begin{block}{Pourquoi une interface remplace l'héritage multiple ?}
+		\textit{Supposons que nous voulions que deux objets de types bien différents ( une classe représentant un Fichier et une autre représentant un Utilisateur, par exemple ), disposent TOUS les deux d'une méthode checksum().}
 	\end{block}
-	\textit{Supposons que nous voulions que deux objets de types bien différents ( une classe représentant un Fichier et une autre représentant un Utilisateur, par exemple ), disposent TOUS les deux d'une méthode checksum().}
 	\begin{center}
 		\textbf{Comment faire ?}
 	\end{center} 
@@ -298,21 +302,19 @@
 \end{frame}
 
 \begin{frame}
-	\begin{itemize}
-	\item En Java, il suffit de dire que les deux classes implémentent l'interface Checksumable:
+	\frametitle{Solutions à l'aide d'interface}
 	\lstinputlisting{../examples/org/esme/samples/InterfaceUsage.java}
-	\item Néanmoins, quelle est la faiblesse de ce fonctionnement par rapport à l'héritage multiple ?
-	\end{itemize}
+%	Néanmoins, quelle est la faiblesse de ce fonctionnement par rapport à l'héritage multiple ?
 \end{frame}
 
 \begin{frame}
+	\frametitle{Limites par rapport à l'héritage multiple}
 	\begin{block}{On n'hérite pas de l'implémentation !}
-	\end{block}
-	
-	\begin{itemize}
-	\item Il faut coder 'checksum()' pour chaque classe !
-	\item Cependant, en pratique, ce n'est pas un problème comme dans ce cas, car les implémentations requises pour une même méthode sur deux objets distincts sont généralement très différentes...
-	\end{itemize}
+		\begin{itemize}
+			\item Il faut coder 'checksum()' pour chaque classe !
+			\item Cependant, en pratique, ce n'est pas un problème comme dans ce cas, car les implémentations requises pour une même méthode sur deux objets distincts sont généralement très différentes...
+		\end{itemize}
+	\end{block}	
 	
 	\begin{center}
 		\textit{Pour s'en rendre compte, il suffit de réflechir à l'implémentation de checksum() 
@@ -400,6 +402,7 @@
 
 \subsection{Exceptions}
 \begin{frame}
+	\frametitle{Gestion des exceptions}
 	\begin{block}{Que faisiez vous en C pour gérer une erreur ?}
 		\begin{itemize}
 			\item Rien, le programme plante.
@@ -408,6 +411,9 @@
 		\end{itemize}
 	Java, comme C{\#} et même le C++, dispose d'un mécanisme d'\textbf{Exception} !
 	\end{block}	
+\end{frame}
+
+\begin{frame}
 	\begin{block}{Mécanisme}
 		Quand on souhaite signaler une erreur à l'appelant, il suffit de ''jeter`` \textbf{(throws)} une exception décrivant l'erreur. Charge à l'appelant de ''l'attraper`` (catch), et d'agir en conséquences, ou de la ''jeter`` à son propre appelant...
 	\end{block}
@@ -425,7 +431,7 @@
 			\item L'erreur est remontée à la couche appropriée
 	% L'erreur pourra être gérée au ''bon`` niveau, et il n'est plus nécessaire de définir un mécanisme ''maison`` ( code de retour, structure,...) pour transmettre les informations relatives à l'exception.
 		\end{itemize}
-		\textit{Note: Toute exception hérite de la classe Exception ou implémente l'interface Throwable.}
+		\textit{Note: Toute exception hérite de la classe Exception ou Error, ou sinon elle implémente l'interface Throwable.}
 	\end{block}
 \end{frame}
 
@@ -434,19 +440,21 @@
 \end{frame}
 
 \begin{frame}
-	\begin{itemize}
-		\item Les exceptions sont souvent peu ou mal utilisées par les développeurs, apprenez à vous en servir correctement, c'est plus qu'important ( et cela rentrera dans les critères de notation du TP ).
-		\item Java vient avec 5 exceptions déjà définies pour les cas les plus courants :
-			\begin{enumerate}
-				\item \textbf{IllegalArgumentException} : quand une valeur de paramètre est inappropriée ;
-				\item \textbf{IllegalStateException} : quand l'état de l'objet est inapproprié ;
-				\item \textbf{IndexOutOfBoundsException} : quand l'index du paramètre est hors limites ;
-				\item \textbf{ConcurrentModificationException} : quand une modification concurrente a été détectée ;
-				\item \textbf{UnsupportedOperationException} : quand l'objet ne supporte pas la méthode 
-			\end{enumerate}
-			\textit{Si aucune d'elle ne semble convenir à la situation, à vous de créer une exception adaptée au problème}.
-		\item La conception des exceptions fait autant parti de la conception d'un programme en langage orienté objet que l'héritage !
-	\end{itemize}
+	\begin{block}{Utilisation des exceptions}
+		\begin{itemize}
+			\item Les exceptions sont souvent \textbf{peu ou mal utilisées} malgré leur rôle crucial.
+			\item Java vient avec \textbf{5 exceptions déjà définies} pour les cas les plus courants :
+				\begin{enumerate}
+					\item \textbf{IllegalArgumentException} %: quand une valeur de paramètre est inappropriée ;
+					\item \textbf{IllegalStateException} %: quand l'état de l'objet est inapproprié ;
+					\item \textbf{IndexOutOfBoundsException} %: quand l'index du paramètre est hors limites ;
+					\item \textbf{ConcurrentModificationException} %: quand une modification concurrente a été détectée ;
+					\item \textbf{UnsupportedOperationException} %: quand l'objet ne supporte pas la méthode 
+				\end{enumerate}
+				\textit{Si aucune d'elle ne semble convenir à la situation, à vous de créer une exception adaptée au problème}.
+			\item La conception des exceptions fait autant parti de la conception d'un programme en langage orienté objet que l'héritage !
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \section{Fonctionnalités Avancées}
