@@ -1,150 +1,322 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<ruleset name="esme">
-    <description>
-    	<![CDATA[
-			R�gles de programmation
-	    ]]>
-    </description>
+<?xml version="1.0" encoding="UTF-8"?>
+<rulesets name="esme">
+<intro>
+    <h1>Règles de programmation en Langage Objet</h1>
+    <p>
+    
+    <em>« Any fool can write code that a computer can understand. Good programmers write code that humans can understand. »</em><br/> 
+    Martin Fowler.</p>    
+    <p>
+    Date : 06/09/2006<br/>
+    Version : 1.1<br/>
+    Auteurs : François Le Droff, Xavier Chatelain, Romain Pelisse<br/>
+    </p>
+    <p>Les règles de programmation décrites dans ce document sont un ensemble de convention et de bonnes pratiques. Similaires aux « Erreurs Fatales » de vos précédents TP, il est attendu que vous suiviez ces directives de programmation lors de vos développements en langage orienté objet, que ce soit en TP, ou dans le cadre de votre projet de dernière année.</p>
+    
+<p>Ces règles sont généralement destinées à tout langage de programmation orienté objet, mais elles s'appliquent principalement au Java et au C#. Certaines règles de programmations sont spécifique Java, le cas échéant, ce point est précisé dans le texte par l'ajout de (Java) au titre de la règle.</p>
+</intro>
+	<ruleset name="Règle de Nommage">
+	
+		<rule name="[NOM-1]"
+		message="Règles de nommage des fichiers">
+		
+			<description>
+				<p>			
+				Ainsi, pour une meilleure lisibilité des noms, les caractères minuscules et majuscules sont alternés : la première lettre de chaque champ sémantique le composant doit être en majuscule, et le reste en minuscules. L’usage de chiffres et caractères non alphabétiques est interdit. A moins que la classe désigne une abréviation très courante (ex. URL), on évitera les acronymes.</p>
+				
+				<p>Il en sera de même pour le nommage des fichiers de configuration et autres fichiers de déploiement non assujettis à une norme tierce, inhérente à la technologie ou le standard employé (fichier de configuration spécifique au serveur d'application par exemple).</p>
+				
+				<p>On notera que le caractère underscore '_' est interdit dans les noms de fichiers, tout comme les caractères accentués et les caractères spéciaux (cf. ). Les noms des classes sont ainsi des instances de l'expression régulière suivante : ([A-Z] [a-z]*)+.</p>
+			</description>
+		
+		</rule>
+	
+	
+		<rule name="[NOM-2]"
+		      message="Le nom des classes abstraites">
+			<description>
+<p>Les classes abstraites devraient être facilement repérables. Elles doivent être préfixer par Abstract.</p>
+			</description>
+		</rule>
+	
+		<rule 	name="[NOM-3]"
+			message="Le nom des variables">
+			<description>
+	<p>La première lettre est obligatoirement une minuscule.</p>
+	<p>Pour le reste du mot on suivra à nouveau la règle de nommage des classes : on combinera ensuite les caractères minuscules et majuscules. La première lettre de chaque champ sémantique le composant doit être en majuscule, et le reste en minuscules. L’usage de chiffres et caractères non alphabétiques est interdit. Les noms des variables sont ainsi des instances de l'expression régulière suivante : [a-z]+ ([A-Z] [a-z]*)+</p>
+	<p>Il faudra également veiller à éviter la notation hongroise. En effet, le langage Java est fortement typé, imposant par sa nature même au programmeur de porter la plus grande attention aux types de données utilisés. Il est donc inutile (et même néfaste) d’utiliser la « notation hongroise », où chaque nom de variable est préfixé par son type. Cette notation a pu donner des aberrations de notation comme pszName (exemple tiré de l’API Windows pour dénoter un pointeur sur une chaîne de caractères C, terminée par \0).</p>
+	<p>Si on sait qu’une variable est déclarée comme String nom, l’information portée par le type est auto suffisante. Il est inutile d’appeler cette variable strName ou sName.</p>
+			</description>
+			<example><![CDATA[
+String nom;
+Date dateDeNaissance;
+			]]>
+			</example>
+		</rule>
+	
+	
+		<rule name="[NOM-4]"
+		message="Le nom des constantes (Java)">
+			<description>
+				<p>Les constantes doivent être toujours en majuscules, les mots sont séparés par un underscore '_'. Les noms des constantes sont ainsi des instances de l'expression régulière suivante : (([A-Z]+)_)* ([A-Z]+)</p>
+			</description>
+			<example>
+static final int VAL_MIN = 0;
+static final int VAL_MAX = 9;
+			</example>
+		</rule>
+	
+	
+		<rule name="[NOM-5]" message="Interdiction d'utiliser l'identifiant enum ou assert (Java) ">
+			<description>
+				<p>Pour éviter les confusions et augmenter la lisibilité du code, le nom enum est interdit comme identifiant.</p>
+			</description>		
+		</rule>
+	
+		<rule 	name="[NOM-6]" 
+			message="Règles générales de nommage des méthodes">
+			<description>
+<p>Leur nom doit contenir un verbe, et la première lettre doit obligatoirement être une minuscule.</p>
+<p>Pour le reste du mot on suivra à nouveau la règle de nommage des classes : on combinera les caractères minuscules et majuscules. La première lettre de chaque champ sémantique le composant doit être en majuscule, et le reste en minuscules. L’usage de chiffres et caractères non alphabétiques est interdit. Les noms des méthodes sont ainsi des instances de l'expression régulière suivante : [a-z]+ ([A-Z] [a-z]*)*</p>
+<p>Il serait préférable que chaque méthode ne fasse qu’une seule chose, et le nom de chacune reflète cela de manière exacte. Si une méthode fait plus d'une chose, s'assurer que cela est reflété dans son nom.</p>
+<p>De plus :</p>
+<ul>
+	<li>Les méthodes pour obtenir la valeur d'un champ doivent commencer par get, suivi du nom du champ ;</li>
+	<li>Les méthodes pour mettre à jour la valeur d'un champ doivent commencer par set, suivi du nom du champ ;</li>
+	<li>Les méthodes de conversion devraient commencer par to, suivi du nom de la classe renvoyée à la suite de la conversion ;</li>
+	<li>Les méthodes de test doivent commencer par is.</li>
+</ul>
+			</description>
+			<examples>
+				<example><![CDATA[
+	public float calculerMontant()
+				]]></example>
+				<example><![CDATA[
+	public class MyObject
+	{
+		private String property;
+		private int otherProperty;
+		private boolean yetAnOtherProperty;
+		
+		public int getOtherProperty()
+		{
+			return otherProperty;
+		}
+		
+		public void setOtherProperty(int otherProperty)
+		{
+			this.otherProperty = otherProperty;
+		}
+		
+		public String getProperty()
+		{
+			return property;
+		}
+		
+		public void setProperty(String property)
+		{
+			this.property = property;
+		}
+		
+		public boolean isYetAnOtherProperty()
+		{
+			return yetAnOtherProperty;
+		}
+		
+		public void setYetAnOtherProperty(boolean yetAnOtherProperty)
+		{
+			this.yetAnOtherProperty = yetAnOtherProperty;
+		}
+		
+		public String toString()
+		{
+			return "[MyObject:" + 
+			this.property + 
+			this.otherProperty + 
+			this.yetAnOtherProperty + "]";
+		}
+	}			
+				]]></example>
+			</examples>
+		</rule>
+	
+	</ruleset>
 
-    <rule 	name="[CONSTRUCT-1]"
-    		message="Toute classe devrait poss�der au moins un constructeur."
-    		ref="rulesets/controversial.xml/AtLeastOneConstructor"/>
-
-    <rule
-        name="[METR-METH-1]"
-        ref="rulesets/codesize.xml/ExcessiveMethodLength"
-        message="Une m�thode ne devrait pas d�passer 50 lignes de code effectif.">
-        <description>
-            <![CDATA[
-            Une violation de cette r�gle indique g�n�ralement que la m�thode ��en fait trop��. Essayer de r�duire la taille de la m�thode en la d�composant en plusieurs, ou en supprimant les �ventuels ��copier-coller��.
-            ]]>
-        </description>
-        <priority>2</priority>
-        <properties>
-            <property name="minimum" description="The method size reporting threshold" value="100"/>
-        </properties>
-    </rule>
-
-    <rule
-        name="[METR-METH-2]"
-        ref="rulesets/codesize.xml/ExcessiveParameterList"
-        message="Une m�thode ne devrait pas avoir plus de 7 param�tres.">
-        <description>
-            <![CDATA[
-            Une longue liste de param�tres peut indiquer la n�cessit� de cr�er un nouvel objet regroupant ces param�tres.
-            ]]>
-        </description>
-        <priority>2</priority>
-        <properties>
-            <property name="minimum" description="Seuil d'erreur pour le nombre de param�tres d'une m�thode." value="8"/>
-        </properties>
-    </rule>
-
-    <rule
-        name="[METR-METH-3]"
-        ref="rulesets/codesize.xml/CyclomaticComplexity"
-        message="La complexit� cyclomatique d'une m�thode devrait �tre inf�rieure � 12.">
-        <description>
-            <![CDATA[
-            La complexit� cyclomatique (de McCabe) est d�termin�e par le nombre de points de d�cision dans une m�thode.
-            Un point de d�cision correspond � l'occurrence d'un op�rateur if, while, do, for, case, catch, ou un op�rateur
-            logique. ?:, &&, ||.
-            G�n�ralement, une m�thode � complexit� cyclomatique de 1 � 4 est consid�r�e comme peu complexe, de 5 � 7 moyennement complexe, de 8 � 10 complexe, et de plus de 10 tr�s complexe.
-            Ainsi, une m�thode � complexit� cyclomatique sup�rieure � 11 devrait �tre d�compos�e en plusieurs m�thodes, afin de facilit� la compr�hension de l'algorithme.
-            ]]>
-        </description>
-        <priority>2</priority>
-        <properties>
-            <property name="reportLevel" description="Seuil d'erreur de la complexit� cyclomatique"  value="12"/>
-        </properties>
-    </rule>
-
-    <rule
-        name="[METR-1]"
-        ref="rulesets/codesize.xml/ExcessiveClassLength"
-        message="400 lignes de code effectif est un maximum pour une classe Java.">
-        <description>
-        	<![CDATA[
-            Une violation de cette r�gle indique g�n�ralement que la classe ��en fait trop��. Essayer de r�duire la taille de la m�thode en la d�composant en plusieurs, ou en supprimant les �ventuels ��copier-coller��.
-           	]]>
-        </description>
-        <priority>2</priority>
-        <properties>
-            <property name="minimum" description="The method size reporting threshold" value="400"/>
-        </properties>
-    </rule>
-
-    <rule
-        name="[METR-2]"
-        class="net.sourceforge.pmd.rules.XPathRule"
-        message="Une ligne ne doit pas d�passer 120 caract�res."
-        externalInfoUrl="http://refdoc.venezia.dev.impots/multiproject/pmdSODA/chapters/chapitre-08-metr.html#_METR-CLASS-2_">
-        <properties>
-            <property name="xpath">
-                <value>
-                    <![CDATA[
-                        //Expression
-                        [(@EndColumn - @BeginColumn ) > 120]
-                    ]]>
-                </value>
-            </property>
-        </properties>
-        <description>
-            <![CDATA[
-                La longueur des lignes doit en effet �tre raisonnable, et permettre une lecture ais�e des fichiers dans l'environnement de d�veloppement standard, sur un �cran de r�solution standard.
-                Il est pour cela pr�f�rable d'�viter les lignes trop longues (plus de 120 caract�res) qui rendraient difficile la relecture du code.
-            ]]>
-        </description>
-        <priority>2</priority>
-    </rule>
-
-	  <rule name="TooManyFields"
-	          message="Too many fields"
-	          class="net.sourceforge.pmd.rules.design.TooManyFields"
-	          externalInfoUrl="http://pmd.sourceforge.net/rules/codesize.html#TooManyFields">
-	      <description>
-	Classes that have too many fields could be redesigned to have fewer fields, possibly
-	 through some nested object grouping of some of the information.  For example, a class with
-	 city/state/zip fields could instead have one Address field.
-	      </description>
-	        <priority>3</priority>
-	      <properties>
-	       <property name="maxfields"  description="The field count reporting threshold " value="15"/>
-	      </properties>
-	      <example>
-	   <![CDATA[
-	public class Person {
-	   String one;
-	   int two;
-	   int three;
-	   [... many more public fields ...]
+	<ruleset name="Règle d'utilisation des constructeurs">
+		<rule 	name="[CONSTRUCT-1]"
+				message="Toute classe devrait posséder au moins un constructeur."
+				ref="rulesets/controversial.xml/AtLeastOneConstructor">
+			<description>
+				<p>
+		Il est fortement recommandé de définir explicitement au moins un constructeur pour chaque classe Java, plutôt que de s'appuyer sur le constructeur fourni par défaut par le compilateur (le constructeur sans paramètre). Il est même recommandé de baisser le niveau d'accessibilité du constructeur pour prévenir toute instanciation inopportune.
+				</p>
+			</description>
+		</rule>
+	</ruleset>
+    
+	<ruleset name="Indicateurs métriques relatifs aux méthodes">
+		<rule
+			name="[METR-METH-1]"
+			ref="rulesets/codesize.xml/ExcessiveMethodLength"
+			message="Une méthode ne doit pas dépasser 50 lignes de code effectif.">
+			<description>
+				<p>Une violation de cette règle indique généralement que la méthode « en fait trop ». Essayer de réduire la taille de la méthode en la décomposant en plusieurs, ou en supprimant les éventuels « copier-coller ».</p>
+			</description>
+			<priority>2</priority>
+			<properties>
+			<property name="minimum" description="The method size reporting threshold" value="100"/>
+			</properties>
+		</rule>
+		
+		<rule
+			name="[METR-METH-2]"
+			ref="rulesets/codesize.xml/ExcessiveParameterList"
+			message="Une méthode ne doit pas avoir plus de 7 paramètres.">
+			<description>
+				<p>Une longue liste de paramètres peut indiquer la nécessité de créer un nouvel objet regroupant ces paramètres.</p>
+			</description>
+			<priority>2</priority>
+			<properties>
+			<property name="minimum" description="Seuil d'erreur pour le nombre de paramètres d'une méthode." value="8"/>
+			</properties>
+		</rule>
+		
+		<rule
+			name="[METR-METH-3]"
+			ref="TODO"
+			message="3 instructions if imbriquées sont un maximum">
+			<description>
+				<p>Cette  règle a pour objectif d'améliorer la lisibilité et la bonne et compréhension du code source.</p>
+			</description>
+			<priority>2</priority>
+			<properties>
+				<property name="minimum" description="Seuil d'erreur pour le nombre de paramètres d'une méthode." value="8"/>
+			</properties>
+			<example><![CDATA[
+public void bar(int x, int y, int z)
+{
+	if (x > y)
+	{
+		if (y > z)
+		{
+			if (z == x)
+			{
+				//  Ce est code est trop compliqué !
+			}
+		}
 	}
-	   ]]>
-	      </example>
-	</rule>
-
-	<rule name="ExcessiveImports"
-	     message="A high number of imports can indicate a high degree of coupling within an object."
-	     class="net.sourceforge.pmd.rules.ExcessiveImports"
-	          externalInfoUrl="http://pmd.sourceforge.net/rules/coupling.html#ExcessiveImports">
-	     <description>
-	A high number of imports can indicate a high degree of coupling within
-	an object. Rule counts the number of unique imports and reports a violation
-	if the count is above the user defined threshold.
-	  </description>
-	  <priority>3</priority>
-	  <properties>
-	      <property name="minimum" description="The import count reporting threshold" value="30"/>
-	  </properties>
-	  <example>
-	      <![CDATA[
-	import blah.blah.Baz;
-	import blah.blah.Bif;
-	// 18 others from the same package elided
-	public class Foo {
-	 public void doWork() {}
-	}
-	      ]]>
-	  </example>
-	   </rule>
-</ruleset>
+}
+		]]></example>
+		</rule>
+		
+		<rule
+			name="[METR-METH-4]"
+			ref="rulesets/codesize.xml/CyclomaticComplexity"
+			message="La complexité cyclomatique d'une méthode devrait être inférieure à 12.">
+			<description>
+			<p>
+			La complexité cyclomatique (de McCabe) est déterminée par le nombre de points de décision dans une méthode.
+			Un point de décision correspond à l'occurrence d'un opérateur if, while, do, for, case, catch, ou un opérateur
+			logique (ET,OU,...)</p>
+			<p>Généralement, une méthode ayant une complexité cyclomatique de 1 à 4 est considérée comme peu complexe, de 5 à 7 moyennement complexe, de 8 à 10 complexe, et de plus de 10 très complexe.</p>
+			<p>Ainsi, une méthode dont la complexité cyclomatique supérieure à 11 devrait être décomposée en plusieurs sous méthodes, afin de réduire sa complexité et améliorer la compréhension de l'algorithme.</p>
+			</description>
+			<priority>2</priority>
+			<properties>
+				<property name="reportLevel" description="Seuil d'erreur de la complexité cyclomatique"  value="12"/>
+			</properties>
+		</rule>
+	</ruleset>
+	
+	<ruleset name="Indicateurs métriques sur les classes">
+		
+		<rule
+			name="[METR-1]"
+			ref="rulesets/codesize.xml/ExcessiveClassLength"
+			message="400 lignes de code effectif est un maximum pour une classe Java.">
+			<description>
+				<![CDATA[
+		400 lignes de code effectif est un maximum pour une classe.
+				]]>
+			</description>
+			<priority>2</priority>
+			<properties>
+			<property name="minimum" description="The method size reporting threshold" value="400"/>
+			</properties>
+		</rule>
+		
+		<rule
+			name="[METR-2]"
+			class="net.sourceforge.pmd.rules.XPathRule"
+			message="Une ligne ne doit pas dépasser 120 caractères.">
+			<properties>
+			<property name="xpath">
+				<value>
+				<![CDATA[
+					//Expression
+					[(@EndColumn - @BeginColumn ) > 120]
+				]]>
+				</value>
+			</property>
+			</properties>
+			<description>
+			<![CDATA[
+				La longueur des lignes doit en effet être raisonnable, et permettre une lecture aisée des fichiers dans l'environnement de développement standard, sur un écran de résolution standard.
+				Il est pour cela préférable d'éviter les lignes trop longues (plus de 120 caractères) qui rendraient difficile la relecture du code.
+			]]>
+			</description>
+			<priority>2</priority>
+		</rule>
+		
+		<rule   	  name="[METR-4]"
+				message="Une classe ne doit pas avoir plus de 15 champs."
+				class="net.sourceforge.pmd.rules.design.TooManyFields"
+				externalInfoUrl="http://pmd.sourceforge.net/rules/codesize.html#TooManyFields">
+			<description>
+				Une classe ne doit pas avoir plus de 15 champs.
+			</description>
+				<priority>3</priority>
+			<properties>
+			<property name="maxfields"  description="The field count reporting threshold " value="15"/>
+			</properties>
+			<example>
+			<![CDATA[
+			public class Person {
+			String one;
+			int two;
+			int three;
+			[... many more public fields ...]
+			}
+			]]>
+			</example>
+		</rule>
+		
+		<rule 	name="[METR-3]"
+				message="Le nombre d'imports doit être limité à 30 par classe."
+				class="net.sourceforge.pmd.rules.ExcessiveImports"
+				externalInfoUrl="http://pmd.sourceforge.net/rules/coupling.html#ExcessiveImports">
+			<description>
+				Le nombre d'imports doit être limité à 30 par classe. Un nombre plus important par classe indique une
+				faiblesse dans la conception objet de la classe : La classe est trop "grosse", elle prend en charge
+				trop de responsabilité.
+			</description>
+			<priority>3</priority>
+			<properties>
+			<property name="minimum" description="The import count reporting threshold" value="30"/>
+			</properties>
+		</rule>
+			
+		<rule name="[METR-5]"
+			message="Une classe ne doit pas avoir plus de 25 méthodes.">
+				
+		</rule>
+	</ruleset>
+	
+	<ruleset name="">	
+		<rule name="[IMPL-1]"
+		message="Préférer List à Vector"/>
+		
+		<rule name="[IMPL-2]"
+		message="Préferer Map à HashTable"/>
+	</ruleset>
+</rulesets>	
