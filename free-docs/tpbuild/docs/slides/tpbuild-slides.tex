@@ -1,9 +1,46 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+% This program is free software; you can redistribute it and/or modify %
+% it under the terms of the GNU General Public License as published by %
+% the Free Software Foundation; either version 2 of the License, or    %
+% (at your option) any later version.                                  %
+%                                                                      %
+% This program is distributed in the hope that it will be useful,      %
+% but WITHOUT ANY WARRANTY; without even the implied warranty of       %
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        %
+% GNU General Public License for more details.                         %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with this program; if not, write to the Free Software          %
+% Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,               %
+% MA  02110-1301  USA                                                  %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%       $Id$
+%
+
+
+% TODO:
+% 	* Ajouter un slides sur la livraison
+%	* Forme des TPs à venir: pré requis/connaissances acquises
+%	* Préparer le TDs sur Mercurial
+%	* Ajouter un slide de présentation
+%
 \documentclass[handout]{beamer}
 
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
-\usetheme{CambridgeUS}
+\usepackage{multicol}
+
+% Use to get nice looking array ?
+% \usepackage{array}
+% \usepackage{color}
+% \usepackage{colortbl}
+% \usepackage{longtable}
+
+\usetheme{Warsaw} 
 
 \title{TP - Génie Logiciel (1)}
 \subtitle{Construction et gestion de sources}
@@ -43,12 +80,16 @@
 % end...
 \frame{\titlepage}
 
-\section[Outline]{}
-\frame{\tableofcontents}
+\section[Agenda]{}
+\begin{frame}
+	\begin{multicols}{2}
+		\tableofcontents
+	\end{multicols}
+\end{frame}
 
 \section{Introduction}
 \subsection{Gérer un projet logiciel code}
-\begin{frame}{Le projet... à part le code}
+\begin{frame}
 	\begin{block}{Autour d'un projet de développement...}
 		\begin{itemize}
  			\item La procédure de \textbf{compilation} et d'\textit{éditions de liens}
@@ -64,24 +105,25 @@
 		\end{itemize}
 	\end{block}
 \end{frame}
-\begin{frame}{Quel intérêt ?}
+\begin{frame}
 	\begin{block}{Objectifs}
 		\begin{itemize}
- 			\item Pouvoir \textbf{reconstruire} le projet
+ 			\item Pouvoir \textbf{reconstruire} le projet facilement
 			\item \textbf{Abstraire l'environement} de développement (OS, IDE,...)
 			\item Reproduire de manière exacte \textbf{une version}, conserver toutes les versions
 			\item Automatisation de la \textbf{non-régression}
 			\item Effectuer des tâches redondantes \textbf{contrôle qualité}, \textbf{documentation},...
+			\item \textbf{Assurer une livraison} de bonne qualité
 		\end{itemize}
 	\end{block}	
 \end{frame}
 \subsection{Les outils du Génie Logiciel}
 \begin{frame}
  	\begin{block}{Tout ceci requiert des outils !}
+		\begin{figure}[hbtp]
+			\includegraphics[scale=0.5]{../img/project-tools.png}
+		\end{figure}
  	\end{block}
-	\begin{figure}[hbtp]
-		\includegraphics[scale=0.5]{../img/project-tools.png}
-	\end{figure}
 \end{frame}
 
 \section{Outils de construction}
@@ -93,41 +135,68 @@
 				\begin{itemize}
 					\item Exécution des tests unitaires
 					\item Génération de la documentation
+					\item Produire les artefacts
 					\item ...
 				\end{itemize}
-			\item Permettre de facilement 'construire' le projet
+			\item Permettre de facilement 'construire' le projet (compilation, packaging,...)
 			\item Externaliser les paramètres (adresse IPs, paramètres par défaut,...)
-			\item Automatiser les déploiements (serveur de prod, pre-production)	
+			\item Automatiser les déploiements (serveur de pré-prod, prod)	
 		\end{itemize}
-	\end{block}
-	\begin{block}{Le nerf du projet : le build}
-	 	Le \textbf{build} est donc un \underline{point essentiel du projet} car
-		il est le seul garant de sa \textbf{maintenabilité}.
-		\textit{Un projet sans build peut être impossible à reprendre.}
 	\end{block}
 \end{frame}
 
 \begin{frame}
+	\begin{block}{Le nerf du projet : le build}
+	 	Le \textbf{build} est donc un \underline{point essentiel du projet} car
+		il est le seul garant de sa \textbf{maintenabilité}.
+		\textit{Un projet sans build peut être impossible à reprendre, à maintenir ou à faire évoluer.}
+	\end{block}
  	\begin{block}{La relation technologie/build}
+		\begin{center}
+			\begin{tabular}{|c|l|}
+				\hline
+				\textbf{Techno} & \textbf{Build} \\ 
+				\hline
+				OpenVMS & MMS  \\ 
+				\hline
+				C/C++ & CMake,\textbf{Makefile} \\ 
+				\hline
+				Java & \textbf{Ant}, Maven \\
+				\hline
+				C\# & NAnt \\
+				\hline
+				Ruby & Raven \\
+				\hline 
+			\end{tabular}
+		\end{center}
+
+% Improve the array ?
+% 	\begin{center}
+% 		% use packages: array,color,colortbl,longtable
+% 		\newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
+% 		\definecolor{tcA}{rgb}{0,0.5,0.5}
+% 		\definecolor{tcB}{gray}{1}
+% 		%
+% 		\begin{longtable}[c]{lll}
+% 		\rowcolor{tcA}
+% 		\mc{1}{>{\columncolor{tcA}}l}{\color{tcB} } & \mc{1}{>{\columncolor{tcA}}l}{\color{tcB} ×} & \mc{1}{>{\columncolor{tcA}}l}{\color{tcB} ×} \\ 
+% 		× & × & × \\ 
+% 		× & × & × \\ 
+% 		× & × & × \\ 
+% 		× & × & × \\ 
+% 		× & × & ×
+% 		\end{longtable}
+% 	\end{center}
+
+
  	\end{block}
-	\begin{columns}
-		\column{.4\textwidth}
-		\begin{block}{Ant}
-			\begin{itemize}
-				\item \textbf{Ant} est un outil de build Java pour Java et J2EE 
-				\item \textbf{N-Ant} est Ant for C{\#} et .Net
-			\end{itemize}
-		\end{block}
-		\column{.6\textwidth}
-		\begin{figure}[hbtp]
-			\includegraphics[scale=0.3]{../img/techno-build.png}
-		\end{figure}
-	\end{columns}
 \end{frame}
+
+
+
 \subsection{Ant}
-\subsubsection{Concept clé de ant}
 \begin{frame}
-	\begin{block}{Histoire de Ant}
+	\begin{block}{Historique du projet Ant}
 		\begin{itemize}
 			\item Outil de \underline{Build en Java}, alternative à Makefile:
 				\begin{itemize}
@@ -141,18 +210,22 @@
 	 \end{block}
 \end{frame}
 
-\subsubsection{Structure du fichier}
+
 
 \begin{frame}
+%\subsubsection{Structure d'un fichier de build Ant}
 	\begin{block}{Structure du fichier}
-		\begin{itemize}
-			\item Définit une série de tâche
-			\item Définit dépendance entre les tâches
-		\end{itemize}
-		\lstinputlisting{../examples/syntax.xml}
+			\begin{itemize}
+				\item Tâche
+				\item Interdépendance
+			\end{itemize}
 	\end{block}
+	%TODO: Make a box !
+	\lstinputlisting{../examples/syntax.xml}
+
 \end{frame}
-\subsubsection{Fonctionnement}
+
+%\subsubsection{Fonctionnement}
 \begin{frame}
   	\begin{block}{Ligne de commande}
 		\begin{enumerate}
@@ -172,7 +245,7 @@
  	\end{block}
 \end{frame}
 
-\subsubsection{Syntax}
+%\subsubsection{Syntax}
 \begin{frame}
 	\begin{block}{Définir des propriétés}
 		\begin{itemize}
@@ -182,40 +255,41 @@
 		\end{itemize}
 		\lstinputlisting{../examples/properties.xml}
 	\end{block}
-%	\begin{block}{Exemple d'exécution}
-% \$ ant -f properties.xml\\
-% Buildfile: properties.xml\\
-% \\
-% echo-properties:\\
-%      [echo] Current project version is : 1.0\\
-%      [echo] Source directory is : src\\
-%      [echo] Build directory is : build\\
-% \\
-% BUILD SUCCESSFUL\\
-% Total time: 0 seconds\\
-%	\end{block}
+	\begin{block}{Exemple d'exécution}
+\$ ant -f properties.xml\\
+Buildfile: properties.xml\\
+\\
+echo-properties:\\
+     [echo] Current project version is : 1.0\\
+     [echo] Source directory is : src\\
+     [echo] Build directory is : build\\
+\\
+BUILD SUCCESSFUL\\
+Total time: 0 seconds\\
+	\end{block}
 \end{frame}
 
-\subsubsection{Tâches les plus courantes}
+%\subsubsection{Tâches les plus courantes}
 
 \begin{frame}
-\begin{block}{Ant task}
- 	Il existe de nombreuses tâches associées aux actions:
-	\begin{itemize}
-		\item \textbf{echo}, pour afficher du texte
-		\item \textbf{mkdir}, pour créer des répertoires
-		\item \textbf{delete}, pour effacer des fichiers ou des répertoires
-		\item \textbf{javac}, pour compiler du code java
-		\item \textbf{javadoc}, pour générer la documentation à partir des commentaires javadoc
-		\item \textbf{jar}, pour fabriquer un jar à partir de classes
-		\item ...
-	\end{itemize}
- 	Liste complète : http://ant.apache.org/manual/coretasklist.html
-\end{block}
+	\begin{block}{Ant task}
+		Il existe de nombreuses tâches associées aux actions:
+		\begin{itemize}
+			\item \textbf{echo}, pour afficher du texte
+			\item \textbf{mkdir}, pour créer des répertoires
+			\item \textbf{delete}, pour effacer des fichiers ou des répertoires
+			\item \textbf{javac}, pour compiler du code java
+			\item \textbf{javadoc}, pour générer la documentation à partir des commentaires javadoc
+			\item \textbf{jar}, pour fabriquer un jar à partir de classes
+			\item ...
+		\end{itemize}
+		Liste complète : http://ant.apache.org/manual/coretasklist.html
+	\end{block}
 \end{frame}
-\subsubsection{TD:Utilisation au sein d'Eclipse}
-\begin{frame}
 
+\subsection{TD:Utilisation de Ant au sein d'Eclipse}
+
+\begin{frame}
 	\begin{block}{Mise en place}
 	 	\begin{itemize}
 	 		\item Récupérer le projet 'tpbuild'
@@ -242,6 +316,7 @@
 \end{frame}
 
 \subsection{Pour aller plus loin... Maven}
+
 \begin{frame}
 	\begin{block}{Maven 2}
 		\begin{itemize}
@@ -259,6 +334,7 @@
 
 \section{Gestionnaire de sources}
 \subsection{Les fonctionnalités des SCM}
+
 \begin{frame}
 	\begin{block}{SCM}
 		\texttt{S}ource \texttt{C}onfiguration \texttt{M}anagement:
@@ -274,7 +350,9 @@
 		\end{itemize}
 	\end{block}
 \end{frame}
+
 \subsection{Lexique}
+
 \begin{frame}
 	\begin{block}{Lexique}
 		\begin{itemize}
@@ -288,22 +366,44 @@
 		\end{itemize}
 	\end{block}
 \end{frame}
+
+\subsection{SCM Distribué}
+
+\begin{frame}
+	\begin{figure}[lt]
+		\includegraphics[scale=0.35]{../img/distributed-scm-simple.png}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\begin{figure}[lt]
+		\includegraphics[scale=0.35]{../img/distributed-scm-full.png}
+	\end{figure}
+\end{frame}
+
 \subsection{Les produits et l'avenir}
 \begin{frame}
 	\begin{block}{Etat de l'existant}
 		\begin{itemize}
-			\item Solutions libres comme CVS de plus en plus remplacé par SVN
-			\item Solutions propriétaires multiples ( ClearCase,SourceSafe)
-		\end{itemize}
-	\end{block}
-	\begin{block}{Pour aller plus loin}
-		\begin{itemize}
-			\item Les Forges
-			\item L'intégration continue
+			\item Solutions libres 
+			\begin{itemize}
+				\item CVS,\textbf{SVN} (non distribué)
+				\item SVK,Git,\textbf{Mercurial}
+			\end{itemize}
+			\item Solutions propriétaires multiples (ClearCase,SourceSafe)
 		\end{itemize}
 	\end{block}
 \end{frame}
-\subsection{TD:Utilisation de CVS avec Eclipse}
+
+%TODO!
+% 	\begin{block}{Pour aller plus loin}
+% 		\begin{itemize}
+% 			\item Les Forges
+% 			\item L'intégration continue
+% 		\end{itemize}
+% 	\end{block}
+
+\subsection{TD:Utilisation de Mercurial avec Eclipse}
 \begin{frame}
 	\begin{block}{Enoncé}
 		Avec le plugin CVS de Eclipse ou TortoiseCVS, réalisez les actions suivantes:
@@ -319,6 +419,68 @@
 		\end{enumerate}
 	\end{block}
 \end{frame}
+
+\section{Livraison logicielle}
+
+\begin{frame}
+	\begin{block}{Les enjeux de la livraison}
+		\begin{itemize}
+ 			\item Aspect contractuel
+			\item Fournir l'ensemble des livrables
+			\item Binaire reproductible
+			\item Déploiement 
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\section{Le TP}
+
+\begin{frame}
+	\begin{block}{Hello}
+	\small{
+			\begin{tabular}{|p{3cm}|p{1.5cm}|p{4.5cm}|} % p{4cm}|p{4cm}
+				\hline
+				\textbf{Objectif Pédagogiques} 	& \textbf{Barême} & \textbf{Erreurs fatales}	\\ 
+				\hline
+				Build 
+				& 10 / 20  
+				&  
+				Build ne fonctionne pas à la livraison
+				\\ 
+				\hline
+				Gestion de Source 
+				& 5 / 20
+% RPE
+% 				\begin{itemize}
+% 					\item Commit régulier et bien commenté (2)
+% 					\item Application du patch fourni (1)
+% 					\item Génération d'un nouveau patch (1)
+% 					\item TODO (1)
+% 				\end{itemize}
+				& 
+				Commit  par lot ou mal commenté 
+				\\ 
+				\hline
+				Livraison Logicielle
+				& 5 / 20
+				& Etiquette de livraison absente 
+				\\
+				\hline 
+			\end{tabular}
+	}
+	\end{block}
+
+	\begin{block}{Séance de livraison}
+		\begin{itemize}
+			\item Vérification immédiate de la livraison, avec l'assistant
+		\end{itemize}
+
+	\end{block}
+
+\end{frame}
+
+ 
+
 \section{Fin}
 \begin{frame}
 	\begin{block}{Latex}
