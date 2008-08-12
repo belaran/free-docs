@@ -1,4 +1,5 @@
-public class Checksumable {
-  public:
-    virtual int checksum();
+public class Checksumable 
+{
+ public:
+   virtual int checksum();
 }
