@@ -1,5 +1,5 @@
 package org.esme.samples;
 
-public interface Checksumable {
+interface Checksumable {
   public int checksum();
 }

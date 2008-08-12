@@ -2,20 +2,19 @@ package org.esme.samples;
 
 public class Developer {
   /**
-   * When the developer is working on a project, this method is called.
-   * @throws ProjectException is thrown if the all project is encountering
-   *       some great difficulties.
-   */
+   * Call this when a developer is working...
+   * @throws ProjectException, issues related to 
+   *  management of the project is not the 
+   *  responsability of the developer. */
   public void doingAProject() throws ProjectException {
-    try {
-      // During a projet, a developer is supposed to code !
-      this.code();
-    }
-    catch ( TechnicalException e ) { //
-      // Taking care of technical difficulties is
-      // the developer's job:
-      this.doingSomethingAppropriate(e);
-    }
+   try {
+     this.code();
+   }
+   catch ( TechnicalException e ) { //
+     // Taking care of technical isssues is
+     // of the developer responsability.
+     this.doingSomethingAppropriate(e);
+   }
   }
 
 
