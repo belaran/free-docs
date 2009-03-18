@@ -17,7 +17,7 @@
    sodipodi:docname="shell-mecanism.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0"
-   inkscape:export-filename="/home/rpelisse/workspaces/Perso/unix-initiation/_Images/basic-notions/shell-mecanism.png"
+   inkscape:export-filename="/home/rpelisse/view/perso/workspace/free-docs-trunk/unix-initiation/_Images/basic-notions/shell-mecanism.png"
    inkscape:export-xdpi="126.20802"
    inkscape:export-ydpi="126.20802">
   <defs
@@ -14054,9 +14054,9 @@
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1379"
-     inkscape:window-height="965"
+     inkscape:window-height="907"
      inkscape:window-x="0"
-     inkscape:window-y="0" />
+     inkscape:window-y="62" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -14211,14 +14211,14 @@
        style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
        x="274.23114"
        y="161.33568"
-       id="text23357"><tspan
+       id="text23357"
+       inkscape:export-xdpi="240"
+       inkscape:export-ydpi="240"><tspan
          sodipodi:role="line"
          id="tspan23359"
          x="274.23114"
          y="161.33568"
-         style="font-size:14px">echo $(grep -e &quot;<tspan
-   style="fill:#0000ff"
-   id="tspan23375">&lt;root&gt;</tspan>&quot; *.xml | cut -f1) 2&gt; /dev/null</tspan></text>
+         style="font-size:14px">echo $(grep -e &quot;hello&quot; *.xml | cut -f1) 2&gt; /dev/null</tspan></text>
     <rect
        rx="18.12026"
        style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -14379,7 +14379,7 @@
            height="172.55553"
            x="344.03928"
            y="638.65765" /></flowRegion><flowPara
-         id="flowPara2523"></flowPara></flowRoot>    <g
+         id="flowPara2523" /></flowRoot>    <g
        id="g3483"
        transform="matrix(1.278116,0,0,1.278116,651.09895,-168.52919)"
        inkscape:export-filename="/tmp/diffusion_actuellement.png"
