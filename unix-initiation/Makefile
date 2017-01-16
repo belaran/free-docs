@@ -2,7 +2,7 @@
 	#
 	# Pour *nix
 	#
-	RM=/bin/rm -rf 
+	RM=/bin/rm -rf
 	CP=/bin/cp
 	BASEDIR="."
 #else
@@ -20,7 +20,7 @@ TARGET_DIR=.
 PROJECT_NAME=unix-initiation
 VERSION=`grep 'newcommand' 00-unix-esme.tex | grep 'docversion'| sed -e 's/\(^.*docversion}{\)\(.*\)\(}.*\$\)/\2/'`
 WORK=work
-WEBSITE=$(BASEDIR)/website
+WEBSITE=$(BASEDIR)/../docs
 IMG_DIR=_Images
 LATEX=latex
 MAKEINDEX=makeindex
@@ -109,10 +109,10 @@ $(IMAGES) :
 
 site :  	clean
 	[ ! -d $(WEBSITE) ] && mkdir $(WEBSITE)
-	latex2html -address "<Sylvain Baudry> baudry@esme.fr" -style ./style.css -local_icons -dir ${WEBSITE} $(SRC).tex 
+	latex2html -address "<Sylvain Baudry> baudry@esme.fr" -style ./style.css -local_icons -dir ${WEBSITE} $(SRC).tex
 	$(CP) ./_website/*.png ${WEBSITE}
-	$(CP) ${WEBSITE}/next.png ${WEBSITE}/next_g.png 
-	$(CP) ${WEBSITE}/prev.png ${WEBSITE}/prev_g.png 
+	$(CP) ${WEBSITE}/next.png ${WEBSITE}/next_g.png
+	$(CP) ${WEBSITE}/prev.png ${WEBSITE}/prev_g.png
 	$(CP) ${WEBSITE}/up.png	${WEBSITE}/up_g.png
 	$(CP) ./_website/style.css ${WEBSITE}/style.css
 
@@ -122,9 +122,9 @@ pdf :	clean $(IMAGES)
 	$(PDF2LATEX) $(SRC).tex
 	makeindex $(WORK)/00-unix-esme.idx
 	$(PDF2LATEX) $(SRC).tex
-	
-release:	$(SRC).pdf
-	$(CP) 00-unix-esme.pdf $(PROJECT_NAME)-$(VERSION).pdf 
+
+release:
+	$(CP) $(WORK)/00-unix-esme.pdf $(WEBSITE)/unix-initiation/$(PROJECT_NAME)-$(VERSION).pdf
 
 clean :
 

@@ -10,5 +10,5 @@ Le document a depuis été publié sous une licence "GNU General Public License 
 Vous pouvez télécharger la derniere version du document, au format PDF, ou accéder au site en ligne
 (HTML):
 
-* [Unix Initiation (PDF](http://belaran.github.io/free-docs/unix-initiation/unix-initiation-4.1.pdf)
+* [Unix Initiation (PDF)](http://belaran.github.io/free-docs/unix-initiation/unix-initiation-4.1.pdf)
 * [Unix Initiation (HTML)](http://belaran.github.io/free-docs/unix-initiation/index.html)
