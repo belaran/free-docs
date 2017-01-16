@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Manipulation des variables</TITLE>
+<META NAME="description" CONTENT="Manipulation des variables">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node211.html">
+<LINK REL="previous" HREF="node209.html">
+<LINK REL="up" HREF="node209.html">
+<LINK REL="next" HREF="node211.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4051"
+  HREF="node211.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4045"
+  HREF="node209.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4039"
+  HREF="node209.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4047"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4049"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4052"
+  HREF="node211.html">&#201;valuation de variables</A>
+<B> monter:</B> <A NAME="tex2html4046"
+  HREF="node209.html">Correspondances entre le Bourne</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4040"
+  HREF="node209.html">Correspondances entre le Bourne</A>
+ &nbsp; <B>  <A NAME="tex2html4048"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4050"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION05210000000000000000">
+Manipulation des variables</A>
+</H1>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>C Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Bourne Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Syntaxe</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><A NAME="24522"></A><code>set </code><I>variable</I><code>=</code><I>valeur</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><I>variable</I><TT>=</TT><I>valeur</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>unset </code><I>variable</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>unset </code><I>variable</I></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Remarques</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><UL>
+<LI>Les variables peuvent &#234;tre de type caract&#232;re ou num&#233;rique entier.
+</LI>
+<LI>Un nombre quelconque d'espaces entre les mots et les s&#233;parateurs est autoris&#233;.
+</LI>
+<LI>On peut utiliser des tableaux dont le dimensionnement est d&#233;fini &#224; 
+					l'initialisation. La num&#233;rotation commence &#224; 1.
+		
+</LI>
+</UL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><UL>
+<LI>Les variables peuvent &#234;tre de type caract&#232;re ou num&#233;rique entier.
+</LI>
+<LI>Pas d'espace de part et d'autre du signe "<TT>=</TT>".
+</LI>
+<LI>Adoptez les traitements orient&#233;s liste (non born&#233;e) en alternative aux tableaux.
+		
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Exemples</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><A NAME="24523"></A><code>set a="toto"</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>a="toto"</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set b = titi</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>b=titi</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set liste=nom1 nom2 nom3</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>liste="nom1 nom2 nom3"</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set x="5"</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>x="5"</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set i=1</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>i=1</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set tab=(1 2 3 4 5 6 7 8 9)</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>pas d'&#233;quivalent en local, mais on peut allouer une liste de valeurs
+			dans l'environnement par "<code>set 1 2 3 4 5 6 7 8 9</code>", ces valeurs &#233;tant 
+			r&#233;cup&#233;rables via les param&#232;tres positionnels <code>$1</code> &#224; <code>$9</code>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>"<code>$tab[6]</code>" contient le caract&#232;re "<TT>6</TT>"</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>"<code>$6</code>" contient le caract&#232;re "<TT>6</TT>", au del&#224; de 9 
+		param&#232;tres, il est n&#233;cessaire d'utiliser la commande "<TT>shift</TT>".</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4051"
+  HREF="node211.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4045"
+  HREF="node209.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4039"
+  HREF="node209.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4047"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4049"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4052"
+  HREF="node211.html">&#201;valuation de variables</A>
+<B> monter:</B> <A NAME="tex2html4046"
+  HREF="node209.html">Correspondances entre le Bourne</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4040"
+  HREF="node209.html">Correspondances entre le Bourne</A>
+ &nbsp; <B>  <A NAME="tex2html4048"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4050"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

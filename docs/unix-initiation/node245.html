@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Expression de recherches</TITLE>
+<META NAME="description" CONTENT="Expression de recherches">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node246.html">
+<LINK REL="previous" HREF="node244.html">
+<LINK REL="up" HREF="node244.html">
+<LINK REL="next" HREF="node246.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4608"
+  HREF="node246.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4602"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4596"
+  HREF="node244.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4604"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4606"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4609"
+  HREF="node246.html">Op&#233;rations de recherche</A>
+<B> monter:</B> <A NAME="tex2html4603"
+  HREF="node244.html">Recherche</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4597"
+  HREF="node244.html">Recherche</A>
+ &nbsp; <B>  <A NAME="tex2html4605"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4607"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION053210100000000000000"></A><A NAME="ann-edt-vi-searchcmds"></A>
+<BR>
+Expression de recherches
+</H3>
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set magic</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Autorise les expressions de recherche en utilisant les expressions
+		r&#233;guli&#232;res (cf. chapitre <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Cette option est positionn&#233;e
+		par d&#233;faut (cf. section <A HREF="node254.html#ann-edt-vi-config"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set nomagic</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>N'autorise que les symboles "<code>^</code>" et "<code>$</code>" pour
+		les expressions de recherche. Pour plus de pr&#233;cisions sur les
+		options de "<TT>vi</TT>", reportez-vous &#224; la section <A HREF="node254.html#ann-edt-vi-config"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>^</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Correspond au d&#233;but de ligne (idem que les expressions r&#233;guli&#232;res,
+		cf. <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>$</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Correspond &#224; la fin de ligne (idem que les expressions r&#233;guli&#232;res,
+		cf. <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>.</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Correspond &#224; n'importe quel caract&#232;re (idem que les expressions r&#233;guli&#232;res,
+		cf. <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>\<</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Correspond &#224; un d&#233;but de mot.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>\></code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Correspond &#224; une fin de mot.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>[</code><I>str</I><code>]</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Correspond &#224; un et un seul caract&#232;re parmi ceux composant
+		"<I>str</I>" (idem que les expressions r&#233;guli&#232;res,
+		cf. <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>[^</code><I>str</I><code>]</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Correspond &#224; un et un seul caract&#232;re diff&#233;rent de ceux
+		composant "<I>str</I>" (idem que les expressions r&#233;guli&#232;res,
+		cf. <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>[</code><I>a-w</I><code>]</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Correspond &#224; un et un seul caract&#232;re entre les caract&#232;res
+		"<I>a</I>" et "<I>w</I>" (idem que les expressions r&#233;guli&#232;res,
+		cf. <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>*</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Sp&#233;cifie le nombre d'occurence qu'un caract&#232;re peut appara&#238;tre. Dans
+		ce cas, le caract&#232;re sp&#233;cifi&#233; peut appara&#238;tre un nombre quelconque
+		de fois ( <!-- MATH
+ $n \in \{0, \cdots, +\infty\}$
+ -->
+<IMG
+ WIDTH="120" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img92.png"
+ ALT="$n \in \{0, \cdots, +\infty\}$">).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>\</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Annule l'interpr&#233;tation du caract&#232;re suivant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>\\</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Permet de sp&#233;cifier le caract&#232;re "<code>\</code>". En effet,
+		"<code>\\</code>" implique que&nbsp;:
+			
+<UL>
+<LI>le premier "<code>\</code>" annule l'&#233;valuation
+						du caract&#232;re suivant.
+</LI>
+<LI>le second caract&#232;re "<code>\</code>" doit &#234;tre pris
+						tel quel.
+			
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Remarque&nbsp;19..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Ce tableau montre que les r&#232;gles de syntaxes des expressions r&#233;guli&#232;res
+sont largement utilis&#233;es dans "<TT>vi</TT>". Tout comme les commandes
+"<TT>sed</TT>" et "<TT>awk</TT>" (cf. chapitres <A HREF="node143.html#adv-fltrs-sed"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> et
+<A HREF="node158.html#adv-fltrs-awk"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>), "<TT>vi</TT>" fait partie des nombreuses commandes
+U<SMALL>NIX</SMALL> utilisant la notion des expressions r&#233;guli&#232;res.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4608"
+  HREF="node246.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4602"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4596"
+  HREF="node244.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4604"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4606"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4609"
+  HREF="node246.html">Op&#233;rations de recherche</A>
+<B> monter:</B> <A NAME="tex2html4603"
+  HREF="node244.html">Recherche</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4597"
+  HREF="node244.html">Recherche</A>
+ &nbsp; <B>  <A NAME="tex2html4605"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4607"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

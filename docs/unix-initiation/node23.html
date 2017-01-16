@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Commande ls</TITLE>
+<META NAME="description" CONTENT="Commande ls">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node24.html">
+<LINK REL="previous" HREF="node22.html">
+<LINK REL="up" HREF="node21.html">
+<LINK REL="next" HREF="node24.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1027"
+  HREF="node24.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1021"
+  HREF="node21.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1015"
+  HREF="node22.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1023"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1025"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1028"
+  HREF="node24.html">Commandes mkdir et rmdir</A>
+<B> monter:</B> <A NAME="tex2html1022"
+  HREF="node21.html">Commandes li&#233;es au file</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1016"
+  HREF="node22.html">Commandes pwd et cd</A>
+ &nbsp; <B>  <A NAME="tex2html1024"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1026"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02212000000000000000"></A><A NAME="cmds-unix-ls"></A>
+<BR>
+Commande <TT>ls</TT>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+ls [-ladFR] [fichier ...]
+</PRE><BLOCKQUOTE>
+Liste le contenu d'un r&#233;pertoire.	
+</BLOCKQUOTE>
+
+<P>
+<A NAME="3810"></A>La commande &#171;&nbsp;<TT>ls</TT>&nbsp;&#187; sans argument, liste les noms de fichiers (ou
+de r&#233;pertoires) pr&#233;sents dans le r&#233;pertoire courant. Cette commande,
+utilis&#233;e avec un nom de fichier comme argument, permettra de v&#233;rifier
+l'existence de celui-ci. Si l'argument utilis&#233; est un nom de r&#233;pertoire,
+&#171;&nbsp;<TT>ls</TT>&nbsp;&#187; en listera le contenu.
+
+<P>
+<A NAME="3811"></A>Il existe de tr&#232;s nombreuses options pour la commande &#171;&nbsp;<TT>ls</TT>&nbsp;&#187;.
+La liste ci-dessous est les options les plus utilis&#233;es.
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><TT>-l</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>affiche le type de fichier, les protections, le nombre de liens avec le
+		fichier, le propri&#233;taire, le groupe, la taille en octets, la date de
+		derni&#232;re modification et le nom du fichier.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-F</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>ajoute un &#171;&nbsp;<TT>/</TT>&nbsp;&#187; apr&#232;s le nom de chaque r&#233;pertoire,
+		un &#171;&nbsp;<TT>*</TT>&nbsp;&#187; apr&#232;s chaque fichier poss&#233;dant le
+		droit d'ex&#233;cution et un &#171;&nbsp;<TT>@</TT>&nbsp;&#187; apr&#232;s chaque fichier lien (cf.
+		section <A HREF="node29.html#cmds-cpmvln"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-a</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>liste tous les fichiers y compris les fichiers cach&#233;s.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-R</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>liste les fichiers et les r&#233;pertoires de fa&#231;on r&#233;cursive.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-d</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>ne descend pas dans un r&#233;pertoire si le param&#232;tre est un nom de r&#233;pertoire.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Exemple&nbsp;2..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+% ls -F
+dir1/ fic1 fic2* fic3@
+% ls -a
+. .. .profile dir1 fic1 fic2 fic3
+% ls -l
+drw-rw-rw- 3 schmoll esme 24 Jul 25 10:00 dir2
+-rw-r--r-- 1 schmoll esme 37 Jul 25 12:00 fic1
+-rwxr-xr-x 1 schmoll esme 37 Jul 25 12:00 fic2
+lrw-r--r-- 1 schmoll esme 37 Jul 25 12:00 fic3 -&gt; /tmp/ficref
+% ls -R
+dir1 fic1 fic2 fic3
+./dir1:
+fic4 fic5
+% ls -d dir1
+dir1
+</PRE>
+
+<P>
+<A NAME="3813"></A>Le tableau <A HREF="#tab-cmds-dir"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> montre les
+&#233;quivalences entre les commandes des syst&#232;mes U<SMALL>NIX</SMALL>,
+OpenV<SMALL>MS</SMALL> et <I>MS-DOS</I> pour afficher la liste des fichiers d'un
+r&#233;pertoire.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="3815"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+&#201;quivalences entre syst&#232;mes pour
+afficher la liste des fichiers d'un r&#233;pertoire</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="CENTER" COLSPAN=1>OpenV<SMALL>MS</SMALL></TD>
+<TD ALIGN="CENTER" COLSPAN=1><I>MS-DOS</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ls</TT></TD>
+<TD ALIGN="LEFT"><TT>DIRECTORY</TT></TD>
+<TD ALIGN="LEFT"><TT>DIR</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ls -l</TT></TD>
+<TD ALIGN="LEFT"><TT>DIRECTORY/FULL</TT></TD>
+<TD ALIGN="LEFT"><I>N/A</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ls -R</TT></TD>
+<TD ALIGN="LEFT"><TT>DIRECTORY [...]</TT></TD>
+<TD ALIGN="LEFT"><I>Absent de </I><TT>COMMAND.COM</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ls rep</TT></TD>
+<TD ALIGN="LEFT"><TT>DIRECTORY [.REP]</TT></TD>
+<TD ALIGN="LEFT"><code>DIR \REP</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ls -d rep</TT></TD>
+<TD ALIGN="LEFT"><TT>DIRECTORY REP.DIR</TT></TD>
+<TD ALIGN="LEFT"><TT>DIR REP</TT></TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1027"
+  HREF="node24.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1021"
+  HREF="node21.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1015"
+  HREF="node22.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1023"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1025"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1028"
+  HREF="node24.html">Commandes mkdir et rmdir</A>
+<B> monter:</B> <A NAME="tex2html1022"
+  HREF="node21.html">Commandes li&#233;es au file</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1016"
+  HREF="node22.html">Commandes pwd et cd</A>
+ &nbsp; <B>  <A NAME="tex2html1024"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1026"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

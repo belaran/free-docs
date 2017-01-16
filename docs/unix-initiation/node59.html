@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Description</TITLE>
+<META NAME="description" CONTENT="Description">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node60.html">
+<LINK REL="previous" HREF="node58.html">
+<LINK REL="up" HREF="node58.html">
+<LINK REL="next" HREF="node60.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1607"
+  HREF="node60.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1601"
+  HREF="node58.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1595"
+  HREF="node58.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1603"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1605"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1608"
+  HREF="node60.html">Les commandes de gestion</A>
+<B> monter:</B> <A NAME="tex2html1602"
+  HREF="node58.html">Zones m&#233;moire code, variables</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1596"
+  HREF="node58.html">Zones m&#233;moire code, variables</A>
+ &nbsp; <B>  <A NAME="tex2html1604"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1606"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03121000000000000000">
+Description</A>
+</H2>
+
+<P>
+Lors de la cr&#233;ation d'un processus, trois zones
+m&#233;moires lui sont affect&#233;es&nbsp;:
+<DL>
+<DT><STRONG><I>la zone &#171;&nbsp;<TT>CODE</TT>&nbsp;&#187;</I></STRONG></DT>
+<DD>
+<BR>
+Celle-ci repr&#233;sente la zone m&#233;moire allou&#233;e au code ex&#233;cutable qui
+		doit &#234;tre d&#233;roul&#233; par le processus.
+	
+</DD>
+<DT><STRONG><I>la zone &#171;&nbsp;<TT>DATA</TT>&nbsp;&#187;</I></STRONG></DT>
+<DD>
+<BR>
+Celle-ci repr&#233;sente la zone m&#233;moire r&#233;serv&#233;e pour les donn&#233;es propres
+		au code ex&#233;cutable.
+	
+</DD>
+<DT><STRONG><I>la zone &#171;&nbsp;<TT>ENV</TT>&nbsp;&#187;</I></STRONG></DT>
+<DD>
+<BR>
+Celle-ci repr&#233;sente une zone m&#233;moire r&#233;serv&#233;e pour les donn&#233;es propres
+		au code ex&#233;cutable. Elle est aussi appel&#233;e
+		&#171;&nbsp;<A NAME="7513"></A><I>zone d'environnement</I>&nbsp;&#187;.
+</DD>
+</DL>
+En faisant l'analogie avec un programme source, la zone &#171;&nbsp;<TT>CODE</TT>&nbsp;&#187;
+correspond aux instructions du programme, tandis que les zones
+&#171;&nbsp;<TT>DATA</TT>&nbsp;&#187; et &#171;&nbsp;<TT>ENV</TT>&nbsp;&#187; correspondent aux zones associ&#233;es
+aux d&#233;clarations de variables, la zone &#171;&nbsp;<TT>ENV</TT>&nbsp;&#187; r&#233;f&#233;ren&#231;ant
+les variables globales.
+
+<P>
+Lors de la cr&#233;ation d'un sous processus, U<SMALL>NIX</SMALL> duplique l'environnement en
+ne gardant que les variables globales.
+Pour ex&#233;cuter une commande, le shell cr&#233;e un sous processus dans lequel
+il substitue le code par le code de la commande &#224; ex&#233;cuter. La m&#233;thode suivie est
+illustr&#233;e &#224; la figure <A HREF="#fig-basnot-exec-cmd"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig-basnot-exec-cmd"></A><A NAME="8444"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Ex&#233;cution d'une commande sous U<SMALL>NIX</SMALL></CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><IMG
+  WIDTH="668" HEIGHT="404" ALIGN="BOTTOM" BORDER="0"
+ SRC="./exec-cmd.jpg"
+ ALT="Image exec-cmd">
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+L'appel syst&#232;me &#171;&nbsp;<TT>fork()</TT>&nbsp;&#187; cr&#233;e le processus et ne garde
+que la zone m&#233;moire &#171;&nbsp;<TT>ENV</TT>&nbsp;&#187;. L'appel syst&#232;me
+&#171;&nbsp;<TT>exec()</TT>&nbsp;&#187; ex&#233;cute la commande dans le processus cr&#233;&#233;.
+
+<P>
+
+	<B>Remarque&nbsp;4..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>&#171;&nbsp;<TT>exec</TT>&nbsp;&#187; est aussi une commande du shell qui a la m&#234;me fonctionnalit&#233;.
+	
+</I></BLOCKQUOTE>
+
+<P>
+La commande &#171;&nbsp;<code>exec ls</code>&nbsp;&#187; ex&#233;cute &#171;&nbsp;<TT>ls</TT>&nbsp;&#187; dans le m&#234;me processus
+du shell (substitue le code du shell par le code de la commande &#171;&nbsp;<TT>ls</TT>&nbsp;&#187;
+dans la zone m&#233;moire &#171;&nbsp;<TT>CODE</TT>&nbsp;&#187; et s'arr&#234;te d&#232;s que son ex&#233;cution est
+termin&#233;e. <B>On est donc d&#233;logg&#233;</B>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1607"
+  HREF="node60.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1601"
+  HREF="node58.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1595"
+  HREF="node58.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1603"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1605"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1608"
+  HREF="node60.html">Les commandes de gestion</A>
+<B> monter:</B> <A NAME="tex2html1602"
+  HREF="node58.html">Zones m&#233;moire code, variables</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1596"
+  HREF="node58.html">Zones m&#233;moire code, variables</A>
+ &nbsp; <B>  <A NAME="tex2html1604"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1606"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

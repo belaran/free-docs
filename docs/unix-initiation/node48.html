@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Transfert de fichiers automatique - commande rcp</TITLE>
+<META NAME="description" CONTENT="Transfert de fichiers automatique - commande rcp">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node49.html">
+<LINK REL="previous" HREF="node47.html">
+<LINK REL="up" HREF="node44.html">
+<LINK REL="next" HREF="node49.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1387"
+  HREF="node49.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1381"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1375"
+  HREF="node47.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1383"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1385"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1388"
+  HREF="node49.html">Ex&#233;cution d'une commande &#224;</A>
+<B> monter:</B> <A NAME="tex2html1382"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1376"
+  HREF="node47.html">Connexion automatique - commande</A>
+ &nbsp; <B>  <A NAME="tex2html1384"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1386"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION02340000000000000000">
+Transfert de fichiers automatique - commande <TT>rcp</TT></A>
+</H1>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TT>rcp <I>source</I> <I>destination</I></TT>
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>avec <I>source</I> et <I>destination</I> de la forme <TT>[[<I>user</I>@]<I>host</I>:]<I>pathname</I></TT>	
+</BLOCKQUOTE>
+
+<P>
+La commande <A NAME="6482"></A>&#171;&nbsp;<TT>rcp</TT>&nbsp;&#187; est similaire &#224; la commane &#171;&nbsp;<TT>cp</TT>&nbsp;&#187; d'U<SMALL>NIX</SMALL>. Comme &#171;&nbsp;<TT>cp</TT>&nbsp;&#187;, &#171;&nbsp;<TT>rcp</TT>&nbsp;&#187; aura un comportement diff&#233;rent selon le nombre d'arguments&nbsp;:
+
+<P>
+
+<UL>
+<LI>si elle ne poss&#232;de que deux arguments, elle copie le fichier source
+			sous le nouveau nom,
+</LI>
+<LI>si elle poss&#232;de plusieurs arguments, la destination est
+			obligatoirement un r&#233;pertoire. Dans ce cas, elle copie les fichiers
+			sources dans le r&#233;pertoire sp&#233;cifi&#233;.
+</LI>
+</UL>
+
+<P>
+&#171;&nbsp;<TT>rcp</TT>&nbsp;&#187; ne demande pas de mot de passe si une &#233;quivalence syst&#232;me ou utilisateur a &#233;t&#233; configur&#233;e.
+
+<P>
+Dans le cas contraire, elle ne fonctionne pas (message &#171;&nbsp;<TT>Permission denied</TT>&nbsp;&#187;). &#171;&nbsp;<TT>rcp</TT>&nbsp;&#187; autorise des transferts mettant en jeu plusieurs machines. Par exemple, si vous &#234;tes connect&#233; sur une machine, vous pouvez transf&#233;rer des fichiers entre deux n<IMG
+ WIDTH="13" HEIGHT="9" ALIGN="BOTTOM" BORDER="0"
+ SRC="img26.png"
+ ALT="\oe">uds du r&#233;seau totalement diff&#233;rents.
+
+<P>
+La source et la destination se pr&#233;sentent sous la forme
+<TT>[[<I>user</I>@]<I>host</I>:]<I>pathname</I></TT> avec&nbsp;:
+<BR>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><TT>host</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Sp&#233;cifie le syst&#232;me sur lequel se trouve le fichier. Si &#171;&nbsp;<TT>host</TT>&nbsp;&#187; n'est pas pr&#233;cis&#233;, le syst&#232;me local est utilis&#233; par d&#233;faut.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>user</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Sp&#233;cifie l'utilisateur sur &#171;&nbsp;<TT>host</TT>&nbsp;&#187;. Si &#171;&nbsp;<TT>user</TT>&nbsp;&#187; n'est
+	pas pr&#233;cis&#233;, l'utilisateur sur le site distant est le m&#234;me que sur
+	le site local (les noms des utilisateurs doivent correspondre d'un
+	syst&#232;me &#224; l'autre).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>pathname</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Donne le chemin du fichier &#224; copier. Il peut &#234;tre relatif ou absolu.
+	Un chemin relatif est interpr&#233;t&#233; de mani&#232;re relative par rapport au
+	r&#233;pertoire de connexion sur le site distant ou par rapport au
+	r&#233;pertoire courant sur le site local.</TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+Il est possible d'utiliser les m&#233;tacaract&#232;res pour r&#233;f&#233;rencer des fichiers. N'oubliez pas que le shell local interpr&#232;te n'importe quel m&#233;tacaract&#232;re avant d'appeler &#171;&nbsp;<TT>rcp</TT>&nbsp;&#187;. Pour emp&#234;cher une substitution locale des m&#233;tacaract&#232;res devant &#234;tre trait&#233;s par le site distant, mettez les entre simples quotes (cf. section <A HREF="node77.html#basic-quotes"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).
+
+<P>
+
+	<B>Exemple&nbsp;3..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<A NAME="exp-cmdnet-exrcp"></A>On supposera que toutes les &#233;quivalences utilisateur et syst&#232;me ont &#233;t&#233; configur&#233;es correctement.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Le processus de cet exemple est d&#233;crit au tableau <A HREF="#tab-cmdnet-exrcp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> et &#224; la figure <A HREF="#fig-cmdnet-exrcp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.	
+</BLOCKQUOTE>
+
+<P>
+Dans la configuration d&#233;crite dans la figure <A HREF="#fig-cmdnet-exrcp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>,
+<BR><A NAME="6491"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION>Description des op&#233;rations effectu&#233;es.</CAPTION>
+<TR><TD ALIGN="CENTER" COLSPAN=1>Exemple</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="53" HEIGHT="33" ALIGN="BOTTOM" BORDER="0"
+ SRC="./exrcp-cl1.jpg"
+ ALT="Image exrcp-cl1"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>L'utilisateur <TT>willow</TT> sur la machine <TT>dragon</TT> copie le
+	fichier <TT>excalibur.c</TT> de l'utilisateur <TT>arthur</TT> sur la
+	machine <TT>king</TT> dans son r&#233;pertoire courant.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="56" HEIGHT="36" ALIGN="BOTTOM" BORDER="0"
+ SRC="./exrcp-cl2.jpg"
+ ALT="Image exrcp-cl2"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>L'utilisateur <TT>willow</TT> sur la machine <TT>dragon</TT> copie le
+	fichier local <TT>donjon.c</TT> sur la machine <TT>dragon</TT> vers le
+	r&#233;pertoire de connexion de l'utilisateur <TT>willow</TT> sur la machine
+	<TT>dulac</TT>.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="53" HEIGHT="33" ALIGN="BOTTOM" BORDER="0"
+ SRC="./exrcp-cl3.jpg"
+ ALT="Image exrcp-cl3"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>L'utilisateur <TT>willow</TT> sur la machine <TT>dragon</TT> copie tous les
+	fichiers &#171;&nbsp;<TT>.c</TT>&nbsp;&#187; de l'utilisateur <TT>arthur</TT> sur la machine
+	<TT>king</TT> vers son r&#233;pertoire courant.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+  WIDTH="56" HEIGHT="36" ALIGN="BOTTOM" BORDER="0"
+ SRC="./exrcp-cl4.jpg"
+ ALT="Image exrcp-cl4"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>L'utilisateur <TT>willow</TT> sur la machine <TT>dragon</TT> copie le
+	fichier <TT>excalibur.c</TT> de l'utilisateur <TT>arthur</TT> sur la
+	machine <TT>king</TT> vers le r&#233;pertoire de connexion de l'utilisateur
+	<TT>lancelot</TT> sur la machine <TT>dulac</TT>.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+On obtient l'exemple illustr&#233; dans la figure <A HREF="#fig-cmdnet-exrcp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig-cmdnet-exrcp"></A><A NAME="6492"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Exemple d'utilisation de la commande &#171;&nbsp;<TT>rcp</TT>&nbsp;&#187;.</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><IMG
+  WIDTH="539" HEIGHT="376" ALIGN="BOTTOM" BORDER="0"
+ SRC="./exrcp.jpg"
+ ALT="Image exrcp">
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1387"
+  HREF="node49.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1381"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1375"
+  HREF="node47.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1383"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1385"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1388"
+  HREF="node49.html">Ex&#233;cution d'une commande &#224;</A>
+<B> monter:</B> <A NAME="tex2html1382"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1376"
+  HREF="node47.html">Connexion automatique - commande</A>
+ &nbsp; <B>  <A NAME="tex2html1384"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1386"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

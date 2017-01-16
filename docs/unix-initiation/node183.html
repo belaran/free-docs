@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>M&#233;thode utilis&#233;e</TITLE>
+<META NAME="description" CONTENT="M&#233;thode utilis&#233;e">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node184.html">
+<LINK REL="previous" HREF="node182.html">
+<LINK REL="up" HREF="node181.html">
+<LINK REL="next" HREF="node184.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3569"
+  HREF="node184.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3563"
+  HREF="node181.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3557"
+  HREF="node182.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3565"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3567"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3570"
+  HREF="node184.html">D&#233;veloppement</A>
+<B> monter:</B> <A NAME="tex2html3564"
+  HREF="node181.html">Tri par adresse IP</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3558"
+  HREF="node182.html">&#201;tude des fonctionnalit&#233;s</A>
+ &nbsp; <B>  <A NAME="tex2html3566"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3568"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041122000000000000000">
+M&#233;thode utilis&#233;e</A>
+</H2>
+
+<P>
+Comme il l'a &#233;t&#233; explicit&#233; pr&#233;c&#233;demment, le probl&#232;me r&#233;side essentiellement
+dans les points suivants&nbsp;:
+
+<UL>
+<LI>le s&#233;parateur de champ pour le fichier "<TT>hosts(5)</TT>" est
+			diff&#233;rent de celui qui pourrait nous servir pour faire le tri
+			sur les champs de l'adresse IP,
+</LI>
+<LI>le nom d'une machine, si son domaine est sp&#233;cifi&#233;, peut comporter
+			un certain nombre de "<TT>.</TT>", lui-m&#234;me s&#233;parateur de champs
+			pour l'adresse IP (cf [<A
+ HREF="node274.html#dns-bind">8</A>]),
+</LI>
+<LI>le tri doit &#234;tre effectu&#233; en num&#233;rique uniquement sur les champs
+			de l'adresse IP.
+</LI>
+</UL>
+
+<P>
+Il est clair, que la commande &#224; utiliser pour faire ce tri, est la commande
+"<TT>sort(1)</TT>". Par contre, nous devrons faire en sorte que l'entr&#233;e
+du tri comporte cinq champs&nbsp;:
+
+<UL>
+<LI>le premier champ num&#233;rique de l'adresse IP,
+</LI>
+<LI>le second champ num&#233;rique de l'adresse IP,
+</LI>
+<LI>le troisi&#232;me champ num&#233;rique de l'adresse IP,
+</LI>
+<LI>le quatri&#232;me champ num&#233;rique de l'adresse IP,
+</LI>
+<LI>le ou les noms de la machine.
+</LI>
+</UL>
+Il suffira alors de faire un tri num&#233;rique sur les quatre premiers champs.
+Le r&#233;sultat &#224; afficher devra reformater de telle sorte qu'il ob&#233;isse
+au format du fichier "<TT>hosts(5)</TT>".
+
+<P>
+Nous aurons donc les &#233;tapes suivantes&nbsp;:
+
+<OL>
+<LI>convertir le fichier "<TT>hosts(5)</TT>" de telle sorte que l'on
+			dispose des cinq champs explicit&#233;s pr&#233;c&#233;demment,
+</LI>
+<LI>effectuer le tri,
+</LI>
+<LI>reformater le r&#233;sultat du tri pour ob&#233;ir au format usuel et
+			l'afficher sur la sortie standard.
+</LI>
+</OL>
+
+<P>
+Or, un nom de machine peut utiliser le caract&#232;re "<TT>.</TT>" afin d'identifier
+son domaine DNS. Par cons&#233;quent, il faudra utiliser un autre caract&#232;re pour
+s&#233;parer
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3569"
+  HREF="node184.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3563"
+  HREF="node181.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3557"
+  HREF="node182.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3565"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3567"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3570"
+  HREF="node184.html">D&#233;veloppement</A>
+<B> monter:</B> <A NAME="tex2html3564"
+  HREF="node181.html">Tri par adresse IP</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3558"
+  HREF="node182.html">&#201;tude des fonctionnalit&#233;s</A>
+ &nbsp; <B>  <A NAME="tex2html3566"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3568"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

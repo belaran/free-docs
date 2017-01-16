@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Fichier "mkpasswd.define"</TITLE>
+<META NAME="description" CONTENT="Fichier "mkpasswd.define"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node203.html">
+<LINK REL="previous" HREF="node201.html">
+<LINK REL="up" HREF="node201.html">
+<LINK REL="next" HREF="node203.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3853"
+  HREF="node203.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3847"
+  HREF="node201.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3841"
+  HREF="node201.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3849"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3851"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3854"
+  HREF="node203.html">Fichier "mkpasswd.functions"</A>
+<B> monter:</B> <A NAME="tex2html3848"
+  HREF="node201.html">Programmes obtenus</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3842"
+  HREF="node201.html">Programmes obtenus</A>
+ &nbsp; <B>  <A NAME="tex2html3850"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3852"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION041144100000000000000"></A><A NAME="adv-programming-ex3-pgmdef"></A>
+<BR>
+Fichier "<TT>mkpasswd.define</TT>"
+</H3>
+
+<P>
+<PRE>
+#!/bin/sh
+#
+#
+#   SERVICE DES ADMINISTRATEURS:
+#       Traduction des bases OpenVMS vers Unix.
+#       Definition des parametres
+#
+#   Fichier: $BIN_DIR/mkpasswd.define
+#
+#   Creation: S. Baudry
+#
+#   Modifications:
+#
+#-----------------------------------------------------------
+#
+# Repertoires
+#
+#-----------------------------------------------------------
+
+MKPASSD_DIR=${MKPASSD_DIR:=/home/adm/users/convert}
+export MKPASSD_DIR
+
+IN_DIR=${IN_DIR:=$MKPASSD_DIR/in}
+OUT_DIR=${OUT_DIR:=$MKPASSD_DIR/out}
+TMP_DIR=${TMP_DIR:=$MKPASSD_DIR/tmp}
+BIN_DIR=${BIN_DIR:=$MKPASSD_DIR/bin}
+export IN_DIR OUT_DIR TMP_DIR BIN_DIR
+
+#-----------------------------------------------------------
+#
+# Scripts/executables externes par defaut
+#
+#-----------------------------------------------------------
+
+SEARCHID=$BIN_DIR/searchid
+BUILDPASSWD=$BIN_DIR/buildpasswd
+
+export SEARCHID BUILDPASSWD
+
+ECHO=/bin/echo
+AWK=/usr/ucb/gawk
+
+export ECHO AWK
+
+
+#-----------------------------------------------------------
+#
+# Fichiers en entree
+#
+#-----------------------------------------------------------
+
+LCLUAF=$IN_DIR/lcluaf.txt
+LIST=$IN_DIR/list.txt
+WHO=$IN_DIR/who.txt
+PASSWD=$IN_DIR/passwd
+
+export LCLUAF LIST WHO PASSWD
+
+#-----------------------------------------------------------
+#
+# Fichiers temporaires
+#
+#-----------------------------------------------------------
+
+PASSWD_REF=$TMP_DIR/passwd.$$
+WHO_REF=$TMP_DIR/who.$$
+
+export PASSWD_REF WHO_REF
+
+#-----------------------------------------------------------
+#
+# Fichiers en sortie
+#
+#-----------------------------------------------------------
+
+PASSWD_NEW=$OUT_DIR/passwd.new
+GROUP_NEW=$OUT_DIR/group.new
+SHADOW_NEW=$OUT_DIR/shadow.new
+USERS_INFO_FILE=$OUT_DIR/users.infos
+AUTO_PROJECTS=$OUT_DIR/auto.projects
+AUTO_USERS=$OUT_DIR/auto.students
+
+export PASSWD_NEW GROUP_NEW SHADOW_NEW USERS_INFO_FILE
+export AUTO_PROJECTS AUTO_USERS
+
+#-----------------------------------------------------------
+#
+# Parametres
+#
+#-----------------------------------------------------------
+
+PASSWD_EXPIRATION_TIME=60
+PASSWD_WILL_EXPIRE=7
+PASSWD_WILL_CHANGE=`expr $PASSWD_EXPIRATION_TIME - $PASSWD_WILL_EXPIRE`
+export PASSWD_EXPIRATION_TIME PASSWD_WILL_EXPIRE PASSWD_WILL_CHANGE
+
+START_PROJECT_GID=2000
+STUDENT_GID=1001
+START_STUDENT_UID=2000
+export START_PROJECT_GID STUDENT_GID START_STUDENT_UID
+
+HOME_STUDENT=/home/students
+HOME_PROJECT=/home/projects
+HOME_PROTOTYPE=/home/adm/users/convert/etc/prototypes
+FS_SERVER=ampere.esme.fr
+FS_STUDENTS=/export/home/disk3/students
+FS_PROJECTS=/export/home/disk3/projects
+export HOME_STUDENT HOME_PROTOTYPE FS_SERVER FS_STUDENTS FS_PROJECTS
+
+PROTO_STUDENT_QUOTA="-p nobody"
+PROTO_PROJECT_QUOTA="-p nogroup"
+export PROTO_STUDENT_QUOTA PROTO_PROJECT_QUOTA
+
+LOGIN_SHELL=/bin/csh
+export LOGIN_SHELL
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Utilisation de &#171;&nbsp;fgrep&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="Utilisation de &#171;&nbsp;fgrep&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node142.html">
+<LINK REL="previous" HREF="node140.html">
+<LINK REL="up" HREF="node135.html">
+<LINK REL="next" HREF="node142.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2915"
+  HREF="node142.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2909"
+  HREF="node135.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2903"
+  HREF="node140.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2911"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2913"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2916"
+  HREF="node142.html">Remarque sur l'utilisation de</A>
+<B> monter:</B> <A NAME="tex2html2910"
+  HREF="node135.html">Utilisation avanc&#233;es de certains</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2904"
+  HREF="node140.html">Utilisation de &#171;&nbsp;egrep&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2912"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2914"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04840000000000000000">
+Utilisation de &#171;&nbsp;<TT>fgrep</TT>&nbsp;&#187;</A>
+</H1>
+
+<P>
+<A NAME="15305"></A><A NAME="15306"></A>La
+commande &#171;&nbsp;<TT>fgrep</TT>&nbsp;&#187; fonctionne comme la commande &#171;&nbsp;<TT>grep</TT>&nbsp;&#187;
+sauf qu'elle n'admet aucune expression r&#233;guli&#232;re. Par contre elle dispose
+de l'option &#171;&nbsp;<TT>-f</TT>&nbsp;&#187; identique &#224; la commande &#171;&nbsp;<TT>egrep</TT>&nbsp;&#187;.
+
+<P>
+Le fichier contiendra alors les cha&#238;nes de caract&#232;res &#224; rechercher sur
+les fichiers en entr&#233;e.
+
+<P>
+
+	<B>Exemple&nbsp;13..6&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+fgrep "^[a-zA-Z]" fichier
+</PRE><BLOCKQUOTE>
+Cette commande permet de recherche la cha&#238;ne &#171;&nbsp;<code>[a-zA-Z]</code>&nbsp;&#187;
+tr&#232;s exactement sans chercher &#224; la traiter comme une expression r&#233;guli&#232;re.	
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;13..7&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+fgrep -f liste fichier1 fichier2
+</PRE><BLOCKQUOTE>
+Cet exemple donne un apercu de l'utilisation de l'option &#171;&nbsp;<TT>-f</TT>&nbsp;&#187;.
+Toutes les lignes dans &#171;&nbsp;<TT>fichier1</TT>&nbsp;&#187; et &#171;&nbsp;<TT>fichier2</TT>&nbsp;&#187;
+contenant les chaines pr&#233;sentes dans le fichier &#171;&nbsp;<TT>liste</TT>&nbsp;&#187; seront
+affich&#233;es &#224; l'&#233;cran.	
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Remarque&nbsp;13..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>La commande &#171;&nbsp;<TT>fgrep</TT>&nbsp;&#187; poss&#232;de un algorithme plus rapide que les
+commandes &#171;&nbsp;<TT>grep</TT>&nbsp;&#187; et &#171;&nbsp;<TT>egrep</TT>&nbsp;&#187;. Elle permet de travailler
+sur de tr&#232;s gros volumes de donn&#233;es.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

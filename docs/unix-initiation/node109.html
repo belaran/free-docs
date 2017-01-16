@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les listes de commandes</TITLE>
+<META NAME="description" CONTENT="Les listes de commandes">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node110.html">
+<LINK REL="previous" HREF="node108.html">
+<LINK REL="up" HREF="node108.html">
+<LINK REL="next" HREF="node110.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2441"
+  HREF="node110.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2435"
+  HREF="node108.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2429"
+  HREF="node108.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2437"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2439"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2442"
+  HREF="node110.html">Les fonctions</A>
+<B> monter:</B> <A NAME="tex2html2436"
+  HREF="node108.html">Les listes de commandes</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2430"
+  HREF="node108.html">Les listes de commandes</A>
+ &nbsp; <B>  <A NAME="tex2html2438"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2440"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04510000000000000000">
+Les listes de commandes</A>
+</H1>
+
+<P>
+Une <A NAME="12942"></A>liste de commandes est une s&#233;quence d'un
+ou plusieurs <A NAME="12944"></A>pipes  ou commandes s&#233;par&#233;s par l'un
+des caract&#232;res suivants&nbsp;:
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Caract&#232;re</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Signification</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="13216"></A><TT>;</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Le shell attend que l'expression pr&#233;c&#233;dant le caract&#232;re &#171;&nbsp;<TT>;</TT>&nbsp;&#187; soit termin&#233;
+		pour passer &#224; la suivante.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME=""></A>#13217#></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>@<TT>&amp;&amp;</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME=""></A>#13218#></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="13219"></A><code>||</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Le shell ne passe qu'au <I>pipe</I> suivant seulement si le premier a renvoy&#233;
+		une valeur non nulle comme code de retour (code &#171;&nbsp;<TT>FALSE</TT>&nbsp;&#187;).</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Exemple&nbsp;10..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+ls -lR | wc -l; more /usr/lib/sendmail/sendmail.cf
+ls /usr/bin; cat /etc/passwd
+find / -print &gt;big.file &amp; ls /usr/bin
+[ -f /etc/passwd] &amp;&amp; cat /etc/passwd
+</PRE>
+
+<P>
+Chaque liste de commandes peut &#234;tre regroup&#233;e de deux fa&#231;ons&nbsp;:
+<BR>
+<BR>
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Syntaxe</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Signification</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>(liste)</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Ex&#233;cute la liste dans un sous shell sans perturber le
+		contexte du shell courant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>{liste ;}</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Ex&#233;cute la liste dans le shell courant. Aucun sous shell n'est cr&#233;&#233;.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Exemple&nbsp;10..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+L'exemple ci-apr&#232;s permet de recopier le contenu d'un r&#233;pertoire vers un autre.
+Pour cela, on utilise la commande &#171;&nbsp;<TT>tar(1)</TT>&nbsp;&#187;. L'option &#171;&nbsp;<TT>-c</TT>&nbsp;&#187; permet
+de cr&#233;er une archive, l'option &#171;&nbsp;<TT>-x</TT>&nbsp;&#187; permet d'extraire les informations.
+Lorsque l'option &#171;&nbsp;<TT>-f</TT>&nbsp;&#187; est pr&#233;cisi&#233;e sur la ligne de commande, le
+premier argument de la commande &#171;&nbsp;<TT>tar</TT>&nbsp;&#187; est le nom du fichier o&#249; l'archive doit
+&#234;tre &#233;crite ou lue. Le fichier sp&#233;cifi&#233; ici est &#171;&nbsp;<TT>-</TT>&nbsp;&#187; indiquant l'entr&#233;e ou la
+sortie standart. Lors de la cr&#233;ation d'une archive, la commande &#171;&nbsp;<TT>tar</TT>&nbsp;&#187;
+admet au moins un argument&nbsp;: le fichier &#224; sauvegarder ou bien le nom d'un r&#233;pertoire
+contenant le point de l'arborescence &#224; sauvegarder.
+</BLOCKQUOTE>
+<P><PRE>
+cd /home/users/schmoll; tar -cvf - . | (cd /tmp/trf; tar -xvf -)
+</PRE>
+<P>
+<BLOCKQUOTE>L'expression pr&#233;c&#233;dente peut se d&#233;composer en trois &#233;tapes&nbsp;:
+</BLOCKQUOTE>
+<OL>
+<LI>Changement de r&#233;pertoire.
+</LI>
+<LI>Cr&#233;ation d'un processus dans lequel la commande &#171;&nbsp;<TT>tar</TT>&nbsp;&#187;
+			doit s'ex&#233;cuter. Celle-ci cr&#233;e une archive contenant l'arborescence
+			du  r&#233;pertoire courant (le r&#233;pertoire &#171;&nbsp;<TT>/home/users/schmoll</TT>&nbsp;&#187;)
+			et l'envoie sur sa sortie standard.
+</LI>
+<LI>Cr&#233;ation d'un nouveau processus dont l'entr&#233;e standard est redirig&#233;e sur
+			la sortie standard de la commande &#171;&nbsp;<TT>tar</TT>&nbsp;&#187; pr&#233;c&#233;dente. Ce sous processus
+			se d&#233;place dans l'arborescence (r&#233;pertoire &#171;&nbsp;<code>/tmp/trf</code>&nbsp;&#187;) et
+			cr&#233;e un  nouveau sous processus pour ex&#233;cuter une autre commande
+			&#171;&nbsp;<TT>tar</TT>&nbsp;&#187; lisant le contenu de l'archive &#224; extraire sur l'entr&#233;e
+			standard.
+</LI>
+</OL>
+<P>
+<DIV ALIGN="CENTER"><A NAME="list-fncts-example"></A><A NAME="13227"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Encha&#238;nement de commandes et mod&#232;le d'ex&#233;cution</CAPTION>
+<TR><TD><IMG
+ WIDTH="428" HEIGHT="156" BORDER="0"
+ SRC="img40.png"
+ ALT="\begin{figure}
+\setlength{\unitlength}{0.92pt}
+\begin{picture}(241,74)
+\thinl...
+...ramebox{(}0,0){cd /home/users/schmoll; tar -cvf - .}}
+\end{picture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+<P>
+<BLOCKQUOTE>En conclusion, le premier membre de l'expression (&#224; gauche du symbole &#171;&nbsp;<code>|</code>&nbsp;&#187;) prend le contenu du r&#233;pertoire &#171;&nbsp;<code>/home/users/schmoll</code>&nbsp;&#187; et l'envoie sur sa sortie standard via le format d'archive &#171;&nbsp;<TT>tar</TT>&nbsp;&#187;. Le second membre change de r&#233;pertoire et restaure le contenu du r&#233;pertoire courant. Cette expression se r&#233;sume donc au sch&#233;ma <A HREF="#list-fncts-example"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.	
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2441"
+  HREF="node110.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2435"
+  HREF="node108.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2429"
+  HREF="node108.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2437"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2439"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2442"
+  HREF="node110.html">Les fonctions</A>
+<B> monter:</B> <A NAME="tex2html2436"
+  HREF="node108.html">Les listes de commandes</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2430"
+  HREF="node108.html">Les listes de commandes</A>
+ &nbsp; <B>  <A NAME="tex2html2438"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2440"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

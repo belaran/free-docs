@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Remarque sur l'utilisation de l'option &#171;&nbsp;-f&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="Remarque sur l'utilisation de l'option &#171;&nbsp;-f&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node141.html">
+<LINK REL="up" HREF="node135.html">
+<LINK REL="next" HREF="node143.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2927"
+  HREF="node143.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2921"
+  HREF="node135.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2917"
+  HREF="node141.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2923"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2925"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2928"
+  HREF="node143.html">Utilisation de &#171;&nbsp;sed&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2922"
+  HREF="node135.html">Utilisation avanc&#233;es de certains</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2918"
+  HREF="node141.html">Utilisation de &#171;&nbsp;fgrep&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2924"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2926"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04850000000000000000"></A><A NAME="adv-filters-f"></A>
+<BR>
+Remarque sur l'utilisation de l'option &#171;&nbsp;<TT>-f</TT>&nbsp;&#187;
+</H1>
+
+<P>
+&#192; la r&#232;gle 10 explicit&#233;e &#224; la section <A HREF="node98.html#pgm-intro-basic-rules"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, nous avions pr&#233;ciser que la premi&#232;re ligne d'un script devait sp&#233;cifier le nom de l'ex&#233;cutable associ&#233; au shell utiliser.
+
+<P>
+Nous avons vu de m&#234;me, que les commandes &#171;&nbsp;<TT>egrep</TT>&nbsp;&#187; et &#171;&nbsp;<TT>fgrep</TT>&nbsp;&#187; disposent de l'option &#171;&nbsp;<TT>-f</TT>&nbsp;&#187;, permettant de pr&#233;ciser un fichier de requ&#234;tes de recherche.
+
+<P>
+Si l'analogie est faite avec le shell, le processus charg&#233; d'&#233;valuer chaque ligne du fichier est l'ex&#233;cutable sp&#233;cifi&#233; au niveau de la premi&#232;re ligne du fichier contenant les instructions. Par cons&#233;quent si le fichier contenant les requ&#234;tes de recherche&nbsp;:
+
+<UL>
+<LI>a comme premi&#232;re ligne &#171;&nbsp;<code>#!/usr/bin/egrep</code>&nbsp;&#187; ou
+			&#171;&nbsp;<code>#!/usr/bin/fgrep</code>&nbsp;&#187;<A NAME="tex2html80"
+  HREF="footnode.html#foot15308"><SUP>13.3</SUP></A>,
+</LI>
+<LI>est accessible en ex&#233;cution,
+</LI>
+</UL>
+il peut &#234;tre consid&#233;r&#233; comme un filtre ex&#233;cutant les requ&#234;tes de recherche associ&#233; &#224; &#171;&nbsp;<TT>egrep</TT>&nbsp;&#187; ou &#171;&nbsp;<TT>fgrep</TT>&nbsp;&#187; qu'il contient.
+
+<P>
+Si nous prenons tout d'abord l'exemple de &#171;&nbsp;<TT>egrep</TT>&nbsp;&#187;, l'exemple suivant
+permet de rechercher, sur l'entr&#233;e standard (ou bien dans la liste de fichiers sp&#233;cifi&#233;e en argument), toutes les lignes satisfaisant les expressions r&#233;guli&#232;res suivantes&nbsp;:
+
+<UL>
+<LI>&#171;&nbsp;<code>^[A-Z]</code>&nbsp;&#187;, c'est-&#224;-dire tout ligne commen&#231;ant par une lettre majuscule,
+</LI>
+<LI>&#171;&nbsp;<code>[0-9]$</code>&nbsp;&#187;, c'est-&#224;-dire toute ligne se terminant par un chiffre,
+</LI>
+</UL>
+et d'afficher le r&#233;sultat sur la sortie standard.<PRE>
+#!/usr/bin/egrep
+^[A-Z]
+[0-9]$
+</PRE>
+
+<P>
+Le r&#233;sultat affich&#233; seront toutes les lignes satisfaisant au moins l'un des deux crit&#232;res. Si cet exemple est enregistr&#233; dans le fichier &#171;&nbsp;<TT>localise</TT>&nbsp;&#187;, et que celui-ci est accessible en ex&#233;cution, il suffira de taper la commande suivante pour obtenir le r&#233;sultat escompt&#233;&nbsp;:
+<BLOCKQUOTE>
+<TT>localise&nbsp;<I>fichier <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></I></TT>
+
+</BLOCKQUOTE>
+ou bien, si la commande est utilis&#233;e comme un filtre&nbsp;:
+<BLOCKQUOTE>
+<I>commande_envoyant_sur_la_sortie_standard</I>&nbsp;<code>| localise</code>&nbsp;<I>fichier <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></I>
+
+</BLOCKQUOTE>
+
+<P>
+Le principe d'utilisation pour la commande &#171;&nbsp;<TT>fgrep</TT>&nbsp;&#187; reste identique &#224; la restriction pr&#232;s que &#171;&nbsp;<TT>fgrep</TT>&nbsp;&#187; recherche des cha&#238;nes sans aucune interpr&#233;tation des expressions sp&#233;cifi&#233;es dans le fichier. Par cons&#233;quent, si nous avons&nbsp;:<PRE>
+#!/usr/bin/fgrep
+^[A-Z]
+[0-9]$
+</PRE>
+cette nouvelle commande, en supposant que le fichier soit enregistr&#233; sous le nom &#171;&nbsp;<TT>localise2</TT>&nbsp;&#187;, recherchera sur les fichiers sp&#233;cifi&#233;s en argument, ou bien sur l'entr&#233;e standard, toutes les lignes contenant au moins l'une des deux chaines suivantes&nbsp;:
+
+<UL>
+<LI>&#171;&nbsp;<code>^[A-Z]</code>&nbsp;&#187;,
+</LI>
+<LI>&#171;&nbsp;<code>[0-9]$</code>&nbsp;&#187;.
+</LI>
+</UL>
+
+<P>
+Tout comme la commande pr&#233;c&#233;dente, l'appel pourra se faire selon les deux m&#233;thodes ci-apr&#232;s&nbsp;:
+<BLOCKQUOTE>
+<TT>localise2&nbsp;<I>fichier <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></I></TT>
+
+</BLOCKQUOTE>
+ou bien, si la commande est utilis&#233;e comme un filtre&nbsp;:
+<BLOCKQUOTE>
+<I>commande_envoyant_sur_la_sortie_standard</I>&nbsp;<code>| localise2</code>&nbsp;<I>fichier <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></I>
+
+</BLOCKQUOTE>
+
+<P>
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2927"
+  HREF="node143.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2921"
+  HREF="node135.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2917"
+  HREF="node141.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2923"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2925"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2928"
+  HREF="node143.html">Utilisation de &#171;&nbsp;sed&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2922"
+  HREF="node135.html">Utilisation avanc&#233;es de certains</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2918"
+  HREF="node141.html">Utilisation de &#171;&nbsp;fgrep&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2924"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2926"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

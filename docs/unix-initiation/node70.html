@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Redirection de la sortie standard d'une commande dans l'entr&#233;e standard d'une autre</TITLE>
+<META NAME="description" CONTENT="Redirection de la sortie standard d'une commande dans l'entr&#233;e standard d'une autre">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node71.html">
+<LINK REL="previous" HREF="node69.html">
+<LINK REL="up" HREF="node64.html">
+<LINK REL="next" HREF="node71.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1766"
+  HREF="node71.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1760"
+  HREF="node64.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1754"
+  HREF="node69.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1762"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1764"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1767"
+  HREF="node71.html">Suppression des donn&#233;es d'une</A>
+<B> monter:</B> <A NAME="tex2html1761"
+  HREF="node64.html">Redirection des entr&#233;es/sorties</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1755"
+  HREF="node69.html">Redirection d'une sortie standard</A>
+ &nbsp; <B>  <A NAME="tex2html1763"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1765"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03146000000000000000">
+Redirection de la sortie standard d'une commande dans
+		l'entr&#233;e standard d'une autre</A>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="CENTER"><I>Commande A</I></TD>
+<TD ALIGN="CENTER"><TT>|</TT></TD>
+<TD ALIGN="CENTER"><I>Commande B</I></TD>
+</TR>
+<TR><TD ALIGN="CENTER">Doit &#233;crire sur <TT>stdout</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">Doit lire sur <TT>stdin</TT></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Le symbole <A NAME="8491"></A>&#171;&nbsp;<TT>|</TT>&nbsp;&#187; appel&#233; <A NAME="7978"></A>&#171;&nbsp;<I>pipe</I>&nbsp;&#187;, est
+utilis&#233; pour relier deux commandes entre elles. La
+<A NAME="8492"></A>sortie standard de la
+commande &#224; gauche du symbole &#171;&nbsp;<TT>|</TT>&nbsp;&#187; est utilis&#233;e comme
+<A NAME="8493"></A>entr&#233;e standard de
+la commande de droite. La figure <A HREF="#fig-basnot-out2in"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> illustre le
+principe utilis&#233; pour ce type de redirection.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig-basnot-out2in"></A><A NAME="8494"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Enchainement de commandes, m&#233;canisme du <I>pipe</I>.</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><IMG
+  WIDTH="544" HEIGHT="154" ALIGN="BOTTOM" BORDER="0"
+ SRC="./out2in.jpg"
+ ALT="Image out2in">
+	</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+C'est pourquoi&nbsp;:
+
+<UL>
+<LI>toute commande situ&#233;e &#224; gauche du symbole &#171;&nbsp;<TT>|</TT>&nbsp;&#187; doit produire une
+			sortie sur &#171;&nbsp;<TT>stdout</TT>&nbsp;&#187;,
+</LI>
+<LI>toute commande situ&#233;e &#224; droite du symbole &#171;&nbsp;<TT>|</TT>&nbsp;&#187; doit effectuer une
+			lecture depuis &#171;&nbsp;<TT>stdin</TT>&nbsp;&#187;,
+</LI>
+<LI>toute commande entre les deux symboles &#171;&nbsp;<TT>|</TT>&nbsp;&#187; doit &#233;crire sur
+			&#171;&nbsp;<TT>stdout</TT>&nbsp;&#187; et lire sur &#171;&nbsp;<TT>stdin</TT>&nbsp;&#187;. <B>C'est donc un filtre</B>.
+</LI>
+</UL>
+
+<P>
+La redirection d'entr&#233;e/sortie permet le passage d'informations entre un
+processus et un fichier. Les <I>pipes</I> permettent le passage d'informations
+entre processus. Ils constituent une solution pour utiliser la
+sortie d'une commande en entr&#233;e d'une autre commande sans passer par un
+fichier interm&#233;diaire.
+
+<P>
+U<SMALL>NIX</SMALL> repose sur le principe suivant. Chaque commande doit r&#233;aliser
+une seule chose. C'est la combinaison de ces commandes &#233;l&#233;mentaires,
+gr&#226;ce au m&#233;canisme des <I>pipes</I> qui permet l'obtention de r&#233;sultats
+&#233;labor&#233;s.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1766"
+  HREF="node71.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1760"
+  HREF="node64.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1754"
+  HREF="node69.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1762"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1764"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1767"
+  HREF="node71.html">Suppression des donn&#233;es d'une</A>
+<B> monter:</B> <A NAME="tex2html1761"
+  HREF="node64.html">Redirection des entr&#233;es/sorties</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1755"
+  HREF="node69.html">Redirection d'une sortie standard</A>
+ &nbsp; <B>  <A NAME="tex2html1763"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1765"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

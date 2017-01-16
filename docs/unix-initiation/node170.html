@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les fonctions pr&#233;d&#233;finies</TITLE>
+<META NAME="description" CONTENT="Les fonctions pr&#233;d&#233;finies">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node171.html">
+<LINK REL="previous" HREF="node169.html">
+<LINK REL="up" HREF="node169.html">
+<LINK REL="next" HREF="node171.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3362"
+  HREF="node171.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3356"
+  HREF="node169.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3350"
+  HREF="node169.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3358"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3360"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3363"
+  HREF="node171.html">Les fonctions utilisateur</A>
+<B> monter:</B> <A NAME="tex2html3357"
+  HREF="node169.html">Les actions</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3351"
+  HREF="node169.html">Les actions</A>
+ &nbsp; <B>  <A NAME="tex2html3359"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3361"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041041000000000000000">
+Les fonctions pr&#233;d&#233;finies</A>
+</H2>
+
+<P>
+La liste des <A NAME="19232"></A>fonctions
+suivantes n'est pas exhaustive. Elle donne celles qui sont usuellement
+utilis&#233;es. Les tableaux explicitent ces fonctions. Le tableau
+<A HREF="#tab-awk-fct-num"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> donne une liste de fonctions acceptant un argument de type
+num&#233;rique, le tableau <A HREF="#tab-awk-fct-str"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> donne une liste de fonctions
+acceptant un argument de type "<I>cha&#238;ne de caract&#232;res</I>".
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="19244"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+Fonctions acceptant un argument de type num&#233;rique.</CAPTION>
+<TR><TD><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Fonction</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19235"></A><TT>sqrt(<I>arg</I>)</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>renvoie la racine carr&#233; de l'argument.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19237"></A><TT>log(<I>arg</I>)</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>renvoie le logarithme n&#233;p&#233;rien de l'argument.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19239"></A><TT>exp(<I>arg</I>)</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>renvoie l'exponentiel de l'argument.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19241"></A><TT>int(<I>arg</I>)</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>renvoie la partie enti&#232;re<A NAME="tex2html88"
+  HREF="footnode.html#foot19243"><SUP>15.3</SUP></A> de l'argument..</TD>
+</TR>
+</TABLE>
+</TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="19262"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+Fonctions acceptant des arguments de type alphanum&#233;rique.</CAPTION>
+<TR><TD><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Fonction</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19246"></A><TT>length</TT><A NAME="tex2html90"
+  HREF="footnode.html#foot19247"><SUP>15.4</SUP></A></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>renvoie la longueur de l'enregistrement courant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>length(<I>arg</I>)</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>renvoie la longueur de la chaine pass&#233;e en argument.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19249"></A><TT>substr(<I>arg</I>,<I>m</I>[,<I>n</I>])</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>renvoie la sous cha&#238;ne de la chaine "<I>arg</I>" commen&#231;ant
+		&#224; la position "<I>m</I>" et de longueur "<I>n</I>". Le premier caract&#232;re
+		est &#224; la position "<IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img42.png"
+ ALT="$1$">"<A NAME="tex2html91"
+  HREF="footnode.html#foot19251"><SUP>15.5</SUP></A>. Si "<I>n</I>" n'est pas
+		sp&#233;cifi&#233;, la fonction "<TT>substr</TT>" renvoie la fin de l'argument &#224; partir
+		de la position "<I>m</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19252"></A><TT>index(<IMG
+ WIDTH="32" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img61.png"
+ ALT="$str_1$">,<IMG
+ WIDTH="31" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$str_2$">)</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>renvoie la position de "<IMG
+ WIDTH="31" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$str_2$">" dans la cha&#238;ne "<IMG
+ WIDTH="32" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img61.png"
+ ALT="$str_1$">". Si
+		"<IMG
+ WIDTH="32" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img61.png"
+ ALT="$str_1$">" ne contient pas la cha&#238;ne "<IMG
+ WIDTH="31" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$str_2$">", "<TT>index</TT>"
+		renvoie "<IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img59.png"
+ ALT="$0$">"<A NAME="tex2html92"
+  HREF="footnode.html#foot19253"><SUP>15.6</SUP></A>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19254"></A><TT>print [<IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$arg_1$">[,<IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img64.png"
+ ALT="$arg_2$">],<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">] [&gt; <I>dest</I>]</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>affiche les arguments "<IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$arg_1$">", "<IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$arg_1$">", <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"> sur
+		la sortie standard sans les formater. Avec l'option "<TT>&gt;&nbsp;<I>dest</I></TT>",
+		l'affichage est redirig&#233; sur le fichier "<I>dest</I>" au lieu de la
+		sortie standard.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19257"></A><TT>printf(<I>format</I>,<IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$arg_1$">,<IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img64.png"
+ ALT="$arg_2$">,<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">)	[&gt; <I>dest</I>]</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>affiche les arguments <IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$arg_1$">, <IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img64.png"
+ ALT="$arg_2$">, <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"> sur la sortie standard apr&#232;s
+		les avoir format&#233;s &#224; l'aide de la cha&#238;ne de contr&#244;le "<I>format</I>". Avec
+		l'option "<TT>&gt; <I>dest</I></TT>", l'affichage est redirig&#233; sur le fichier
+		"<I>dest</I>" au lieu de la sortie standard.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19260"></A><TT>sprintf(<I>format</I>,<IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$arg_1$">,<IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img64.png"
+ ALT="$arg_2$">,<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">)</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>renvoie une cha&#238;ne de caract&#232;res format&#233;e int&#233;grant <IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$arg_1$">, <IMG
+ WIDTH="34" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img64.png"
+ ALT="$arg_2$">, <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+		correspondant aux instruction de formatage en fonction de la
+		cha&#238;ne de contr&#244;le "<I>format</I>". <B>Attention</B>, cette fonction a un
+		comportement diff&#233;rent de celui de la fonction "<TT>sprintf(3)</TT>".</TD>
+</TR>
+</TABLE>
+</TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+
+	<B>Remarque&nbsp;15..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Pour plus de pr&#233;cisions sur les instructions de formatage, reportez-vous
+&#224; l'annexe <A HREF="node207.html#ann-format"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+	
+</I></BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;15..5&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Exemple d'utilisation des fonctions pr&#233;d&#233;finies&nbsp;:</I>
+<BR></BLOCKQUOTE><PRE>
+if (length &gt; 80 ) {
+    print "la ligne no: ", NR, " du fichier ",FILENAME, \
+        "est trop longue"
+}
+lentexte += length ($2)
+val=sqrt (cumul)
+val = log(sqrt(cumul))
+val = exp(log(cumul))
+modulo = int(cumul/100) * 100
+codepostal = substr("75006 Paris",1,5)
+pos = index("75006 Paris","Paris")      renvoie 7
+print $1,$2,cumul
+print "resultats", cumul &gt; /tmp/result.tmp
+print "cumuls", $1+$2 &gt; $3
+nom = sprintf ("%10.10s %10.10s .", nom, prenom)
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3362"
+  HREF="node171.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3356"
+  HREF="node169.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3350"
+  HREF="node169.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3358"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3360"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3363"
+  HREF="node171.html">Les fonctions utilisateur</A>
+<B> monter:</B> <A NAME="tex2html3357"
+  HREF="node169.html">Les actions</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3351"
+  HREF="node169.html">Les actions</A>
+ &nbsp; <B>  <A NAME="tex2html3359"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3361"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

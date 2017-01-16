@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>D&#233;veloppement</TITLE>
+<META NAME="description" CONTENT="D&#233;veloppement">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node201.html">
+<LINK REL="previous" HREF="node193.html">
+<LINK REL="up" HREF="node191.html">
+<LINK REL="next" HREF="node195.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3735"
+  HREF="node195.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3729"
+  HREF="node191.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3723"
+  HREF="node193.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3731"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3733"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3736"
+  HREF="node195.html">D&#233;termination des entr&#233;es de</A>
+<B> monter:</B> <A NAME="tex2html3730"
+  HREF="node191.html">Traduction de fichiers d'informations</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3724"
+  HREF="node193.html">M&#233;thode utilis&#233;e</A>
+ &nbsp; <B>  <A NAME="tex2html3732"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3734"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041143000000000000000"></A><A NAME="adv-programming-ex3-devl"></A>
+<BR>
+D&#233;veloppement
+</H2>
+
+<P>
+Nous ne d&#233;taillerons ici que le corps du script principal. En effet, les
+fichiers associ&#233;s &#224; la d&#233;finition des variables d'environnement et &#224; la
+v&#233;rification de la pr&#233;sence des donn&#233;es, ne pr&#233;sentent aucune difficult&#233;
+majeure. Le fichier contenant les diff&#233;rentes fonctions reprennent les
+exemples vus pr&#233;c&#233;demment.
+
+<P>
+Pour chaque fichier de donn&#233;es en entr&#233;e (d&#233;crits au tableau
+<A HREF="#adv-programming-ex3-filelink"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) et en sortie, pour les fichiers
+temporaires et les ex&#233;cutables ou scripts externes, nous d&#233;finirons les
+variables d'environnements suivantes&nbsp;:
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Fichier</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Variable</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=3>Fichiers en entr&#233;e</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>lcluaf.txt</TT></TD>
+<TD ALIGN="LEFT"><TT>LCLUAF</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Contient la liste des noms des groupes de projets sur
+			OpenV<SMALL>MS</SMALL>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>list.txt</TT></TD>
+<TD ALIGN="LEFT"><TT>LIST</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>La liste de tous les noms de compte OpenV<SMALL>MS</SMALL> devant poss&#233;der un acc&#232;s
+			sur la machine U<SMALL>NIX</SMALL>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>who.txt</TT></TD>
+<TD ALIGN="LEFT"><TT>WHO</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Toutes les informations sur les utilisateurs OpenV<SMALL>MS</SMALL>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>passwd</TT></TD>
+<TD ALIGN="LEFT"><TT>PASSWD</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>La base des utilisateurs U<SMALL>NIX</SMALL> actuels.</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=3>Fichiers temporaires</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>passwd.</TT><I>num</I></TD>
+<TD ALIGN="LEFT"><TT>PASSWD_REF</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>R&#233;f&#233;rence utilis&#233;e pour la d&#233;finition des utilisateurs actuels.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>who.</TT><I>num</I></TD>
+<TD ALIGN="LEFT"><TT>WHO_REF</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>R&#233;f&#233;rence utilis&#233;e pour la correspondance entre les
+			"<I>username</I>s" OpenV<SMALL>MS</SMALL> et le pr&#233;nom/nom de l'utilisateur.</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=3>Fichiers en sortie</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>passwd.new</TT></TD>
+<TD ALIGN="LEFT"><TT>PASSWD_NEW</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>R&#233;sultat obtenu pour les nouvelles entr&#233;es utilisateur. Ce fichier
+			viendra compl&#232;ter ou remplacer les d&#233;finitions des utilisateurs
+			sur le syst&#232;me. Il ob&#233;ira &#224; la syntaxe d&#233;finie dans "<TT>passwd(5)</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>group.new</TT></TD>
+<TD ALIGN="LEFT"><TT>GROUP_NEW</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>R&#233;sultat obtenu pour les nouvelles entr&#233;es utilisateur. Ce fichier
+			viendra compl&#232;ter ou remplacer les d&#233;finitions des utilisateurs
+			sur le syst&#232;me. Il ob&#233;ira &#224; la syntaxe d&#233;finie dans "<TT>group(5)</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>shadow.new</TT></TD>
+<TD ALIGN="LEFT"><TT>SHADOW_NEW</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>R&#233;sultat obtenu pour les nouvelles entr&#233;es utilisateur. Ce fichier
+			viendra compl&#232;ter ou remplacer les d&#233;finitions des utilisateurs
+			sur le syst&#232;me. Il ob&#233;ira &#224; la syntaxe d&#233;finie dans "<TT>shadow(5)</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>users.infos</TT></TD>
+<TD ALIGN="LEFT"><TT>USERS_INFO_FILE</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>R&#233;sultat obtenu pour les nouvelles entr&#233;es utilisateur. Ce fichier
+			viendra compl&#232;ter ou remplacer les d&#233;finitions des utilisateurs
+			sur le syst&#232;me. Il ob&#233;ira au format suivant&nbsp;:
+			
+<UL>
+<LI>Chaque ligne repr&#233;sentera un enregistrement m&#233;morisant les
+						caract&#233;ristiques des utilisateurs cr&#233;&#233;s.
+</LI>
+<LI>Chaque champ sera d&#233;limit&#233; par le caract&#232;re "<TT>:</TT>".
+</LI>
+<LI>Le premier champ correspond au "<I>logname</I>" U<SMALL>NIX</SMALL>.
+</LI>
+<LI>Le second champ est le "<I>username</I>" OpenV<SMALL>MS</SMALL>.
+</LI>
+<LI>Le troisi&#232;me champ contient le mot de passe non crypt&#233; par d&#233;faut.
+</LI>
+<LI>Le quatri&#232;me champ est l'"UID" U<SMALL>NIX</SMALL>.
+</LI>
+<LI>Le cinqui&#232;me champ est le nom du groupe associ&#233; au projet.
+			
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>auto.projects</TT></TD>
+<TD ALIGN="LEFT"><TT>AUTO_PROJECTS</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>R&#233;sultat obtenu pour les nouvelles entr&#233;es utilisateur. Ce fichier
+			viendra compl&#232;ter ou remplacer les d&#233;finitions des utilisateurs
+			sur le syst&#232;me.  Il ob&#233;ira &#224; la syntaxe d&#233;finie dans "<TT>autofs(8)</TT>"
+			ou "<TT>automount(8)</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>auto.students</TT></TD>
+<TD ALIGN="LEFT"><TT>AUTO_USERS</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>R&#233;sultat obtenu pour les nouvelles entr&#233;es utilisateur. Ce fichier
+			viendra compl&#232;ter ou remplacer les d&#233;finitions des utilisateurs
+			sur le syst&#232;me. Il ob&#233;ira &#224; la syntaxe d&#233;finie dans "<TT>autofs(8)</TT>"
+			ou "<TT>automount(8)</TT>".</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=3>Scripts ou ex&#233;cutables externes</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>searchid</TT></TD>
+<TD ALIGN="LEFT"><TT>SEARCHID</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Script permettant de localiser le dernier "UID" disponible
+			(cf. section <A HREF="node186.html#adv-programming-ex2"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>buildpasswd</TT></TD>
+<TD ALIGN="LEFT"><TT>BUILDPASSWD</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Ex&#233;cutable permettant de g&#233;n&#233;rer un mot de passe crypt&#233; &#224; partir
+			d'une chaine de caract&#232;res pass&#233;e en argument.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>/bin/echo</TT></TD>
+<TD ALIGN="LEFT"><TT>ECHO</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Ex&#233;cutable "<TT>echo</TT>" utilis&#233;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>/usr/ucb/gawk</TT></TD>
+<TD ALIGN="LEFT"><TT>AWK</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Ex&#233;cutable "<TT>awk</TT>" utilis&#233;.</TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+La localisation de ces fichiers sera r&#233;f&#233;renc&#233;e par une variable
+d'environnement&nbsp;:
+
+<UL>
+<LI>"<TT>IN_DIR</TT>" pour les fichiers en entr&#233;e,
+</LI>
+<LI>"<TT>OUT_DIR</TT>" pour les fichiers en sortie,
+</LI>
+<LI>"<TT>TMP_DIR</TT>" pour les fichiers temporaires,
+</LI>
+<LI>"<TT>BIN_DIR</TT>" pour certains scripts ou ex&#233;cutables externes.
+</LI>
+</UL>
+
+<P>
+Nous allons donc examiner les m&#233;thodes de d&#233;veloppement pour les diff&#233;rentes
+parties&nbsp;:
+
+<UL>
+<LI>D&#233;termination des entr&#233;es de r&#233;f&#233;rence par rapport aux informations
+			d&#233;j&#224; existante.
+</LI>
+<LI>Extraction des anciennes entr&#233;es et mise-&#224;-jour afin de correspondre
+			au profil courrant.
+</LI>
+<LI>Cr&#233;ation des nouvelles entr&#233;es "<I>utilisateur</I>", c'est-&#224;-dire
+			celles dont le compte n'existait pas auparavant (contrairement
+			aux anciennes qu'il a fallu modifier).
+</LI>
+<LI>Suppression de anciens r&#233;pertoires qui n'ont plus lieu d'&#234;tre. Par
+			exemple, si une entr&#233;e utilisateur est supprim&#233;e, les r&#233;pertoires
+			associ&#233;s doivent &#234;tre effac&#233;s. Nous supposerons toutefois qu'une
+			sauvegarde des donn&#233;es aura &#233;t&#233; faite au pr&#233;alable.
+</LI>
+<LI>Cr&#233;ation des entr&#233;es n&#233;cessaires pour la gestion des comptes
+			"<I>projet</I>" gr&#226;ce au fichier "<TT>group(5)</TT>".
+</LI>
+<LI>Cr&#233;ation l'ensemble des r&#233;pertoires n&#233;cessaires. Ces r&#233;pertoires
+			correspondront aux r&#233;pertoires personnels et aux r&#233;pertoires
+			"<I>projet</I>". Il est clair que les droits d'acc&#232;s devront
+			&#234;tre, par la m&#234;me occasion, positionn&#233;s de telle sorte que les
+			utilisateurs puissent travailler correctement.
+</LI>
+</UL>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Sous-sections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3737"
+  HREF="node195.html">D&#233;termination des entr&#233;es de r&#233;f&#233;rence</A>
+<LI><A NAME="tex2html3738"
+  HREF="node196.html">Extraction des anciennes entr&#233;es
+		et mise-&#224;-jour</A>
+<LI><A NAME="tex2html3739"
+  HREF="node197.html">Cr&#233;ation des nouvelles entr&#233;es utilisateur</A>
+<LI><A NAME="tex2html3740"
+  HREF="node198.html">Suppression des r&#233;pertoires inutiles</A>
+<LI><A NAME="tex2html3741"
+  HREF="node199.html">Cr&#233;ation des nouvelles entr&#233;es "<I>projet</I>"</A>
+<LI><A NAME="tex2html3742"
+  HREF="node200.html">Cr&#233;ation des r&#233;pertoires utilisateurs et "<I>projet</I>"</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3735"
+  HREF="node195.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3729"
+  HREF="node191.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3723"
+  HREF="node193.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3731"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3733"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3736"
+  HREF="node195.html">D&#233;termination des entr&#233;es de</A>
+<B> monter:</B> <A NAME="tex2html3730"
+  HREF="node191.html">Traduction de fichiers d'informations</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3724"
+  HREF="node193.html">M&#233;thode utilis&#233;e</A>
+ &nbsp; <B>  <A NAME="tex2html3732"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3734"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

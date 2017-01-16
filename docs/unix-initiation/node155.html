@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exemple 4</TITLE>
+<META NAME="description" CONTENT="Exemple 4">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node156.html">
+<LINK REL="previous" HREF="node154.html">
+<LINK REL="up" HREF="node151.html">
+<LINK REL="next" HREF="node156.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3130"
+  HREF="node156.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3124"
+  HREF="node151.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3118"
+  HREF="node154.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3126"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3128"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3131"
+  HREF="node156.html">Exemple 5</A>
+<B> monter:</B> <A NAME="tex2html3125"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3119"
+  HREF="node154.html">Exemple 3</A>
+ &nbsp; <B>  <A NAME="tex2html3127"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3129"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04944000000000000000"></A><A NAME="adv-fltrs-sed-ex4"></A>
+<BR>
+Exemple 4
+</H2>
+
+<P>
+Le but de cet exemple est de r&#233;cup&#233;rer le champ &#171;&nbsp;<I>login</I>&nbsp;&#187; et &#171;&nbsp;<I>UID</I>&nbsp;&#187; du fichier &#171;&nbsp;<TT>/etc/passwd</TT>&nbsp;&#187;.
+
+<P>
+D'apr&#232;s le format utilis&#233; pour ce fichier (explicit&#233; dans <TT>passwd(5)</TT>), tous les champs sont s&#233;par&#233;s par le caract&#232;re &#171;&nbsp;<TT>:</TT>&nbsp;&#187;. Par cons&#233;quent, le contenu de chaque champ interdit l'utilisation de ce caract&#232;re. Les champs de ce fichier auront donc comme propri&#233;t&#233;&nbsp;:
+<BLOCKQUOTE>
+Les caract&#232;res contenus pour chaque champ du fichier <TT>/etc/passwd</TT> sont
+tous les caract&#232;res alphanum&#233;riques valides &#224; l'exception du caract&#232;re &#171;&nbsp;<TT>:</TT>&nbsp;&#187;.
+
+</BLOCKQUOTE>
+Pour repr&#233;senter une cha&#238;ne de caract&#232;res ne contenant pas &#171;&nbsp;<TT>:</TT>&nbsp;&#187; &#224; l'aide des expressions r&#233;guli&#232;res, nous allons utiliser les plages de caract&#232;res en excluant les caract&#232;res non valides. Nous aurons donc&nbsp;:
+<DIV ALIGN="CENTER">
+<code>[^:]*</code>
+<BR>
+<BR>
+</DIV>
+
+<P>
+Les champs &#171;&nbsp;<I>login</I>&nbsp;&#187; et &#171;&nbsp;<I>UID</I>&nbsp;&#187; repr&#233;sentent les premier et
+troisi&#232;me champ du fichier &#171;&nbsp;<TT>/etc/passwd</TT>&nbsp;&#187;. Par cons&#233;quent, la m&#233;thode &#224; suivre pour d&#233;crire notre requ&#234;te est la suivante&nbsp;:
+
+<UL>
+<LI>le d&#233;but de ligne,
+<BR>
+<BR>
+<BR></LI>
+<LI>une s&#233;quence de caract&#232;res ne contenant pas &#171;&nbsp;<TT>:</TT>&nbsp;&#187; permettant
+			d'isoler le premier champ, donc le champ &#171;&nbsp;<I>login</I>&nbsp;&#187;,
+<BR>
+<BR>
+<BR></LI>
+<LI>le caract&#232;re &#171;&nbsp;<TT>:</TT>&nbsp;&#187;,
+<BR>
+<BR>
+<BR></LI>
+<LI>une s&#233;quence de caract&#232;res ne contenant pas &#171;&nbsp;<TT>:</TT>&nbsp;&#187; permettant
+			d'isoler le second champ,
+<BR>
+<BR>
+<BR></LI>
+<LI>le caract&#232;re &#171;&nbsp;<TT>:</TT>&nbsp;&#187;,
+<BR>
+<BR>
+<BR></LI>
+<LI>une s&#233;quence de caract&#232;res ne contenant pas &#171;&nbsp;<TT>:</TT>&nbsp;&#187; permettant
+			d'isoler le troisi&#232;me  champ, donc le champ &#171;&nbsp;<I>UID</I>&nbsp;&#187;,
+<BR>
+<BR>
+<BR></LI>
+<LI>une s&#233;quence de caract&#232;res quelconques (&#171;&nbsp;<TT>:</TT>&nbsp;&#187; pouvant y
+			appara&#238;tre),
+<BR>
+<BR>
+<BR></LI>
+<LI>la fin de la ligne.
+</LI>
+</UL>
+Nous avons donc identifi&#233; quatre groupements&nbsp;:
+
+<UL>
+<LI>le premier associ&#233; au champ &#171;&nbsp;<I>login</I>&nbsp;&#187;,
+<BR>
+<BR>
+<BR></LI>
+<LI>le second associ&#233; &#224; une s&#233;quence de caract&#232;res ne
+			contenant pas &#171;&nbsp;<TT>:</TT>&nbsp;&#187;, encadr&#233;e &#224; gauche et &#224; droite par
+			&#171;&nbsp;<TT>:</TT>&nbsp;&#187;<A NAME="tex2html84"
+  HREF="footnode.html#foot17093"><SUP>14.4</SUP></A>,
+<BR>
+<BR>
+<BR></LI>
+<LI>le troisi&#232;me associ&#233; au champ &#171;&nbsp;<I>UID</I>&nbsp;&#187;,
+<BR>
+<BR>
+<BR></LI>
+<LI>le quatri&#232;me associ&#233; &#224; une s&#233;quence de caract&#232;res quelconques
+			(&#171;&nbsp;<TT>:</TT>&nbsp;&#187; pouvant y appara&#238;tre) jusqu'&#224; la fin de la ligne.
+</LI>
+</UL>
+
+<P>
+Examinons maintenant l'expression r&#233;guli&#232;re associ&#233;e&nbsp;:
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Description</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Expression</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">d&#233;but de ligne</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>^</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">s&#233;quence de caract&#232;res
+		ne contenant pas &#171;&nbsp;<TT>:</TT>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>[^:]*</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">le caract&#232;re &#171;&nbsp;<TT>:</TT>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>:</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">s&#233;quence de caract&#232;res
+		ne contenant pas &#171;&nbsp;<TT>:</TT>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>[^:]*</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">le caract&#232;re &#171;&nbsp;<TT>:</TT>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>:</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">s&#233;quence de caract&#232;res
+		ne contenant pas &#171;&nbsp;<TT>:</TT>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>[^:]*</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">s&#233;quence de caract&#232;res
+		quelconques</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>.*</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">fin de ligne</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>$</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+En fonction des regroupements explicit&#233;s pr&#233;c&#233;demment, nous obtenons
+l'expression suivante&nbsp;:<PRE>
+^\([^:]*\)\(:[^:]*:\)\([^:]*\)\(.*$\)
+</PRE>
+
+<P>
+Maintenant, il ne nous reste plus qu'&#224; prendre tout ce qui correspond au premier et troisi&#232;me regroupement dans chaque enregistrement (lignes arrivant sur l'entr&#233;e standard), et formater la sortie de la fa&#231;on suivante&nbsp;:
+<BLOCKQUOTE>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ $\fbox{{\sl login}}$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img55.png"
+ ALT="\fbox{{\sl login}}">&nbsp;<!-- MATH
+ $\fbox{\textsc{tab}}$
+ -->
+<IMG
+ WIDTH="42" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="\fbox{\textsc{tab}}">&nbsp;<!-- MATH
+ $\fbox{{\sl UID}}$
+ -->
+<IMG
+ WIDTH="44" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img56.png"
+ ALT="\fbox{{\sl UID}}">
+</DIV>
+donc&nbsp;:
+
+<DIV ALIGN="CENTER">
+<!-- MATH
+ $\fbox{{\sl regroupement$_1$}}$
+ -->
+<IMG
+ WIDTH="118" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img57.png"
+ ALT="\fbox{{\sl regroupement$_1$}}">&nbsp;<!-- MATH
+ $\fbox{\textsc{tab}}$
+ -->
+<IMG
+ WIDTH="42" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="\fbox{\textsc{tab}}">&nbsp;<!-- MATH
+ $\fbox{{\sl regroupement$_3$}}$
+ -->
+<IMG
+ WIDTH="117" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="\fbox{{\sl regroupement$_3$}}">
+</DIV>
+</BLOCKQUOTE>
+
+<P>
+Nous obtenons donc&nbsp;:<PRE>
+sed -e 's/^\([^:]*\)\(:[^:]*:\)\([^:]*\)\(.*$\)/\1\t\3/' /etc/passwd
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3130"
+  HREF="node156.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3124"
+  HREF="node151.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3118"
+  HREF="node154.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3126"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3128"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3131"
+  HREF="node156.html">Exemple 5</A>
+<B> monter:</B> <A NAME="tex2html3125"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3119"
+  HREF="node154.html">Exemple 3</A>
+ &nbsp; <B>  <A NAME="tex2html3127"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3129"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

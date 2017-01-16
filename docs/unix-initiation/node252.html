@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Interaction avec le shell</TITLE>
+<META NAME="description" CONTENT="Interaction avec le shell">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node253.html">
+<LINK REL="previous" HREF="node251.html">
+<LINK REL="up" HREF="node234.html">
+<LINK REL="next" HREF="node253.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4704"
+  HREF="node253.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4698"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4692"
+  HREF="node251.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4700"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4702"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4705"
+  HREF="node253.html">Macros et abr&#233;viations</A>
+<B> monter:</B> <A NAME="tex2html4699"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4693"
+  HREF="node251.html">Placement direct du curseur</A>
+ &nbsp; <B>  <A NAME="tex2html4701"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4703"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION053215000000000000000"></A><A NAME="ann-edt-vi-sh"></A>
+<BR>
+Interaction avec le <I>shell</I>
+</H2>
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:!</code><I>commande</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Ex&#233;cute la commande dans un sous processus. Cette commande peut
+		&#234;tre n'importe quelle commande <I>shell</I>, y compris un appel
+		&#224; une autre session "<TT>vi</TT>". Lors de la saisie de la commande
+		au niveau du <I>prompt</I> de "<TT>vi</TT>", il est possible
+		d'utiliser les caract&#232;res sp&#233;ciaux suivants&nbsp;:</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>%</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>correspond au nom du fichier en train d'&#234;tre
+				&#233;dit&#233;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>#</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>correspond au nom du dernier fichier &#233;dit&#233;.</TD>
+</TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>L'interpr&#233;teur de commandes utilis&#233; par d&#233;faut est le Bourne Shell
+		("<code>/bin/sh</code>". Cette valeur peut &#234;tre modifi&#233;e gr&#226;ce &#224;
+		la commande "<code>:set shell=</code><I>chemin</I>" (cf.
+		<A HREF="node254.html#ann-edt-vi-config"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:!!</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>R&#233;ex&#233;cute la derni&#232;re commande <I>shell</I>, c'est-&#224;-dire la
+		derni&#232;re commande "<code>:!</code><I>commande</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:r! </code><I>commande</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Inclut dans le fichier &#224; la position courrante du curseur
+		la sortie standard de la commande "<I>commande</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:f </code><I>nouv_fichier</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Renomme le fichier courrant sous le nouveau nom
+		"<I>nouv_fichier</I>". Dans ce cas de figure, le fichier
+		&#233;dit&#233; change de nom sur le disque mais aussi pour "<TT>vi</TT>".
+		Ainsi, toute op&#233;ration future de sauvegarde se fera sous le
+		nouveau nom de fichier.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:w !</code><I>commande</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Sauvegarde le fichier courrante et envoie son contenu sur l'entr&#233;e
+		standard de la commande "<I>commande</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:cd </code><I>r&#233;pertoire</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Change le r&#233;pertoire par d&#233;faut de "<TT>vi</TT>". Si aucun r&#233;pertoire
+		n'est sp&#233;cifi&#233;, le contenu de la variable d'environnement
+		"<TT>HOME</TT>" est utilis&#233;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:sh</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>D&#233;marre un sous processus de "<TT>vi</TT>" dans lequel sera
+		ex&#233;cut&#233; un nouvel interpr&#233;teur de commandes. Pour revenir &#224;
+		"<TT>vi</TT>", il suffit de taper la commande "<TT>exit</TT>"
+		ou <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="24" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img99.png"
+ ALT="\fbox{d}">, commande ou s&#233;quence de touche permettant
+		de terminer une session <I>shell</I> (cf. <A HREF="node7.html#bcpts-login"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>
+		et <A HREF="node129.html#test-loop-break"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:so </code><I>fichier</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Lit et ex&#233;cute les commandes <I>shell</I> pr&#233;sentes dans le
+		fichier "<I>fichier</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>!</code><I>cmd<IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img91.png"
+ ALT="$_{curseur}$"><code> </code>commande</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Envoie le texte s&#233;lectionn&#233; par la commande de d&#233;placement
+		de curseur "<I>cmd<IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img91.png"
+ ALT="$_{curseur}$"></I>" &#224; la commande <I>shell</I>
+		"<I>commande</I>". Le texte correspondant &#224; la commande
+		de d&#233;placement du curseur est remplac&#233; par la sortie standard
+		de la commande. Par exemple&nbsp;:</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>!w ls -l</code><!-- MATH
+ $\fbox{\textsc{return}}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="\fbox{\textsc{return}}"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>envoie le mot situ&#233; au niveau du curseur &#224; la commande
+			"<TT>ls -l</TT>". Le mot en question est remplac&#233; par
+			le r&#233;sultat de la commande.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>!}sort</code><!-- MATH
+ $\fbox{\textsc{return}}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="\fbox{\textsc{return}}"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>S&#233;lectionne le texte de la position courrante du curseur
+			jusqu'&#224; la fin du paragraphe et le trie gr&#226;ce &#224; la commande
+			"<TT>sort</TT>". Le texte s&#233;lectionn&#233; est remplac&#233; par le
+			r&#233;sultat du tri.</TD>
+</TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4704"
+  HREF="node253.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4698"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4692"
+  HREF="node251.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4700"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4702"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4705"
+  HREF="node253.html">Macros et abr&#233;viations</A>
+<B> monter:</B> <A NAME="tex2html4699"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4693"
+  HREF="node251.html">Placement direct du curseur</A>
+ &nbsp; <B>  <A NAME="tex2html4701"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4703"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

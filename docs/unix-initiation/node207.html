@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Instructions de formatage</TITLE>
+<META NAME="description" CONTENT="Instructions de formatage">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node209.html">
+<LINK REL="previous" HREF="node206.html">
+<LINK REL="up" HREF="node206.html">
+<LINK REL="next" HREF="node208.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3988"
+  HREF="node208.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3982"
+  HREF="node206.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3976"
+  HREF="node206.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3984"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3986"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3989"
+  HREF="node208.html">Exercices d'utilisation des expressions</A>
+<B> monter:</B> <A NAME="tex2html3983"
+  HREF="node206.html">Annexes</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3977"
+  HREF="node206.html">Annexes</A>
+ &nbsp; <B>  <A NAME="tex2html3985"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3987"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION05100000000000000000"></A><A NAME="ann-format"></A>
+<BR>
+Instructions de formatage
+</H1>
+
+<P>
+La cha&#238;ne de contr&#244;le dans diverses fonctions standards des
+biblioth&#232;ques de programmation d'U<SMALL>NIX</SMALL> est une suite de symboles
+d&#233;finissant le formatage de la sortie des arguments. Quelques unes
+de ces fonctions sont&nbsp;:
+
+<UL>
+<LI><A NAME="23159"></A><TT>printf(3)</TT>, <TT>sprintf(3)</TT>, <TT>fprintf(3)</TT>, <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+</LI>
+<LI><TT>scanf(3)</TT>, <TT>sscanf(3)</TT>, <TT>fscanf(3)</TT>, <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+</LI>
+<LI><TT>printf(1)</TT>,
+</LI>
+<LI>etc.
+</LI>
+</UL>
+
+<P>
+Ces codes de contr&#244;le sont aussi utilis&#233;s dans "<A NAME="23160"></A><TT>awk</TT>" et
+"<TT>perl</TT>"<A NAME="tex2html100"
+  HREF="footnode.html#foot23161"><SUP>17.1</SUP></A>
+<P>
+Une cha&#238;ne de contr&#244;le contient deux types d'objets&nbsp;:
+
+<UL>
+<LI>les caract&#232;res ordinaires (ils sont recopi&#233;s tels quels),
+</LI>
+<LI>les symboles de formatage. Ils correspondent aux positions
+			relatives des arguments de la fonction.
+</LI>
+</UL>
+
+<P>
+Les symboles de formatage sont de la forme "<code>%[-][m][.n]a</code>"
+avec&nbsp;:
+<BR>
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Symbole</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>%</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>introduit un symbole de formatage.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>oblige le cadrage &#224; gauche (par d&#233;faut &#224; droite)
+			du champ affich&#233;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>m</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>sp&#233;cifie la largeur minimum du champ.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>n</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>sp&#233;cifie le nombre maximum de caract&#232;res &#224; afficher dans
+			la cha&#238;ne correspondante, ou bien le nombre de d&#233;cimales
+			&#224; afficher pour la valeur num&#233;rique correspondante.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>a</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>d&#233;signe le type d'argument correspondant.</TD>
+</TR>
+</TABLE>
+
+<P>
+Les diff&#233;rents codes possibles pour d&#233;signer le type d'arguments sont&nbsp;:
+<BR>
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Symbole</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>s</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>d&#233;signe une cha&#238;ne de caract&#232;res.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>c</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>d&#233;signe un caract&#232;re.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>f</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>d&#233;signe une valeur r&#233;elle (virgule flottante).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>d</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>d&#233;signe une valeur d&#233;cimale.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Exemple&nbsp;17..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Exemple d'utilisation des codes de format&nbsp;:</I>
+<BR>
+Si la variable "<TT>cumul</TT>" est &#233;gale &#224; "<IMG
+ WIDTH="67" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img69.png"
+ ALT="$31,12345$">" alors&nbsp;:
+<BR>
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Cha&#238;ne de contr&#244;le</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Affichage</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>%f</code></TD>
+<TD ALIGN="LEFT"><code>31.12345</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>%10.2f</code></TD>
+<TD ALIGN="LEFT"><code>31.12</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>%-10.3f</code></TD>
+<TD ALIGN="LEFT"><code>31.123</code></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Si la variable "<TT>nom</TT>" contient la cha&#238;ne "<TT>schmoll</TT>",
+alors&nbsp;:
+<BR>
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Cha&#238;ne de contr&#244;le</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Affichage</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>%s</code></TD>
+<TD ALIGN="LEFT"><code>schmoll</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>%10s</code></TD>
+<TD ALIGN="LEFT"><code>   schmoll</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>%10.3s</code></TD>
+<TD ALIGN="LEFT"><code>       sch</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>%-10.3s</code></TD>
+<TD ALIGN="LEFT"><code>sch       </code></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>%.3s</code></TD>
+<TD ALIGN="LEFT"><code>sch</code></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+
+<P>
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Sous-sections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3990"
+  HREF="node208.html">Exercices d'utilisation des expressions r&#233;guli&#232;res</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3988"
+  HREF="node208.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3982"
+  HREF="node206.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3976"
+  HREF="node206.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3984"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3986"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3989"
+  HREF="node208.html">Exercices d'utilisation des expressions</A>
+<B> monter:</B> <A NAME="tex2html3983"
+  HREF="node206.html">Annexes</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3977"
+  HREF="node206.html">Annexes</A>
+ &nbsp; <B>  <A NAME="tex2html3985"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3987"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

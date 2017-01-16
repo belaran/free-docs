@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Tests sur les fichiers</TITLE>
+<META NAME="description" CONTENT="Tests sur les fichiers">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node121.html">
+<LINK REL="previous" HREF="node119.html">
+<LINK REL="up" HREF="node118.html">
+<LINK REL="next" HREF="node121.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2615"
+  HREF="node121.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2609"
+  HREF="node118.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2603"
+  HREF="node119.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2611"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2613"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2616"
+  HREF="node121.html">Tests sur les cha&#238;nes</A>
+<B> monter:</B> <A NAME="tex2html2610"
+  HREF="node118.html">Les tests</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2604"
+  HREF="node119.html">La commande &#171;&nbsp;test&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2612"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2614"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04712000000000000000">
+Tests sur les fichiers</A>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<code>[ option fichier ]</code>
+<BR>
+ou 
+<BR><code>test option fichier</code>	
+</BLOCKQUOTE>
+
+<P>
+<A NAME="13755"></A>Les options usuelles sont&nbsp;:
+<BR>
+<BR>
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=1>Options</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=1>Actions</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=71>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=1><TT>-f</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Vrai si le fichier est de type ordinaire (type &#171;&nbsp;<TT>-</TT>&nbsp;&#187;).</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=1><TT>-r</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Vrai si le fichier existe et est accessible en lecture.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=1><TT>-w</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Vrai si le fichier existe et est accessible en &#233;criture.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=1><TT>-x</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Vrai si le fichier existe et est accessible en ex&#233;cution.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=1><TT>-d</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Vrai si le fichier existe et est un r&#233;pertoire.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=1><TT>-s</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Vrai si le fichier existe et est de taille non nulle.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=1><TT>-c</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Vrai si le fichier existe et est un fichier p&#233;riph&#233;rique de
+			type &#171;&nbsp;<I>raw device</I>&nbsp;&#187;.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=1><TT>-b</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Vrai si le fichier existe et est un fichier p&#233;riph&#233;rique de
+			type &#171;&nbsp;<I>block device</I>&nbsp;&#187;.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2615"
+  HREF="node121.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2609"
+  HREF="node118.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2603"
+  HREF="node119.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2611"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2613"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2616"
+  HREF="node121.html">Tests sur les cha&#238;nes</A>
+<B> monter:</B> <A NAME="tex2html2610"
+  HREF="node118.html">Les tests</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2604"
+  HREF="node119.html">La commande &#171;&nbsp;test&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2612"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2614"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

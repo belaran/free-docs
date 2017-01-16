@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Connexion automatique - commande rlogin</TITLE>
+<META NAME="description" CONTENT="Connexion automatique - commande rlogin">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node48.html">
+<LINK REL="previous" HREF="node46.html">
+<LINK REL="up" HREF="node44.html">
+<LINK REL="next" HREF="node48.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1373"
+  HREF="node48.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1367"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1361"
+  HREF="node46.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1369"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1371"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1374"
+  HREF="node48.html">Transfert de fichiers automatique</A>
+<B> monter:</B> <A NAME="tex2html1368"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1362"
+  HREF="node46.html">Transfert de fichiers -</A>
+ &nbsp; <B>  <A NAME="tex2html1370"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1372"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION02330000000000000000">
+Connexion automatique - commande <TT>rlogin</TT></A>
+</H1>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TT>rlogin remote_host [-e<I>c</I>] [-l <I>username</I>]</TT>	
+</BLOCKQUOTE>
+
+<P>
+La commande <A NAME="6474"></A>&#171;&nbsp;<TT>rlogin</TT>&nbsp;&#187; connecte votre terminal du site local sur un n<IMG
+ WIDTH="13" HEIGHT="9" ALIGN="BOTTOM" BORDER="0"
+ SRC="img26.png"
+ ALT="\oe">ud distant. &#171;&nbsp;<TT>rlogin</TT>&nbsp;&#187; agit comme un terminal virtuel sur le syst&#232;me distant. Le nom de machine distante peut &#234;tre le nom officiel ou bien un <I>alias</I><A NAME="tex2html43"
+  HREF="footnode.html#foot6475"><SUP>3.1</SUP></A>. Il est possible aussi d'utiliser l'adresse Internet. Le type de terminal (indiqu&#233; par la variable &#171;&nbsp;<TT>TERM</TT>&nbsp;&#187;) est propag&#233; &#224; travers le r&#233;seau et est utilis&#233; pour initialiser la variable &#171;&nbsp;<TT>TERM</TT>&nbsp;&#187; sur le site distant. Pour plus de renseignements sur les variables d'environnement du shell, reportez vous &#224; la section <A HREF="node58.html#basicn-codevar"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+Une fois connect&#233; au site distant, vous pouvez ex&#233;cuter des commandes sur le site local en utilisant le caract&#232;re d'&#233;chapement (par d&#233;faut &#171;&nbsp;<code>~</code>&nbsp;&#187;). Une ligne commen&#231;ant par &#171;&nbsp;<code>~!</code>&nbsp;&#187; cr&#233;e un shell et vous permet d'ex&#233;cuter temporairement des commandes sur le site local. Une ligne commen&#231;ant par &#171;&nbsp;<code>~</code>&nbsp;&#187; vous d&#233;connecte du site distant. Plus simplement, pour revenir &#224; votre session de d&#233;part, il suffit de taper la commande &#171;&nbsp;<TT>exit</TT>&nbsp;&#187; sur le site distant.
+
+<P>
+
+	<B>Exemple&nbsp;3..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<code>dragon % rlogin king -l arthur</code>
+<BR><code>Password:</code>
+<BR><code>Welcome on IRIX 4.5 4D/480 to node king</code>
+<BR><code>king% ~!</code>
+<BR><code>dragon %</code>(vous &#234;tes de retour sur votre terminal local)
+<BR><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+<BR><code>dragon % exit</code>(vous retournez &#224; la station distante)
+<BR><code>king%</code>	
+</BLOCKQUOTE>
+
+<P>
+Les options de rlogin sont d&#233;crites ci-dessous&nbsp;:
+<BR>
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><TT>-e</TT><I>c</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Positionne le caract&#232;re d'&#233;chappement &#224; &#171;&nbsp;<TT>c</TT>&nbsp;&#187;. Il n'y a pas d'espace
+	entre le caract&#232;re &#171;&nbsp;<TT>e</TT>&nbsp;&#187; et le caract&#232;re d'&#233;chappement.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-l </TT><I>username</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Met le nom de connexion de l'utilisateur sur le site distant &#224; &#171;&nbsp;<TT>username</TT>&nbsp;&#187;. Par d&#233;faut, le nom de connexion de l'utilisateur sur le
+	site local est utilis&#233; pour se connecter au site distant.</TD>
+</TR>
+</TABLE>
+
+<P>
+Pour plus de renseigements, consultez &#171;&nbsp;<TT>rlogin(1)</TT>&nbsp;&#187;.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1373"
+  HREF="node48.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1367"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1361"
+  HREF="node46.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1369"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1371"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1374"
+  HREF="node48.html">Transfert de fichiers automatique</A>
+<B> monter:</B> <A NAME="tex2html1368"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1362"
+  HREF="node46.html">Transfert de fichiers -</A>
+ &nbsp; <B>  <A NAME="tex2html1370"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1372"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

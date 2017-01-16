@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>La boucle &#171;&nbsp;for&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="La boucle &#171;&nbsp;for&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node129.html">
+<LINK REL="previous" HREF="node127.html">
+<LINK REL="up" HREF="node117.html">
+<LINK REL="next" HREF="node129.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2725"
+  HREF="node129.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2719"
+  HREF="node117.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2713"
+  HREF="node127.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2721"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2723"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2726"
+  HREF="node129.html">Les commandes &#171;&nbsp;break&nbsp;&#187;, &#171;&nbsp;continue&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2720"
+  HREF="node117.html">Les tests et les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2714"
+  HREF="node127.html">La boucle &#171;&nbsp;until&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2722"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2724"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04760000000000000000">
+La boucle &#171;&nbsp;<TT>for</TT>&nbsp;&#187;</A>
+</H1>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><A NAME="14459"></A><TT>for</TT> <I>var</I> <TT>in</TT> <I>liste</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>do</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><I>liste A</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>done</TT></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+&#171;&nbsp;<I>var</I>&nbsp;&#187; est une variable du shell et &#171;&nbsp;<I>liste</I>&nbsp;&#187; est une
+liste de cha&#238;nes de caract&#232;res d&#233;limit&#233;es par des espaces ou des
+tabulations. <B>Le nombre de cha&#238;nes de caract&#232;res de la liste d&#233;termine le
+nombre d'occurrence de la boucle</B>.
+
+<P>
+
+	<B>Ex&#233;cution&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<DL>
+<DT><STRONG>&#233;tape 1&nbsp;:</STRONG></DT>
+<DD>&#171;&nbsp;<I>var</I>&nbsp;&#187; est positionn&#233; &#224; la valeur de la premi&#232;re cha&#238;ne de
+			caract&#232;res de la liste.
+	
+</DD>
+<DT><STRONG>&#233;tape 2&nbsp;:</STRONG></DT>
+<DD>&#171;&nbsp;<I>liste A</I>&nbsp;&#187; est ex&#233;cut&#233;e.
+	
+</DD>
+<DT><STRONG>&#233;tape 3&nbsp;:</STRONG></DT>
+<DD>&#171;&nbsp;<I>var</I>&nbsp;&#187; est positionn&#233;e &#224; la valeur de la seconde cha&#238;ne
+			de caract&#232;res de la liste, puis reprise &#224; l'&#233;tape 2.
+	
+</DD>
+<DT><STRONG>&#233;tape 4&nbsp;:</STRONG></DT>
+<DD>R&#233;p&#233;tition jusqu'&#224; ce que toutes les cha&#238;nes de caract&#232;res aient
+			&#233;t&#233; utilis&#233;es.
+</DD>
+</DL>
+
+<P>
+
+	<B>Remarque&nbsp;12..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Toute cha&#238;ne de caract&#232;res comprises entre les caract&#232;res &#171;&nbsp;<TT>"</TT>&nbsp;&#187; et &#171;&nbsp;<TT>'</TT>&nbsp;&#187;
+comptent pour une it&#233;ration pour la boucle &#171;&nbsp;for&nbsp;&#187;.
+Par cons&#233;quent&nbsp;:
+<BR></I><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT"><I>
+	<code>for var in "Ceci est une cha{\^\i}ne"</code>	</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142><I>	compte 1 it&#233;ration.		</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><I> 
+	<code>do</code>									</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><I> 
+	<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">									</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><I> 
+	<code>done</code>								</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><I> 
+	 
+	<code>for var in Ceci est une cha{\^\i}ne</code>	</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142><I>	compte 4 it&#233;ration.		</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><I> 
+	<code>do</code>									</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><I> 
+	<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">									</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><I> 
+	<code>done</code>								</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD></TD>
+</TR>
+</TABLE></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2725"
+  HREF="node129.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2719"
+  HREF="node117.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2713"
+  HREF="node127.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2721"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2723"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2726"
+  HREF="node129.html">Les commandes &#171;&nbsp;break&nbsp;&#187;, &#171;&nbsp;continue&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2720"
+  HREF="node117.html">Les tests et les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2714"
+  HREF="node127.html">La boucle &#171;&nbsp;until&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2722"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2724"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

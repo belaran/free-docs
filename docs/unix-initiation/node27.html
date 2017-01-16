@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Attributs d'un fichier</TITLE>
+<META NAME="description" CONTENT="Attributs d'un fichier">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node28.html">
+<LINK REL="previous" HREF="node26.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node28.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1086"
+  HREF="node28.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1080"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1074"
+  HREF="node26.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1082"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1084"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1087"
+  HREF="node28.html">Affichage du contenu d'un</A>
+<B> monter:</B> <A NAME="tex2html1081"
+  HREF="node26.html">Commandes de manipulation de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1075"
+  HREF="node26.html">Commandes de manipulation de</A>
+ &nbsp; <B>  <A NAME="tex2html1083"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1085"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02221000000000000000">
+Attributs d'un fichier</A>
+</H2>
+
+<P>
+<A NAME="2671"></A>Par d&#233;finition, un fichier est une suite d'octets poss&#233;dant les
+attributs suivants&nbsp;:
+
+<UL>
+<LI>un type,
+</LI>
+<LI>un masque de protection,
+</LI>
+<LI>un nombre de liens avec d'autres fichiers,
+</LI>
+<LI>un propri&#233;taire et groupe,
+</LI>
+<LI>une taille,
+</LI>
+<LI>une date de cr&#233;ation et de derni&#232;re modification,
+</LI>
+<LI>un nom.
+</LI>
+</UL>
+
+<P>
+Les diff&#233;rents types de fichiers sont&nbsp;:
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>type</TD>
+<TD ALIGN="CENTER">code</TD>
+</TR>
+<TR><TD ALIGN="LEFT">standard</TD>
+<TD ALIGN="CENTER"><TT>-</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">r&#233;pertoire</TD>
+<TD ALIGN="CENTER"><TT>d</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">lien symbolique</TD>
+<TD ALIGN="CENTER"><TT>l</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">fichier sp&#233;cial mode block</TD>
+<TD ALIGN="CENTER"><TT>b</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">fichier sp&#233;cial mode caract&#232;re</TD>
+<TD ALIGN="CENTER"><TT>c</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">fichier sp&#233;cial mode r&#233;seau</TD>
+<TD ALIGN="CENTER"><TT>n</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">pipe nomm&#233;</TD>
+<TD ALIGN="CENTER"><TT>p</TT></TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+Le type &#171;&nbsp;lien symbolique&nbsp;&#187; correspond &#224; un <A NAME="2703"></A>fichier sp&#233;cial pointant physiquement sur un autre.
+
+<P>
+Les types <A NAME="3827"></A>&#171;&nbsp;fichier sp&#233;cial mode
+block&nbsp;&#187; et &#171;&nbsp;fichier sp&#233;cial mode caract&#232;re&nbsp;&#187; servent &#224;
+communiquer avec les p&#233;riph&#233;riques (disques, terminaux, etc.).
+
+<P>
+Le type &#171;&nbsp;fichier sp&#233;cial mode r&#233;seau&nbsp;&#187; sert de canal de communication
+entre processes sur diff&#233;rentes machines.
+
+<P>
+Le type &#171;&nbsp;pipe nomm&#233;&nbsp;&#187; sert de canal de communication entre diff&#233;rents
+processes sur une m&#234;me machine.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1086"
+  HREF="node28.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1080"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1074"
+  HREF="node26.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1082"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1084"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1087"
+  HREF="node28.html">Affichage du contenu d'un</A>
+<B> monter:</B> <A NAME="tex2html1081"
+  HREF="node26.html">Commandes de manipulation de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1075"
+  HREF="node26.html">Commandes de manipulation de</A>
+ &nbsp; <B>  <A NAME="tex2html1083"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1085"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

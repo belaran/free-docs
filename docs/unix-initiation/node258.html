@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Organisation de l'&#233;cran</TITLE>
+<META NAME="description" CONTENT="Organisation de l'&#233;cran">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node259.html">
+<LINK REL="previous" HREF="node257.html">
+<LINK REL="up" HREF="node256.html">
+<LINK REL="next" HREF="node259.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4799"
+  HREF="node259.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4793"
+  HREF="node256.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4787"
+  HREF="node257.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4795"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4797"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4800"
+  HREF="node259.html">Cl&#233;s de Fonction</A>
+<B> monter:</B> <A NAME="tex2html4794"
+  HREF="node256.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4788"
+  HREF="node257.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html4796"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4798"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION05332000000000000000">
+Organisation de l'&#233;cran</A>
+</H2>
+
+<P>
+L'organisation de l'&#233;cran d'"<TT>emacs</TT>" se d&#233;compose de la fa&#231;on suivante&nbsp;:
+<DL>
+<DT><STRONG>Position du curseur</STRONG></DT>
+<DD>
+<BR>
+C'est &#224; partir de ce point que seront execut&#233;es les commandes "<TT>emacs</TT>".
+	
+</DD>
+<DT><STRONG><I>Echo area</I></STRONG></DT>
+<DD>
+<BR>
+Zone en bas de l'&#233;cran o&#249; sont affich&#233;s les messages relatifs &#224; des commandes
+		(sauvegarde, messages d'erreur, intervention utilisateur). Cette zone
+		correspond au <I>buffer</I> "<TT>LSE$MESSAGE</TT>" de l'&#233;diteur "<TT>LSEDIT</TT>"
+		d'OpenV<SMALL>MS</SMALL>.
+	
+</DD>
+<DT><STRONG>Affichage du <I>buffer</I></STRONG></DT>
+<DD>
+<BR>
+Cette ou ces zones permettent de visualiser le contenu du ou des fichiers
+		&#224; &#233;diter. Elles correspondent aux <I>buffers</I> associ&#233;s &#224; des fichiers
+		de l'&#233;diteur "<TT>LSEDIT</TT>" d'OpenV<SMALL>MS</SMALL>.
+</DD>
+</DL>
+
+<P>
+La barre associ&#233;e &#224; un <I>buffer</I> contient les informations suivantes&nbsp;:
+
+<UL>
+<LI>Elle indique si le <I>buffer</I> courrant a &#233;t&#233; modifi&#233; ou non.
+			Si le buffer n'a pas &#233;t&#233; modifi&#233;, elle commencera par&nbsp;:
+<BR>
+<BR>
+<BR>			<DIV ALIGN="CENTER">
+<!-- MATH
+ $\fbox{{\tt - - - - -Emacs:} {\sl fichier}}$
+ -->
+<IMG
+ WIDTH="137" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img112.png"
+ ALT="\fbox{{\tt -----Emacs:} {\sl fichier}}">
+</DIV>
+Dans le cas contraire, elle commencera par&nbsp;:
+<BR>
+<BR>
+<BR>			<DIV ALIGN="CENTER">
+<!-- MATH
+ $\fbox{{\tt - -**-Emacs:} {\sl fichier}}$
+ -->
+<IMG
+ WIDTH="146" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img113.png"
+ ALT="\fbox{{\tt --**-Emacs:} {\sl fichier}}">
+</DIV>
+</LI>
+<LI>Chaque <I>buffer</I> peut &#234;tre associ&#233; &#224; un langage de programmation.
+			Cette op&#233;ration est effectu&#233;e automatiquement lors de
+			l'ouverture du fichier apr&#232;s son analyse par
+			"<TT>emacs</TT>". Si tel est le cas, le langage associ&#233;
+			sera affich&#233; sous la forme suivante&nbsp;:
+<BR>
+<BR>
+<BR>			<DIV ALIGN="CENTER">
+<!-- MATH
+ $\fbox{{\tt (language)}}$
+ -->
+<IMG
+ WIDTH="98" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img114.png"
+ ALT="\fbox{{\tt (language)}}">
+</DIV>
+</LI>
+<LI>Enfin, "<TT>emacs</TT>" indiquera la position courrante
+			du curseur dans le fichier (num&#233;ro de ligne et
+			de colonne) et sa position relative (en pourcentage).
+</LI>
+</UL>
+Pour plus de pr&#233;cisions sur la notion de "<I>buffers</I>", reportez-vous
+&#224; la section <A HREF="node260.html#emacs-buffers"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4799"
+  HREF="node259.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4793"
+  HREF="node256.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4787"
+  HREF="node257.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4795"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4797"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4800"
+  HREF="node259.html">Cl&#233;s de Fonction</A>
+<B> monter:</B> <A NAME="tex2html4794"
+  HREF="node256.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4788"
+  HREF="node257.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html4796"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4798"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>D&#233;veloppement</TITLE>
+<META NAME="description" CONTENT="D&#233;veloppement">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node185.html">
+<LINK REL="previous" HREF="node183.html">
+<LINK REL="up" HREF="node181.html">
+<LINK REL="next" HREF="node185.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3583"
+  HREF="node185.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3577"
+  HREF="node181.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3571"
+  HREF="node183.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3579"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3581"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3584"
+  HREF="node185.html">Programme obtenu</A>
+<B> monter:</B> <A NAME="tex2html3578"
+  HREF="node181.html">Tri par adresse IP</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3572"
+  HREF="node183.html">M&#233;thode utilis&#233;e</A>
+ &nbsp; <B>  <A NAME="tex2html3580"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3582"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041123000000000000000">
+D&#233;veloppement</A>
+</H2>
+
+<P>
+Comme tout script U<SMALL>NIX</SMALL>, le but est de n'utiliser, dans la mesure du possible,
+aucun fichier temporaire. Comme il l'a &#233;t&#233; d&#233;velopp&#233; au paragraphe pr&#233;c&#233;dent,
+il est clair que les r&#233;sultats s'enchainent les uns aux autres. Nous utiliserons
+donc les m&#233;canismes de redirection d'entr&#233;e/sortie et des filtres.
+
+<P>
+Apr&#232;s les commentaires d'ent&#234;te d'usage, la premi&#232;re chose &#224;
+faire est de reformater le fichier "<TT>hosts(5)</TT>" pour
+l'<I>envoyer</I> &#224; la commande de tri "<TT>sort(1)</TT>". Pour cela, nous
+utiliserons la commande "<TT>sed(1)</TT>". Celle-ci nous servira, dans
+un premier temps, &#224; supprimer les &#233;ventuels commentaires du fichier
+(pour plus de d&#233;tails, cf. <A HREF="node154.html#adv-fltrs-sed-ex3"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Nous aurons donc&nbsp;:<PRE>
+sed -e '/^#.*/d' -e 's/#.*$//' /etc/hosts
+</PRE>
+
+<P>
+Dans un deuxi&#232;me temps, la commande "<TT>sed(1)</TT>" va nous servir
+&#224; reformater l'adresse IP, afin de substituer le caract&#232;re "<TT>.</TT>"
+par le caract&#232;re "<TT>:</TT>". Sachant que le format d'une telle
+adresse est compos&#233; de quatre nombres s&#233;par&#233;s par "<TT>.</TT>", l'expression
+r&#233;guli&#232;re suivante la d&#233;crit parfaitement&nbsp;:
+<BLOCKQUOTE>
+<DIV ALIGN="CENTER">
+</DIV></BLOCKQUOTE><PRE>
+[0-9]{3}\.[0-9]{3}\.[0-9]{3}\.[0-9]{3}
+</PRE><BLOCKQUOTE>
+<DIV ALIGN="CENTER">
+</DIV>
+</BLOCKQUOTE>
+Par cons&#233;quent, toute ligne du fichier "<TT>host(5)</TT>" peut &#234;tre d&#233;crite
+par l'expression suivante&nbsp;:<PRE>
+\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\(.*$\)
+</PRE><BLOCKQUOTE>
+Ce qui nous permet d'avoir les r&#233;f&#233;rences suivantes pour l'expression
+r&#233;guli&#232;re&nbsp;:
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>R&#233;f&#233;rence</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>\1</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Premier champ num&#233;rique de l'adresse IP.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>\2</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Second champ num&#233;rique de l'adresse IP.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>\3</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Troisi&#232;me champ num&#233;rique de l'adresse IP.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>\4</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Quatri&#232;me champ num&#233;rique de l'adresse IP.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>\5</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Noms de la machine.</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+Nous pourrons donc &#233;crire la requ&#234;te de substitution suivante&nbsp;:<PRE>
+s/\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\(.*$\)/\1:\2:\3:\4:\5/
+</PRE>
+Ce qui nous donne&nbsp;:<PRE>
+sed -e '/^#.*/d' -e 's/#.*$//' /etc/hosts    |\
+  sed -e \
+    's/\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\(.*$\)/\1:\2:\3:\4:\5/'
+</PRE>
+
+<P>
+Il ne reste plus qu'&#224; effectuer le tri sachant que&nbsp;:
+
+<UL>
+<LI>le tri doit s'effectuer par ordre num&#233;rique croissant sur les
+			quatre premiers champs,
+</LI>
+<LI>chaque champ est s&#233;par&#233; par le caract&#232;re "<TT>:</TT>".
+</LI>
+</UL>
+Nous obtenons&nbsp;:<PRE>
+sed -e '/^#.*/d' -e 's/#.*$//' /etc/hosts    |\
+  sed -e \
+    's/\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\.\([0-9]{3}\)\(.*$\)/\1:\2:\3:\4:\5/' |\
+  sort -t: +n
+</PRE>
+
+<P>
+Il faut maintenant reformater le r&#233;sultat pour obtenir celui qui est conforme
+au fichier "<TT>hosts(5)</TT>". Nous allons ici utiliser lLa commande "<TT>awk(1)</TT>".
+Celle-ci recevra donc des lignes (ou enregistrements) s&#233;par&#233;s par le caract&#232;re "<TT>:</TT>"
+et devra effectuer le traitement suivant pour chacunes&nbsp;:
+
+<UL>
+<LI>afficher le premier champ,
+</LI>
+<LI>afficher le caract&#232;re "<TT>.</TT>",
+</LI>
+<LI>afficher le second champ,
+</LI>
+<LI>afficher le caract&#232;re "<TT>.</TT>",
+</LI>
+<LI>afficher le troisi&#232;me champ,
+</LI>
+<LI>afficher le caract&#232;re "<TT>.</TT>",
+</LI>
+<LI>afficher le quatri&#232;me champ,
+</LI>
+<LI>afficher le cinqui&#232;me ,
+</LI>
+<LI>ins&#233;rer un retour &#224; la ligne pour marquer la fin de l'enregistrement obtenu
+			en r&#233;sultat.
+</LI>
+</UL>
+Nous avons donc&nbsp;:<PRE>
+awk '
+    BEGIN { FS=":" }
+    {
+        printf ("%d.%d.%d.%d%s\n", ^$1, $2, $3, $4, $5)
+    }
+  '
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3583"
+  HREF="node185.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3577"
+  HREF="node181.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3571"
+  HREF="node183.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3579"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3581"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3584"
+  HREF="node185.html">Programme obtenu</A>
+<B> monter:</B> <A NAME="tex2html3578"
+  HREF="node181.html">Tri par adresse IP</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3572"
+  HREF="node183.html">M&#233;thode utilis&#233;e</A>
+ &nbsp; <B>  <A NAME="tex2html3580"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3582"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

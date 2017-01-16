@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Remarque sur l'utilisation de l'option &#171;&nbsp;-f&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="Remarque sur l'utilisation de l'option &#171;&nbsp;-f&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node151.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node158.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3154"
+  HREF="node158.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3148"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3144"
+  HREF="node156.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3150"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3152"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3155"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html3149"
+  HREF="node143.html">Utilisation de &#171;&nbsp;sed&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3145"
+  HREF="node156.html">Exemple 5</A>
+ &nbsp; <B>  <A NAME="tex2html3151"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3153"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04950000000000000000"></A><A NAME="adv-fltrs-sed-f"></A>
+<BR>
+Remarque sur l'utilisation de l'option &#171;&nbsp;<TT>-f</TT>&nbsp;&#187;
+</H1>
+
+<P>
+&#192; la r&#232;gle 10 explicit&#233;e &#224; la section <A HREF="node98.html#pgm-intro-basic-rules"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, nous avions pr&#233;ciser que la premi&#232;re ligne d'un script devait sp&#233;cifier le nom de l'ex&#233;cutable associ&#233; au shell utiliser.
+
+<P>
+Nous avons vu de m&#234;me, que la commande &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; dispose de l'option
+&#171;&nbsp;<TT>-f</TT>&nbsp;&#187;, permettant de pr&#233;ciser un fichier de requ&#234;tes &#171;&nbsp;<TT>sed</TT>&nbsp;&#187;.
+
+<P>
+Si l'analogie est faite avec le shell, le processus charg&#233; d'&#233;valuer chaque ligne du fichier est l'ex&#233;cutable sp&#233;cifi&#233; au niveau de la premi&#232;re ligne du fichier contenant les instructions. Par cons&#233;quent si le fichier contenant les requ&#234;tes &#171;&nbsp;<TT>sed</TT>&nbsp;&#187;&nbsp;:
+
+<UL>
+<LI>a comme premi&#232;re ligne &#171;&nbsp;<code>#!/usr/bin/sed</code>&nbsp;&#187;<A NAME="tex2html85"
+  HREF="footnode.html#foot17108"><SUP>14.5</SUP></A>,
+</LI>
+<LI>est accessible en ex&#233;cution,
+</LI>
+</UL>
+il peut &#234;tre consid&#233;r&#233; comme un filtre ex&#233;cutant les requ&#234;tes &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; qu'il contient.
+
+<P>
+Par exemple, si cette notion est appliqu&#233;e au fichier d&#233;crit dans l'exemple de la section <A HREF="node156.html#adv-fltrs-sed-ex5"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, le contenu de ce fichier sera&nbsp;:<PRE>
+#!/usr/bin/sed
+1,/^uucp/H
+$G
+</PRE>
+
+<P>
+La commande qui sera saisie deviendra&nbsp;:<PRE>
+script.sed /etc/passwd
+</PRE>
+
+<P>
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3154"
+  HREF="node158.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3148"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3144"
+  HREF="node156.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3150"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3152"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3155"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html3149"
+  HREF="node143.html">Utilisation de &#171;&nbsp;sed&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3145"
+  HREF="node156.html">Exemple 5</A>
+ &nbsp; <B>  <A NAME="tex2html3151"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3153"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Passage de param&#232;tres du shell vers le programme "awk"</TITLE>
+<META NAME="description" CONTENT="Passage de param&#232;tres du shell vers le programme "awk"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node176.html">
+<LINK REL="previous" HREF="node174.html">
+<LINK REL="up" HREF="node173.html">
+<LINK REL="next" HREF="node176.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3433"
+  HREF="node176.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3427"
+  HREF="node173.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3421"
+  HREF="node174.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3429"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3431"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3434"
+  HREF="node176.html">Utilisation de variables du</A>
+<B> monter:</B> <A NAME="tex2html3428"
+  HREF="node173.html">Trucs et astuces</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3422"
+  HREF="node174.html">Commentaires</A>
+ &nbsp; <B>  <A NAME="tex2html3430"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3432"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041052000000000000000">
+Passage de param&#232;tres du shell vers le programme "<TT>awk</TT>"</A>
+</H2>
+
+<P>
+La notion de passage d'arguments n'a d'int&#233;r&#234;t que lorsque le programme
+"<TT>awk</TT>" se trouve dans un fichier s&#233;par&#233;. Elle n'est aussi
+utilisable que si "<TT>awk</TT>" re&#231;oit les donn&#233;es sur son entr&#233;e
+standard. Dans ce cas, "<TT>awk</TT>" maintient deux variables&nbsp;:
+
+<UL>
+<LI><A NAME="19291"></A>"<TT>ARGC</TT>" contenant le nombre d'arguments,
+</LI>
+<LI><A NAME="19292"></A>"<TT>ARGV</TT>" tableau contenant la liste des arguments pass&#233;s au
+			programme "<TT>awk</TT>".
+</LI>
+</UL>
+
+<P>
+
+	<B>Exemple&nbsp;15..8&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+cat mon.fichier | awk -f program.awk a v=4 b "autre arg"
+</PRE>
+<P>
+<BLOCKQUOTE>Dans ce cas, on aura&nbsp;:
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">Variable</TD>
+<TD ALIGN="CENTER">Valeur</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>ARGC</TT></TD>
+<TD ALIGN="CENTER">5</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>ARGV[0]</code></TD>
+<TD ALIGN="CENTER"><TT>awk</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>ARGV[1]</code></TD>
+<TD ALIGN="CENTER"><TT>a</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>ARGV[2]</code></TD>
+<TD ALIGN="CENTER"><code>v=4</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>ARGV[3]</code></TD>
+<TD ALIGN="CENTER"><TT>b</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>ARGV[4]</code></TD>
+<TD ALIGN="CENTER"><code>autre arg</code></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exemple 2</TITLE>
+<META NAME="description" CONTENT="Exemple 2">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node154.html">
+<LINK REL="previous" HREF="node152.html">
+<LINK REL="up" HREF="node151.html">
+<LINK REL="next" HREF="node154.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3102"
+  HREF="node154.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3096"
+  HREF="node151.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3090"
+  HREF="node152.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3098"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3100"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3103"
+  HREF="node154.html">Exemple 3</A>
+<B> monter:</B> <A NAME="tex2html3097"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3091"
+  HREF="node152.html">Exemple 1</A>
+ &nbsp; <B>  <A NAME="tex2html3099"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3101"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04942000000000000000"></A><A NAME="adv-fltrs-sed-ex2"></A>
+<BR>
+Exemple 2
+</H2>
+
+<P>
+Le but de cet exemple est d'afficher toutes les lignes d'un fichier se terminant par &#171;&nbsp;<code>*/</code>&nbsp;&#187;.
+
+<P>
+Pour cela, nous allons utiliser la notion des espaces de travail de &#171;&nbsp;<TT>sed</TT>&nbsp;&#187;.
+Nous avons vu, &#224; la section <A HREF="node145.html#sed-fonct"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, que &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; copiait dans son espace de travail, toutes les lignes (ou <I>enregistrements</I>), arrivant sur son entr&#233;e standard, correspondant aux crit&#232;res de s&#233;lection sp&#233;cifi&#233;s dans les adresses de d&#233;but et de fin de la requ&#234;te.
+
+<P>
+Il ne nous reste donc qu'&#224; formuler le crit&#232;re de s&#233;lection ad&#233;quat et d'afficher sur la sortie standard, le contenu de l'espace de travail.
+
+<P>
+La cha&#238;ne &#224; consid&#233;rer est donc &#171;&nbsp;<code>*/</code>&nbsp;&#187;. Or le caract&#232;re &#171;&nbsp;<code>*</code>&nbsp;&#187; a une signification particuli&#232;re dans une expression r&#233;guli&#232;re. Par cons&#233;quent, le caract&#232;re d'&#233;chappement &#171;&nbsp;<code>\</code>&nbsp;&#187; doit &#234;tre utilis&#233;. L'expression r&#233;guli&#232;re correspondant &#224; la cha&#238;ne &#171;&nbsp;<code>*/</code>&nbsp;&#187; est donc &#171;&nbsp;<code>\*/</code>&nbsp;&#187;. Il ne reste plus qu'&#224; y ajouter le caract&#232;re ad&#233;quat pour les expressions r&#233;guli&#232;res caract&#233;risant la fin d'une ligne, c'est-&#224;-dire &#171;&nbsp;<code>$</code>&nbsp;&#187;. Nous obtenons donc l'expression suivante&nbsp;:
+<DIV ALIGN="CENTER">
+<code>\*\/$</code>
+
+</DIV>
+
+<P>
+Le crit&#232;re de s&#233;lection &#224; appliquer dans la sp&#233;cification des adresses de d&#233;but et de fin pour la requ&#234;te &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; correspond &#224; toutes les lignes satisfaisant l'expression r&#233;guli&#232;re pr&#233;c&#233;dente. Ces deux adresses seront donc identiques et correspondront &#224; cette expression. Il suffira donc de ne la sp&#233;cifier qu'une seule fois en la d&#233;limitant par le caract&#232;re &#171;&nbsp;<code>/</code>&nbsp;&#187;.
+
+<P>
+La commande permettant d'afficher l'espace de travail sur la sortie standard, est &#171;&nbsp;<TT>p</TT>&nbsp;&#187;.
+
+<P>
+Nous obtenons donc&nbsp;:<PRE>
+sed -n '/\*\/$/p' fichier
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3102"
+  HREF="node154.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3096"
+  HREF="node151.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3090"
+  HREF="node152.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3098"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3100"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3103"
+  HREF="node154.html">Exemple 3</A>
+<B> monter:</B> <A NAME="tex2html3097"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3091"
+  HREF="node152.html">Exemple 1</A>
+ &nbsp; <B>  <A NAME="tex2html3099"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3101"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>&#201;tude des fonctionnalit&#233;s</TITLE>
+<META NAME="description" CONTENT="&#201;tude des fonctionnalit&#233;s">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node193.html">
+<LINK REL="previous" HREF="node191.html">
+<LINK REL="up" HREF="node191.html">
+<LINK REL="next" HREF="node193.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3707"
+  HREF="node193.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3701"
+  HREF="node191.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3695"
+  HREF="node191.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3703"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3705"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3708"
+  HREF="node193.html">M&#233;thode utilis&#233;e</A>
+<B> monter:</B> <A NAME="tex2html3702"
+  HREF="node191.html">Traduction de fichiers d'informations</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3696"
+  HREF="node191.html">Traduction de fichiers d'informations</A>
+ &nbsp; <B>  <A NAME="tex2html3704"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3706"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041141000000000000000"></A><A NAME="adv-programming-ex3-fcts"></A>
+<BR>
+&#201;tude des fonctionnalit&#233;s
+</H2>
+
+<P>
+Le but de cet exemple met en &#233;vidence comment, avec une <I>simple</I> proc&#233;dure, il
+est possible de mettre en place des outils puissants de conversion.
+
+<P>
+Le but de cet exemple est de transformer la base compl&#232;te des comptes utilisateurs
+et projets sur un syst&#232;me OpenV<SMALL>MS</SMALL> vers un syst&#232;me U<SMALL>NIX</SMALL>. Nous consid&#233;rerons
+qu'&#233;ventuellement, une partie des ces comptes sont d&#233;j&#224; existants sur la machine
+U<SMALL>NIX</SMALL> et, par cons&#233;quent, l'entr&#233;e d&#233;j&#224; existante doit &#234;tre prise en
+compte. En effet, si nous consid&#233;rons que&nbsp;:
+
+<UL>
+<LI>tout &#233;l&#232;ve de l'ann&#233;e "<IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="$n$">" doit poss&#233;der un compte
+			sur la machine U<SMALL>NIX</SMALL>,
+</LI>
+<LI>seulement une partie des &#233;l&#232;ves de l'ann&#233;e "<IMG
+ WIDTH="41" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img65.png"
+ ALT="$n+1$">" doit
+			poss&#233;der un compte sur la machine U<SMALL>NIX</SMALL>,
+</LI>
+<LI>tous les &#233;l&#232;ves de toutes les ann&#233;es poss&#232;dent un compte sur
+			OpenV<SMALL>MS</SMALL>,
+</LI>
+<LI>le nom du compte OpenV<SMALL>MS</SMALL> fait au plus douze caract&#232;res,
+</LI>
+<LI>le nom du compte U<SMALL>NIX</SMALL> fait au plus huit caract&#232;res,
+</LI>
+<LI>le nom du compte OpenV<SMALL>MS</SMALL> est de la forme
+			"<I>nom</I><TT>_</TT><I>initiale_pr&#233;nom</I>" en majuscules,
+</LI>
+<LI>le nom du compte U<SMALL>NIX</SMALL> est de la forme "<I>nom</I>" en minuscules,
+</LI>
+<LI>le nom des groupes projets sur OpenV<SMALL>MS</SMALL> est de la forme
+			"<I>projet</I>",
+</LI>
+<LI>le nom des groupes projets sur U<SMALL>NIX</SMALL> est de la forme
+			"<TT>p</TT><I>projet</I>".
+</LI>
+</UL>
+
+<P>
+Nous supposons que nous disposons d'un ensemble de fichiers donnant les
+caract&#233;ristiques des utilisateurs &#224; cr&#233;er. Dans le cas
+pr&#233;sent nous disposons des informations d&#233;crites au tableau
+<A HREF="#adv-programming-ex3-filelink"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="21881"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+Description des fichiers
+	en entr&#233;e ou en sortie pour la converions des utilisateurs OpenV<SMALL>MS</SMALL>
+	vers U<SMALL>NIX</SMALL>.</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Fichier</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=85><TT>lcluaf.txt</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Contient la liste des noms des groupes de projets sur
+			OpenV<SMALL>MS</SMALL>. Chaque ligne est compos&#233;e de deux champs s&#233;par&#233;s
+			par le caract&#232;re "<TT>:</TT>" avec&nbsp;:
+			
+<UL>
+<LI>le nom du groupe projet sur OpenV<SMALL>MS</SMALL>,
+</LI>
+<LI>la liste des noms de compte OpenV<SMALL>MS</SMALL> appartenant &#224;
+						ce projet, chaque nom &#233;tant s&#233;par&#233; par le caract&#232;re
+						"<TT>,</TT>".
+			
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=85><TT>list.txt</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>La liste de tous les noms de compte OpenV<SMALL>MS</SMALL> devant poss&#233;der un acc&#232;s
+			sur la machine U<SMALL>NIX</SMALL>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=85><TT>who.txt</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Toutes les informations sur les utilisateurs OpenV<SMALL>MS</SMALL>. Nous aurons le
+			pr&#233;nom, le nom et la classe en toute lettre. Le format de ce fichier est
+			le suivant&nbsp;:
+			
+<UL>
+<LI>le nom du compte OpenV<SMALL>MS</SMALL>,
+</LI>
+<LI>un nombre quelconque d'espaces,
+</LI>
+<LI>le caract&#232;re "<TT>!</TT>",
+</LI>
+<LI>un espace,
+</LI>
+<LI>le pr&#233;nom et le nom
+</LI>
+<LI>un espace,
+</LI>
+<LI>le caract&#232;re "<TT>-</TT>",
+</LI>
+<LI>un espace,
+</LI>
+<LI>la classe
+			
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=85><TT>passwd</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>La base des utilisateurs U<SMALL>NIX</SMALL> actuels.</TD>
+</TR>
+</TABLE>
+</DIV>
+</TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+
+	<B>Remarque&nbsp;16..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Le fichier "<TT>list.txt</TT>" est facilement d&#233;duisible du fichier
+"<TT>lcluaf.txt</TT>". Afin de ne pas surchager cet exemple, nous consid&#232;rerons
+qu'un utilitaire en amont a g&#233;n&#233;r&#233; le premier &#224; partir du second.
+	
+</I></BLOCKQUOTE>
+
+<P>
+
+	<B>Remarque&nbsp;16..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Le fichier "<TT>who.txt</TT>" est le r&#233;sultat de la commande OpenV<SMALL>MS</SMALL> "<TT>WHO</TT>"
+pour l'ensemble des comptes dont il faut une entr&#233;e sur U<SMALL>NIX</SMALL>.
+	
+</I></BLOCKQUOTE>
+
+<P>
+La cr&#233;ation des bases utilisateur sur le syst&#232;me U<SMALL>NIX</SMALL> n&#233;cessite la cr&#233;ation
+de plusieurs fichiers&nbsp;:
+
+<UL>
+<LI>un fichier ob&#233;issant au format du fichier "<TT>passwd(5)</TT>"
+			donnant la liste des nouveaux utilisateurs du syst&#232;me,
+</LI>
+<LI>un fichier ob&#233;issant au format du fichier "<TT>group(5)</TT>"
+			contenant la liste des nouveaux groupes associ&#233;s chacun &#224; un
+			projet, sur chaque ligne, on trouvera aussi les membres de ce
+			projets (les noms seront les noms des comptes utilisateur
+			U<SMALL>NIX</SMALL>),
+</LI>
+<LI>un fichier ob&#233;issant au format du fichier "<TT>shadow(5)</TT>"
+			associ&#233; &#224; la liste des nouveaux utilisateurs afin d'assurer la
+			gestion du vieillissement des mots de passe,
+</LI>
+<LI>un fichier permettant de faire la liaison entre le nom du r&#233;pertoire
+			pour le compte personnel et le serveur de disque ad&#233;quat (ce fichier
+			sera utilis&#233; par le processus "<TT>autofs(8)</TT>" U<SMALL>NIX</SMALL>),
+</LI>
+<LI>un fichier permettant de faire la liaison entre le nom du r&#233;pertoire
+			associ&#233; au projet et le serveur de disque ad&#233;quat (ce fichier
+			sera utilis&#233; par le processus "<TT>autofs(8)</TT>" U<SMALL>NIX</SMALL>),
+</LI>
+<LI>un fichier de compte-rendu sur les op&#233;rations effectu&#233;es avec&nbsp;:
+			
+<UL>
+<LI>le nom du compte U<SMALL>NIX</SMALL>,
+</LI>
+<LI>le nom du compte OpenV<SMALL>MS</SMALL>,
+</LI>
+<LI>le num&#233;ro d'utilisateur U<SMALL>NIX</SMALL> (UID),
+</LI>
+<LI>le projet auquel appartient cet utilisateur.
+			
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+Nous consid&#232;rerons ici que l'ensemble des fichiers en entr&#233;e se trouvent dans un
+r&#233;pertoire donn&#233; et que les fichiers r&#233;sultats se trouveront dans un autre r&#233;pertoire.
+
+<P>
+
+	<B>Remarque&nbsp;16..5&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>L'ancien fichier des mots de passe contient la classe de l'ann&#233;e pass&#233;e. Par cons&#233;quent,
+lors de la reprise des anciennes entr&#233;es, il faudra &#233;liminer cette information pour
+la remplacer par celle correspondant &#224; l'ann&#233;e en cours.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3707"
+  HREF="node193.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3701"
+  HREF="node191.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3695"
+  HREF="node191.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3703"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3705"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3708"
+  HREF="node193.html">M&#233;thode utilis&#233;e</A>
+<B> monter:</B> <A NAME="tex2html3702"
+  HREF="node191.html">Traduction de fichiers d'informations</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3696"
+  HREF="node191.html">Traduction de fichiers d'informations</A>
+ &nbsp; <B>  <A NAME="tex2html3704"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3706"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

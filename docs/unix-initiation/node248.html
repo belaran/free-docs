@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Indentation de texte</TITLE>
+<META NAME="description" CONTENT="Indentation de texte">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node249.html">
+<LINK REL="previous" HREF="node244.html">
+<LINK REL="up" HREF="node234.html">
+<LINK REL="next" HREF="node249.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4648"
+  HREF="node249.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4642"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4636"
+  HREF="node247.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4644"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4646"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4649"
+  HREF="node249.html">Copier/Coller</A>
+<B> monter:</B> <A NAME="tex2html4643"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4637"
+  HREF="node247.html">Recherche globale et substitution</A>
+ &nbsp; <B>  <A NAME="tex2html4645"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4647"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION053211000000000000000"></A><A NAME="ann-edt-vi-indent"></A>
+<BR>
+Indentation de texte
+</H2>
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="20" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img95.png"
+ ALT="\fbox{i}"> ou <!-- MATH
+ $\fbox{\textsc{tab}}$
+ -->
+<IMG
+ WIDTH="42" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="\fbox{\textsc{tab}}"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>En mode "<I>insertion</I>", ins&#232;re un caract&#232;re de tabulation
+		servant &#224; l'indentation du programme.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set ai</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Active ou d&#233;asctive l'indentation automatique (cf. section
+		<A HREF="node254.html#ann-edt-vi-config"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Si l'indentation automatique est
+		activ&#233;e, lorsque vous tapez un retour chariot, "<TT>vi</TT>"
+		ins&#232;re automatiquement le nombre n&#233;cessaire de tabulations afin
+		que la nouvelle ligne commence au m&#234;me niveau que la ligne pr&#233;c&#233;dente.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set sw=</code><I>n</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Fixe, <B>pour l'affichage</B>, la taille d'une tabulation. <B>Attention</B>,
+		cette commande ne modifie pas le contenu du fichier en rempla&#231;ant
+		les tabulations par un certain nombre d'espaces, les caract&#232;res
+		de tabulation (code <TT>ASCII</TT> 9) sont bien pr&#233;sents dans le fichier.
+		"<TT>vi</TT>" interpr&#232;tera ces caract&#232;res pour les faire
+		correspondre &#224; une certaine taille, c'est-&#224;-dire &#224; un certain nombre
+		de colonnes. Par cons&#233;quent, si vous modifiez la taille des tabulations
+		(par d&#233;faut toutes les 8 colonnes), d'autres &#233;diteurs pourront
+		donner un pr&#233;sentation diff&#233;rent de votre code source, &#224; moins
+		biens&#251;r d'y modifier aussi la taille des taille des tabulations.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><I>n</I><code>&lt;&lt;</code> ou <I>n</I><code>&gt;&gt;</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>D&#233;cale vers la gauche ("<code>&lt;&lt;</code>") ou vers la droite
+		("<code>&gt;&gt;</code>") les &#171;<I>n</I>" lignes. Si "<I>n</I>"
+		n'est pas pr&#233;cis&#233;, "<TT>vi</TT>" d&#233;cale la ligne courrante.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>&lt;</code><I>cmd<IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img91.png"
+ ALT="$_{curseur}$"></I> ou <code>&gt;</code><I>cmd<IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img91.png"
+ ALT="$_{curseur}$"></I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Permet de d&#233;caler plusieurs lignes vers la gauche ("<code>&lt;</code>")
+		ou vers la droite ("<code>&gt;</code>") en fonction de la commande de
+		d&#233;placement du curseur "<I>cmd<IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img91.png"
+ ALT="$_{curseur}$"></I>" (cf. section
+		<A HREF="node242.html#ann-edt-vi-move"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4648"
+  HREF="node249.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4642"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4636"
+  HREF="node247.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4644"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4646"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4649"
+  HREF="node249.html">Copier/Coller</A>
+<B> monter:</B> <A NAME="tex2html4643"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4637"
+  HREF="node247.html">Recherche globale et substitution</A>
+ &nbsp; <B>  <A NAME="tex2html4645"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4647"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

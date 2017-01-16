@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>D&#233;finition des adresses</TITLE>
+<META NAME="description" CONTENT="D&#233;finition des adresses">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node149.html">
+<LINK REL="previous" HREF="node147.html">
+<LINK REL="up" HREF="node146.html">
+<LINK REL="next" HREF="node149.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3029"
+  HREF="node149.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3023"
+  HREF="node146.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3017"
+  HREF="node147.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3025"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3027"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3030"
+  HREF="node149.html">Les Commandes</A>
+<B> monter:</B> <A NAME="tex2html3024"
+  HREF="node146.html">Formulation des requ&#234;tes</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3018"
+  HREF="node147.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html3026"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3028"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04932000000000000000"></A><A NAME="sed-def-addr"></A>
+<BR>
+D&#233;finition des adresses
+</H2>
+
+<P>
+Les adresses peuvent &#234;tre d&#233;crites de deux fa&#231;ons&nbsp;:
+
+<UL>
+<LI>soit par des valeurs num&#233;riques donnant les num&#233;ros de lignes
+			de l'espace de travail ou le caract&#232;re &#171;&nbsp;<code>$</code>&nbsp;&#187;
+			indiquant sa derni&#232;re ligne,
+</LI>
+<LI>soit par des expressions r&#233;guli&#232;res plac&#233;es entre deux
+			<I>slash</I> &#171;&nbsp;<TT>/</TT>&nbsp;&#187;.
+</LI>
+</UL>
+Une requ&#234;te pr&#233;c&#233;d&#233;e par deux adresses  s'applique &#224; toutes les lignes comprises entre ces deux adresses. Dans le cas o&#249; deux adresses seraient identiques, il suffit de la sp&#233;cifier seulement une fois. Si aucune adresse n'est sp&#233;cifi&#233;e, l'espace de travail correspond &#224; la totalit&#233; des lignes en entr&#233;e. La commande &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; est donc appliqu&#233;e &#224; toutes les lignes.
+
+<P>
+
+	<B>Syntaxes&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TT><I>Adresse1</I>,<I>Adresse2Commande</I>
+<BR><I>Adresse1</I>,/<I>Expression<!-- MATH
+ $_{r\acute{e}guli\grave{e}re}$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$_{r\acute{e}guli\grave{e}re}$"></I>/<I>Commande</I>
+<BR>/<I>Expression<!-- MATH
+ $_{r\acute{e}guli\grave{e}re}$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$_{r\acute{e}guli\grave{e}re}$"></I>/,<I>Adresse2Commande</I>
+<BR>/<I>Expression<!-- MATH
+ $^1_{r\acute{e}guli\grave{e}re}$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img46.png"
+ ALT="$^1_{r\acute{e}guli\grave{e}re}$"></I>/,/<I>Expression<!-- MATH
+ $^2_{r\acute{e}guli\grave{e}re}$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img47.png"
+ ALT="$^2_{r\acute{e}guli\grave{e}re}$"></I>/<I>Commande</I>
+<BR><I>AdresseCommande</I>
+<BR>/<I>Expression<!-- MATH
+ $_{r\acute{e}guli\grave{e}re}$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$_{r\acute{e}guli\grave{e}re}$"></I>/<I>Commande</I>
+<BR><I>Commande</I>
+</TT>	
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;14..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+On utilise ici, &#224; titre d'exemple pour les adresses, la commande &#171;&nbsp;<TT>d</TT>&nbsp;&#187;, permettant de d&#233;truire les lignes correspondantes de l'espace de travail.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>10,20d</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>D&#233;truit les lignes comprises entre la dixi&#232;me et la vingti&#232;me
+		ligne .</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>/^#/,$d</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>D&#233;truit les lignes comprises entre la premi&#232;re ligne commen&#231;ant
+		par &#171;&nbsp;<TT>#</TT>&nbsp;&#187; jusqu'&#224; la derni&#232;re ligne du fichier
+		(num&#233;ro de ligne &#171;&nbsp;<code>$</code>&nbsp;&#187;).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>/^#/,/end$/d</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>D&#233;truit les lignes comprises entre la premi&#232;re ligne commen&#231;ant
+		par &#171;&nbsp;<TT>#</TT>&nbsp;&#187; et la premi&#232;re ligne se terminant par
+		&#171;&nbsp;<TT>end</TT>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>10d</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>D&#233;truit la dixi&#232;me ligne.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>/10/d</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>D&#233;truit toute ligne contenant la cha&#238;ne &#171;&nbsp;<TT>10</TT>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>d</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>D&#233;truit l'ensemble de l'espace de travail.</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3029"
+  HREF="node149.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3023"
+  HREF="node146.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3017"
+  HREF="node147.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3025"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3027"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3030"
+  HREF="node149.html">Les Commandes</A>
+<B> monter:</B> <A NAME="tex2html3024"
+  HREF="node146.html">Formulation des requ&#234;tes</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3018"
+  HREF="node147.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html3026"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3028"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

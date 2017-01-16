@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Suppression des r&#233;pertoires inutiles</TITLE>
+<META NAME="description" CONTENT="Suppression des r&#233;pertoires inutiles">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node199.html">
+<LINK REL="previous" HREF="node197.html">
+<LINK REL="up" HREF="node194.html">
+<LINK REL="next" HREF="node199.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3797"
+  HREF="node199.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3791"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3785"
+  HREF="node197.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3793"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3795"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3798"
+  HREF="node199.html">Cr&#233;ation des nouvelles entr&#233;es</A>
+<B> monter:</B> <A NAME="tex2html3792"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3786"
+  HREF="node197.html">Cr&#233;ation des nouvelles entr&#233;es</A>
+ &nbsp; <B>  <A NAME="tex2html3794"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3796"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION041143400000000000000"></A><A NAME="adv-programming-ex3-devlrm"></A>
+<BR>
+Suppression des r&#233;pertoires inutiles
+</H3>
+
+<P>
+La d&#233;tection des anciens r&#233;pertoires se fait &#224; partir de "<TT>PASSWD_REF</TT>". Il
+suffira de v&#233;rifier que l'entr&#233;e courrante n'a pas &#233;t&#233; conserv&#233;e gr&#226;ce &#224;
+"<TT>USERS_INFO_FILE</TT>". En effet, s'il existe un enregistrement dans ce
+fichier avec le m&#234;me "<I>logname</I>", le r&#233;pertoire doit &#234;tre conserv&#233;. Dans
+le cas contraire, il doit &#234;tre supprim&#233;.
+
+<P>
+Par cons&#233;quent, nous allons faire une boucle de lecture sur chaque enregistrement
+du fichier "<TT>PASSWD_REF</TT>", la valeur sera stock&#233;e dans la variable
+locale "<TT>line</TT>". Pour chacun d'entre eux,
+
+<UL>
+<LI>nous extrairons le "<I>logname</I>" (premier champ) gr&#226;ce &#224; la commande
+			"<TT>cut(1)</TT>", le s&#233;parateur &#233;tant le caract&#232;re "<TT>:</TT>",
+</LI>
+<LI>nous v&#233;rifierons la pr&#233;sence dans "<TT>USERS_INFO_FILE</TT>" avec
+			la commande "<TT>awk(1)</TT>" en cherchant une &#233;quivalence entre le
+			premier champ et la valeur du "<I>logname</I>",
+</LI>
+<LI>si une occurence est trouv&#233;e, il suffira d'effacer le r&#233;pertoire avec
+			tout son contenu gr&#226;ce &#224; la commande "<TT>rm(1)</TT>".
+</LI>
+</UL>
+Nous obtenons&nbsp;:<PRE>
+cat $PASSWD_REF |\
+while
+    read line
+do
+    old_login=`echo $line | cut -d: -f1`
+    is_present=`$AWK -F: -v old_login="$old_login" '
+        $1 == old_login { print $1 }
+        ' $USERS_INFO_FILE`
+    if [ "$is_present" = "" ]; then
+        [ -d $FS_STUDENTS/$old_login ] &amp;&amp; \
+            rm -rf $FS_STUDENTS/$old_login 2&gt;&amp;/dev/null
+    fi
+done
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

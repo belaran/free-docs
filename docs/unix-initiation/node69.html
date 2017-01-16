@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Redirection d'une sortie standard vers une autre sortie standard</TITLE>
+<META NAME="description" CONTENT="Redirection d'une sortie standard vers une autre sortie standard">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node70.html">
+<LINK REL="previous" HREF="node68.html">
+<LINK REL="up" HREF="node64.html">
+<LINK REL="next" HREF="node70.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1752"
+  HREF="node70.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1746"
+  HREF="node64.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1740"
+  HREF="node68.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1748"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1750"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1753"
+  HREF="node70.html">Redirection de la sortie</A>
+<B> monter:</B> <A NAME="tex2html1747"
+  HREF="node64.html">Redirection des entr&#233;es/sorties</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1741"
+  HREF="node68.html">Redirection de la sortie</A>
+ &nbsp; <B>  <A NAME="tex2html1749"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1751"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03145000000000000000">
+Redirection d'une sortie standard vers une autre sortie standard</A>
+</H2>
+
+<P>
+Le principe reste identique. Il suffit de rediriger une sortie vers un
+fichier (ou canal logique). Lorsque l'on veut r&#233;f&#233;rencer le canal
+associ&#233; &#224; une sortie standard (idem pour l'entr&#233;e et la sortie d'erreurs
+standard) comme un fichier, il suffit de faire pr&#233;c&#233;d&#233; son num&#233;ro
+logique par le caract&#232;re &#171;&nbsp;<TT>&amp;</TT>&nbsp;&#187;.
+
+<P>
+Par exemple, si la <A NAME="8483"></A>sortie d'erreurs standard doit &#234;tre redirig&#233;e vers la
+<A NAME="8484"></A>sortie standard, il
+suffira d'&#233;crire&nbsp;:
+<PRE>
+commande 2&gt;&amp;1
+</PRE>
+
+<P>
+Dans le cas o&#249; la sortie standard et la sortie d'erreurs standard doivent &#234;tre redirig&#233;es
+vers un m&#234;me fichier, il faudra bien analyser le processus &#224; mettre en jeu.
+
+<P>
+Dans le premier cas&nbsp;:
+<DIV ALIGN="CENTER">
+<!-- MATH
+ $\fbox{\texttt{commande 2>\&1 >fichier}}$
+ -->
+<IMG
+ WIDTH="198" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="\fbox{\texttt{commande 2&gt;\&amp;1 &gt;fichier}}">
+</DIV>
+le shell va ex&#233;cuter les &#233;tapes suivantes&nbsp;:
+<BR>
+<BR><IMG
+  WIDTH="281" HEIGHT="200" ALIGN="BOTTOM" BORDER="0"
+ SRC="./stdout-stderr-1.jpg"
+ ALT="Image stdout-stderr-1">	
+<BR>
+la sortie d'erreurs standard est redirig&#233;e vers la valeur courante de la sortie
+standard, <B>donc l'&#233;cran</B>.
+<BR>
+<BR><IMG
+  WIDTH="281" HEIGHT="197" ALIGN="BOTTOM" BORDER="0"
+ SRC="./stdout-stderr-2.jpg"
+ ALT="Image stdout-stderr-2"> 
+<BR>
+la sortie standard vers un fichier. <B>Donc seule la sortie standard a
+&#233;t&#233; redirig&#233;e vers un fichier</B>.
+
+<P>
+Dans le deuxi&#232;me cas&nbsp;:
+<DIV ALIGN="CENTER">
+<!-- MATH
+ $\fbox{\texttt{commande >fichier 2>\&1}}$
+ -->
+<IMG
+ WIDTH="199" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img29.png"
+ ALT="\fbox{\texttt{commande &gt;fichier 2&gt;\&amp;1}}">
+</DIV>
+le shell va ex&#233;cuter les &#233;tapes suivantes&nbsp;:
+<BR>
+<BR><IMG
+  WIDTH="281" HEIGHT="197" ALIGN="BOTTOM" BORDER="0"
+ SRC="./stdout-stderr-2.jpg"
+ ALT="Image stdout-stderr-2">	
+<BR>
+la sortie standard est redirig&#233;e vers un fichier,
+<BR>
+<BR><IMG
+  WIDTH="331" HEIGHT="185" ALIGN="BOTTOM" BORDER="0"
+ SRC="./stdout-stderr-3.jpg"
+ ALT="Image stdout-stderr-3">
+la sortie d'erreurs standard est redirig&#233;e vers la valeur courante sur laquelle
+pointe la sortie standard, <B>donc le fichier</B>. En cons&#233;quence,
+<B>la sortie standard et la sortie d'erreurs standard ont bien &#233;t&#233; redirig&#233;es vers un
+m&#234;me fichier</B>.
+
+<P>
+Le second mod&#232;le est donc celui &#224; retenir.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1752"
+  HREF="node70.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1746"
+  HREF="node64.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1740"
+  HREF="node68.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1748"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1750"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1753"
+  HREF="node70.html">Redirection de la sortie</A>
+<B> monter:</B> <A NAME="tex2html1747"
+  HREF="node64.html">Redirection des entr&#233;es/sorties</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1741"
+  HREF="node68.html">Redirection de la sortie</A>
+ &nbsp; <B>  <A NAME="tex2html1749"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1751"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

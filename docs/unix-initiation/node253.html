@@ -1,0 +1,308 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Macros et abr&#233;viations</TITLE>
+<META NAME="description" CONTENT="Macros et abr&#233;viations">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node254.html">
+<LINK REL="previous" HREF="node252.html">
+<LINK REL="up" HREF="node234.html">
+<LINK REL="next" HREF="node254.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4718"
+  HREF="node254.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4712"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4706"
+  HREF="node252.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4714"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4716"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4719"
+  HREF="node254.html">Commandes de configuration de</A>
+<B> monter:</B> <A NAME="tex2html4713"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4707"
+  HREF="node252.html">Interaction avec le shell</A>
+ &nbsp; <B>  <A NAME="tex2html4715"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4717"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION053216000000000000000"></A><A NAME="ann-edt-vi-macros"></A>
+<BR>
+Macros et abr&#233;viations
+</H2>
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:map </code><I>touche</I><code> </code><I>s&#233;quence<IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img103.png"
+ ALT="$_{cmds}$"></I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Associe la s&#233;quence de commandes
+		"<I>s&#233;quence<IMG
+ WIDTH="35" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img103.png"
+ ALT="$_{cmds}$"></I>" &#224; la touche "<I>touche</I>".
+		Ainsi, d&#232;s que cette touche est appuy&#233;e, la s&#233;quence de commandes
+		est ex&#233;cut&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:map</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Affiche l'ensemble des d&#233;finitions effectu&#233;es, c'est-&#224;-dire
+		l'ensemble des "<I>macros</I>" de "<TT>vi</TT>" cr&#233;&#233;es
+		gr&#226;ce &#224; la commande pr&#233;c&#233;dente.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:unmap </code><I>touche</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>D&#233;truit l'association entre une touche et la s&#233;quence de
+		commandes pr&#233;c&#233;demment faite. Cette commande d&#233;truit donc
+		la macro associ&#233;e &#224; la touche "<I>touche</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:ab </code><I>chaine<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I><code> </code><I>chaine<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Permet de d&#233;finir une abr&#233;viation. Lorsque "<I>chaine<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I>"
+		est saisi, "<TT>vi</TT>" la substitue par "<I>chaine<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:ab</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Affiche l'ensemble des abr&#233;viations d&#233;finies.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:una </code><I>chaine</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>D&#233;truit l'abr&#233;viation "<I>chaine</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+La commande "<TT>:map</TT>" permer de d&#233;finir des s&#233;quences de commandes
+ou "<I>macros</I>" "<TT>vi</TT>". En effet, par d&#233;finition, une
+macro, comme en langage C ou n'importe quel logiciel, est une s&#233;rie de
+commandes ou d'actions de base regroup&#233;es sous un nom et appelable
+par l'utilisateur.
+
+<P>
+Si l'option "<TT>timeout</TT>" est positionn&#233;e (cf. section
+<A HREF="node254.html#ann-edt-vi-config"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>), toute ex&#233;cution de macros ne peut d&#233;passer une
+seconde. Par cons&#233;quent, si vous utilisez des macros importantes,
+d&#233;sactivez cette option.
+
+<P>
+Sachant que les commandes "<TT>vi</TT>" utilisent des caract&#232;res de
+contr&#244;le en mode commande, il est possible de les ins&#233;rer dans la
+d&#233;finition des macros gr&#226;ce &#224; la s&#233;quence <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img77.png"
+ ALT="\fbox{v}"> (cf. section
+<A HREF="node240.html#ann-edt-vi-insert"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). De m&#234;me, le caract&#232;re "<TT>"</TT>" est utilis&#233;
+dans les commandes "<TT>vi</TT>" (cf. sections <A HREF="node241.html#ann-edt-vi-undo"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>
+et <A HREF="node249.html#ann-edt-vi-cutpaste"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Par cons&#233;quent, s'il doit &#234;tre utilis&#233;
+dans une macro dans un autre cadre que celui d'une commande le r&#233;f&#233;ren&#231;ant,
+il doit &#234;tre pr&#233;c&#233;d&#233; du caract&#232;re "<code>\</code>".
+
+<P>
+
+	<B>Remarque&nbsp;19..6&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Les touches inutilis&#233;es sous "<TT>vi</TT>" sont&nbsp;:
+</I></BLOCKQUOTE>
+<UL>
+<LI>les touches de fonction,
+</LI>
+<LI>les touches "<TT>K</TT>", "<TT>V</TT>", "<TT>g</TT>",
+			"<TT>q</TT>", "<TT>v</TT>", "<code>*</code>" et "<TT>=</TT>". 
+</LI>
+</UL>
+
+<P>
+
+	<B>Exemple&nbsp;19..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<code>:map v /Je </code><!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img77.png"
+ ALT="\fbox{v}"><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> <code>dwiTu </code><!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img77.png"
+ ALT="\fbox{v}"><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> <!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> 
+<BR>
+<BR>
+<BR>
+Lorsque la touche <IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img77.png"
+ ALT="\fbox{v}"> est appuy&#233;e <B>en mode "<I>commande</I>"</B>,
+les actions suivantes sont ex&#233;cut&#233;es&nbsp;:
+</BLOCKQUOTE>
+<OL>
+<LI>Recherche de la chaine "<code>Je </code>"
+			("<code>/Je </code><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> "),
+</LI>
+<LI>Efface le mot courrant ("<code>dw</code>"),
+</LI>
+<LI>Ins&#232;re la chaine "<code>Tu </code><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> "
+			("<code>iTu </code><!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img77.png"
+ ALT="\fbox{v}"><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> "),
+</LI>
+<LI>Termine le mode "<I>insertion</I>" ("<!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> ").
+</LI>
+</OL>
+
+<P>
+Dans la section <A HREF="node254.html#ann-edt-vi-config"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, vous trouverez un ensemble
+d'abr&#233;viations d&#233;finies par d&#233;faut dans "<TT>vi</TT>". La commande
+"<code>:ab </code><I>chaine<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I><code> </code><I>chaine<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I>" permet
+de d&#233;finir celles qui vous seront propres.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4718"
+  HREF="node254.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4712"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4706"
+  HREF="node252.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4714"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4716"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4719"
+  HREF="node254.html">Commandes de configuration de</A>
+<B> monter:</B> <A NAME="tex2html4713"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4707"
+  HREF="node252.html">Interaction avec le shell</A>
+ &nbsp; <B>  <A NAME="tex2html4715"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4717"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

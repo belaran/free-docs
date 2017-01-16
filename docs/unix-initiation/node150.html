@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les symboles particuliers</TITLE>
+<META NAME="description" CONTENT="Les symboles particuliers">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node149.html">
+<LINK REL="up" HREF="node146.html">
+<LINK REL="next" HREF="node151.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3055"
+  HREF="node151.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3049"
+  HREF="node146.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3045"
+  HREF="node149.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3051"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3053"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3056"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> monter:</B> <A NAME="tex2html3050"
+  HREF="node146.html">Formulation des requ&#234;tes</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3046"
+  HREF="node149.html">Les Commandes</A>
+ &nbsp; <B>  <A NAME="tex2html3052"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3054"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04934000000000000000">
+Les symboles particuliers</A>
+</H2>
+
+<P>
+Les <A NAME="17069"></A>symboles particuliers sont tous ceux des expressions r&#233;guli&#232;res &#224; l'exception des symboles &#171;&nbsp;<TT>+</TT>&nbsp;&#187; et &#171;&nbsp;<TT>|</TT>&nbsp;&#187;. A cette liste, on rajoute les symboles de la commande de substitution &#171;&nbsp;<TT>s</TT>&nbsp;&#187;.
+Ces symboles sont&nbsp;:
+
+<P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Symbole</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Description</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&#171;&nbsp;<code>\(</code>&nbsp;&#187; et &#171;&nbsp;<code>\)</code>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>D&#233;finit une portion d'expression r&#233;guli&#232;re.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&#171;&nbsp;<code>\</code><IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="$n$">&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Ne fait pas partie des expressions r&#233;guli&#232;res mais repr&#233;sente
+			la <!-- MATH
+ $n^{i\grave{e}me}$
+ -->
+<IMG
+ WIDTH="42" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img54.png"
+ ALT="$n^{i\grave{e}me}$"> portion d'une expression r&#233;guli&#232;re.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&#171;&nbsp;<code>&amp;</code>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Ne fait pas partie des expressions r&#233;guli&#232;res mais repr&#233;sente
+		la portion de ligne d'entr&#233;e qui correspond &#224; l'expression
+		r&#233;guli&#232;re.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+	<B>Exemple&nbsp;14..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+s/\([ \t]*function[ \t]*\)\([0-z]*\)\([ \t]*(.*)\)/#FONCTION \2/
+</PRE>
+<P>
+<BLOCKQUOTE>La commande &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; utilis&#233;e ici est la commande &#171;&nbsp;<TT>s</TT>&nbsp;&#187;. Sa
+syntaxe est&nbsp;:
+
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="8" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img50.png"
+ ALT="$[$"><I>adresse1</I><IMG
+ WIDTH="8" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img50.png"
+ ALT="$[$">,<I>adresse2</I><IMG
+ WIDTH="9" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img51.png"
+ ALT="$]$"><TT>s/</TT><I>expr<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I><TT>/</TT><I>expr<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I><TT>/</TT><IMG
+ WIDTH="8" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img50.png"
+ ALT="$[$"><TT>g</TT><IMG
+ WIDTH="9" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img51.png"
+ ALT="$]$">
+</DIV>
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>On constate donc que les adresses de d&#233;but et de fin sont absentes. Par cons&#233;quent, cette requ&#234;te s'applique &#224; toutes les lignes en entr&#233;e (cf. <A HREF="node148.html#sed-def-addr"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Apr&#232;s analyse, il appara&#238;t que cette requ&#234;te &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; se d&#233;compose de la fa&#231;on suivante&nbsp;:
+<BR>
+<BR><TT>s/</TT>
+<BR> <code>\([ \t]*function[ \t]*\)</code>
+<BR> <code>\([0-z]*\)</code>
+<BR> <code>\([ \t]*(.*)\)</code>
+<BR><TT>/</TT>
+<BR> <code>#FONCTION \2</code>
+<BR><TT>/</TT>
+<BR>
+<BR>
+Nous distinguons donc trois regroupements d'expression r&#233;guli&#232;re&nbsp;:
+</BLOCKQUOTE>
+<OL>
+<LI>&#171;&nbsp;<code>[ \t]*funtion[ \t]*</code>&nbsp;&#187;
+</LI>
+<LI>&#171;&nbsp;<code>[0-z]*</code>&nbsp;&#187;
+</LI>
+<LI>&#171;&nbsp;<code>[ \t]*(.*)</code>&nbsp;&#187;
+</LI>
+</OL><BLOCKQUOTE>
+Dans le second membre de la commande &#171;&nbsp;<TT>s</TT>&nbsp;&#187; (&#171;&nbsp;<code>#FONCTION \2</code>&nbsp;&#187;)
+l'expression &#171;&nbsp;<code>\2</code>&nbsp;&#187; r&#233;f&#233;rence donc la chaine correspondant &#224;
+&#171;&nbsp;<code>[0-z]*</code>&nbsp;&#187;.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Analysons chaque regroupement du premier membre de cette requ&#234;te&nbsp;:
+&#171;&nbsp;<code>[ \t]*funtion[ \t]*</code>&nbsp;&#187;.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Tout d'abord &#171;&nbsp;<code>[ \t]*</code>&nbsp;&#187; d&#233;signe le caract&#232;re <!-- MATH
+ $\fbox{\textsc{space}}$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="\fbox{\textsc{space}}"> ou bien <!-- MATH
+ $\fbox{\textsc{tab}}$
+ -->
+<IMG
+ WIDTH="42" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="\fbox{\textsc{tab}}"> un nombre quelconque de fois. &#171;&nbsp;<TT>function</TT>&nbsp;&#187; repr&#233;sente tout simplement cette chaine de caract&#232;res. Par cons&#233;quent, &#171;&nbsp;<code>[ \t]*funtion[ \t]*</code>&nbsp;&#187; d&#233;signe la chaine &#171;&nbsp;<TT>function</TT>&nbsp;&#187; suivie et pr&#233;c&#233;d&#233;e d'espaces et de tabulations.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>La seconde partie, &#171;&nbsp;<code>[0-z]*</code>&nbsp;&#187;, d&#233;signe un des caract&#232;res dont le code <TT>ASCII</TT> est compris entre celui de &#171;&nbsp;<TT>0</TT>&nbsp;&#187; et celui de &#171;&nbsp;<TT>z</TT>&nbsp;&#187;<A NAME="tex2html83"
+  HREF="footnode.html#foot17075"><SUP>14.3</SUP></A>, un nombre quelconque de fois.
+Nous avons donc, approximativement, une chaine de caract&#232;re quelconque <B>sans espaces ni tabulations</B>.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>La troisi&#232;me partie, &#171;&nbsp;<code>[ \t]*(.*)</code>&nbsp;&#187; reprend la s&#233;quence
+&#171;&nbsp;<code>[ \t]*</code>&nbsp;&#187; repr&#233;sentant une s&#233;quence d'espaces et de tabulations un nombre quelconque de fois. &#171;&nbsp;<code>(.*)</code>&nbsp;&#187; d&#233;signe le caract&#232;re
+&#171;&nbsp;<TT>(</TT>&nbsp;&#187;, suivi de caract&#232;res quelconques un nombre ind&#233;termin&#233; de fois (&#171;&nbsp;<code>.*</code>&nbsp;&#187;), suivi par le caract&#232;re &#171;&nbsp;<TT>)</TT>&nbsp;&#187;. En conclusion, cette derni&#232;re partie repr&#233;sente une chaine de caract&#232;res quelconque (&#233;vuentuellement vide) encadr&#233;e par des parenth&#232;ses et pr&#233;c&#233;d&#233;e par un nombre quelconque d'espaces et de tabulations.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Le premier membre de cette requ&#234;te &#171;&nbsp;<TT>sed</TT>&nbsp;&#187;,
+
+<DIV ALIGN="CENTER">
+</DIV></BLOCKQUOTE><PRE>
+\([ \t]*function[ \t]*\)\([0-z]*\)\([ \t]*(.*)\)
+</PRE><BLOCKQUOTE>
+<DIV ALIGN="CENTER">
+</DIV>
+repr&#233;sente donc&nbsp;:
+</BLOCKQUOTE>
+<OL>
+<LI>le mot &#171;&nbsp;<TT>function</TT>&nbsp;&#187; pr&#233;c&#233;d&#233; et suivi d'un nombre
+			quelconque d'espaces et de tabulations,
+</LI>
+<LI>une chaine de caract&#232;res quelconques <B>sans espaces ni
+			tabulations</B>,
+</LI>
+<LI>une chaine de caract&#232;res entre parenth&#232;ses pr&#233;c&#233;d&#233;e te suivie
+			d'un nombre quelconque d'espaces et de tabulations.
+</LI>
+</OL>
+<P>
+<BLOCKQUOTE>La seconde partie de la requ&#234;te &#171;&nbsp;<TT>sed</TT>&nbsp;&#187;,
+
+<DIV ALIGN="CENTER">
+</DIV></BLOCKQUOTE><PRE>
+#FONCTION \2
+</PRE><BLOCKQUOTE>
+<DIV ALIGN="CENTER">
+</DIV>
+substitue l'ensemble de la ligne par&nbsp;:
+</BLOCKQUOTE>
+<UL>
+<LI>la chaine &#171;&nbsp;<code>#FONCTION </code>&nbsp;&#187;,
+</LI>
+<LI>la partie correspondant au second membre de l'expression
+			r&#233;guli&#232;re pr&#233;c&#233;dente, c'est-&#224;-dire une chaine de caract&#232;res
+			quelconques <B>sans espaces ni tabulations</B>.
+</LI>
+</UL>
+
+<P>
+
+	<B>Exemple&nbsp;14..5&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+s/abcdef1234567890/&amp;ghijkl/
+</PRE>
+<P>
+<BLOCKQUOTE>Cette requ&#234;te &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; &#233;quivaut &#224;&nbsp;:
+</BLOCKQUOTE><PRE>
+s/abcdef1234567890/abcdef1234567890ghijkl/
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3055"
+  HREF="node151.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3049"
+  HREF="node146.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3045"
+  HREF="node149.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3051"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3053"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3056"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> monter:</B> <A NAME="tex2html3050"
+  HREF="node146.html">Formulation des requ&#234;tes</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3046"
+  HREF="node149.html">Les Commandes</A>
+ &nbsp; <B>  <A NAME="tex2html3052"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3054"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Connexion et d&#233;connexion</TITLE>
+<META NAME="description" CONTENT="Connexion et d&#233;connexion">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node8.html">
+<LINK REL="previous" HREF="node6.html">
+<LINK REL="up" HREF="node5.html">
+<LINK REL="next" HREF="node8.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html776"
+  HREF="node8.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html770"
+  HREF="node5.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html764"
+  HREF="node6.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html772"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html774"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html777"
+  HREF="node8.html">Format d'une commande</A>
+<B> monter:</B> <A NAME="tex2html771"
+  HREF="node5.html">Concepts de base sous</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html765"
+  HREF="node6.html">Notions g&#233;n&#233;rales</A>
+ &nbsp; <B>  <A NAME="tex2html773"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html775"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION02120000000000000000"></A><A NAME="bcpts-login"></A>
+<BR>
+Connexion et d&#233;connexion
+</H1>
+
+<P>
+Comme tout syst&#232;me multi-utilisateurs et multi-t&#226;ches, U<SMALL>NIX</SMALL> associe
+&#224; chaque utilisateur&nbsp;:
+
+<UL>
+<LI>un nom appel&#233; <A NAME="1379"></A>&#171;&nbsp;<I>login</I>&nbsp;&#187;
+			(&#233;quivalent au &#171;&nbsp;<I>Username</I>&nbsp;&#187;.
+			de OpenV<SMALL>MS</SMALL>, ou au &#171;&nbsp;<I>logon name</I>&nbsp;&#187; de <I>Windows-NT</I>)&nbsp;;
+</LI>
+<LI>un mot de passe&nbsp;;
+</LI>
+<LI>un num&#233;ro d'utilisateur unique ou <A NAME="647"></A>
+			&#171;&nbsp;<I>UID</I><A NAME="tex2html6"
+  HREF="footnode.html#foot1380"><SUP>1.4</SUP></A>&nbsp;&#187; (&#233;quivalent
+			&#224; l'&#171;&nbsp;<I>UIC</I>&nbsp;&#187; OpenV<SMALL>MS</SMALL> ou &#171;&nbsp;<I>logon ID</I>&nbsp;&#187; de
+			<I>Windows-NT</I>).
+</LI>
+</UL>
+
+<P>
+Par cons&#233;quent, la premi&#232;re chose que vous demandera le syst&#232;me sera
+votre &#171;&nbsp;<I>login</I>&nbsp;&#187; et votre mot de passe. Si les deux sont valides,
+U<SMALL>NIX</SMALL> initialisera votre environnement de travail.
+
+<P>
+
+	<B>Remarque&nbsp;1..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Pour des raisons de s&#233;curit&#233;, comme sous OpenV<SMALL>MS</SMALL> et
+<I>Windows-NT</I>, U<SMALL>NIX</SMALL> ne verifie pas que le nom de &#171;&nbsp;<I>login</I>&nbsp;&#187;
+existe. Une fois que les deux informations seront saisies,
+c'est-&#224;-dire nom de &#171;&nbsp;<I>login</I>&nbsp;&#187; et mot de passe, il ira
+chercher dans la base des utilisateurs s'il existe un enregistrement et
+un seul pour lesquelles ces deux informations sont exactes. Si cela,
+n'est pas le cas, U<SMALL>NIX</SMALL> affichera le message d'erreur suivant&nbsp;:
+</I></BLOCKQUOTE>
+<DIV ALIGN="CENTER"></DIV><PRE>
+Invalid login name.
+</PRE>
+<DIV ALIGN="CENTER"></DIV><BLOCKQUOTE><I>
+sans autre forme de renseignements.
+	
+</I></BLOCKQUOTE>
+
+<P>
+En fonction du type de poste de travail, c'est-&#224;-dire terminal passif ou
+station de travail disposant d'un environnement graphique, la m&#233;thode de
+d&#233;connexion du syst&#232;me varie.
+
+<P>
+Si votre environnement de travail est sur un terminal passif, la commande
+de d&#233;connexion est&nbsp;:
+<BLOCKQUOTE>
+<A NAME="1381"></A><TT>exit</TT>
+
+</BLOCKQUOTE>
+
+<P>
+Dans le cas des stations de travail graphiques, cela d&#233;pend de l'interface
+s&#233;lectionn&#233;e. En effet, il en existe plusieurs types dont&nbsp;:
+
+<UL>
+<LI>&#171;&nbsp;<I>CDE</I>&nbsp;&#187; ou &#171;&nbsp;Common Desktop Environment&nbsp;&#187;, environnement
+			graphique d&#233;velopp&#233; &#224; la base sur les stations Hewlett-Packard
+			(<I>HP-VUE</I>) et r&#233;pandue sur l'ensemble des U<SMALL>NIX</SMALL>s commerciaux
+			comme <I>Solaris</I>, <I>Digital U<SMALL>NIX</SMALL></I>, <I>HP-UX</I>,
+			<I>AIX</I>, <I>Irix</I>, etc.
+</LI>
+<LI>&#171;&nbsp;<I>fvwm95</I>&nbsp;&#187;, environnement r&#233;git par la &#171;&nbsp;<I>Free Software
+			Foundation</I>&nbsp;&#187; livr&#233; de base avec L<SMALL>INUX</SMALL>, environnement
+			dont la pr&#233;sentation ressemble &#224; <I>Windows</I>95 (et sup&#233;rieur)
+			et <I>Windows-NT</I> 4 (ou sup&#233;rieur). Les sources de cet environnement
+			sont disponibles et libres d'acc&#232;s. Il est donc possible
+			de les mettre sous n'importe quel plateforme U<SMALL>NIX</SMALL> (voire
+			m&#234;me OpenV<SMALL>MS</SMALL>.
+</LI>
+<LI>&#171;&nbsp;<I>KDE</I>&nbsp;&#187;, environnement r&#233;git par la &#171;&nbsp;<I>Free Software
+			Foundation</I>&nbsp;&#187; livr&#233; de base avec L<SMALL>INUX</SMALL>, environnement
+			dont la pr&#233;sentation est un savant m&#233;lange entre &#171;&nbsp;<I>CDE</I>&nbsp;&#187;
+			et l'&#171;&nbsp;<I>Active Desktop</I>&nbsp;&#187; de <I>Microsoft Corp.</I>.
+</LI>
+<LI>&#171;&nbsp;<I>gnome</I>&nbsp;&#187;, environnement r&#233;git par la &#171;&nbsp;<I>Free Software
+			Foundation</I>&nbsp;&#187; livr&#233; de base avec les futures versions de
+			L<SMALL>INUX</SMALL><A NAME="tex2html7"
+  HREF="footnode.html#foot1383"><SUP>1.5</SUP></A>,
+			environnement orient&#233; objet et int&#233;grant roralement les ressources
+			locales et distante sur le bureau.
+</LI>
+<LI>&#171;&nbsp;<I>4Dwm</I>&nbsp;&#187;, environnement graphique disponible plus
+			particuli&#232;rement sur les stations <I>Silicon Graphics Inc.</I>.
+</LI>
+<LI>etc.
+</LI>
+</UL>
+
+<P>
+Il est clair que chaque interface dispose d'une boite de dialogue permettant de terminer la session en cours. Nous de d&#233;taillerons pas ici la m&#233;thode de d&#233;connexion pour chacune de ces interfaces.
+
+<P>
+Comme tout syst&#232;me o&#249; un mot de passe est associ&#233; &#224; un utilisateur, il existe une commande pour le changer. Sous U<SMALL>NIX</SMALL> cette commande est &#171;&nbsp;<TT>passwd</TT>&nbsp;&#187;.
+Elle vous demandera l'ancien mot de passe, le nouveau mot de passe puis une confirmation.
+
+<P>
+<B>En r&#233;sum&#233;&nbsp;:</B>
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">exit</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>D&#233;connexion du syst&#232;me.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">passwd</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Changement du mot de passe.</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Le tableau <A HREF="#tab-bcpts-login"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> donne un &#233;quivalent entre les syst&#232;mes
+U<SMALL>NIX</SMALL> etOpenV<SMALL>MS</SMALL> de <I>Digital Equipment</I>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="1386"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+&#201;quivalences U<SMALL>NIX</SMALL> et OpenV<SMALL>MS</SMALL>
+pour la d&#233;connexion et le changement de mot de passe.</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="CENTER">OpenV<SMALL>MS</SMALL></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>exit</TT></TD>
+<TD ALIGN="CENTER"><TT>LOGOUT</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>passwd</TT></TD>
+<TD ALIGN="CENTER"><TT>SET PASSWORD</TT></TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+
+	<B>Remarque&nbsp;1..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Si vous &#234;tes connect&#233;s &#224; distance sur le syst&#232;me U<SMALL>NIX</SMALL> gr&#226;ce &#224; la commande &#171;&nbsp;<A NAME="1387"></A><TT>telnet</TT>&nbsp;&#187; (ou tout autre type de protocole similaire comme &#171;&nbsp;<I>LAT</I>&nbsp;&#187;), le comportement obtenu est &#233;quivalent &#224; celui d'un terminal passif.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html776"
+  HREF="node8.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html770"
+  HREF="node5.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html764"
+  HREF="node6.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html772"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html774"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html777"
+  HREF="node8.html">Format d'une commande</A>
+<B> monter:</B> <A NAME="tex2html771"
+  HREF="node5.html">Concepts de base sous</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html765"
+  HREF="node6.html">Notions g&#233;n&#233;rales</A>
+ &nbsp; <B>  <A NAME="tex2html773"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html775"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

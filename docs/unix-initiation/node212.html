@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Expression arithm&#233;tiques</TITLE>
+<META NAME="description" CONTENT="Expression arithm&#233;tiques">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node213.html">
+<LINK REL="previous" HREF="node211.html">
+<LINK REL="up" HREF="node209.html">
+<LINK REL="next" HREF="node213.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4079"
+  HREF="node213.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4073"
+  HREF="node209.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4067"
+  HREF="node211.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4075"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4077"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4080"
+  HREF="node213.html">Variables formelles</A>
+<B> monter:</B> <A NAME="tex2html4074"
+  HREF="node209.html">Correspondances entre le Bourne</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4068"
+  HREF="node211.html">&#201;valuation de variables</A>
+ &nbsp; <B>  <A NAME="tex2html4076"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4078"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION05230000000000000000">
+Expression arithm&#233;tiques</A>
+</H1>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>C Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Bourne Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Syntaxe</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set </code><I>variable</I><TT>=</TT><I>expression</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><I>variable</I><TT>=</TT><I>expression</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>@</code><I>variable</I><TT>=</TT><I>expression</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><A NAME="24531"></A><I>variable</I><code>=`expr </code><I>expression</I><code>`</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>@</code><I>variable</I><code>[</code><I>indice</I><code>]=</code><I>expression</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Pas d'&#233;quivalent.</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Op&#233;rations arithm&#233;tiques et assignations</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>+</code>	addition</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>+</code>	addition</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>-</code>	soustraction</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>-</code>	soustraction</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>*</code>	multiplication</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>*</code>	multiplication</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>/</code>	division</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>/</code>	division</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>%</code>	reste</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>%</code>	reste</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>()</code>	pour forcer l'ordre d'&#233;valuation</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>\(\)</code>	pour forcer l'ordre d'&#233;valuation</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Remarques</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><UL>
+<LI>Le symbole "<code>@</code>" est synonyme de "<TT>set</TT>".
+</LI>
+<LI>Ne pas oublier un espace autour de chaque op&#233;ration arithm&#233;tique.
+</LI>
+<LI>L'indice est lui-m&#234;me une variable enti&#232;re.
+		
+</LI>
+</UL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><UL>
+<LI><B>Attention</B>, c'est la commande <A NAME="24533"></A>"<TT>expr</TT>" qui 
+					assure l'&#233;valuation de l'expression arithm&#233;tique.
+					Aussi pour lever l'ambigu&#239;t&#233; d'interpr&#233;tation de certains 
+					caract&#232;res sp&#233;ciaux, l'usage du "<code>\</code>" sert &#224; les prot&#233;ger.
+		
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Exemples</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>@i += 1</code> ou <code>@i ++</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>i=`expr $i + 1`</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>@a = $b + $c</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>$a=`expr $b + $c`</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>@x = 5 * 4</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>x=`expr 5 \* 4`</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set c = (300 4)</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set 300 4</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set i = $#c</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>i=$#</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>@j = $i - 1</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>rel=`echo \$$i`</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>@f = ($c[$i] * $c[$j]) + $x</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>c2=`eval $rel`</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>j=`expr $i - 1`</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>rel=`echo \$$j`</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>c1=`eval $rel`</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>f=`expr \($c1 \* $c2\) + $x`</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>"<TT>f</TT>" vaut 1220</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>"<TT>f</TT>" vaut 1220</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4079"
+  HREF="node213.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4073"
+  HREF="node209.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4067"
+  HREF="node211.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4075"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4077"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4080"
+  HREF="node213.html">Variables formelles</A>
+<B> monter:</B> <A NAME="tex2html4074"
+  HREF="node209.html">Correspondances entre le Bourne</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4068"
+  HREF="node211.html">&#201;valuation de variables</A>
+ &nbsp; <B>  <A NAME="tex2html4076"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4078"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

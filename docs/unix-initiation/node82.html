@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>T&#226;che de fond - le background</TITLE>
+<META NAME="description" CONTENT="T&#226;che de fond - le background">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node83.html">
+<LINK REL="previous" HREF="node81.html">
+<LINK REL="up" HREF="node81.html">
+<LINK REL="next" HREF="node83.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1942"
+  HREF="node83.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1936"
+  HREF="node81.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1930"
+  HREF="node81.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1938"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1940"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1943"
+  HREF="node83.html">Substitution de commande</A>
+<B> monter:</B> <A NAME="tex2html1937"
+  HREF="node81.html">Le mode multi-t&#226;che</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1931"
+  HREF="node81.html">Le mode multi-t&#226;che</A>
+ &nbsp; <B>  <A NAME="tex2html1939"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1941"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION03210000000000000000">
+T&#226;che de fond - le <I>background</I></A>
+</H1>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>% ligne-de-commande &amp;</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>% jobs</TT></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Le caract&#232;re <A NAME="10138"></A>&#171;&nbsp;<code>&amp;</code>&nbsp;&#187; permet
+d'ex&#233;cuter la commande en arri&#232;re plan (<I>background</I>) et
+permet de lancer pendant ce temps l&#224; d'autres commandes en avant
+plan. Lors de la d&#233;connexion, tous les processes en arri&#232;re plan
+meurent. En effet, ils ne peuvent qu'exister que si leur p&#232;re
+existe.
+
+<P>
+Lorsqu'une commande est lanc&#233;e en arri&#232;re plan, le shell reporte
+&#224; l'utilisateur le num&#233;ro de <A NAME="10139"></A>PID (<I>Process IDentifier</I>) identifiant le processus
+lanc&#233; en arri&#232;re plan avant de renvoyer le prompt. Une commande
+s'ex&#233;cutant en arri&#232;re plan <B>ne peut pas</B> &#234;tre
+arr&#234;t&#233;e avec les touches <!-- MATH
+ $\fbox{{\sc break}}$
+ -->
+<IMG
+ WIDTH="62" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img32.png"
+ ALT="\fbox{{\sc break}}">, <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="26" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="\fbox{C}">, etc.
+Par contre, une sortie de session (<I>logout</I>) tuera tous les
+processus s'ex&#233;cutant en arri&#232;re plan.
+
+<P>
+Il est important qu'un processus lanc&#233; en arri&#232;re plan ait ses
+entr&#233;es/sorties redirig&#233;es explicitement. Il est possible de
+voir les processes lanc&#233;s en arri&#232;re plan avec la commande
+<A NAME="10141"></A> &#171;&nbsp;<TT>jobs</TT>&nbsp;&#187;.
+
+<P>
+
+	<B>Remarque&nbsp;5..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I><!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="25" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="\fbox{Z}"> <B>ne sert pas &#224; interrompre un process mais &#224; le mettre
+en attente en arri&#232;re plan</B>. Si vous voulez interrompre une commande,
+utilisez &#171;&nbsp;<!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="26" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="\fbox{C}">&nbsp;&#187;. Pour plus de renseignements sur les touches
+d'interruption, reportez vous &#224; la section <A HREF="node87.html#multi-task-fg-bg"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1942"
+  HREF="node83.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1936"
+  HREF="node81.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1930"
+  HREF="node81.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1938"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1940"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1943"
+  HREF="node83.html">Substitution de commande</A>
+<B> monter:</B> <A NAME="tex2html1937"
+  HREF="node81.html">Le mode multi-t&#226;che</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1931"
+  HREF="node81.html">Le mode multi-t&#226;che</A>
+ &nbsp; <B>  <A NAME="tex2html1939"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1941"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

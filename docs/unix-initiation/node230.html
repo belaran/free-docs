@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Interruptions, d&#233;routements sur signaux</TITLE>
+<META NAME="description" CONTENT="Interruptions, d&#233;routements sur signaux">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node231.html">
+<LINK REL="previous" HREF="node229.html">
+<LINK REL="up" HREF="node223.html">
+<LINK REL="next" HREF="node231.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4337"
+  HREF="node231.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4331"
+  HREF="node223.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4325"
+  HREF="node229.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4333"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4335"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4338"
+  HREF="node231.html">Les retours</A>
+<B> monter:</B> <A NAME="tex2html4332"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4326"
+  HREF="node229.html">Tableaux et listes</A>
+ &nbsp; <B>  <A NAME="tex2html4334"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4336"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION05285000000000000000">
+Interruptions, d&#233;routements sur signaux</A>
+</H2>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>C Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Bourne Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Syntaxe</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>onintr [-l </code><I>label</I><code>]</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><A NAME="24631"></A><code>trap [</code><I>liste commandes</I><code>] [</code><I>liste signaux</I><code>]</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=1>Remarque</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Seul le signal "<I>9</I>" ne peut &#234;tre masqu&#233;.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Exemple</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>onintr -</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>trap '' 0 1 2 3 15</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$\rightarrow$">&nbsp;Ignorer toute interruption.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$\rightarrow$">&nbsp;Ignorer toute interruption.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>onintr sortie</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>trap commande_on_exit 0 1 3</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$\rightarrow$">&nbsp;Aller au label "<TT>sortie</TT>" du 
+			script courant.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$\rightarrow$">&nbsp;Ex&#233;cute la commande "<TT>commande_on_exit</TT>"
+			lorsque le processus re&#231;oit les signaux 0, 1, 3 et 15.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>onintr</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>trap 0 1 2 3 15</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$\rightarrow$">&nbsp;Restaure le comportement par d&#233;faut pour tous les signaux.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="$\rightarrow$">&nbsp;Restaure le comportement par d&#233;faut pour tous les signaux.</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4337"
+  HREF="node231.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4331"
+  HREF="node223.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4325"
+  HREF="node229.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4333"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4335"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4338"
+  HREF="node231.html">Les retours</A>
+<B> monter:</B> <A NAME="tex2html4332"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4326"
+  HREF="node229.html">Tableaux et listes</A>
+ &nbsp; <B>  <A NAME="tex2html4334"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4336"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Connexion chiffr&#233;e &#224; une autre machine - commande ssh</TITLE>
+<META NAME="description" CONTENT="Connexion chiffr&#233;e &#224; une autre machine - commande ssh">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node51.html">
+<LINK REL="previous" HREF="node49.html">
+<LINK REL="up" HREF="node44.html">
+<LINK REL="next" HREF="node51.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1415"
+  HREF="node51.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1409"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1403"
+  HREF="node49.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1411"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1413"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1416"
+  HREF="node51.html">Transfert chiffr&#233;e de fichier</A>
+<B> monter:</B> <A NAME="tex2html1410"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1404"
+  HREF="node49.html">Ex&#233;cution d'une commande &#224;</A>
+ &nbsp; <B>  <A NAME="tex2html1412"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1414"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION02360000000000000000">
+Connexion chiffr&#233;e &#224; une autre machine - commande <TT>ssh</TT></A>
+</H1>
+Les commandes pr&#233;c&#233;dentes ont non seulement des limitations (&#171;&nbsp;<TT>rsh</TT>&nbsp;&#187; ne permet, par exemple, d'ex&#233;cuter des commandes interactives) mais posent aussi des probl&#232;mes de s&#233;curit&#233;. D&#233;sormais, le protocole <A NAME="6502"></A>&#171;&nbsp;<TT>ssh</TT>&nbsp;&#187; (http://fr.wikipedia.org/wiki/Secure_shell/Secure SHell), et la commande qui lui est associ&#233;, est donc aujourd'hui le plus souvent utilis&#233;, &#224; la place de rlogin ou rsh .
+Caract&#233;ristique important, le protocole impose, au d&#233;but de la communication, l'&#233;change de cl&#233; de cryptage, permettant au reste de la dialogue de s'effectuer de mani&#232;re chiffr&#233;.
+L'implementation de &#171;&nbsp;<TT>ssh</TT>&nbsp;&#187; la plus courament utilis&#233; est celle du projet libre http://www.openssh.org/fr/index.htmlOpenSSH.
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+ssh [user]@[host:[port]]
+</PRE>
+	
+Un rapide exemple de connexion sur une machine distante &#224; l'aide de ssh:
+<PRE>
+ssh -l arthur percival -p 22
+</PRE>
+
+<P>
+La syntaxe suivante, plus explicite, est aussi possible:
+<PRE>
+ssh arthur@percival:22
+</PRE>
+
+<P>
+
+	<B>Remarque&nbsp;3..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Le client &#171;&nbsp;ssh&nbsp;&#187; est un outil extremement puissant, qui permet, entre autres l'&#233;tablissement de tunnel chiffr&#233;, &#224; travers plusieurs machines. N'h&#233;sitez pas &#224; en explorer les capacit&#233;s. L'article http://www.unixgarden.com/index.php/administration-systeme/principes-et-utilisation-de-sshprincipe et utilisation de SSH vous permettra d'aller plus loin.
+	
+</I></BLOCKQUOTE>
+
+	<B>Remarque&nbsp;3..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Le client &#171;&nbsp;ssh&nbsp;&#187; peut tre utilis&#233; comme un filtre, mais de mani&#232;re assez particuli&#232;re. Un rapide exemple pour illuster ce point:
+</I></BLOCKQUOTE><PRE>
+cat mon\_fichier | ssh percival ``cat &gt; mon\_fichier\_distant''
+</PRE>
+<P>
+<BLOCKQUOTE><I>La commande local cat va transf&#233;rer vers ssh le contenu du mon_fichier, ce dernier va le mettre &#224; disposition sur le flux d'entr&#233; du serveur distant (percival). Sur ce dernier, la commande cat va permettre de rediriger le flux vers mon_fichier_distant. 
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1415"
+  HREF="node51.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1409"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1403"
+  HREF="node49.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1411"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1413"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1416"
+  HREF="node51.html">Transfert chiffr&#233;e de fichier</A>
+<B> monter:</B> <A NAME="tex2html1410"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1404"
+  HREF="node49.html">Ex&#233;cution d'une commande &#224;</A>
+ &nbsp; <B>  <A NAME="tex2html1412"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1414"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

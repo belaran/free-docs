@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>R&#232;gles &#224; observer</TITLE>
+<META NAME="description" CONTENT="R&#232;gles &#224; observer">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node99.html">
+<LINK REL="previous" HREF="node97.html">
+<LINK REL="up" HREF="node97.html">
+<LINK REL="next" HREF="node99.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2284"
+  HREF="node99.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2278"
+  HREF="node97.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2272"
+  HREF="node97.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2280"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2282"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2285"
+  HREF="node99.html">Recommandations</A>
+<B> monter:</B> <A NAME="tex2html2279"
+  HREF="node97.html">Quelques r&#232;gles et recommandations</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2273"
+  HREF="node97.html">Quelques r&#232;gles et recommandations</A>
+ &nbsp; <B>  <A NAME="tex2html2281"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2283"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04131000000000000000"></A><A NAME="pgm-intro-basic-rules"></A>
+<BR>
+R&#232;gles &#224; observer
+</H2>
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">R&#232;gle 1&nbsp;:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Commentez abondamment et documentez syst&#233;matiquement vos scripts avec une en-t&#234;te comprenant&nbsp;:
+		
+<UL>
+<LI>le nom de l'auteur,
+</LI>
+<LI>la date,
+</LI>
+<LI>une pr&#233;sentation des fonctionnalit&#233;s.
+		
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="LEFT">R&#232;gle 2&nbsp;:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>V&#233;rifier les param&#232;tres d'appel, et indiquer l'usage si l'appel est incorrect.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">R&#232;gle 3&nbsp;:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Assortir toute sortie anormale d'un message d'erreur et d'un appel &#224; &#171;&nbsp;<TT>exit</TT>&nbsp;&#187;
+		avec un num&#233;ro d'erreur afin de pouvoir &#234;tre test&#233; dans tout script appelant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">R&#232;gle 4&nbsp;:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Adopter une approche modulaire avec usage de&nbsp;:
+		
+<UL>
+<LI>fonctions internes,
+</LI>
+<LI>scripts externes,
+</LI>
+<LI>appel &#224; des scripts existants.
+		
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="LEFT">R&#232;gle 5&nbsp;:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Utilisez les minuscules pour les noms de variables internes &#224; un script ou
+		une fonction (hors environnement) et les majuscules pour les variables empil&#233;es
+		dans ou h&#233;rit&#233;es de l'environnement.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">R&#232;gle 6&nbsp;:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Si des param&#232;tres d'environnement propres au d&#233;roulement ou &#224; l'encha&#238;nement
+		de scripts sont n&#233;cessaires, les terminaisons normales et anormales doivent assurer
+		le d&#233;pilement de ces param&#232;tres, afin de ne pas polluer inutilement
+		l'environnement utilisateur au fur et &#224; mesure des appels.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">R&#232;gle 7&nbsp;:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Si un script fait r&#233;f&#233;rence &#224; des ressources (fichiers) qu'il ne cr&#233;e pas lui-m&#234;me,
+		et/ou s'il atteint un certain volume (sup&#233;rieur &#224; une page par exemple), r&#233;digez les
+		traces (jalonnement de &#171;&nbsp;<TT>stdout</TT>&nbsp;&#187;) et des messages d'erreurs (&#171;&nbsp;<TT>stderr</TT>&nbsp;&#187;)
+		sur un m&#234;me fichier de <I>log</I>, portant le m&#234;me nom que le script avec l'extension
+		&#171;&nbsp;<TT>.log</TT>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">R&#232;gle 8&nbsp;:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Si des messages et/ou des erreurs doivent &#234;tre redirig&#233;es sur la console<A NAME="tex2html72"
+  HREF="footnode.html#foot11738"><SUP>6.5</SUP></A>, alors pr&#233;fixez les du nom du script qui les g&#233;n&#232;rent.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">R&#232;gle 9&nbsp;:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Tout fichier temporaire doit &#234;tre cr&#233;&#233; dans un r&#233;pertoire <B>r&#233;serv&#233; et distinct</B> qui sera
+		identifi&#233; par une variable d'environnement (&#171;&nbsp;<TT>D_TEMP</TT>&nbsp;&#187; par exemple). <B>Ce r&#233;pertoire
+		sera distinct de &#171;&nbsp;</B><B><TT>/tmp</TT>&nbsp;&#187;</B>. La n&#233;cessit&#233; de plusieurs r&#233;pertoires temporaires sera
+		satisfaite par la cr&#233;ation de sous-r&#233;pertoires dans celui-ci. Le &#171;&nbsp;<I>PID</I>&nbsp;&#187;<A NAME="tex2html73"
+  HREF="footnode.html#foot11741"><SUP>6.6</SUP></A> (accessible gr&#226;ce &#224; la variable &#171;&nbsp;<code>$$</code>&nbsp;&#187;<A NAME="tex2html74"
+  HREF="footnode.html#foot11742"><SUP>6.7</SUP></A>) du script sera utilis&#233; <B>syst&#233;matiquement</B> comme suffixe des noms de fichiers
+		temporaires g&#233;n&#233;r&#233;s.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Toutes les ressources temporaires (sous-r&#233;pertoires et fichiers) seront &#233;vacu&#233;es
+		de cette zone par destruction (commande &#171;&nbsp;<TT>rm</TT>&nbsp;&#187;) ou rang&#233;es ailleurs (commande
+		&#171;&nbsp;<TT>mv</TT>&nbsp;&#187;) lors des terminaisons.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">R&#232;gle 10&nbsp;:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Tout script aura comme premi&#232;re ligne, la description du Shell &#224; lancer. On aura
+		donc&nbsp;:</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Premi&#232;re ligne</TD>
+</TR>
+<TR><TD ALIGN="CENTER">Bourne Shell</TD>
+<TD ALIGN="LEFT"><code>#!/bin/sh</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER">C Shell</TD>
+<TD ALIGN="LEFT"><code>#!/bin/csh</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER">Korn Shell</TD>
+<TD ALIGN="LEFT"><code>#!/bin/ksh</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER">TC Shell</TD>
+<TD ALIGN="LEFT"><code>#!/bin/tcsh</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER">Bourne Another Shell</TD>
+<TD ALIGN="LEFT"><code>#!/bin/bash</code></TD>
+</TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283><B>La ch&#226;ine de caract&#232;re sp&#233;cifiant le nom de l'ex&#233;cutable doit &#234;tre &#233;crite
+		sans espaces et d&#232;s la premi&#232;re colonne.</B></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="RIGHT" COLSPAN=2><I>Suite page suivante <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2284"
+  HREF="node99.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2278"
+  HREF="node97.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2272"
+  HREF="node97.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2280"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2282"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2285"
+  HREF="node99.html">Recommandations</A>
+<B> monter:</B> <A NAME="tex2html2279"
+  HREF="node97.html">Quelques r&#232;gles et recommandations</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2273"
+  HREF="node97.html">Quelques r&#232;gles et recommandations</A>
+ &nbsp; <B>  <A NAME="tex2html2281"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2283"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

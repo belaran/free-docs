@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Filtre cut</TITLE>
+<META NAME="description" CONTENT="Filtre cut">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node42.html">
+<LINK REL="up" HREF="node37.html">
+<LINK REL="next" HREF="node44.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1311"
+  HREF="node44.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1305"
+  HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1301"
+  HREF="node42.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1307"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1309"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1312"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> monter:</B> <A NAME="tex2html1306"
+  HREF="node37.html">Les filtres</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1302"
+  HREF="node42.html">Filtre wc</A>
+ &nbsp; <B>  <A NAME="tex2html1308"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1310"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02246000000000000000">
+Filtre <TT>cut</TT></A>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TT>cut -c<I>liste</I> [fichier...]</TT>
+<BR><TT>cut -f<I>liste</I> [-d<I>caract&#232;re</I>] [-s] [fichier...]</TT>	
+</BLOCKQUOTE>
+
+<P>
+Le filtre <A NAME="3918"></A>&#171;&nbsp;<TT>cut</TT>&nbsp;&#187; a deux modes de fonctionnement&nbsp;:
+
+<P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Mode</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Option</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Extraire des colonnes &#224; partir de l'entr&#233;e standard.</TD>
+<TD ALIGN="LEFT">option &#171;&nbsp;<TT>-c</TT>&nbsp;&#187;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Extraire des champs &#224; partir de l'entr&#233;e standard.</TD>
+<TD ALIGN="LEFT">option &#171;&nbsp;<TT>-f</TT>&nbsp;&#187;</TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+Dans les deux modes, &#171;&nbsp;<TT>liste</TT>&nbsp;&#187; est une s&#233;quence de num&#233;ros pour
+indiquer &#224; cut quels sont les champs ou les colonnes &#224; retenir. Il y a
+plusieurs formats possibles pour cette liste&nbsp;:
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&#171;&nbsp;<I>A</I><TT>-</TT><I>B</I>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>champs ou colonnes <I>A</I> &#224; <I>B</I> inclus</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&#171;&nbsp;<I>A</I><TT>-</TT>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>du champ ou colonne <I>A</I> jusqu'&#224; la fin de la ligne</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&#171;&nbsp;<I>A</I><TT>,</TT><I>B</I>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>champ ou colonnes <I>A</I> et <I>B</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&#171;&nbsp;<TT>-</TT><I>B</I>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>du d&#233;but jusqu'au champ ou colonne <I>B</I></TD>
+</TR>
+</TABLE>
+
+<P>
+Toute combinaison des formats pr&#233;c&#233;dents est &#233;galement possible.
+
+<P>
+
+	<B>Exemple&nbsp;2..10&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+% cut -f1,4,6-9 /tmp/fictest
+</PRE><BLOCKQUOTE>
+extrait du fichier &#171;&nbsp;<TT>/tmp/fictest</TT>&nbsp;&#187; les champs 1, 4 et de 6 &#224; 9.	
+</BLOCKQUOTE>
+
+<P>
+Dans le cas d'un d&#233;coupage par champ, il existe une option particuli&#232;re,
+&#171;&nbsp;<TT>-d</TT>&nbsp;&#187;, pour sp&#233;cifier le caract&#232;re s&#233;parateur de champs. Par
+d&#233;faut, ce caract&#232;re est la tabulation &#171;&nbsp;<TT>TAB</TT>&nbsp;&#187;. De m&#234;me,
+l'option &#171;&nbsp;<TT>-s</TT>&nbsp;&#187;, lors d'un d&#233;coupage par champ, indique &#224; cut
+d'&#233;carter toutes les lignes qui ne contiennent pas le s&#233;parateur.
+
+<P>
+
+	<B>Remarque&nbsp;2..7&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>La commande &#171;&nbsp;<TT>cut</TT>&nbsp;&#187; commence la num&#233;rotation des champs &#224; 1 alors
+que &#171;&nbsp;<TT>sort</TT>&nbsp;&#187; commence &#224; 0. Il y a un moyen facile de s'en rappeler
+en notant que sort contient un z&#233;ro dans son nom (en fait un &#171;&nbsp;<TT>o</TT>&nbsp;&#187;) contrairement &#224; &#171;&nbsp;<TT>cut</TT>&nbsp;&#187;.
+	
+</I></BLOCKQUOTE>
+
+<P>
+Comme la plupart des filtres, la commande &#171;&nbsp;<TT>cut</TT>&nbsp;&#187; accepte des
+fichiers en arguments. S'ils sont pr&#233;cis&#233;s sur la ligne de commande,
+&#171;&nbsp;<TT>cut</TT>&nbsp;&#187; redirige son entr&#233;e standard sur leur contenu.
+
+<P>
+
+	<B>Exemple&nbsp;2..11&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+% cut -f3,7 -d: /etc/passwd
+% date | cut -c1-3
+% ps -ef | cut -c48- | sort
+</PRE>
+
+
+<P>
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1311"
+  HREF="node44.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1305"
+  HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1301"
+  HREF="node42.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1307"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1309"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1312"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> monter:</B> <A NAME="tex2html1306"
+  HREF="node37.html">Les filtres</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1302"
+  HREF="node42.html">Filtre wc</A>
+ &nbsp; <B>  <A NAME="tex2html1308"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1310"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

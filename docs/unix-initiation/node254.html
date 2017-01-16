@@ -1,0 +1,600 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Commandes de configuration de "vi"</TITLE>
+<META NAME="description" CONTENT="Commandes de configuration de "vi"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node255.html">
+<LINK REL="previous" HREF="node253.html">
+<LINK REL="up" HREF="node234.html">
+<LINK REL="next" HREF="node255.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4732"
+  HREF="node255.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4726"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4720"
+  HREF="node253.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4728"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4730"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4733"
+  HREF="node255.html">Fichier d'initialisation de "vi"&nbsp;:</A>
+<B> monter:</B> <A NAME="tex2html4727"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4721"
+  HREF="node253.html">Macros et abr&#233;viations</A>
+ &nbsp; <B>  <A NAME="tex2html4729"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4731"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION053217000000000000000"></A><A NAME="ann-edt-vi-config"></A>
+<BR>
+Commandes de configuration de "<TT>vi</TT>"
+</H2>
+
+<P>
+"<TT>vi</TT>" dispose d'un certain nombre d'options permettant de
+param&#232;trer son fonctionnement et l'environnement de travail. Celles-ci
+sont regroup&#233;es en trois cat&#233;gories&nbsp;:
+<DL>
+<DT><STRONG>les options de type "<I>bascule</I>"&nbsp;:</STRONG></DT>
+<DD>
+<BR>
+Dans ce cas de figure, l'option correspond &#224; deux
+		&#233;tat possible&nbsp;:
+		
+<UL>
+<LI>activ&#233;,
+</LI>
+<LI>d&#233;sactiv&#233;.
+		
+</LI>
+</UL>
+	
+</DD>
+<DT><STRONG>les options de type "<I>num&#233;rique</I>"&nbsp;:</STRONG></DT>
+<DD>
+<BR>		&#192; ces options sont associ&#233;es des valeurs num&#233;riques.
+	
+</DD>
+<DT><STRONG>les options de type "<I>chaine</I>"&nbsp;:</STRONG></DT>
+<DD>
+<BR>
+Comme pour le type pr&#233;c&#233;dent, l'option est associ&#233;e &#224; une valeur
+		de type "<I>chaine de caract&#232;res</I>".
+</DD>
+</DL>
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Affiche toutes les options <B>qui ont &#233;t&#233; modifi&#233;es par rapport
+		&#224; la configuration par d&#233;faut</B>, et la valeur ou l'&#233;tat associ&#233;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set all</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Affiche toutes les options et la valeur ou l'&#233;tat associ&#233;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set </code><I>option</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Si l'option est de type "<I>bascule</I>", elle
+		est arm&#233;e. Si elle est d'un autre type ("<I>chaine</I>" ou
+		"<I>num&#233;rique</I>", la valeur associ&#233;e est affich&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set no</code><I>option</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Ce cas de figure n'est valable que si l'option est de type
+		"<I>bascule</I>". Dans ce cas, elle est d&#233;sactiv&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set inv</code><I>option</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Inverse l'&#233;tat d'une option de type &#171;n <I>bascule</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set </code><I>option</I><TT>=</TT><I>value</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Fixe la valeur associ&#233;e &#224; une option de type "<I>chaine</I>" ou
+		"<I>num&#233;rique</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><code>:set </code><I>option</I><TT>?</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Affiche la valeur ou l'&#233;tat associ&#233;e &#224; l'option sp&#233;cifi&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Option</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Abbr&#233;viation</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Type</TD>
+<TD ALIGN="CENTER" COLSPAN=1>D&#233;faut</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>autoindent</TT></TD>
+<TD ALIGN="CENTER"><TT>ai</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Lorsque cette option est activ&#233;e, les tabulations sont automatiquement ins&#233;r&#233;es en
+		mode "<I>insertion</I>" afin que les lignes soient align&#233;es sur une m&#234;me colonne.
+		Pour revenir en arri&#232;re, au niveau de l'alignement des colonnes, il suffit de repasser
+		en mode "<I>commande</I>" et positionner le curseur &#224; la colonne souhait&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>directory</TT></TD>
+<TD ALIGN="CENTER"><TT>dir</TT></TD>
+<TD ALIGN="CENTER">chaine</TD>
+<TD ALIGN="LEFT"><TT>/tmp</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Sp&#233;cifie le r&#233;pertoire temporaire de "<TT>vi</TT>" pour stocker ses informations.
+	    Ce r&#233;pertoire contiendra, entre autre, un fichier que vous pourrez utiliser en
+	    cas d'interruption de la session "<TT>vi</TT>" et retrouver toutes les modifications
+	    que vous aurez effectu&#233;es (cf. option "<TT>-v</TT>" &#224; la section <A HREF="node237.html#ann-edt-vi-start"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>errorbells</TT></TD>
+<TD ALIGN="CENTER"><TT>eb</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Pr&#233;c&#232;de tous les messages d'erreur par un "<I>bip</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ignorecase</TT></TD>
+<TD ALIGN="CENTER"><TT>ic</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Ignire les majuscules/minuscules lors des op&#233;rations de recherche.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>insertmode</TT></TD>
+<TD ALIGN="CENTER"><TT>im</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>D&#233;marre la session "<TT>vi</TT>" en mode "<I>insertion</I>". Par d&#233;faut,
+		"<TT>vi</TT>" d&#233;marre en mode "<I>commande</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>lines</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT">25</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Sp&#233;cifie le nombre de lignes &#224; afficher &#224; l'&#233;cran. Par d&#233;faut, le nombre de lignes est
+		"25" ou, plus pr&#233;cis&#233;ment le nombre de lignes affichable par le terminal.
+		Ce param&#232;trage est accessible par la commande "<TT>stty(1)</TT>" ou "<TT>resize(1)</TT>".
+		La premi&#232;re permet de sp&#233;cifier les param&#232;tres du terminal manuellement. La seconde
+		interroge le terminal pour obtenir ces caract&#233;ristiques.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>list</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Affiche tous les caract&#232;res invisibles. Lorsque cette option est activ&#233;e, nous
+		aurons, entre-autre&nbsp;:</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>^I</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Tabulation</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>$</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Fin de ligne</TD>
+</TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>magic</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Autorise les expressions r&#233;guli&#232;res pour les op&#233;rations de recherche.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>makeprg</TT></TD>
+<TD ALIGN="CENTER"><TT>mp</TT></TD>
+<TD ALIGN="CENTER">chaine</TD>
+<TD ALIGN="LEFT"><TT>make</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Sp&#233;cifie le nom de l'utilitaire permettant de g&#233;n&#233;rer les d&#233;pendances entre les
+		diff&#233;rents fichiers source et les ex&#233;cutables &#224; g&#233;n&#233;rer. Par d&#233;faut, la commande
+		U<SMALL>NIX</SMALL>&#239;&#191;12tilis&#233;e est "<TT>make(1)</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>number</TT></TD>
+<TD ALIGN="CENTER"><TT>nu</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Affiche le num&#233;ro de chaque ligne.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>readonly</TT></TD>
+<TD ALIGN="CENTER"><TT>ro</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Le fichier courrant passe en lecture seule. Il est possible de l'&#233;diter, mais
+		la sauvegarde n'est pas accessible. Cependant, si les droits d'acc&#232;s au fichier
+		le permettent, la commande "<code>:w!</code>" force la sauvegarde (cf. section
+		<A HREF="node238.html#ann-edt-vi-quit"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Ce mode est positionn&#233; par d&#233;faut si les droits d'acc&#232;s
+		au fichier n'autorisent que la lecture.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>remap</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Autorise l'appel de macros &#224; l'int&#233;rieurs de macros (<I>macros</I> r&#233;cursives).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>report</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT">2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Sp&#233;cifie le nombre de lignes minimales pour que "<TT>vi</TT>" puisse afficher
+		ses informations.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>revins</TT></TD>
+<TD ALIGN="CENTER"><TT>ri</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Au lieu d'ins&#233;rer du texte de la gauche vers la droite (sens normal pour l'alphabet romain)
+		mais de la droite vers la gauche.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ruler</TT></TD>
+<TD ALIGN="CENTER"><TT>ru</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Affiche la position courrante du curseur (ligne<IMG
+ WIDTH="16" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img104.png"
+ ALT="$\times$">colonne) dans la zone
+		o&#249; "<TT>vi</TT>" inscrit ses informations.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>scroll</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT">12</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Pr&#233;cise le nombre de lignes &#224; prendre en compte pour les commandes
+		<!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img98.png"
+ ALT="\fbox{u}">, <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="24" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img99.png"
+ ALT="\fbox{d}">, <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="23" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img100.png"
+ ALT="\fbox{b}"> et <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="20" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img101.png"
+ ALT="\fbox{f}">
+		(cf. section <A HREF="node251.html#ann-edt-vi-place"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>scrolljump</TT></TD>
+<TD ALIGN="CENTER"><TT>sj</TT></TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Pr&#233;cise le nombre de lignes minimal pour les passages aux
+		&#233;crans pr&#233;c&#233;dents et suivants.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>shell</TT></TD>
+<TD ALIGN="CENTER"><TT>sh</TT></TD>
+<TD ALIGN="CENTER">chaine</TD>
+<TD ALIGN="LEFT"><TT>sh</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Pr&#233;cise l'interpr&#233;teur de commande &#224; utiliser par d&#233;faut
+		pour les inter-actions avec le "<I>shell</I>"
+		(cf. section <A HREF="node252.html#ann-edt-vi-sh"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>shiftwidth</TT></TD>
+<TD ALIGN="CENTER"><TT>sw</TT></TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT">8</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Pr&#233;cise la taille des d&#233;calages pour les commandes
+		"<code>&lt;</code>" et "<code>&gt;</code>" (cf. section
+		<A HREF="node248.html#ann-edt-vi-indent"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>shortname</TT></TD>
+<TD ALIGN="CENTER"><TT>sn</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Assure la compatibilit&#233; avec des syst&#232;mes de fichier type
+		<I>MS-DOS</I>, c'est-&#224;-dire des noms de fichiers en majuscules, ne
+		comportant que huits caract&#232;res au maximum avec une extension
+		d'au plus trois caract&#232;res.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>showmatch</TT></TD>
+<TD ALIGN="CENTER"><TT>sm</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Si cette option est activ&#233;e, "<TT>vi</TT>" indique &#224; l'utilisateur
+		quelle est la <I>parenth&#232;se</I> ouvrante correspondante d&#232;s qu'il
+		saisit l'un des caract&#232;res suivants&nbsp;:
+		
+<UL>
+<LI>&#171;<TT>)</TT>" (caract&#232;re associ&#233; "<TT>(</TT>"),
+</LI>
+<LI>"<code>}</code>" (caract&#232;re associ&#233; "<code>{</code>"),
+</LI>
+<LI>"<code>]</code>" (caract&#232;re associ&#233; "<code>[</code>"),
+		
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>showmode</TT></TD>
+<TD ALIGN="CENTER"><TT>smd</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Si cette option est active, "<TT>vi</TT>" indique le mode
+		courrant.
+		
+<UL>
+<LI>si le mode courrant est le mode "<I>insertion</I>",
+					"<TT>vi</TT>" inscrit "<TT>-&nbsp;INSERT&nbsp;-</TT>",
+</LI>
+<LI>si le mode courrant est le mode "<I>commande</I>",
+					<B>aucune information</B> n'est sp&#233;cifi&#233;e dans la ligne
+					d'&#233;tat.
+		
+</LI>
+</UL>
+		<B>Attention</B>, dans certains cas, cette option n'est pas positionn&#233;e
+		par d&#233;faut.
+
+<P>
+De m&#234;me, pour certaines versions de "<TT>vi</TT>", les informations
+		affich&#233;es sont plus explicites&nbsp;:
+		
+<UL>
+<LI>"<TT>vi</TT>" inscrit "<TT>-&nbsp;INSERT&nbsp;-</TT>" si
+					l'utilisateur ins&#232;re du texte <B>avant</B> le curseur
+					(commandes <IMG
+ WIDTH="20" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img95.png"
+ ALT="\fbox{i}">, <IMG
+ WIDTH="21" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img105.png"
+ ALT="\fbox{I}">, <IMG
+ WIDTH="27" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img106.png"
+ ALT="\fbox{O}">, etc. -
+					cf. section <A HREF="node240.html#ann-edt-vi-insert"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>),
+</LI>
+<LI>"<TT>vi</TT>" inscrit "<TT>-&nbsp;INSERT&nbsp;-</TT>" si
+					l'utilisateur ins&#232;re du texte <B>apr&#232;s</B> le curseur
+					(commandes <IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img107.png"
+ ALT="\fbox{a}">, <IMG
+ WIDTH="26" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img108.png"
+ ALT="\fbox{A}">, <IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img109.png"
+ ALT="\fbox{o}">, etc. -
+					cf. section <A HREF="node240.html#ann-edt-vi-insert"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).
+		
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>sidescroll</TT></TD>
+<TD ALIGN="CENTER"><TT>ss</TT></TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Nombre de colonnes minimales pour le <I>scrolling</I> horizontal.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>tabstop</TT></TD>
+<TD ALIGN="CENTER"><TT>ts</TT></TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT">8</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Pr&#233;cise la taille des tabulations.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>term</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">chaine</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Type de terminal sur lequel l'utilisateur travaille. "<TT>vi</TT>"
+		prend, par d&#233;faut, le contenu de la variable d'environnement
+		du <I>shell</I>&nbsp;: "<TT>TERM</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>terse</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Utilise les messages d'erreurs abr&#233;g&#233;s.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>textauto</TT></TD>
+<TD ALIGN="CENTER"><TT>ta</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>D&#233;tecte les caract&#232;res utilis&#233;s pour s&#233;parer les lignes d'un fichier.
+		"<TT>vi</TT>" positionne alors automatiquement l'option
+		"<TT>textmode</TT>". En effet,
+		
+<UL>
+<LI>sous <I>MS-DOS</I>, chaque ligne est s&#233;par&#233;e par les deux caract&#232;res
+					<I>carriage-return</I>-<I>line-feed</I> (respectivement
+					<TT>ASCII</TT>(13) et <TT>ASCII</TT>(10)),
+</LI>
+<LI>sous U<SMALL>NIX</SMALL>, chaque ligne n'est s&#233;par&#233;e que par le
+					caract&#232;re <I>line-feed</I> (<TT>ASCII</TT>(10)),
+</LI>
+<LI>sous <I>MacOS</I>, chaque ligne n'est s&#233;par&#233;e que par le
+					caract&#232;re <I>carriage-return</I>  (<TT>ASCII</TT>(13)).
+		
+</LI>
+</UL></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>textmode</TT></TD>
+<TD ALIGN="CENTER"><TT>tx</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Utilise les caract&#232;res de fin de ligne de <I>MS-DOS</I>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>textwidth</TT></TD>
+<TD ALIGN="CENTER"><TT>tw</TT></TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Sp&#233;cifie la longueur maximale d'une ligne en mode
+		"<I>insertion</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>timeout</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Prend en compte la valeur de la temporisation fix&#233;e par
+		l'option "<TT>timeoutlen</TT>" (ou "<TT>tm</TT>" pour
+		l'ex&#233;cution des macros "<TT>vi</TT>". Ainsi, aucune macros
+		ne pourra s'ex&#233;cuter plus de "<TT>timeoutlen</TT>"
+		millisecondes.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>timeoutlen</TT></TD>
+<TD ALIGN="CENTER"><TT>tm</TT></TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT">1000</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Fixe la valeur de la temporisation pour l'option
+		"<TT>timeout</TT>". La valeur est exprim&#233;e en <B>millisecondes</B>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>visualbell</TT></TD>
+<TD ALIGN="CENTER"><TT>vb</TT></TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Au lieu d'avoir un signal sonore, "<TT>vi</TT>" fait flasher
+		l'&#233;cran.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>warn</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Affiche un message si, lors d'une sortie de l'&#233;diteur,
+		le fichier n'a pas &#233;t&#233; sauvegard&#233;. Typiquement
+		le message sera "<TT>No write since last change.</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>wildchar</TT></TD>
+<TD ALIGN="CENTER"><TT>wc</TT></TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\fbox{\textsc{tab}}$
+ -->
+<IMG
+ WIDTH="42" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="\fbox{\textsc{tab}}"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Touche ou caract`ere utilis&#233; pour compl'eter
+		automatiquement les nom de fichiers. Le nombre sp&#233;cifi&#233;
+		correspond au code <TT>ASCII</TT> du caract`ere concern&#233;. Le
+		comportement par d&#233;faut est similaire &#224; celui
+		observable avec "<TT>tcsh</TT>" et "<TT>bash</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>wrap</TT></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">bascule</TD>
+<TD ALIGN="LEFT">oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Lorsque cette option est active, si la saisie d&#233;passe
+		la largeur maximale de la fen&#234;tre d'affichage, un retour
+		automatique &#224; la ligne est effectu&#233; <B>sans pour
+		autant avoir le caract&#232;re <!-- MATH
+ $\fbox{\textsc{return}}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="\fbox{\textsc{return}}">  ins&#233;r&#233;
+		dans le texte</B>. Si cette option n'est pas active, l'affichage
+		se d&#233;calera horizontalement.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>wrapmargin</TT></TD>
+<TD ALIGN="CENTER"><TT>wm</TT></TD>
+<TD ALIGN="CENTER">nombre</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Le retour &#224; la ligne suivante s'effectue &#224; partir de la
+		colonne "<I>nombre de colonnes de la fen&#234;tre</I>" -
+		"<I>valeur associ&#233;e &#224; l'option </I><TT>wrapmargin</TT>".
+		Cette op&#233;ration s'ex&#233;cute si l'option "<TT>wrap</TT>"
+		est active.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4732"
+  HREF="node255.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4726"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4720"
+  HREF="node253.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4728"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4730"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4733"
+  HREF="node255.html">Fichier d'initialisation de "vi"&nbsp;:</A>
+<B> monter:</B> <A NAME="tex2html4727"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4721"
+  HREF="node253.html">Macros et abr&#233;viations</A>
+ &nbsp; <B>  <A NAME="tex2html4729"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4731"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

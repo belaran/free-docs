@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Cr&#233;ation des nouvelles entr&#233;es utilisateur</TITLE>
+<META NAME="description" CONTENT="Cr&#233;ation des nouvelles entr&#233;es utilisateur">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node198.html">
+<LINK REL="previous" HREF="node196.html">
+<LINK REL="up" HREF="node194.html">
+<LINK REL="next" HREF="node198.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3783"
+  HREF="node198.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3777"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3771"
+  HREF="node196.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3779"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3781"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3784"
+  HREF="node198.html">Suppression des r&#233;pertoires inutiles</A>
+<B> monter:</B> <A NAME="tex2html3778"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3772"
+  HREF="node196.html">Extraction des anciennes entr&#233;es</A>
+ &nbsp; <B>  <A NAME="tex2html3780"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3782"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION041143300000000000000"></A><A NAME="adv-programming-ex3-devlextn"></A>
+<BR>
+Cr&#233;ation des nouvelles entr&#233;es utilisateur
+</H3>
+
+<P>
+Tout comme les anciennes entr&#233;es, les nouvelles sont d&#233;tect&#233;es en excluant l'ensemble
+des utilisateurs existants &#224; celui contenant l'ensemble des utilisateurs &#224; cr&#233;er. L'op&#233;ration
+se sch&#233;matise comme suit.
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\begin{array}{l@{\quad}l@{\;=\;}l}
+	\mbox{Soit}	&
+		\mathcal{U}_{\mbox{{\textsc{Unix}}}} 		&	\mbox{utilisateur {\textsc{Unix}}.} 	\\[2ex]
+				&
+		\mathcal{U}_{\mbox{{Open\textsc{Vms}}}} 	&	\mbox{utilisateur {Open\textsc{Vms}}.}	\\[2ex]
+				&
+		\mathcal{E}_{\mbox{{Open\textsc{Vms}}}}		&	\mbox{liste des utilisateurs
+					{Open\textsc{Vms}} devant poss{\'e}der un compte sous {\textsc{Unix}}.}			\\[2ex]
+\end{array}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="633" HEIGHT="105" BORDER="0"
+ SRC="img66.png"
+ ALT="\begin{displaymath}
+\begin{array}{l@{\quad}l@{\;=\;}l}
+\mbox{Soit} &amp;
+\mathcal{...
+...s{\'e}der un compte sous {\textsc{Unix}}.} \\ [2ex]
+\end{array}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<BR>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\begin{array}{l@{\;=\;}l}
+	\mathcal{E}_{ancien}		&
+		\left\{ \mathcal{U}_{\mbox{{\textsc{Unix}}}} \; \mbox{d{\'e}j{\`a} existants} \right\}
+		\\[2ex]
+	\mathcal{E}_{nouveau}	&
+		\left\{ \mathcal{U}_{\mbox{{\textsc{Unix}}}} \; tq. \;
+			\exists \; \mathcal{U}_{\mbox{{Open\textsc{Vms}}}} \: \in \: \mathcal{E}_{\mbox{{Open\textsc{Vms}}}}
+			\right\}
+		\\[2ex]
+	\mathcal{E}_{2}			&
+		\mathcal{E}_{nouveau} - \left( \mathcal{E}_{ancien} \cap \mathcal{E}_{nouveau} \right)
+		\\[2ex]
+\end{array}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="372" HEIGHT="110" BORDER="0"
+ SRC="img68.png"
+ ALT="\begin{displaymath}
+\begin{array}{l@{\;=\;}l}
+\mathcal{E}_{ancien} &amp;
+\left\{ \...
+...ncien} \cap \mathcal{E}_{nouveau} \right)
+\\ [2ex]
+\end{array}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Le principe adopt&#233; repose sur le m&#234;me principe que celui d&#233;crit &#224; la section
+adv-programming-ex3-devlext. &#192; partir de la liste des nouveaux utilisateurs, seuls
+ceux qui disposent d'une entr&#233;e dans "<TT>USERS_INFO_FILE</TT>" sont trait&#233;s,
+c'est-&#224;-dire ceux dont le second champ de ce fichier est &#233;gal &#224; l'entr&#233;e trait&#233;e
+du fichier "<TT>LIST</TT>". Nous utiliserons "<TT>awk(1)</TT>". La condition du
+s&#233;lecteur du programme associ&#233; sera l'identit&#233; entre le second champ de
+"<TT>USERS_INFO_FILE</TT>" et le contenu de la variable "<TT>username</TT>". Le
+r&#233;sultat de "<TT>awk(1)</TT>" sera stock&#233; dans la variable "<TT>is_defined</TT>".
+Si cette variable est non vide, il faudra pass&#233; &#224; l'enregistrement suivant. Sinon, le
+traitement devra se poursuivre. Nous aurons donc&nbsp;:<PRE>
+cat $LIST |\
+while
+    read username
+do
+    is_defined=`$AWK -v username="$username" -F: '
+        $2 == username { print $0 }
+        ' $USERS_INFO_FILE `
+    [ "$is_defined" != "" ] &amp;&amp; continue
+</PRE><BLOCKQUOTE>
+<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+</BLOCKQUOTE><PRE>
+done
+</PRE>
+
+<P>
+Le "<I>logname</I>" U<SMALL>NIX</SMALL> ob&#233;ira au format suivant&nbsp;:
+
+<UL>
+<LI>le "<I>logname</I>" correspond au nom de l'utilisateur,
+</LI>
+<LI>s'il d&#233;passe huits caract&#232;res, il sera tronqu&#233; &#224; huit,
+</LI>
+<LI>si ce nom est d&#233;j&#224; attribu&#233;, il sera demand&#233; manuellement &#224; l'administrateur
+			d'en attribuer un.
+</LI>
+</UL>
+Il ne restera plus qu'&#224; g&#233;n&#233;rer les informations compl&#233;mentaires. Nous obtenons&nbsp;:<PRE>
+login=`echo $username | tr '[A-Z]' '[a-z]'  | cut -d_ -f1`
+new_who=`grep $username $WHO | cut -d! -f2 | cut -c2-`
+
+login=`echo $login | cut -c-8`
+
+status=0
+while
+    is_allocated=`grep "^${login}:" $PASSWD_NEW`
+    [ "$is_allocated" != "" ]
+do
+    echo "" &gt;&amp;2
+    echo "`basename $0`: login $login deja alloue pour $username" &gt;&amp;2
+    $ECHO "`basename $0`: Quel login : \c" &gt;&amp;2
+    read login &lt; /dev/tty
+    status=1
+done
+[ $status -eq 1 ] &amp;&amp; $ECHO "Creation des nouvelles entrees dans passwd : \c"
+
+project="p`grep $username $LCLUAF | cut -d: -f1 | tr '[A-Z]' '[a-z]'`"
+
+new_passwd=`echo $login | cut -c-4``date +%M%S`
+crypt_passwd="`$BUILDPASSWD $new_passwd`"
+uid=`$SEARCHID -u`
+gid=$STUDENT_GID
+student_home=${HOME_STUDENT}/$login
+
+output="${login}:${crypt_passwd}:${uid}:${gid}"
+echo "${output}:${new_who}:${student_home}:${LOGIN_SHELL}" &gt;&gt; $PASSWD_NEW
+echo "${login}  ${FS_SERVER}:${FS_STUDENTS}/${login}" &gt;&gt; $AUTO_USERS
+output="${login}:${crypt_passwd}:0:${PASSWD_WILL_CHANGE}"
+echo "${output}:${PASSWD_EXPIRATION_TIME}:${PASSWD_WILL_EXPIRE}::" \
+    &gt;&gt; $SHADOW_NEW
+echo "${login}:${username}:${new_passwd}:${uid}:${project}" &gt;&gt; $USERS_INFO_FILE
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3783"
+  HREF="node198.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3777"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3771"
+  HREF="node196.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3779"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3781"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3784"
+  HREF="node198.html">Suppression des r&#233;pertoires inutiles</A>
+<B> monter:</B> <A NAME="tex2html3778"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3772"
+  HREF="node196.html">Extraction des anciennes entr&#233;es</A>
+ &nbsp; <B>  <A NAME="tex2html3780"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3782"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

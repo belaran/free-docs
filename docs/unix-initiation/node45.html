@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Connexion &#224; une autre machine - commande telnet</TITLE>
+<META NAME="description" CONTENT="Connexion &#224; une autre machine - commande telnet">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node46.html">
+<LINK REL="previous" HREF="node44.html">
+<LINK REL="up" HREF="node44.html">
+<LINK REL="next" HREF="node46.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1345"
+  HREF="node46.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1339"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1333"
+  HREF="node44.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1341"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1343"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1346"
+  HREF="node46.html">Transfert de fichiers -</A>
+<B> monter:</B> <A NAME="tex2html1340"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1334"
+  HREF="node44.html">Commandes usuelles de communication</A>
+ &nbsp; <B>  <A NAME="tex2html1342"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1344"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION02310000000000000000">
+Connexion &#224; une autre machine - commande <TT>telnet</TT></A>
+</H1>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+telnet [host [port]]
+</PRE>
+
+<P>
+La commande <A NAME="6460"></A>&#171;&nbsp;<TT>telnet</TT>&nbsp;&#187; permet de communiquer avec une autre machine en utilisant le protocole <I>Telnet</I>. Si &#171;&nbsp;<TT>telnet</TT>&nbsp;&#187; est invoqu&#233; sans argument, il passe en mode commande, indiqu&#233; par l'invite &#171;&nbsp;<code>telnet&gt;</code>&nbsp;&#187;. Dans ce mode, il accepte et ex&#233;cute des commandes. Si &#171;&nbsp;<TT>telnet</TT>&nbsp;&#187; est invoqu&#233; avec des arguments, il ouvre une connexion sur ce qui lui a &#233;t&#233; sp&#233;cifi&#233;.
+
+<P>
+Une fois qu'une connexion a &#233;t&#233; ouverte, &#171;&nbsp;<TT>telnet</TT>&nbsp;&#187; passe en mode saisie. Dans ce mode, le texte tap&#233; au clavier est envoy&#233; &#224; la machine cible.
+
+<P>
+Voici quelques <A NAME="6461"></A>commandes accessibles au niveau du prompt &#171;&nbsp;<code>telnet&gt;</code>&nbsp;&#187;&nbsp;:
+
+<P>
+<DL>
+<DT><STRONG><TT>open [host [port]</TT></STRONG></DT>
+<DD>]
+<BR>
+Ouvre une connexion sur le n<IMG
+ WIDTH="13" HEIGHT="9" ALIGN="BOTTOM" BORDER="0"
+ SRC="img26.png"
+ ALT="\oe">ud sp&#233;cifi&#233; au port indiqu&#233;. Si aucun
+		port n'est sp&#233;cifi&#233;, &#171;&nbsp;<TT>telnet</TT>&nbsp;&#187; essaie de contacter un serveur
+		<I>Telnet</I> au port standard de <I>Telnet</I>. Le nom de n<IMG
+ WIDTH="13" HEIGHT="9" ALIGN="BOTTOM" BORDER="0"
+ SRC="img26.png"
+ ALT="\oe">ud peut
+		&#234;tre soit le nom officiel, soit un <I>alias</I>, soit une adresse Internet
+		en notation d&#233;cimale.
+	
+</DD>
+<DT><STRONG><TT>close</TT></STRONG></DT>
+<DD>
+<BR>
+Ferme une session &#171;&nbsp;<TT>telnet</TT>&nbsp;&#187;. Si la session a commenc&#233; en mode
+		commande, alors &#171;&nbsp;<TT>telnet</TT>&nbsp;&#187; repasse en mode commande; autrement,
+		<TT>telnet</TT> se termine.
+	
+</DD>
+<DT><STRONG><TT>?</TT></STRONG></DT>
+<DD>
+<BR>
+Fournit de l'aide. Sans argument &#171;&nbsp;<TT>?</TT>&nbsp;&#187; affiche le menu d'aide. Si
+		une commande est pr&#233;cis&#233;e apr&#232;s &#171;&nbsp;<TT>?</TT>&nbsp;&#187;, le message affich&#233;
+		s'applique uniquement &#224; la commande sp&#233;cifi&#233;e.
+</DD>
+</DL>
+
+<P>
+Pour plus d'informations, consultez <TT>telnet(1)</TT>.
+
+<P>
+
+	<B>Remarque&nbsp;3..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>&#171;&nbsp;<TT>telnet</TT>&nbsp;&#187; est seulement un service interactif. Vous ne pouvez pas ex&#233;cuter &#171;&nbsp;<TT>telnet</TT>&nbsp;&#187; en arri&#232;re-plan ou &#224; partir d'un programme shell.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1345"
+  HREF="node46.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1339"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1333"
+  HREF="node44.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1341"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1343"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1346"
+  HREF="node46.html">Transfert de fichiers -</A>
+<B> monter:</B> <A NAME="tex2html1340"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1334"
+  HREF="node44.html">Commandes usuelles de communication</A>
+ &nbsp; <B>  <A NAME="tex2html1342"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1344"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

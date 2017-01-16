@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les entr&#233;es/sorties</TITLE>
+<META NAME="description" CONTENT="Les entr&#233;es/sorties">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node19.html">
+<LINK REL="previous" HREF="node14.html">
+<LINK REL="up" HREF="node5.html">
+<LINK REL="next" HREF="node19.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html932"
+  HREF="node19.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html926"
+  HREF="node5.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html920"
+  HREF="node17.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html928"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html930"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html933"
+  HREF="node19.html">Les filtres</A>
+<B> monter:</B> <A NAME="tex2html927"
+  HREF="node5.html">Concepts de base sous</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html921"
+  HREF="node17.html">Principaux r&#233;pertoires UNIX</A>
+ &nbsp; <B>  <A NAME="tex2html929"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html931"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION02160000000000000000">
+Les entr&#233;es/sorties</A>
+</H1>
+
+<P>
+A chaque cr&#233;ation de processus, celui ci se voit affect&#233; trois canaux de
+communication&nbsp;:
+
+<UL>
+<LI>l'entr&#233;e standard&nbsp;;
+</LI>
+<LI>la sortie standard&nbsp;;
+</LI>
+<LI>la sortie d'erreurs standard.
+</LI>
+</UL>
+
+<P>
+La figure <A HREF="#fig-bcpts-iochans"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> illustre les trois canaux de communications
+que poss&#232;de chaque processus sur le syst&#232;me U<SMALL>NIX</SMALL>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig-bcpts-iochans"></A><A NAME="1450"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Entr&#233;es/Sorties d'un processus</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><IMG
+  WIDTH="404" HEIGHT="119" ALIGN="BOTTOM" BORDER="0"
+ SRC="./iochans.jpg"
+ ALT="Image iochans">
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Chacun des trois canaux se voit affecter un nom de fichier et un num&#233;ro&nbsp;:
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Canal de communication</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Fichier</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Num&#233;ro logique</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Entr&#233;e standard</TD>
+<TD ALIGN="CENTER"><TT>stdin</TT></TD>
+<TD ALIGN="CENTER">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Sortie standard</TD>
+<TD ALIGN="CENTER"><TT>stdout</TT></TD>
+<TD ALIGN="CENTER">1</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Sortie d'erreurs standard</TD>
+<TD ALIGN="CENTER"><TT>stderr</TT></TD>
+<TD ALIGN="CENTER">2</TD>
+</TR>
+</TABLE>
+
+<P>
+Le fichier <A NAME="1452"></A><TT>stdin</TT> (<I>entr&#233;e standard</I>), est le fichier &#224; partir duquel le process va lire les donn&#233;es n&#233;cessaires en entr&#233;e. Il est ouvert avec le num&#233;ro logique 0(<I>file descriptor C</I>), et il est, par d&#233;faut associ&#233; au clavier.
+
+<P>
+Le fichier <A NAME="1454"></A><TT>stdout</TT> (<I>sortie standard</I>), est le fichier dans lequel le process va &#233;crire les messages qu'il produit en sortie, dans le cas d'une ex&#233;cution normale. Il est ouvert avec le num&#233;ro logique 1 (<I>file descriptor C</I>), et il est, par d&#233;faut associ&#233; &#224; l'&#233;cran.
+
+<P>
+Le fichier <A NAME="1455"></A><TT>stderr</TT> (<I>sortie d'erreurs standard</I>), est le fichier dans lequel le process va &#233;crire les messages d'erreur. Il est ouvert avec le num&#233;ro logique 2 (<I>file descriptor C</I>), et il est par d&#233;faut associ&#233; &#224; l'&#233;cran.
+
+<P>
+
+	<B>Remarque&nbsp;1..7&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>On distingue toujours deux canaux de sorties (un pour les sorties normales et un pour les erreurs). En effet, si un process doit &#233;crire dans un fichier et qu'une erreur se produit (impossibilit&#233; d'&#233;crire par exemple), il faut afficher un message sur un canal de sortie diff&#233;rent.
+	
+</I></BLOCKQUOTE>
+
+<P>
+Le tableau <A HREF="#tab-bcpts-equiv-iochans"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> donne les &#233;quivalences des noms
+des canaux d'entr&#233;es/sorties entre les syst&#232;mes U<SMALL>NIX</SMALL> et OpenV<SMALL>MS</SMALL> de Digital.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="1456"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+&#201;quivalences des noms
+des canaux d'entr&#233;es/sorties entre U<SMALL>NIX</SMALL> et OpenV<SMALL>MS</SMALL></CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="CENTER">OpenV<SMALL>MS</SMALL></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>stdin</TT></TD>
+<TD ALIGN="CENTER"><code>SYS$INPUT</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>stdout</TT></TD>
+<TD ALIGN="CENTER"><code>SYS$OUTPUT</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>stderr</TT></TD>
+<TD ALIGN="CENTER"><code>SYS$ERROR</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html932"
+  HREF="node19.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html926"
+  HREF="node5.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html920"
+  HREF="node17.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html928"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html930"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html933"
+  HREF="node19.html">Les filtres</A>
+<B> monter:</B> <A NAME="tex2html927"
+  HREF="node5.html">Concepts de base sous</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html921"
+  HREF="node17.html">Principaux r&#233;pertoires UNIX</A>
+ &nbsp; <B>  <A NAME="tex2html929"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html931"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

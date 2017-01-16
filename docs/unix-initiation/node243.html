@@ -1,0 +1,253 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Effacement de texte</TITLE>
+<META NAME="description" CONTENT="Effacement de texte">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node244.html">
+<LINK REL="previous" HREF="node242.html">
+<LINK REL="up" HREF="node234.html">
+<LINK REL="next" HREF="node244.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4577"
+  HREF="node244.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4571"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4565"
+  HREF="node242.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4573"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4575"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4578"
+  HREF="node244.html">Recherche</A>
+<B> monter:</B> <A NAME="tex2html4572"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4566"
+  HREF="node242.html">D&#233;placement du curseur</A>
+ &nbsp; <B>  <A NAME="tex2html4574"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4576"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION05329000000000000000"></A><A NAME="ann-edt-vi-del"></A>
+<BR>
+Effacement de texte
+</H2>
+
+<P>
+Dans toute la suite de cette section, le caract&#232;re courrant d&#233;signera
+celui sur lequel est positionn&#233; le curseur. De m&#234;me, la ligne courrant
+sera celle ou se trouve le curseur.
+
+<P>
+Pour "<TT>vi</TT>", un mot est une s&#233;quence de caract&#232;res alphanum&#233;riques
+s&#233;par&#233;s par un ou plusieurs espaces ou tabulation ou bien encore un
+caract&#232;re de ponctuation. Le mot courrant d&#233;signe la chaine de caract&#232;re
+<B>commen&#231;ant &#224; la position du curseur</B> jusqu'&#224; un caract&#232;re valide de 
+d&#233;limitatio pour un mot.
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="24" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img83.png"
+ ALT="\fbox{h}"> ou <!-- MATH
+ $\fbox{{\small \sc Back Space}}$
+ -->
+<IMG
+ WIDTH="98" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img84.png"
+ ALT="\fbox{{\small \sc Back Space}}"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><B>En mode insertion</B>, efface le caract&#232;re pr&#233;c&#233;dent.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="27" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="\fbox{w}"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><B>En mode insertion</B>, efface le mot pr&#233;c&#233;dent.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="\fbox{x}"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><B>En mode <I>insertion</I></B>, efface tout le texte ins&#233;r&#233; depuis le d&#233;but
+		du mode "<I>insertion</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><I>n</I><TT>x</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Efface les "<I>n</I>" caract&#232;res suivants y compris le caract&#232;re
+		courrant. Si "<I>n</I>" n'est pas sp&#233;cifi&#233;, "<TT>vi</TT>" n'efface
+		que le caract&#232;re courrant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><I>n</I><TT>X</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Efface les "<I>n</I>" caract&#232;res pr&#233;c&#233;dents y compris le caract&#232;re
+		courrant. Si "<I>n</I>" n'est pas sp&#233;cifi&#233;, "<TT>vi</TT>" n'efface
+		que le caract&#232;re pr&#233;c&#233;dent.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>xp</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Intervertit le caract&#232;re courrant avec le caract&#232;re suivant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><I>n</I><TT>dw</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Efface les "<I>n</I>" mots suivants. Si "<I>n</I>" n'est pas
+		sp&#233;cifi&#233;, "<TT>vi</TT>&nbsp;&#239;&#191;12&gt; d&#233;truit le mot courrant. Pour rappel, un
+		mot est une suite de caract&#232;res s&#233;par&#233;s par un ou plusieurs espaces
+		ou tabulation ou bien par un caract&#232;re de ponctuation.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><I>n</I><TT>db</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Efface les "<I>n</I>" mots pr&#233;c&#233;dents. Si "<I>n</I>" n'est pas
+		sp&#233;cifi&#233;, "<TT>vi</TT>&nbsp;&#239;&#191;12&gt; d&#233;truit le mot courrant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><I>n</I><TT>dd</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Efface les "<I>n</I>" lignes suivantes en commen&#231;ant par la
+		ligne courrante. Si &#171;n <I>n</I>" n'est pas sp&#233;cifi&#233;, "<TT>vi</TT>"
+		ne d&#233;truit que la ligne courrante.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>:</TT><I>n,m</I><TT>d</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>D&#233;truit les lignes de "<I>n</I>" &#224; "<I>m</I>". Si 
+		"<!-- MATH
+ $n \in \mathcal{N}$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img89.png"
+ ALT="$n \in \mathcal{N}$">" ou "<!-- MATH
+ $m \in \mathcal{N}$
+ -->
+<IMG
+ WIDTH="52" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img90.png"
+ ALT="$m \in \mathcal{N}$">", alors
+		l'op&#233;ration de destruction commence ou se termine &#224; la ligne dont
+		le num&#233;ro est sp&#233;cifi&#233;. Si "<I>n</I>" ou "<I>m</I>" est un
+		marqueur, l'op&#233;ration de destruction commence ou se termine
+		&#224; la position indiqu&#233;e par le marqueur (cf. section
+		<A HREF="node235.html#ann-edt-vi-intro"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Si "<I>n</I>" ou "<I>m</I>" est une
+		expression r&#233;guli&#232;re d&#233;limit&#233;e par le caract&#232;re "<TT>/</TT>",
+		l'op&#233;ration commence &#224; la premi&#232;re ligne trouv&#233;e &#224; partir
+		de la position courrant satisfaisant
+		l'expression r&#233;guli&#232;re ou bien se termine &#224; la <B>premi&#232;re</B>
+		ligne  satisfaisant l'expression r&#233;guli&#232;re se trouvant
+		&#224; la suite de la premi&#232;re ligne &#224; effacer.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>D</TT>	ou <code>d$</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>D&#233;truit tout ce qui suit &#224; partir de la position courrante du
+		curseur jusqu'&#224; la fin de la ligne.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>d</TT><I>cmd<IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img91.png"
+ ALT="$_{curseur}$"></I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>D&#233;truit le texte &#224; partir de la position courrante du curseur
+		jusqu'au point indiqu&#233; par la commande de d&#233;placement du
+		cuseur "<I>cmd<IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img91.png"
+ ALT="$_{curseur}$"></I>". Par exemple, "<TT>dG</TT>"
+		efface toutes les lignes &#224; partir de la position courrante jusqu'&#224;
+		la fin de fichier. Cet exemple est &#233;quivalent &#224; "<code>:.,$d</code>".
+		Reportez-vous &#224; la section <A HREF="node242.html#ann-edt-vi-move"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> pour les
+		commandes de d&#233;placement du curseur.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+La figure <A HREF="#ann-edt-vi-delfig"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> d&#233;crit les diff&#233;rentes actions de ces commandes
+en fonction de la position du curseur dans le fichier.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="ann-edt-vi-delfig"></A><A NAME="27443"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Commandes de suppression de texte avec
+"<TT>vi</TT>".</CAPTION>
+<TR><TD><IMG
+  WIDTH="378" HEIGHT="181" ALIGN="BOTTOM" BORDER="0"
+ SRC="./delete-cmds.jpg"
+ ALT="Image delete-cmds"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4577"
+  HREF="node244.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4571"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4565"
+  HREF="node242.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4573"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4575"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4578"
+  HREF="node244.html">Recherche</A>
+<B> monter:</B> <A NAME="tex2html4572"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4566"
+  HREF="node242.html">D&#233;placement du curseur</A>
+ &nbsp; <B>  <A NAME="tex2html4574"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4576"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

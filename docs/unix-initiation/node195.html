@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>D&#233;termination des entr&#233;es de r&#233;f&#233;rence</TITLE>
+<META NAME="description" CONTENT="D&#233;termination des entr&#233;es de r&#233;f&#233;rence">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node196.html">
+<LINK REL="previous" HREF="node194.html">
+<LINK REL="up" HREF="node194.html">
+<LINK REL="next" HREF="node196.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3755"
+  HREF="node196.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3749"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3743"
+  HREF="node194.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3751"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3753"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3756"
+  HREF="node196.html">Extraction des anciennes entr&#233;es</A>
+<B> monter:</B> <A NAME="tex2html3750"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3744"
+  HREF="node194.html">D&#233;veloppement</A>
+ &nbsp; <B>  <A NAME="tex2html3752"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3754"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION041143100000000000000"></A><A NAME="adv-programming-ex3-devlref"></A>
+<BR>
+D&#233;termination des entr&#233;es de r&#233;f&#233;rence
+</H3>
+
+<P>
+Les entr&#233;es de r&#233;f&#233;rences correspondent aux anciennes informations, modifi&#233;es
+de telle sorte qu'elles puissent &#234;tre exploitable directement. En effet, la
+convention adopt&#233;e par exemple, pour le champ "<I>informations</I>" ou
+"<I>GCOS</I>" du fichier "<TT>passwd(5)</TT>", est la suivante&nbsp;:
+
+<UL>
+<LI>le pr&#233;nom
+</LI>
+<LI>le nom en majuscules,
+</LI>
+<LI>le caract&#232;re "<TT>-</TT>" d&#233;limit&#233; par un espace de chaque c&#244;t&#233;,
+</LI>
+<LI>la classe.
+</LI>
+</UL>
+Par cons&#233;quent, d'une ann&#233;e sur l'autre, la classe peut changer. L'ancienne
+information n'est donc plus valable dans sa globalit&#233;, mais par contre
+la totalit&#233; de ce champ sans l'information "<I>classe</I>" est valide et
+permet, en plus, de localiser un enregistrement de fa&#231;on unique.
+
+<P>
+Il nous faut donc prendre l'ancien fichier "<TT>passwd(5)</TT>" et enlever
+l'information "<I>classe</I>". Ceci est effectu&#233; en supprimant les cinq
+derniers caract&#232;res du cinqui&#232;me champ (le champ "<I>GCOS</I>" du fichier
+"<TT>passwd(5)</TT>". Le r&#233;sultat nous servira donc de r&#233;f&#233;rence pour tout
+traitement exploitant les anciennes entr&#233;es du fichier de d&#233;finition des
+utilisateurs, car nous serons s&#251;r que toutes les renseignements pr&#233;sents seront
+valides. Nous obtenons donc la requ&#234;te suivante&nbsp;:<PRE>
+$AWK '
+    BEGIN { FS=":"}
+    {
+        field = substr ($5, 1, length($5) - 5)
+        printf ("%s:%s:%s:%s:%s:%s:%s\n",
+            $1, $2, $3, $4, field, $6, $7)
+    }
+' $PASSWD &gt; $PASSWD_REF
+</PRE>
+
+<P>
+Il en va de m&#234;me pour le fichier associant "<I>username</I> OpenV<SMALL>MS</SMALL>" avec
+le pr&#233;nom, le nom et la classe de la personne. Le format de ce fichier est&nbsp;:
+
+<UL>
+<LI>le <I>username</I> OpenV<SMALL>MS</SMALL>,
+</LI>
+<LI>le caract&#232;re "<TT>-</TT>" d&#233;limit&#233; par un espace de chaque c&#244;t&#233;,
+</LI>
+<LI>la classe avec, &#233;ventuellement, l'option.
+</LI>
+</UL>
+Par cons&#233;quent, nous ne connaissons par la longueur de la chaine repr&#233;sentant
+la classe. Par contre, l'information "<I>classe</I>", y compris le d&#233;limiteur,
+peut &#234;tre repr&#233;sent&#233; par l'expression r&#233;guli&#232;re suivante&nbsp;:
+<DIV ALIGN="CENTER">
+</DIV><PRE>
+ - [0-9][ABC].*$
+</PRE>
+<DIV ALIGN="CENTER">
+</DIV>
+L'op&#233;ration &#224; effectuer est donc de supprimer tout ce qui correspond &#224; cette
+expression, ou bien remplacer tout le texte associ&#233; &#224; cette expression par
+"<I>rien</I>".La commande la plus appropri&#233;e est "<TT>sed(1)</TT>". En
+effet, la notion de champ n'intervient pas, il suffit d'effectuer
+une substitution sur chaque ligne. La commande associ&#233;e est donc&nbsp;:<PRE>
+sed -e 's/ - [0-9][ABC].*$//' $WHO &gt; $WHO_REF
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3755"
+  HREF="node196.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3749"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3743"
+  HREF="node194.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3751"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3753"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3756"
+  HREF="node196.html">Extraction des anciennes entr&#233;es</A>
+<B> monter:</B> <A NAME="tex2html3750"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3744"
+  HREF="node194.html">D&#233;veloppement</A>
+ &nbsp; <B>  <A NAME="tex2html3752"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3754"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

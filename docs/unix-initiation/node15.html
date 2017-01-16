@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Structure arborescente</TITLE>
+<META NAME="description" CONTENT="Structure arborescente">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node16.html">
+<LINK REL="previous" HREF="node14.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node16.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html892"
+  HREF="node16.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html886"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html880"
+  HREF="node14.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html888"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html890"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html893"
+  HREF="node16.html">Les chemins d'acc&#232;s</A>
+<B> monter:</B> <A NAME="tex2html887"
+  HREF="node14.html">Introduction &#224; la notion</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html881"
+  HREF="node14.html">Introduction &#224; la notion</A>
+ &nbsp; <B>  <A NAME="tex2html889"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html891"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02151000000000000000">
+Structure arborescente</A>
+</H2>
+
+<P>
+<A NAME="1011"></A>Nous avons vu pr&#233;c&#233;demment qu'il n'y a plus de notions de disques sous U<SMALL>NIX</SMALL>. Il en est de m&#234;me pour les p&#233;riph&#233;riques. De fa&#231;on g&#233;n&#233;rale, tout est fichier. On ne voit donc, au niveau utilisateur, qu'une seule arborescence constitu&#233;e de r&#233;pertoires et de fichiers d&#233;crivant les ressources du syst&#232;me (cf. figure <A HREF="#fig-bc-struct-arb"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Le nom d'un fichier sous U<SMALL>NIX</SMALL> est une suite de caract&#232;res. Il n'existe pas de notion de type de fichier et de num&#233;ro de version comme sur
+OpenV<SMALL>MS</SMALL> ou <I>MS-DOS</I>. Le caract&#232;re &#171;&nbsp;<TT>.</TT>&nbsp;&#187; est consid&#233;r&#233; comme &#233;tant un caract&#232;re dans le nom de fichier et non pas, comme sur OpenV<SMALL>MS</SMALL> ou <I>MS-DOS</I>, le caract&#232;re de s&#233;paration entre le nom du fichier et son type. Il est donc possible d'avoir un fichier dont le nom comporte plusieurs &#171;&nbsp;<TT>.</TT>&nbsp;&#187;. La philosophie des noms de fichiers ressemblerait donc &#224; celle de l'environnement <I>MacOS</I>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig-bc-struct-arb"></A><A NAME="1427"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Structure arborescente du syst&#232;me U<SMALL>NIX</SMALL></CAPTION>
+<TR><TD><IMG
+ WIDTH="475" HEIGHT="188" BORDER="0"
+ SRC="img6.png"
+ ALT="\begin{figure}\centering\setlength{\unitlength}{0.92pt}
+\begin{picture}(359,1...
+...(96,20){\line(-1,0){21}} \put(60,135){\line(1,0){32}}
+\end{picture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+	<B>Remarque&nbsp;1..5&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Certains caract&#232;res sont &#224; &#233;viter dans les noms de fichiers
+tels que&nbsp;:
+</I></BLOCKQUOTE>
+<UL>
+<LI>l'espace&nbsp;;
+</LI>
+<LI>la tabulation&nbsp;;
+</LI>
+<LI>le caract&#232;re &#171;&nbsp;<TT>;</TT>&nbsp;&#187;&nbsp;;
+</LI>
+<LI>tout caract&#232;re de contr&#244;le (<!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> , <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="27" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="\fbox{H}">, <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="26" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="\fbox{C}">,
+		  etc.).
+</LI>
+</UL>
+
+<P>
+
+	<B>Remarque&nbsp;1..6&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Les noms de fichiers tiennent compte des majuscules/minuscules. Par exemple&nbsp;: &#171;&nbsp;<TT>SIMPSONS</TT>&nbsp;&#187; et &#171;&nbsp;<TT>simpsons</TT>&nbsp;&#187; sont deux fichiers diff&#233;rents.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html892"
+  HREF="node16.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html886"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html880"
+  HREF="node14.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html888"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html890"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html893"
+  HREF="node16.html">Les chemins d'acc&#232;s</A>
+<B> monter:</B> <A NAME="tex2html887"
+  HREF="node14.html">Introduction &#224; la notion</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html881"
+  HREF="node14.html">Introduction &#224; la notion</A>
+ &nbsp; <B>  <A NAME="tex2html889"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html891"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

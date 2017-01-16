@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Cr&#233;ation des r&#233;pertoires utilisateurs et "projet"</TITLE>
+<META NAME="description" CONTENT="Cr&#233;ation des r&#233;pertoires utilisateurs et "projet"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node199.html">
+<LINK REL="up" HREF="node194.html">
+<LINK REL="next" HREF="node201.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3823"
+  HREF="node201.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3817"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3813"
+  HREF="node199.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3819"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3821"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3824"
+  HREF="node201.html">Programmes obtenus</A>
+<B> monter:</B> <A NAME="tex2html3818"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3814"
+  HREF="node199.html">Cr&#233;ation des nouvelles entr&#233;es</A>
+ &nbsp; <B>  <A NAME="tex2html3820"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3822"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION041143600000000000000"></A><A NAME="adv-programming-ex3-devlmkdir"></A>
+<BR>
+Cr&#233;ation des r&#233;pertoires utilisateurs et "<I>projet</I>"
+</H3>
+
+<P>
+Que ce soit pour les r&#233;pertoires utilisateurs ou "<I>projet</I>", la m&#233;thode reste la
+m&#234;me. Nous partons du fichier contenant les descriptions des r&#233;pertoires sur le serveur
+(fichiers "<TT>AUTO_USERS</TT>" et "<TT>AUTO_PROJECTS</TT>"), nous en extrayons les
+informations, c'est-&#224;-dire le r&#233;pertoire &#224; cr&#233;er &#233;ventuellement, et nous y appliquons
+les op&#233;rations suivantes&nbsp;:
+
+<UL>
+<LI>d&#233;termination du propri&#233;taire et du groupe,
+</LI>
+<LI>cr&#233;ation du r&#233;pertoire s'il n'existe pas,
+</LI>
+<LI>copie de certains fichiers n&#233;cessaires &#224; l'environnement utilisateur,
+</LI>
+<LI>affectation des droits d'acc&#232;s.
+</LI>
+</UL>
+
+<P>
+Par convention, le nom d'un r&#233;pertoire utilisateur ou "<I>projet</I>" est justement
+celui affect&#233; &#224; cet utilisateur ou ce projet. Par cons&#233;quent, il suffit d'utiliser
+la commande "<TT>basename</TT><A NAME="tex2html99"
+  HREF="footnode.html#foot21924"><SUP>16.4</SUP></A>" avec comme argument, le nom du r&#233;pertoire. L'"UID"
+correspond au troisi&#232;me champ du fichier "<TT>PASSWD_REF</TT>", sachant que le premier
+champ doit &#234;te identique &#224; l'utilisateur trait&#233; (le nom est connu gr&#226;ce &#224; la commande
+"<TT>basename</TT>". Cette op&#233;ration est donc effectu&#233;e de la fa&#231;on suivante&nbsp;:<PRE>
+owner=`basename $directory`
+uid=`awk -F: -v owner=$owner '
+    $1 == owner { print $3 }
+    ' $PASSWD_NEW`
+</PRE>
+o&#249; "<TT>directory</TT>" correspond au r&#233;pertoire en cours de traitement. Il ne restera plus
+qu'&#224; copier les fichiers de profil n&#233;cessaires et mettre &#224; jour les droits d'acc&#232;s.
+
+<P>
+La technique est rigoureusement identique pour les r&#233;pertoires associ&#233;s aux projets. Le
+fichier permettant de conna&#238;tre les "GIDs" est "<TT>GROUP_REF</TT>".
+
+<P>
+Nous obtenons donc, pour cette partie, les instructions suivantes&nbsp;:<PRE>
+cat $AUTO_USERS | cut -d: -f2 |\
+while
+    read directory
+do
+    owner=`basename $directory`
+    uid=`awk -F: -v owner=$owner '
+        $1 == owner { print $3 }
+        ' $PASSWD_NEW`
+    if [ ! -d $directory ]; then
+        mkdir -p $directory
+        cp $HOME_PROTOTYPE/.[a-z]* $HOME_PROTOTYPE/.[A-Z]*      \
+            $HOME_PROTOTYPE/* $FS_STUDENTS/$newname 2&gt;/dev/null
+        chown -R ${uid}.${STUDENT_GID} $directory
+    fi
+done
+
+cat $AUTO_PROJECTS | cut -d: -f2 |\
+while
+    read directory
+do
+    group=`basename $directory`
+    gid=`awk -F: -v group=$group '
+        $1 == group { print $3 }
+        ' $GROUP_NEW`
+    if [ ! -d $directory ]; then
+        mkdir -p $directory
+        chown -R root.${gid} $directory
+    fi
+done
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3823"
+  HREF="node201.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3817"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3813"
+  HREF="node199.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3819"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3821"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3824"
+  HREF="node201.html">Programmes obtenus</A>
+<B> monter:</B> <A NAME="tex2html3818"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3814"
+  HREF="node199.html">Cr&#233;ation des nouvelles entr&#233;es</A>
+ &nbsp; <B>  <A NAME="tex2html3820"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3822"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

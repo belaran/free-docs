@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Ex&#233;cution d'une commande &#224; distance - commande rsh (ou remsh)</TITLE>
+<META NAME="description" CONTENT="Ex&#233;cution d'une commande &#224; distance - commande rsh (ou remsh)">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node50.html">
+<LINK REL="previous" HREF="node48.html">
+<LINK REL="up" HREF="node44.html">
+<LINK REL="next" HREF="node50.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1401"
+  HREF="node50.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1395"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1389"
+  HREF="node48.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1397"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1399"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1402"
+  HREF="node50.html">Connexion chiffr&#233;e &#224; une</A>
+<B> monter:</B> <A NAME="tex2html1396"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1390"
+  HREF="node48.html">Transfert de fichiers automatique</A>
+ &nbsp; <B>  <A NAME="tex2html1398"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1400"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION02350000000000000000">
+Ex&#233;cution d'une commande &#224; distance - commande <TT>rsh</TT> (ou <TT>remsh</TT>)</A>
+</H1>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TT>rsh [-l <I>username</I>] [-n] <I>commande</I></TT>
+<BR><TT>remsh [-l <I>username</I>] [-n] <I>commande</I></TT>	
+</BLOCKQUOTE>
+
+<P>
+Les commandes <A NAME="6496"></A>&#171;&nbsp;<TT>rsh</TT>&nbsp;&#187; et <A NAME="6497"></A>&#171;&nbsp;<TT>remsh</TT>&nbsp;&#187; sont &#233;quivalentes.
+Sur certains syt&#232;mes il n'exite que la commande &#171;&nbsp;<TT>rsh</TT>&nbsp;&#187;<A NAME="tex2html46"
+  HREF="footnode.html#foot6536"><SUP>3.2</SUP></A>, sur d'autres que seule la commande &#171;&nbsp;<TT>remsh</TT>&nbsp;&#187; sera disponible<A NAME="tex2html47"
+  HREF="footnode.html#foot6499"><SUP>3.3</SUP></A>), sur d'autres les deux cohabiteront<A NAME="tex2html48"
+  HREF="footnode.html#foot6500"><SUP>3.4</SUP></A>. Dans toute la suite de ce paragraphe, seulement &#171;&nbsp;<TT>rsh</TT>&nbsp;&#187; sera cit&#233;.
+
+<P>
+La commande &#171;&nbsp;<TT>rsh</TT>&nbsp;&#187; ex&#233;cute une commande non interactive sur un syst&#232;me distant. Le nom du compte est le m&#234;me que le nom du compte local &#224; moins que vous ne sp&#233;cifiez l'option &#171;&nbsp;<TT>-l</TT>&nbsp;&#187;.
+
+<P>
+Comme &#171;&nbsp;<TT>rcp</TT>&nbsp;&#187;, &#171;&nbsp;<TT>rsh</TT>&nbsp;&#187; ne demande pas de mot de passe si une &#233;quivalence syst&#232;me ou utilisateur a &#233;t&#233; configur&#233;e. Dans le cas contraire, elle ne fonctionne pas (message &#171;&nbsp;<TT>Permission denied</TT>&nbsp;&#187;). La commande &#171;&nbsp;<TT>rsh</TT>&nbsp;&#187; transmet les signaux &#171;&nbsp;<TT>INTERRUPT</TT>&nbsp;&#187;, &#171;&nbsp;<TT>QUIT</TT>&nbsp;&#187; et &#171;&nbsp;<TT>HUP</TT>&nbsp;&#187; &#224; la commande distante.
+
+<P>
+Pour plus de pr&#233;cisions, reportez vous &#224; &#171;&nbsp;<TT>signal(2)</TT>&nbsp;&#187; et au chapitre <A HREF="node81.html#multitask"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+Vous pouvez utiliser les m&#233;tacaract&#232;res avec &#171;&nbsp;<TT>rsh</TT>&nbsp;&#187;. Si vous voulez qu'ils soient interpr&#233;t&#233;s sur le site distant, assurez-vous qu'ils sont bien entre simples quotes (cf. sections <A HREF="node72.html#basic-metacars"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> et <A HREF="node77.html#basic-quotes"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).
+
+<P>
+
+	<B>Remarque&nbsp;3..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>&#171;&nbsp;<TT>rsh</TT>&nbsp;&#187; ne peut pas ex&#233;cuter des commandes en mode interactif comme
+&#171;&nbsp;<TT>vi</TT>&nbsp;&#187;, &#171;&nbsp;<TT>emacs</TT>&nbsp;&#187;, etc.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1401"
+  HREF="node50.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1395"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1389"
+  HREF="node48.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1397"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1399"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1402"
+  HREF="node50.html">Connexion chiffr&#233;e &#224; une</A>
+<B> monter:</B> <A NAME="tex2html1396"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1390"
+  HREF="node48.html">Transfert de fichiers automatique</A>
+ &nbsp; <B>  <A NAME="tex2html1398"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1400"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

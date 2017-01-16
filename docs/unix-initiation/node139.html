@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Utilisation de &#171;&nbsp;grep&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="Utilisation de &#171;&nbsp;grep&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node138.html">
+<LINK REL="up" HREF="node137.html">
+<LINK REL="next" HREF="node140.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2887"
+  HREF="node140.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2881"
+  HREF="node137.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2877"
+  HREF="node138.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2883"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2885"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2888"
+  HREF="node140.html">Utilisation de &#171;&nbsp;egrep&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2882"
+  HREF="node137.html">Utilisation avanc&#233;e de &#171;&nbsp;grep&nbsp;&#187;,</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2878"
+  HREF="node138.html">Introduction - Rappels</A>
+ &nbsp; <B>  <A NAME="tex2html2884"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2886"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04822000000000000000">
+Utilisation de &#171;&nbsp;<TT>grep</TT>&nbsp;&#187;</A>
+</H2>
+
+<P>
+<A NAME="15289"></A>&#171;&nbsp;<TT>grep</TT>&nbsp;&#187; accepte un ensemble restreint d'expressions r&#233;guli&#232;res,
+en particulier, il n'accepte pas les symboles suivants&nbsp;:
+<BR>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="CENTER"><code>+</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER"><code>?</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>|</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER"><code>( )</code></TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+&#171;&nbsp;<TT>grep</TT>&nbsp;&#187; renvoie au shell un statut sur le r&#233;sultat de sa recherche.
+Les diff&#233;rentes valeurs possibles sont&nbsp;:
+
+<P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER">Code</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Description</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER">0</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>une occurrence au moins a &#233;t&#233; trouv&#233;e.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER">1</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>aucune occurrence n'a &#233;t&#233; trouv&#233;e.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER">2</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>il y a une erreur de syntaxe ou bien un
+					des fichiers en entr&#233;e n'est pas
+					accessible</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+	<B>Remarque&nbsp;13..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Un statut &#171;&nbsp;0&nbsp;&#187; est &#233;quivalent &#224; &#171;&nbsp;<I>Vrai</I>&nbsp;&#187;.
+<BR>
+Un statut non nul &#233;quivaut &#224; &#171;&nbsp;<I>Faux</I>&nbsp;&#187;.
+	
+</I></BLOCKQUOTE>
+
+<P>
+On peut donc utiliser ce code dans les scripts lors de tests. Par exemple,
+il est possible d'afficher un message lorsque la recherche a &#233;t&#233; fructueuse
+ou non. Pour cela, la sortie standard de la commande &#171;&nbsp;<TT>grep</TT>&nbsp;&#187; sera
+redirig&#233;e dans un fichier sp&#233;cial et seul le statut d'ex&#233;cution sera
+utilis&#233;.
+
+<P>
+
+	<B>Exemple&nbsp;13..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	
+<DIV ALIGN="LEFT">
+<TT>
+ if grep expression fichier &gt;/dev/null 2&gt;&amp;1; then
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;echo &#34;Gagn&#233;&#34;
+<BR>
+else
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;echo &#34;Perdu&#34;
+<BR>
+fi
+<BR></TT>
+</DIV>
+<BLOCKQUOTE>
+Dans cet exemple, la commande &#171;&nbsp;<TT>grep</TT>&nbsp;&#187; effectue sa recherche
+dans &#171;&nbsp;<TT>fichier</TT>&nbsp;&#187;. Tout message d'erreur ou r&#233;sultat d'affichage
+n'appara&#238;tra pas &#224; l'&#233;cran. Si la recherche donne un r&#233;sultat
+(&#171;&nbsp;<code>$? = 0</code>&nbsp;&#187;), le message &#171;&nbsp;<TT>Gagn&#233;</TT>&nbsp;&#187; sera affich&#233;. Si la
+recherche est infructueuse ou s'il se produit une erreur, &#171;&nbsp;<TT>Perdu</TT>&nbsp;&#187;
+sera affich&#233;.	
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;13..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+grep '^[0-9][0-9]' fichier
+</PRE><BLOCKQUOTE>
+Dans cet exemple, on fait appel &#224; la notion d'expression r&#233;guli&#232;re
+(cf. <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). L'expression &#171;&nbsp;<code>^[0-9][0-9]</code>&nbsp;&#187; se d&#233;compose
+de la fa&#231;on suivante&nbsp;:
+<BR>
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>^</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>D&#233;but de ligne.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>[0-9]</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Caract&#232;re quelconque compris entre les codes
+						<TT>ASCII</TT> de 0 et de 9. Ces caract&#232;res sont&nbsp;: 0, 1, 2,
+						3, 4, 5, 6, 7, 8, 9. Par cons&#233;quent &#171;&nbsp;<code>[0-9]</code>&nbsp;&#187;
+						repr&#233;sente un chiffre quelconque. Celui-ci doit
+						appara&#238;tre une seule fois juste apr&#232;s le d&#233;but de
+						ligne</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>[0-9]</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Le second &#171;&nbsp;<code>[0-9]</code>&nbsp;&#187; repr&#233;sente lui-aussi
+						un chiffre quelconque. Celui-ci doit appara&#238;tre une
+						seule fois juste apr&#232;s le pr&#233;c&#233;dent chiffre.</TD>
+</TR>
+</TABLE>
+Cette expression r&#233;guli&#232;re permet de d&#233;crire toute chaine de caract&#232;res
+commencant par deux chiffres quelconque. La commande &#171;&nbsp;<TT>grep</TT>&nbsp;&#187;
+va donc extraire de &#171;&nbsp;<TT>fichier</TT>&nbsp;&#187;, toutes les lignes commencant
+par deux chiffres.	
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2887"
+  HREF="node140.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2881"
+  HREF="node137.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2877"
+  HREF="node138.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2883"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2885"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2888"
+  HREF="node140.html">Utilisation de &#171;&nbsp;egrep&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2882"
+  HREF="node137.html">Utilisation avanc&#233;e de &#171;&nbsp;grep&nbsp;&#187;,</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2878"
+  HREF="node138.html">Introduction - Rappels</A>
+ &nbsp; <B>  <A NAME="tex2html2884"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2886"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

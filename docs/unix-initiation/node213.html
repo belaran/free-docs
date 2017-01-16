@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Variables formelles</TITLE>
+<META NAME="description" CONTENT="Variables formelles">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node214.html">
+<LINK REL="previous" HREF="node212.html">
+<LINK REL="up" HREF="node209.html">
+<LINK REL="next" HREF="node214.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4093"
+  HREF="node214.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4087"
+  HREF="node209.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4081"
+  HREF="node212.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4089"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4091"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4094"
+  HREF="node214.html">Environnement</A>
+<B> monter:</B> <A NAME="tex2html4088"
+  HREF="node209.html">Correspondances entre le Bourne</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4082"
+  HREF="node212.html">Expression arithm&#233;tiques</A>
+ &nbsp; <B>  <A NAME="tex2html4090"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4092"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION05240000000000000000">
+Variables formelles</A>
+</H1>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=2>C Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=2>Bourne Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=4>Syntaxe</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><code>$$</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>PID du processus courant</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><A NAME="24536"></A><code>$$</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>PID du processus courant</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><code>$0</code> &#224; <code>$n</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Arguments ( peut &#234;tre sup&#233;rieur &#224; 9)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><code>$0</code> &#224; <code>$n</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>Arguments (avec <IMG
+ WIDTH="42" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img70.png"
+ ALT="$n \le 9$">)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><code>$</code><I>n</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142><IMG
+ WIDTH="21" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$n^e$"> argument</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><code>$</code><I>n</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142><IMG
+ WIDTH="21" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$n^e$"> argument</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><code>$argv[</code><I>n</I><code>]</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142><IMG
+ WIDTH="21" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$n^e$"> argument</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184 COLSPAN=2>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><code>$#argv[*]</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>nombre d'arguments</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><A NAME="24538"></A><code>$#</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>nombre d'arguments</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><code>$*</code> ou <code>$argv[*]</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>liste des arguments</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><A NAME="24539"></A><code>$*</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>liste des arguments</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><code>$&lt;</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>ligne courante en entr&#233;e</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><A NAME="24540"></A><code>read</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>ligne courante en entr&#233;e</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><code>$status</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>&#233;tat de la derni&#232;re commande</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=43><A NAME="24541"></A><code>$?</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>&#233;tat de la derni&#232;re commande</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=4>Remarques</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184 COLSPAN=2>Attention, l'usage de "<TT>set noglob</TT>" inhibe la substitution des
+		noms de fichiers et donc la prise en compte des m&#233;tacaract&#232;res associ&#233;s.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184 COLSPAN=2>Attention, l'usage de "<TT>-f</TT>" &#224; l'invocation du Bourne Shell
+		("<TT>#!/bin/sh -f</TT>" ou "<TT>set -f</TT>") inhibe la substitution des
+		noms de fichiers et donc la prise en compte des m&#233;tacaract&#232;res associ&#233;s.</TD>
+</TR>
+</TABLE>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>C Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Bourne Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Exemples</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set reponse=$&lt;</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>read reponse</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>ls *.data</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>ls *.data</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo $status</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo $?</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set nb_params = $#argv</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>nb_params=$#</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set premier = $argv[1]</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>premier=$1</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set deuxieme=$argv[2]</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>deuxieme=$2</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set dernier=$argv[$nb_params]</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>shift $#</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>dernier=$1</code></TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4093"
+  HREF="node214.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4087"
+  HREF="node209.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4081"
+  HREF="node212.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4089"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4091"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4094"
+  HREF="node214.html">Environnement</A>
+<B> monter:</B> <A NAME="tex2html4088"
+  HREF="node209.html">Correspondances entre le Bourne</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4082"
+  HREF="node212.html">Expression arithm&#233;tiques</A>
+ &nbsp; <B>  <A NAME="tex2html4090"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4092"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

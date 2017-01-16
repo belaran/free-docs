@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les Commandes</TITLE>
+<META NAME="description" CONTENT="Les Commandes">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node150.html">
+<LINK REL="previous" HREF="node148.html">
+<LINK REL="up" HREF="node146.html">
+<LINK REL="next" HREF="node150.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3043"
+  HREF="node150.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3037"
+  HREF="node146.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3031"
+  HREF="node148.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3039"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3041"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3044"
+  HREF="node150.html">Les symboles particuliers</A>
+<B> monter:</B> <A NAME="tex2html3038"
+  HREF="node146.html">Formulation des requ&#234;tes</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3032"
+  HREF="node148.html">D&#233;finition des adresses</A>
+ &nbsp; <B>  <A NAME="tex2html3040"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3042"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04933000000000000000"></A><A NAME="sed-cmds"></A>
+<BR>
+Les Commandes
+</H2>
+
+<P>
+La liste des <A NAME="17062"></A>commandes cit&#233;es dans ce paragraphe font parties des plus utilis&#233;es. Cette liste n'est pas exhaustive. Pour plus de renseignements, reportez vous au manuel des commandes &#171;&nbsp;<TT>sed(1)</TT>&nbsp;&#187; et &#171;&nbsp;<TT>ed(1)</TT>&nbsp;&#187;.
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Commande</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Description</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>p</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Copie le contenu de l'espace de travail sur la sortie
+			standard.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>a</TT><I>texte</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Ajoute du texte apr&#232;s la position courante.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>i</TT><I>texte</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Ajoute du texte avant la position courante.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>c</TT><I>texte</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Change le texte de la ligne courant par &#171;&nbsp;<I>texte</I>&nbsp;&#187;.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>s/</TT><I>expr<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I><TT>/</TT><I>expr<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I><TT>/</TT><IMG
+ WIDTH="8" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img50.png"
+ ALT="$[$"><TT>g</TT><IMG
+ WIDTH="9" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img51.png"
+ ALT="$]$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Substitue la premi&#232;re chaine satisfaisant l'expression
+			r&#233;guli&#232;re 1 (<I>expr<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I>) par le texte correspondant &#224;
+			l'expression r&#233;guli&#232;re 2 (<I>expr<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I>). L'option
+			&#171;&nbsp;<TT>g</TT>&nbsp;&#187; signifie que la substitution doit se
+			faire autant de fois que n&#233;cessaire sur la ligne trait&#233;e.
+			En effet, par d&#233;faut, la commande &#171;&nbsp;<TT>s</TT>&nbsp;&#187; ne s'applique
+			qu'&#224; la premi&#232;re chaine satisfaisant l'expression
+			r&#233;guli&#232;re dans la ligne courante de l'espace de travail.
+			Avec l'option &#171;&nbsp;<TT>g</TT>&nbsp;&#187;, toute chaine satisfaisant
+			l'expression r&#233;guli&#232;re &#171;&nbsp;<I>expr<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I>&nbsp;&#187; dans la
+			ligne courante de l'espace de travail sera remplac&#233;e.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>d</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>D&#233;truit la ligne courante.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>g</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Remplace le contenu de l'espace de travail (<I>pattern space</I>)
+			par le contenu de l'espace m&#233;moire (<I>holder space</I>).</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>G</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Ajoute le contenu de l'espace m&#233;moire (<I>holder space</I>)
+			au contenu de l'espace de travail (<I>pattern space</I>).</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>h</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Remplace le contenu de l'espace m&#233;moire (<I>holder space</I>)
+			par le contenu de l'espace de travail (<I>pattern space</I>).</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>H</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Ajoute le contenu de l'espace de travail (<I>pattern space</I>)
+			au contenu de l'espace m&#233;moire (<I>holder space</I>).</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>r </code><I>fichier</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Ins&#232;re le contenu d'un fichier apr&#232;s la ligne courante.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>w </code><I>fichier</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Met le contenu de l'espace de travail dans un fichier.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+
+<P>
+
+	<B>Exemple&nbsp;14..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<code>sed -n "/lancelot/p" donjons.dragons</code>
+<BR>
+<BR>
+Copie toutes les lignes de l'espace de travail contenant la chaine
+&#171;&nbsp;<TT>lancelot</TT>&nbsp;&#187;.
+<BR>
+<BR></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><code>sed -e '/lancelot/a et arthur' donjons.dragons</code>
+<BR>
+<BR>
+Ins&#232;re la chaine &#171;&nbsp;<code> et arthur</code>&nbsp;&#187;<A NAME="tex2html81"
+  HREF="footnode.html#foot17067"><SUP>14.1</SUP></A> apr&#232;s la chaine
+&#171;&nbsp;<TT>lancelot</TT>&nbsp;&#187; sur la totalit&#233; de l'espace de travail.
+<BR>
+<BR></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><code>sed -e '/dulac/ilancelot ' donjons.dragons</code>
+<BR>
+<BR>
+Ins&#232;re la chaine &#171;&nbsp;<code>lancelot </code>&nbsp;&#187;<A NAME="tex2html82"
+  HREF="footnode.html#foot17068"><SUP>14.2</SUP></A> avant la chaine &#171;&nbsp;<TT>dulac</TT>&nbsp;&#187;
+sur la totalit&#233; de l'espace de travail.
+<BR>
+<BR></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><code>sed -e 's/Salut/Bonjour/g' welcome.txt</code>
+<BR>
+<BR>
+Substitue &#171;&nbsp;<TT>Salut</TT>&nbsp;&#187; par &#171;&nbsp;<TT>Bonjour</TT>&nbsp;&#187; dans la totalit&#233;
+du fichier &#171;&nbsp;<TT>welcome.txt</TT>&nbsp;&#187;.	
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3043"
+  HREF="node150.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3037"
+  HREF="node146.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3031"
+  HREF="node148.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3039"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3041"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3044"
+  HREF="node150.html">Les symboles particuliers</A>
+<B> monter:</B> <A NAME="tex2html3038"
+  HREF="node146.html">Formulation des requ&#234;tes</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3032"
+  HREF="node148.html">D&#233;finition des adresses</A>
+ &nbsp; <B>  <A NAME="tex2html3040"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3042"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

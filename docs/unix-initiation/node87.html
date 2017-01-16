@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les commandes &#171;&nbsp;fg&nbsp;&#187; et &#171;&nbsp;bg&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="Les commandes &#171;&nbsp;fg&nbsp;&#187; et &#171;&nbsp;bg&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node88.html">
+<LINK REL="previous" HREF="node86.html">
+<LINK REL="up" HREF="node84.html">
+<LINK REL="next" HREF="node88.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2016"
+  HREF="node88.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2010"
+  HREF="node84.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2004"
+  HREF="node86.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2012"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2014"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2017"
+  HREF="node88.html">Commandes &#171;&nbsp;at&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2011"
+  HREF="node84.html">Commandes associ&#233;es</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2005"
+  HREF="node86.html">Commande &#171;&nbsp;wait&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2013"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2015"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03233000000000000000"></A><A NAME="multi-task-fg-bg"></A>
+<BR>
+Les commandes &#171;&nbsp;<TT>fg</TT>&nbsp;&#187; et &#171;&nbsp;<TT>bg</TT>&nbsp;&#187;
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>bg PID</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>bg</TT> = back ground (arri&#232;re plan)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>bg % num&#233;ro</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>fg PID</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>fg</TT> = foreground (avant plan)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>fg % num&#233;ro</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Nous avons vu qu'avec la touche &#171;&nbsp;<!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="25" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="\fbox{Z}">&nbsp;&#187;, il &#233;tait possible de
+faire passer une commande <B>en attente</B> en arri&#232;re plan. <FONT SIZE="+1">L'ex&#233;cution est suspendue mais le process est toujours actif</FONT>. Si vous
+d&#233;sirez qu'elle continue &#224; s'ex&#233;cuter, toujours en arri&#232;re plan,
+utilisez la commande &#171;&nbsp;<A NAME="10162"></A><TT>bg</TT>&nbsp;&#187;.
+
+<P>
+Pour refaire passer en avant plan une commande qui s'ex&#233;cute en arri&#232;re
+plan utiliser la commande &#171;&nbsp;<A NAME="10163"></A><TT>fg</TT>&nbsp;&#187;. &#171;&nbsp;<TT>fg</TT>&nbsp;&#187;
+permet aussi de r&#233;activ&#233; une commande suspendue par &#171;&nbsp;<!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="25" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="\fbox{Z}">&nbsp;&#187;.
+Le processus associ&#233; devient alors le processus courant jusqu'&#224; ce que
+cette commande soit achev&#233;e.
+
+<P>
+Pour plus de renseignements, reportez vous &#224; &#171;&nbsp;<TT>sh(1)</TT>&nbsp;&#187;.
+
+<P>
+
+	<B>Exemple&nbsp;5..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+% find / -print &gt;/dev/null
+</PRE><BLOCKQUOTE>
+<!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="25" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="\fbox{Z}">
+</BLOCKQUOTE><PRE>
+[1] 1234 Suspended
+% bg %1
+[1] 1234 find / -print &gt;/dev/null &amp;
+% ls
+</PRE><BLOCKQUOTE>
+<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+<BR></BLOCKQUOTE><PRE>
+%fg %1
+find / -print &gt;/dev/null
+</PRE>
+
+<P>
+
+	<B>&#201;quivalence&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="CENTER" COLSPAN=1>OpenV<SMALL>MS</SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="25" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="\fbox{Z}"></TD>
+<TD ALIGN="LEFT"><TT>SET PROCESS/SUSPEND</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>fg</TT></TD>
+<TD ALIGN="LEFT"><TT>RESUME</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>bg</TT></TD>
+<TD ALIGN="LEFT">Pas d'&#233;quivalence.</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2016"
+  HREF="node88.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2010"
+  HREF="node84.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2004"
+  HREF="node86.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2012"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2014"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2017"
+  HREF="node88.html">Commandes &#171;&nbsp;at&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2011"
+  HREF="node84.html">Commandes associ&#233;es</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2005"
+  HREF="node86.html">Commande &#171;&nbsp;wait&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2013"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2015"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

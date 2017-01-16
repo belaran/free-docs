@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les chemins d'acc&#232;s</TITLE>
+<META NAME="description" CONTENT="Les chemins d'acc&#232;s">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node17.html">
+<LINK REL="previous" HREF="node15.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node17.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html906"
+  HREF="node17.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html900"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html894"
+  HREF="node15.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html902"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html904"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html907"
+  HREF="node17.html">Principaux r&#233;pertoires UNIX</A>
+<B> monter:</B> <A NAME="tex2html901"
+  HREF="node14.html">Introduction &#224; la notion</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html895"
+  HREF="node15.html">Structure arborescente</A>
+ &nbsp; <B>  <A NAME="tex2html903"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html905"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02152000000000000000">
+Les chemins d'acc&#232;s</A>
+</H2>
+
+<P>
+<A NAME="1429"></A>On distingue deux types de
+chemins d'acc&#232;s aux fichiers&nbsp;:
+
+<UL>
+<LI>les chemins d'acc&#232;s absolus&nbsp;;
+</LI>
+<LI>les chemins d'acc&#232;s relatifs.
+</LI>
+</UL>
+
+<P>
+Les <B>chemins d'acc&#232;s absolus</B> sp&#233;cifient un nom de fichier ou de r&#233;pertoire &#224; partir de la racine. Les chemins d'acc&#232;s absolus commencent donc par &#171;&nbsp;<TT>/</TT>&nbsp;&#187; qui est le nom de la racine ou du <I>root directory</I>.
+
+<P>
+Les <B>chemins d'acc&#232;s relatifs</B> sp&#233;cifient un nom de fichier ou de r&#233;pertoire &#224; partir du r&#233;pertoire courant, appel&#233; aussi <I>working directory</I>. Par cons&#233;quent, ces chemins ne commencent pas par &#171;&nbsp;<TT>/</TT>&nbsp;&#187; (exemple&nbsp;: <TT>dir/essai</TT>).
+
+<P>
+
+	<B>En r&#233;sum&#233;&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<A NAME="1433"></A>Chemins d'acc&#232;s absolus&nbsp;:
+<BR>
+<BR></BLOCKQUOTE>
+<UL>
+<LI>Commencent par &#171;&nbsp;<TT>/</TT>&nbsp;&#187;&nbsp;;
+</LI>
+<LI>Repr&#233;sentent la position relative par rapport au <I>root directory</I>.
+</LI>
+</UL>
+<P>
+<BLOCKQUOTE><A NAME="1434"></A>Chemins d'acc&#232;s relatifs&nbsp;:
+<BR>
+<BR></BLOCKQUOTE>
+<UL>
+<LI>Ne commencent pas par &#171;&nbsp;<TT>/</TT>&nbsp;&#187;,
+</LI>
+<LI>Repr&#233;sentent la position relative par rapport au r&#233;pertoire courant.
+</LI>
+</UL>
+
+<P>
+
+	<B>Exemple&nbsp;1..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>syst&#232;me</TD>
+<TD ALIGN="CENTER" COLSPAN=1>d&#233;placement relatif</TD>
+<TD ALIGN="CENTER" COLSPAN=1>d&#233;placement absolu</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="LEFT"><code>cd ../repertoire</code></TD>
+<TD ALIGN="LEFT"><code>cd /home/users/schmoll</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">OpenV<SMALL>MS</SMALL></TD>
+<TD ALIGN="LEFT"><code>set default [-.repertoire]</code></TD>
+<TD ALIGN="LEFT"><code>set default disk$users:[schmoll]</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><I>MS-DOS</I></TD>
+<TD ALIGN="LEFT"><code>CD ..\REPERT</code></TD>
+<TD ALIGN="LEFT"><code>CD C:\USERS\SCHMOLL</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html906"
+  HREF="node17.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html900"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html894"
+  HREF="node15.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html902"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html904"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html907"
+  HREF="node17.html">Principaux r&#233;pertoires UNIX</A>
+<B> monter:</B> <A NAME="tex2html901"
+  HREF="node14.html">Introduction &#224; la notion</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html895"
+  HREF="node15.html">Structure arborescente</A>
+ &nbsp; <B>  <A NAME="tex2html903"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html905"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

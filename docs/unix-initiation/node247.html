@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Recherche globale et substitution</TITLE>
+<META NAME="description" CONTENT="Recherche globale et substitution">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node246.html">
+<LINK REL="up" HREF="node244.html">
+<LINK REL="next" HREF="node248.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4634"
+  HREF="node248.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4628"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4624"
+  HREF="node246.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4630"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4632"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4635"
+  HREF="node248.html">Indentation de texte</A>
+<B> monter:</B> <A NAME="tex2html4629"
+  HREF="node244.html">Recherche</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4625"
+  HREF="node246.html">Op&#233;rations de recherche</A>
+ &nbsp; <B>  <A NAME="tex2html4631"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4633"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION053210300000000000000"></A><A NAME="ann-edt-vi-searchglob"></A>
+<BR>
+Recherche globale et substitution
+</H3>
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><TT>:</TT><I>n,m</I><TT>s/</TT><I>str<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I><TT>/</TT><I>str<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I><TT>/</TT><I>opt</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=213>Substitue l'expression "<I>str<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I>" par "<I>str<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I>"
+		dans l'espace de travail d&#233;limit&#233; par "<I>n</I>" et
+		"<I>m</I>", c'est-&#224;-dire sur toutes les lignes du fichier
+		caract&#233;ris&#233;es par "<I>n</I>" et "<I>m</I>". Les options
+		disponibles sont&nbsp;:
+		<DL>
+<DT><STRONG> "<TT>g</TT>"&nbsp;:</STRONG></DT>
+<DD>La substitution est globale, c'est-&#224;-dire qu'elle se
+				r&#233;p&#232;te autant de fois que n&#233;cessaire sur chaque ligne
+				s&#233;lectionn&#233;e. Par d&#233;faut, la substitution ne s'effectue
+				qu'<B>une seule fois</B> par ligne.
+			
+</DD>
+<DT><STRONG> "<TT>c</TT>"&nbsp;:</STRONG></DT>
+<DD>Une confirmation est demand&#233;e avant d'&#233;ffectuer toute op&#233;ration
+				de substitution. Il suffit d'appuyer sur <IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img93.png"
+ ALT="\fbox{y}"> pour
+				confirmer et sur <!-- MATH
+ $\fbox{\textsc{return}}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="\fbox{\textsc{return}}">  ou <IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img81.png"
+ ALT="\fbox{n}"> pour infirmer.
+			
+</DD>
+<DT><STRONG> "<TT>p</TT>"&nbsp;:</STRONG></DT>
+<DD>Les lignes modifi&#233;es sont affich&#233;es.
+		
+</DD>
+</DL>
+		Cette commande est identique &#224; la commande "<TT>s</TT>" de
+		"<TT>sed</TT>" (cf. <A HREF="node149.html#sed-cmds"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><code>&amp;</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=213>R&#233;p&#232;te l'appel &#224; la derni&#232;re commande de substitution "<TT>:s</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><TT>:g/</TT><I>str</I><TT>/</TT><I>cmd</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=213>Ex&#233;cute la commande "<I>cmd</I>" sur toutes les lignes contenant
+		l'expression "<TT>str</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><TT>:g/</TT><I>str<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I><TT>/s/</TT><I>str<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I><TT>/</TT><I>str<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img94.png"
+ ALT="$_3$">/</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=213>Localise la ligne contenant l'expression "<I>str<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I>" et
+		y substitue "<I>str<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I>" par "<I>str<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img94.png"
+ ALT="$_3$">/</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><TT>:v/</TT><I>str</I><TT>/</TT><I>cmd</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=213>Ex&#233;cute la commande "<I>cmd</I>" sur toutes les lignes <B>ne
+		contenant pas</B> l'expression "<I>str</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=213>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4634"
+  HREF="node248.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4628"
+  HREF="node244.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4624"
+  HREF="node246.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4630"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4632"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4635"
+  HREF="node248.html">Indentation de texte</A>
+<B> monter:</B> <A NAME="tex2html4629"
+  HREF="node244.html">Recherche</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4625"
+  HREF="node246.html">Op&#233;rations de recherche</A>
+ &nbsp; <B>  <A NAME="tex2html4631"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4633"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

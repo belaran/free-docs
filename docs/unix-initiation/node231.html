@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les retours</TITLE>
+<META NAME="description" CONTENT="Les retours">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node230.html">
+<LINK REL="up" HREF="node223.html">
+<LINK REL="next" HREF="node232.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4349"
+  HREF="node232.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4343"
+  HREF="node223.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4339"
+  HREF="node230.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4345"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4347"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4350"
+  HREF="node232.html">Utilisation des &#233;diteurs de</A>
+<B> monter:</B> <A NAME="tex2html4344"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4340"
+  HREF="node230.html">Interruptions, d&#233;routements sur signaux</A>
+ &nbsp; <B>  <A NAME="tex2html4346"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4348"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION05286000000000000000">
+Les retours</A>
+</H2>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>C Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Bourne Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Syntaxe</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>exit (</code><I>expression</I><code>)</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>exit </code><I>valeur</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>return </code><I>valeur</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><A NAME="24634"></A><code>exit</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>exit</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Remarques</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>La valeur par d&#233;faut, envoy&#233;e par la commande "<TT>exit</TT>" 
+		est celle de la variable "<TT>status</TT>". Sa valeur est nulle
+		si la derni&#232;re commande s'est ex&#233;cut&#233;e sans erreurs, elle est non-nulle
+		dans le cas contraire.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>La valeur par d&#233;faut, envoy&#233;e par la commande "<TT>exit</TT>" 
+		est celle de la variable "<TT>status</TT>". Sa valeur est nulle
+		si la derni&#232;re commande s'est ex&#233;cut&#233;e sans erreurs, elle est non-nulle
+		dans le cas contraire.
+
+<P>
+"<TT>return</TT>" a la m&#234;me fonctionnalit&#233; que "<TT>exit</TT>" <B>mais
+		seulement pour des fonctions</B>. En cons&#233;quence, "<TT>return</TT>" permet de sortir
+		d'une fonction sans quitter le script. "<TT>exit</TT>" termine le processus courrant
+		(donc le script courrant).</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Exemple</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>set machine=$1</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>machine=$1</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>if ($machine =="") then</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>if [ -z "$machine" ]</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Oubli de param{\`e}tre"</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>then</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>exit (1)</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Oubli de param{\`e}tre"</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>endif</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>exit 1</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>fi</code></TD>
+</TR>
+</TABLE>
+
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4349"
+  HREF="node232.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4343"
+  HREF="node223.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4339"
+  HREF="node230.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4345"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4347"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4350"
+  HREF="node232.html">Utilisation des &#233;diteurs de</A>
+<B> monter:</B> <A NAME="tex2html4344"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4340"
+  HREF="node230.html">Interruptions, d&#233;routements sur signaux</A>
+ &nbsp; <B>  <A NAME="tex2html4346"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4348"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

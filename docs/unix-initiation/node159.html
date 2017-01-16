@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction</TITLE>
+<META NAME="description" CONTENT="Introduction">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node160.html">
+<LINK REL="previous" HREF="node158.html">
+<LINK REL="up" HREF="node158.html">
+<LINK REL="next" HREF="node160.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3202"
+  HREF="node160.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3196"
+  HREF="node158.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3190"
+  HREF="node158.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3198"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3200"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3203"
+  HREF="node160.html">Les s&#233;lecteurs</A>
+<B> monter:</B> <A NAME="tex2html3197"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3191"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html3199"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3201"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION041010000000000000000">
+Introduction</A>
+</H1>
+
+<P>
+<A NAME="19179"></A>"<TT>awk</TT>" est un processeur d'&#233;l&#233;ments syntaxiques qui&nbsp;:
+
+<UL>
+<LI>sert &#224; traiter, de mani&#232;re non interactive, un texte au
+			niveau de ses &#233;l&#233;ments syntaxiques,
+</LI>
+<LI>travaille sur la base d'une ligne, et ligne apr&#232;s ligne,
+</LI>
+<LI>permet de d&#233;finir, analyser, transformer les mots ou &#233;l&#233;ments
+			syntaxiques qui composent chaque ligne.
+</LI>
+</UL>
+
+<P>
+"<TT>awk</TT>" traitera chaque ligne en entr&#233;e comme un
+<A NAME="19180"></A>enregistrement. C'est ce terme qui sera
+employ&#233; par la suite. Chaque enregistrement est compos&#233; de champs. Ces
+<A NAME="19181"></A>champs sont s&#233;par&#233;s, par d&#233;faut, par un ou plusieurs espaces ou bien une ou plusieurs tabulations. C'est aussi un langage de programmation dont la fonction premi&#232;re est de rechercher des cha&#238;nes de caract&#232;res suivant certains crit&#232;res et d'y appliquer des actions. On aura donc toujours un mod&#232;le&nbsp;: <DIV ALIGN="CENTER">
+<I>s&#233;lection</I> +
+<I>action</I></DIV>
+
+<P>
+Le corps de chaque action est un bloc constitu&#233; d'une ou plusieurs commandes, d&#233;limit&#233; par les caract&#232;res "<code>{</code>" et &#171;<code>}</code>". On aura alors&nbsp;:
+<DIV ALIGN="CENTER">
+<TT>s&#233;lection { commande </TT><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"><code> }</code>
+
+</DIV>
+
+<P>
+Pour la petite histoire, le nom "<TT>awk</TT>" est d&#233;riv&#233; des initiales de ses auteurs: Alfred V. A<SMALL>HO</SMALL>, Peter J. W<SMALL>EINBERGER</SMALL> et Brian W.
+K<SMALL>ERNINGHAN</SMALL>.
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TT>awk '</TT><I>corps du programme awk</I><code> ' [</code><I>fichier</I>=<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"><code> ]</code>
+<BR>
+ou <TT>awk -f </TT><I>fichier.programme</I><code> [</code><I>fichier</I> <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"><code>]</code>	
+</BLOCKQUOTE>
+
+<P>
+Dans le premier cas de syntaxe, le corps du programme "<TT>awk</TT>" est appliqu&#233; directement aux fichiers ou &#224; l'entr&#233;e standard. Dans le second cas de syntaxe, le programme "<TT>awk</TT>" est contenu dans un fichier et appliqu&#233; aux fichiers ou &#224; l'entr&#233;e standard.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3202"
+  HREF="node160.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3196"
+  HREF="node158.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3190"
+  HREF="node158.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3198"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3200"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3203"
+  HREF="node160.html">Les s&#233;lecteurs</A>
+<B> monter:</B> <A NAME="tex2html3197"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3191"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html3199"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3201"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

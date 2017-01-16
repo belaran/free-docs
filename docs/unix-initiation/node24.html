@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Commandes mkdir et rmdir</TITLE>
+<META NAME="description" CONTENT="Commandes mkdir et rmdir">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node25.html">
+<LINK REL="previous" HREF="node23.html">
+<LINK REL="up" HREF="node21.html">
+<LINK REL="next" HREF="node25.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1041"
+  HREF="node25.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1035"
+  HREF="node21.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1029"
+  HREF="node23.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1037"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1039"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1042"
+  HREF="node25.html">R&#233;pertoires &#171;&nbsp;.&nbsp;&#187; et &#171;&nbsp;..&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html1036"
+  HREF="node21.html">Commandes li&#233;es au file</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1030"
+  HREF="node23.html">Commande ls</A>
+ &nbsp; <B>  <A NAME="tex2html1038"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1040"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02213000000000000000">
+Commandes <TT>mkdir</TT> et <TT>rmdir</TT></A>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><A NAME="3817"></A><code>mkdir [-p] directory ...</code></TD>
+<TD ALIGN="LEFT">(make directory)</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="3818"></A><code>rmdir directory ...</code></TD>
+<TD ALIGN="LEFT">(remove directory)</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+La commande <TT>mkdir</TT> permet de cr&#233;er des r&#233;pertoires. Lorsqu'un
+r&#233;pertoire est cr&#233;&#233;, il poss&#232;de automatiquement deux sous r&#233;pertoires&nbsp;:
+&#171;&nbsp;<TT>.</TT>&nbsp;&#187; et &#171;&nbsp;<TT>..</TT>&nbsp;&#187; qui seront examin&#233;s plus loin. La commande
+<TT>rmdir</TT> permet de supprimer des r&#233;pertoires. Les r&#233;pertoires &#224; supprimer
+doivent imp&#233;rativement &#234;tre vides (ils ne doivent contenir que les
+r&#233;pertoires &#171;&nbsp;<TT>.</TT>&nbsp;&#187; et &#171;&nbsp;<TT>..</TT>&nbsp;&#187;). D'autre part, il est
+impossible de supprimer des r&#233;pertoires qui se trouvent entre la racine
+et le r&#233;pertoire courant. Chacune de ces deux commandes peut avoir
+plusieurs arguments. Les arguments de <TT>mkdir</TT> sont les noms de r&#233;pertoires
+&#224; cr&#233;er. Les arguments de <TT>rmdir</TT> doivent &#234;tre des noms de r&#233;pertoires
+d&#233;j&#224; existants. Dans les deux cas, on peut utiliser des chemins d'acc&#232;s
+relatifs ou absolus.
+
+<P>
+
+	<B>Remarque&nbsp;2..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Lorsqu'on utilise la commande <TT>rmdir</TT> avec plusieurs arguments, <TT>rmdir</TT> d&#233;truit les r&#233;pertoires dans l'ordre dans lequel ils ont &#233;t&#233;
+pr&#233;cis&#233;s sur la ligne de commande. Par cons&#233;quent, si l'on veut en
+d&#233;truire plusieurs, l'ordre sur la ligne de commande a une importance.
+	
+</I></BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;2..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+% mkdir mondir
+% mkdir mondir/sd1 mondir/sd2 mondir/sd1/sd11
+% mkdir mondir/sd3/sd31
+% rmdir mondir/sd2
+% rmdir mondir/sd3/sd31 mondir/sd3
+% rmdir mondir/sd1/sd11 mondir/sd1 mondir
+</PRE>
+
+<P>
+<A NAME="3819"></A><A NAME="3820"></A>Le tableau <A HREF="#tab-cmds-mkdir"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> montre les &#233;quivalences entre les commandes des syst&#232;mes U<SMALL>NIX</SMALL>, OpenV<SMALL>MS</SMALL> et <I>MS-DOS</I> pour la gestion des r&#233;pertoires.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="3821"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+&#201;quivalences entre syst&#232;mes pour la gestion
+des r&#233;pertoires</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">
+<DIV ALIGN="CENTER">	U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="LEFT">OpenV<SMALL>MS</SMALL></TD>
+<TD ALIGN="LEFT"><I>MS-DOS</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>mkdir</TT></TD>
+<TD ALIGN="LEFT"><TT>CREATE/DIRECTORY</TT></TD>
+<TD ALIGN="LEFT"><TT>MD</TT> ou <TT>MKDIR</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>rmdir</TT></TD>
+<TD ALIGN="LEFT"><TT>DELETE</TT></TD>
+<TD ALIGN="LEFT"><TT>RD</TT> ou <TT>RMDIR</TT></TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1041"
+  HREF="node25.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1035"
+  HREF="node21.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1029"
+  HREF="node23.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1037"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1039"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1042"
+  HREF="node25.html">R&#233;pertoires &#171;&nbsp;.&nbsp;&#187; et &#171;&nbsp;..&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html1036"
+  HREF="node21.html">Commandes li&#233;es au file</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1030"
+  HREF="node23.html">Commande ls</A>
+ &nbsp; <B>  <A NAME="tex2html1038"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1040"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

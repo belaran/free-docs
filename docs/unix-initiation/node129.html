@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les commandes &#171;&nbsp;break&nbsp;&#187;, &#171;&nbsp;continue&nbsp;&#187; et &#171;&nbsp;exit&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="Les commandes &#171;&nbsp;break&nbsp;&#187;, &#171;&nbsp;continue&nbsp;&#187; et &#171;&nbsp;exit&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node130.html">
+<LINK REL="previous" HREF="node128.html">
+<LINK REL="up" HREF="node117.html">
+<LINK REL="next" HREF="node130.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2739"
+  HREF="node130.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2733"
+  HREF="node117.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2727"
+  HREF="node128.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2735"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2737"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2740"
+  HREF="node130.html">Signaux et traps</A>
+<B> monter:</B> <A NAME="tex2html2734"
+  HREF="node117.html">Les tests et les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2728"
+  HREF="node128.html">La boucle &#171;&nbsp;for&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2736"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2738"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04770000000000000000"></A><A NAME="test-loop-break"></A>
+<BR>
+Les commandes &#171;&nbsp;<TT>break</TT>&nbsp;&#187;, &#171;&nbsp;<TT>continue</TT>&nbsp;&#187; et &#171;&nbsp;<TT>exit</TT>&nbsp;&#187;
+</H1>
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><A NAME="14465"></A><TT>break</TT>&nbsp;[<I>n</I>]</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Provoque la fin de la n<IMG
+ WIDTH="11" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$^{e}$"> boucle pour les boucles imbriqu&#233;es.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="14466"></A><TT>continue</TT>&nbsp;[<I>n</I>]</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Reprise &#224; la n<IMG
+ WIDTH="11" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="$^{e}$"> boucle pour les boucles imbriqu&#233;es.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="14467"></A><TT>exit</TT>&nbsp;[<I>n</I>]</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Stoppe l'ex&#233;cution du programme shell et positionne le code retour &#224; la
+		valeur &#171;&nbsp;<I>n</I>&nbsp;&#187;.</TD>
+</TR>
+</TABLE>
+
+<P>
+Pour l'une quelconque des trois boucles (&#171;&nbsp;<A NAME="14468"></A><TT>while</TT>&nbsp;&#187;,
+<A NAME="14469"></A>&#171;&nbsp;<TT>until</TT>&nbsp;&#187;, et <A NAME="14470"></A>&#171;&nbsp;<TT>for</TT>&nbsp;&#187;),
+vous pouvez utiliser les commandes &#171;&nbsp;<TT>break</TT>&nbsp;&#187; et
+&#171;&nbsp;<TT>continue</TT>&nbsp;&#187; pour en modifier le d&#233;roulement.
+
+<P>
+La commande &#171;&nbsp;<TT>break</TT>&nbsp;&#187; provoquera la fin de la boucle et le saut &#224; la premi&#232;re
+commande suivant &#171;&nbsp;<TT>done</TT>&nbsp;&#187;.
+
+<P>
+La commande &#171;&nbsp;<TT>continue</TT>&nbsp;&#187; est l&#233;g&#232;rement diff&#233;rente. Les
+commandes suivantes du corps de la boucle seront ignor&#233;es et l'ex&#233;cution
+reprendra au d&#233;but de la liste d'initialisation dans le cas des boucles
+&#171;&nbsp;<TT>while</TT>&nbsp;&#187; et &#171;&nbsp;<TT>until</TT>&nbsp;&#187;. Utilis&#233;e dans une boucle &#171;&nbsp;<TT>for</TT>&nbsp;&#187;,
+les commandes suivantes du corps de la boucle seront ignor&#233;es et la
+variable sera positionn&#233;e &#224; la valeur suivante de la liste.
+
+<P>
+Par d&#233;faut, le nombre de boucles consid&#233;r&#233;es par les commandes &#171;&nbsp;<TT>break</TT>&nbsp;&#187;
+et &#171;&nbsp;<TT>continue</TT>&nbsp;&#187; est 1.
+
+<P>
+La commande &#171;&nbsp;<TT>exit</TT>&nbsp;&#187; provoquera <B>l'arr&#234;t d&#233;finitif du
+programme shell</B> et le positionnement du code de retour de ce programme
+shell &#224; la valeur de l'argument s'il est sp&#233;cifi&#233;. Si aucun n'est
+sp&#233;cifi&#233;, le code de retour du programme shell sera positionn&#233; &#224; la
+valeur de retour de la derni&#232;re commande ex&#233;cut&#233;e juste avant &#171;&nbsp;<TT>exit</TT>&nbsp;&#187;.
+
+<P>
+
+	<B>Remarque&nbsp;12..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Comme nous l'avons vu, la commande &#171;&nbsp;<TT>exit</TT>&nbsp;&#187; provoque l'arr&#234;t d&#233;finitif du
+programme shell. Par extension, elle provoque l'arr&#234;t de l'interpr&#233;teur de commandes
+courant. Elle permet donc de se d&#233;connecter (cf. section <A HREF="node7.html#bcpts-login"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2739"
+  HREF="node130.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2733"
+  HREF="node117.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2727"
+  HREF="node128.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2735"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2737"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2740"
+  HREF="node130.html">Signaux et traps</A>
+<B> monter:</B> <A NAME="tex2html2734"
+  HREF="node117.html">Les tests et les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2728"
+  HREF="node128.html">La boucle &#171;&nbsp;for&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2736"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2738"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

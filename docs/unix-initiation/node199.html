@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Cr&#233;ation des nouvelles entr&#233;es "projet"</TITLE>
+<META NAME="description" CONTENT="Cr&#233;ation des nouvelles entr&#233;es "projet"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node200.html">
+<LINK REL="previous" HREF="node198.html">
+<LINK REL="up" HREF="node194.html">
+<LINK REL="next" HREF="node200.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3811"
+  HREF="node200.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3805"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3799"
+  HREF="node198.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3807"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3809"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3812"
+  HREF="node200.html">Cr&#233;ation des r&#233;pertoires utilisateurs</A>
+<B> monter:</B> <A NAME="tex2html3806"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3800"
+  HREF="node198.html">Suppression des r&#233;pertoires inutiles</A>
+ &nbsp; <B>  <A NAME="tex2html3808"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3810"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION041143500000000000000"></A><A NAME="adv-programming-ex3-devlmkprj"></A>
+<BR>
+Cr&#233;ation des nouvelles entr&#233;es "<I>projet</I>"
+</H3>
+
+<P>
+La cr&#233;ation des nouvelles entr&#233;es "<I>projet</I>" se fait gr&#226;ce aux
+informations contenues dans "<TT>LCLUAF</TT>". Comme pour les &#233;tapes
+pr&#233;c&#233;dentes, nous allons effectuer une boucle de lecture sur ce fichier. Ce qui donne&nbsp;:<PRE>
+cat $LCLUAF |\
+while
+    read line
+do
+</PRE><BLOCKQUOTE>
+<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+</BLOCKQUOTE><PRE>
+done
+</PRE>
+
+<P>
+Pour rappel (cf. tableau <A HREF="#adv-programming-ex3-filelink"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>), le format utilis&#233; ici
+est&nbsp;:
+
+<UL>
+<LI>chaque champ est s&#233;par&#233; par le caract&#232;re "<TT>:</TT>",
+</LI>
+<LI>le premier champ contient le nom du projet sur OpenV<SMALL>MS</SMALL> (donc en
+			majuscules),
+</LI>
+<LI>le second champ contient la liste des "<I>username</I>s" OpenV<SMALL>MS</SMALL>
+			membres de ce projet s&#233;par&#233;s par "<TT>,</TT>".
+</LI>
+</UL>
+La transformation du nom de projet OpenV<SMALL>MS</SMALL> vers le nom U<SMALL>NIX</SMALL> sera effectu&#233;
+gr&#226;ce &#224; la combinaison des commandes "<TT>echo(1)</TT>", "<TT>cut(1)</TT>" et
+"<TT>tr(1)</TT>". L'affectation du "GID" se fera avec "<TT>SEARCHID</TT>"
+(cf. exemple <A HREF="node186.html#adv-programming-ex2"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Nous avons&nbsp;:<PRE>
+vms_project="`echo $line | cut -d: -f1 | tr '[A-Z]' '[a-z]'`"
+unix_project="p${vms_project}"
+project_gid=`$SEARCHID -g`
+$ECHO "${unix_project}:*:${project_gid}:\c" &gt;&gt; $GROUP_NEW
+</PRE>
+
+<P>
+
+	<B>Remarque&nbsp;16..7&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>La terminaison par "<code>\c</code>" de la commande "<TT>ECHO</TT>" nous permettra
+de compl&#233;ter la ligne qui, pour l'instant, n'est pas encore compl&#232;te. En effet, il
+manque encore les membres de ce groupe, c'est-&#224;-dire la liste des "<I>logname</I>"
+U<SMALL>NIX</SMALL> ad&#233;quats.
+	
+</I></BLOCKQUOTE>
+
+<P>
+Une liste, sous U<SMALL>NIX</SMALL> est compos&#233;e chaines de caract&#232;res s&#233;par&#233;es par
+un ou plusieurs espaces, il faudra donc substituer "<TT>,</TT>" par un
+espace. Cette op&#233;ration sera r&#233;alis&#233;e par la commande
+"<TT>sed(1)</TT>". Il faudra toutefois, extraire au pr&#233;alable l'information de
+l'enregistrement courrant avec la commande "<TT>cut(1)</TT>". La liste
+des membres pour le projet courrant sera stock&#233; dans la variable locale
+"<TT>members</TT>". Elle contient les "<I>username</I>s" OpenV<SMALL>MS</SMALL>
+associ&#233;s. Il ne reste plus alors qu'&#224; rechercher le "<I>logname</I>"
+U<SMALL>NIX</SMALL> correspondant. Pour cela, il suffit de faire une boucle sur
+chaque membre de la liste contenue dans "<TT>members</TT>", d'extraire
+l'enregistrement correspondant dans "<TT>USERS_INFO_FILE</TT>" et
+d'en afficher que le premier champ. Ceci sera effectu&#233; gr&#226;ce &#224; la commande
+"<TT>awk</TT>". Le r&#233;sultat sera m&#233;moris&#233; dans la variable locale
+"<TT>group_members</TT>".
+
+<P>
+Le format de "<TT>group(5)</TT>" demande une liste de "<I>logname</I>s" s&#233;par&#233;s
+par "<TT>,</TT>". Par commodit&#233;, le programme "<TT>awk(1)</TT>" affichera donc
+syst&#233;matiquement le "<I>logname</I>" suivi de "<TT>,</TT>". Il ne restera donc
+qu'&#224; supprimer la derni&#232;re virgule. Ce crit&#232;re correspond &#224; l'expression r&#233;guli&#232;re
+"<code>,$</code>". Il suffira d'appliquer une substition avec la commande "<TT>sed(1)</TT>"
+sur le contenu de la variable "<TT>group_members</TT>" et lui r&#233;affecter le r&#233;sultat.
+Il ne restera plus qu'&#224; compl&#233;ter l'entr&#233;e dans "<TT>GROUP</TT>" et g&#233;n&#233;rer l'entr&#233;e
+associ&#233;e &#224; ce projet dans "<TT>AUTO_PROJECTS</TT>".
+
+<P>
+Nous obtenons donc&nbsp;:<PRE>
+members="`echo $line | cut -d: -f2 | sed -e 's/,/ /g'`"
+group_members=`for this_member in $members
+    do
+        awk -F: -v  this_member=$this_member '
+            $2 == this_member { printf ("%s,",$1) }
+            ' $USERS_INFO_FILE
+    done`
+echo "$group_members" | sed -e 's/,$//' &gt;&gt; $GROUP_NEW
+echo "${unix_project}   ${FS_SERVER}:${FS_PROJECTS}/${unix_project}" \
+    &gt;&gt; $AUTO_PROJECTS
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3811"
+  HREF="node200.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3805"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3799"
+  HREF="node198.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3807"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3809"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3812"
+  HREF="node200.html">Cr&#233;ation des r&#233;pertoires utilisateurs</A>
+<B> monter:</B> <A NAME="tex2html3806"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3800"
+  HREF="node198.html">Suppression des r&#233;pertoires inutiles</A>
+ &nbsp; <B>  <A NAME="tex2html3808"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3810"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

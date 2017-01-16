@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction - Rappels</TITLE>
+<META NAME="description" CONTENT="Introduction - Rappels">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node139.html">
+<LINK REL="previous" HREF="node137.html">
+<LINK REL="up" HREF="node137.html">
+<LINK REL="next" HREF="node139.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2875"
+  HREF="node139.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2869"
+  HREF="node137.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2863"
+  HREF="node137.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2871"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2873"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2876"
+  HREF="node139.html">Utilisation de &#171;&nbsp;grep&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2870"
+  HREF="node137.html">Utilisation avanc&#233;e de &#171;&nbsp;grep&nbsp;&#187;,</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2864"
+  HREF="node137.html">Utilisation avanc&#233;e de &#171;&nbsp;grep&nbsp;&#187;,</A>
+ &nbsp; <B>  <A NAME="tex2html2872"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2874"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04821000000000000000">
+Introduction - Rappels</A>
+</H2>
+
+<P>
+Le filtre <A NAME="15284"></A>&#171;&nbsp;<TT>grep</TT>&nbsp;&#187; est utilis&#233; pour rechercher, dans un fichier,
+les lignes qui contiennent une cha&#238;ne de caract&#232;res pr&#233;cise.
+
+<P>
+
+	<B>Syntaxe&nbsp;:&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TT>grep [<I>options</I>] <I>expression-r&#233;guli&#232;re</I> [<I>liste-de-fichiers</I>]</TT>	
+</BLOCKQUOTE>
+
+<P>
+&#171;&nbsp;<TT>grep</TT>&nbsp;&#187; compare les lignes sur son entr&#233;e standard ou dans le
+(les) fichier(s) &#224; une expression r&#233;guli&#232;re plac&#233;e sur la ligne de
+commande. Il envoie ensuite sur la sortie standard toutes les lignes en
+entr&#233;e correspondant &#224; l'expression r&#233;guli&#232;re. Si l'expression r&#233;guli&#232;re
+contient des caract&#232;res pouvant &#234;tre interpr&#233;t&#233;s par le Shell, elle doit
+&#234;tre plac&#233;e dans ce cas entre simple quotes &#171;&nbsp;<code>'</code>&nbsp;&#187; ou doubles quotes &#171;&nbsp;<code>"</code>&nbsp;&#187;.
+
+<P>
+
+	<B>Principales options&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><TT>-c</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>donne uniquement le nombre d'occurrences trouv&#233;es,</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-i</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>ignore les majuscules/minuscules,</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-l</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>donne uniquement le nom des fichiers en entr&#233;e dans lesquels
+					au moins une occurrence a &#233;t&#233; trouv&#233;e,</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-n</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>affiche le num&#233;ro de la ligne o&#249; se trouve
+					l'occurrence,</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-v</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>donne les lignes dans lesquelles aucune occurrence n'a pas
+					&#233;t&#233; trouv&#233;e.</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Remarque&nbsp;13..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Les options &#171;&nbsp;<TT>-c</TT>&nbsp;&#187;, &#171;&nbsp;<TT>-v</TT>&nbsp;&#187; et &#171;&nbsp;<TT>-n</TT>&nbsp;&#187; ne peuvent pas se
+combiner entre elles.
+	
+</I></BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;13..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>grep dulac /etc/passwd</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Recherche la chaine &#171;&nbsp;<TT>dulac</TT>&nbsp;&#187; dans le fichier
+		&#171;&nbsp;<TT>/etc/passwd</TT>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>grep '\\' albert</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Recherche la chaine &#171;&nbsp;<code>\\</code>&nbsp;&#187; dans le fichier &#171;&nbsp;<TT>albert</TT>&nbsp;&#187;
+		se trouvant dans le r&#233;pertoire courant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>grep \' arthur</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Recherche la chaine &#171;&nbsp;<TT>'</TT>&nbsp;&#187; dans le fichier &#171;&nbsp;<TT>albert</TT>&nbsp;&#187;
+		se trouvant dans le r&#233;pertoire courant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>grep "''" the.king</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Recherche la chaine &#171;&nbsp;<code>''</code>&nbsp;&#187; dans le fichier &#171;&nbsp;<TT>the.king</TT>&nbsp;&#187;
+		se trouvant dans le r&#233;pertoire courant.</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2875"
+  HREF="node139.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2869"
+  HREF="node137.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2863"
+  HREF="node137.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2871"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2873"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2876"
+  HREF="node139.html">Utilisation de &#171;&nbsp;grep&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2870"
+  HREF="node137.html">Utilisation avanc&#233;e de &#171;&nbsp;grep&nbsp;&#187;,</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2864"
+  HREF="node137.html">Utilisation avanc&#233;e de &#171;&nbsp;grep&nbsp;&#187;,</A>
+ &nbsp; <B>  <A NAME="tex2html2872"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2874"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

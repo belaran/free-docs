@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction</TITLE>
+<META NAME="description" CONTENT="Introduction">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node262.html">
+<LINK REL="previous" HREF="node260.html">
+<LINK REL="up" HREF="node260.html">
+<LINK REL="next" HREF="node262.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4843"
+  HREF="node262.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4837"
+  HREF="node260.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4831"
+  HREF="node260.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4839"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4841"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4844"
+  HREF="node262.html">Les "mini-buffers"</A>
+<B> monter:</B> <A NAME="tex2html4838"
+  HREF="node260.html">Notion de buffers</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4832"
+  HREF="node260.html">Notion de buffers</A>
+ &nbsp; <B>  <A NAME="tex2html4840"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4842"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION05334100000000000000">
+Introduction</A>
+</H3>
+
+<P>
+Chaque fichier &#233;dit&#233; est stock&#233; dans un buffer,
+et au cours d'une session peut &#234;tre rappel&#233; &#224;
+tout moment, par menu d&#233;roulant ou par la commande <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="\fbox{x}">
+<IMG
+ WIDTH="23" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img100.png"
+ ALT="\fbox{b}"> <I>nom_de_buffer</I>. Un buffer a en g&#233;n&#233;ral le m&#234;me
+nom que le fichier qu'il repr&#233;sente.
+
+<P>
+La commande permettant de conna&#238;tre la liste des buffers
+est <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="\fbox{x}"> <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="23" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img100.png"
+ ALT="\fbox{b}">. Une commande peut &#234;tre pass&#233;e
+en t&#234;te de chaque ligne pour s&#233;lectionner un buffer
+(mode pleine-page, mode fen&#234;tre, etc.). Une ast&#233;risque
+en colonne 1 indique que le buffer correspondant a &#233;t&#233;
+modifi&#233;, un "<code>%</code>" indique un acc&#232;s en mode lecture uniquement.
+Pour avoir la liste des fonctionnalit&#233;s disponibles, taper
+<IMG
+ WIDTH="25" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img118.png"
+ ALT="\fbox{?}"> en t&#234;te de ligne.
+
+<P>
+La commande permettant de supprimer un buffer est <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="\fbox{x}"> <IMG
+ WIDTH="24" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="\fbox{k}">. Pour
+supprimer plusieurs buffers, activer la liste des buffers (commande
+<!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="26" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="\fbox{X}"> <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="27" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img121.png"
+ ALT="\fbox{B}">), taper <IMG
+ WIDTH="24" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img99.png"
+ ALT="\fbox{d}"> au d&#233;but des lignes indiquant les
+buffers &#224; supprimer. La commande sera effective lorsque
+vous taperez <IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="\fbox{x}">.
+
+<P>
+Si vous cr&#233;ez un nouveau buffer (<!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="\fbox{x}"> <IMG
+ WIDTH="23" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img100.png"
+ ALT="\fbox{b}">), il n'y aura aucun lien
+entre le buffer ouvert et un &#233;ventuel fichier disque portant le m&#234;me nom. Encore
+une fois, un buffer ne repr&#233;sente qu'un espace de travail.
+
+<P>
+
+	<B>Remarque&nbsp;19..10&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Supprimer un buffer
+n'entra&#238;ne pas suppression du fichier disque. Seule la copie
+du fichier dans l'espace de travail "<TT>emacs</TT>" est supprim&#233;e.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4843"
+  HREF="node262.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4837"
+  HREF="node260.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4831"
+  HREF="node260.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4839"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4841"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4844"
+  HREF="node262.html">Les "mini-buffers"</A>
+<B> monter:</B> <A NAME="tex2html4838"
+  HREF="node260.html">Notion de buffers</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4832"
+  HREF="node260.html">Notion de buffers</A>
+ &nbsp; <B>  <A NAME="tex2html4840"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4842"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

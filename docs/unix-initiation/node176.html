@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Utilisation de variables du Shell dans le corps du programme "awk"</TITLE>
+<META NAME="description" CONTENT="Utilisation de variables du Shell dans le corps du programme "awk"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node175.html">
+<LINK REL="up" HREF="node173.html">
+<LINK REL="next" HREF="node177.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3445"
+  HREF="node177.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3439"
+  HREF="node173.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3435"
+  HREF="node175.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3441"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3443"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3446"
+  HREF="node177.html">Exemple</A>
+<B> monter:</B> <A NAME="tex2html3440"
+  HREF="node173.html">Trucs et astuces</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3436"
+  HREF="node175.html">Passage de param&#232;tres du</A>
+ &nbsp; <B>  <A NAME="tex2html3442"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3444"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041053000000000000000">
+Utilisation de variables du Shell dans le corps du programme
+				"<TT>awk</TT>"</A>
+</H2>
+
+<P>
+Cette notion n'est applicable que si "<TT>awk</TT>" est appel&#233; &#224;
+l'int&#233;rieur d'un Shell script et que le corps du programme "<TT>awk</TT>" ne se trouve pas dans un fichier s&#233;par&#233;. Dans ce cas, on aura&nbsp;:<PRE>
+awk '
+    corps du programme awk
+' [fichier]
+</PRE>
+
+<P>
+Pour pouvoir utiliser des variables Shell ou bien le r&#233;sultat de
+commandes, il suffit de les ins&#233;rer entre deux simples quotes (caract&#232;re
+"<TT>'</TT>") &#224; condition que le bloc programme de "awk" soit compris
+entre deux simples quotes, ce qui est pr&#233;f&#233;rable par rapport aux doubles
+quotes (caract&#232;re """).
+
+<P>
+
+	<B>Exemple&nbsp;15..9&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+#!/bin/sh
+echo "Entrez une chaine :\c"
+read answer
+echo $answer | awk '
+    BEGIN {
+        status=0;
+        today='`date +%H%M`'
+    }
+    NR &gt; 1 { status=1}
+    $1 ~ /[0-9].*/ {
+        printf ("La chaine %s comprend une partie num{\'e}rique: %d\n",
+            '$answer', $1);
+    }
+    END {
+        printf ("Execut{\'e}e le %s\n", today)
+    }
+'
+</PRE>
+
+<P>
+<FONT SIZE="+2"><B>ATTENTION</B></FONT>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

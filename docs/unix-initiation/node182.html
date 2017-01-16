@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>&#201;tude des fonctionnalit&#233;s</TITLE>
+<META NAME="description" CONTENT="&#201;tude des fonctionnalit&#233;s">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node183.html">
+<LINK REL="previous" HREF="node181.html">
+<LINK REL="up" HREF="node181.html">
+<LINK REL="next" HREF="node183.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3555"
+  HREF="node183.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3549"
+  HREF="node181.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3543"
+  HREF="node181.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3551"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3553"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3556"
+  HREF="node183.html">M&#233;thode utilis&#233;e</A>
+<B> monter:</B> <A NAME="tex2html3550"
+  HREF="node181.html">Tri par adresse IP</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3544"
+  HREF="node181.html">Tri par adresse IP</A>
+ &nbsp; <B>  <A NAME="tex2html3552"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3554"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041121000000000000000">
+&#201;tude des fonctionnalit&#233;s</A>
+</H2>
+
+<P>
+Le fichier "<TT>hosts(5)</TT>" permet au syst&#232;me U<SMALL>NIX</SMALL> d'associ&#233; une
+adresse r&#233;seau IP &#224; un ou plusieurs noms de machine.En se reportant au
+manuel du fichier "<TT>hosts(5)</TT>", le format utilis&#233; est le
+suivante&nbsp;:
+
+<UL>
+<LI>Le fichier peut contenir des commentaires, tout caract&#232;re
+			saisi apr&#232;s le caract&#232;re "<code>#</code>" est ignor&#233;,
+</LI>
+<LI>Chaque ligne d&#233;crivant l'association "<I>adresse IP</I>,<I>noms
+			de machine</I>" est compos&#233;e d'au moins deux champs s&#233;par&#233;s par un
+			ou plusieurs espaces ou tabulations. Le premier champ est l'adresse
+			IP de la machine sous sa forme usuelle (format d&#233;cimal), le second
+			est le nom officiel de la machine, c'est-&#224;-dire celui qui lui
+			sera vraiment affect&#233;. Les autres champs, s&#233;par&#233;s de la m&#234;me fa&#231;on
+			sont les noms non-officiels, c'est-&#224;-dire une s&#233;rie de noms
+			qu'il sera possible d'utiliser pour la joindre.
+</LI>
+</UL>
+
+<P>
+Le probl&#232;me est donc de faire un tri <B>num&#233;rique</B> sur les quatre champs
+de l'adresse IP (chacun &#233;tant s&#233;par&#233; par le caract&#232;re "<TT>.</TT>" sachant
+que le s&#233;parateur de champ du fichier "<TT>hosts</TT>" est diff&#233;rent et que
+les champs le constituant sont diff&#233;rents. De plus, le caract&#232;re "<TT>.</TT>"
+peut &#234;tre utilis&#233; dans les noms de machines, en particulier lorsque les domaines
+Bind/DNS sont pr&#233;cis&#233;s (cf. [<A
+ HREF="node274.html#dns-bind">8</A>]).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3555"
+  HREF="node183.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3549"
+  HREF="node181.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3543"
+  HREF="node181.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3551"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3553"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3556"
+  HREF="node183.html">M&#233;thode utilis&#233;e</A>
+<B> monter:</B> <A NAME="tex2html3550"
+  HREF="node181.html">Tri par adresse IP</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3544"
+  HREF="node181.html">Tri par adresse IP</A>
+ &nbsp; <B>  <A NAME="tex2html3552"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3554"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

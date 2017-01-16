@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les "mini-buffers"</TITLE>
+<META NAME="description" CONTENT="Les "mini-buffers"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node261.html">
+<LINK REL="up" HREF="node260.html">
+<LINK REL="next" HREF="node263.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4855"
+  HREF="node263.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4849"
+  HREF="node260.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4845"
+  HREF="node261.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4851"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4853"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4856"
+  HREF="node263.html">Utilisation de l'aide</A>
+<B> monter:</B> <A NAME="tex2html4850"
+  HREF="node260.html">Notion de buffers</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4846"
+  HREF="node261.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html4852"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4854"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION05334200000000000000">
+Les "<I>mini-buffers</I>"</A>
+</H3>
+
+<P>
+Le "<I>mini-buffer</I>" est une facilit&#233; "<TT>emacs</TT>" pour lire les arguments d'une commande (nom de fichier, commande interactive n&#233;cessitant une r&#233;ponse de l'utilisateur, etc.). Il est par exemple utilis&#233; lorsque l'utilisateur d&#233;sire ouvrir un nouveau "<I>buffer</I>" associ&#233; &#224; un fichier d&#233;j&#224; existant (commande <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="\fbox{x}"> <IMG
+ WIDTH="20" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img101.png"
+ ALT="\fbox{f}">). Un nom de fichier devrait suivre cette commande. Or, si l'utilisateur saisit simplement <!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="23" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="\fbox{x}"> <IMG
+ WIDTH="20" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img101.png"
+ ALT="\fbox{f}">, "<TT>emacs</TT>" r&#233;clame le nom de fichier dans la ligne d'&#233;tat situ&#233; en bas de l'&#233;cran.
+
+<P>
+En cas d'h&#233;sitation sur l'argument &#224; entrer dans le "<I>mini-buffer</I>", une assistance permet d'aiguiller l'utilisateur&nbsp;:
+
+<UL>
+<LI>"<code>?</code>" affiche l'utilisation des noms possibles compte tenu de
+			ce qui a d&#233;j&#224; &#233;t&#233; saisi. La fen&#234;tre affich&#233;e est
+			accessible et les commandes "<TT>emacs</TT>" sont actives (<I>scrolling</I> par
+			exemple) ainsi que les commandes de s&#233;lection de "<I>buffer</I>"
+			vues pr&#233;c&#233;demment.
+</LI>
+<LI><!-- MATH
+ $\fbox{\textsc{tab}}$
+ -->
+<IMG
+ WIDTH="42" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="\fbox{\textsc{tab}}"> compl&#232;te le texte dans la mesure du possible.
+</LI>
+<LI><!-- MATH
+ $\fbox{\textsc{space}}$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="\fbox{\textsc{space}}"> compl&#232;te le texte dans la mesure du possible mais limit&#233; &#224; un seul mot.
+</LI>
+</UL>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

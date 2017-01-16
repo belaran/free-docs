@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les s&#233;lecteurs pr&#233;d&#233;fini</TITLE>
+<META NAME="description" CONTENT="Les s&#233;lecteurs pr&#233;d&#233;fini">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node163.html">
+<LINK REL="previous" HREF="node161.html">
+<LINK REL="up" HREF="node160.html">
+<LINK REL="next" HREF="node163.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3250"
+  HREF="node163.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3244"
+  HREF="node160.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3238"
+  HREF="node161.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3246"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3248"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3251"
+  HREF="node163.html">Les r&#232;gles de s&#233;lection</A>
+<B> monter:</B> <A NAME="tex2html3245"
+  HREF="node160.html">Les s&#233;lecteurs</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3239"
+  HREF="node161.html">Introduction, D&#233;finition</A>
+ &nbsp; <B>  <A NAME="tex2html3247"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3249"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041022000000000000000">
+Les s&#233;lecteurs pr&#233;d&#233;fini</A>
+</H2>
+
+<P>
+Les deux seuls s&#233;lecteurs pr&#233;d&#233;finis dans "<TT>awk</TT>" sont&nbsp;:
+
+<UL>
+<LI><A NAME="19188"></A><TT>BEGIN</TT>
+</LI>
+<LI><A NAME="19189"></A><TT>END</TT>
+</LI>
+</UL>
+
+<P>
+Le s&#233;lecteur "<TT>BEGIN</TT>" est vrai avant le traitement du premier
+enregistrement. Ce s&#233;lecteur est g&#233;n&#233;ralement utilis&#233; pour initialiser des variables, d&#233;finir des champs de saisie, etc.
+
+<P>
+Le s&#233;lecteur "<TT>END</TT>" est vrai apr&#232;s le traitement du dernier enregistrement. Ce s&#233;lecteur est g&#233;n&#233;ralement utilis&#233; pour afficher les r&#233;sultats finaux.
+
+<P>
+
+	<B>Exemple&nbsp;15..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+L'exemple suivant permet d'afficher les noms de tous les fichiers du r&#233;pertoire et leurs tailles.
+</BLOCKQUOTE><PRE>
+ls -al | awk '
+    BEGIN {
+        totalsize = 0
+        print "Fichier(Taille) du r{\'e}pertoire courant."
+    }
+    {
+        totalsize += $5
+        printf ("%s (%d)\n", $9, $5)
+    }
+    END {
+        printf (Taille totale = %d octet(s).\n", totalsize)
+        print "Fin de la liste."
+    }
+'
+</PRE>
+<P>
+<BLOCKQUOTE>Pour rappel, la commande "<TT>ls -al</TT>" permet d'obtenir la liste de
+tous les fichiers dans le r&#233;pertoire courant, y compris les fichiers
+cach&#233;s. Le cinqui&#232;me champ correspond &#224; la taille du fichier, le neuvi&#232;me
+&#224; son nom (cf. section <A HREF="node23.html#cmds-unix-ls"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Lors de l'ex&#233;cution du s&#233;lecteur "<TT>BEGIN</TT>", le programme
+"<TT>awk</TT>" initialise la variable "<TT>totalsize</TT>" &#224; <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img59.png"
+ ALT="$0$">,
+afin de pouvoir effectuer un cumul sur le cinqui&#232;me champ, c'est-&#224;-dire
+la taille des fichiers. Il affiche aussi un message avant ex&#233;cution.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Pour chaque enregistrement, c'est-&#224;-dire pour chaque fichier,
+on cumule sur le cinqui&#232;me champ ("<code>totalsize += $5</code>")
+et on affiche les informations d&#233;sir&#233;es.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Enfin, lors de l'ex&#233;cution du s&#233;lecteur "<TT>END</TT>", le
+programme "<TT>awk</TT>" affiche la valeur du cumul (variable
+"<TT>totalsize</TT>") et un message de fin.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Par exemple, si la commande "<TT>ls -al</TT>" produit le r&#233;sultat
+suivant&nbsp;:
+</BLOCKQUOTE><PRE>
+-rw-r----- 1 schmoll esme     102 Jul 12 10:00 .cshrc
+-rw-r----- 1 schmoll esme     123 Jul 12 10:00 .login
+-rw-r----- 1 schmoll esme     124 Jul 12 10:00 .logout
+-rw-r----- 1 schmoll esme      24 Jul 25 10:00 mes
+-rw-r--r-- 1 schmoll esme      12 Jul 25 12:00 fichiers
+-rwxr-xr-x 1 schmoll esme    1337 Jul 25 12:00 a
+-rw-r--r-- 1 schmoll esme 1221337 Jul 25 12:00 moi
+</PRE><BLOCKQUOTE>
+le programme "<TT>awk</TT>" produira la sortie suivante&nbsp;:
+</BLOCKQUOTE><PRE>
+Fichier(Taille) du r{\'e}pertoire courant.
+.cshrc (102)
+.login (123)
+.logout (124)
+mes (24)
+fichiers (12)
+a (1337)
+moi (1221337)
+Taille totale = 1223058 octet(s).
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3250"
+  HREF="node163.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3244"
+  HREF="node160.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3238"
+  HREF="node161.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3246"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3248"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3251"
+  HREF="node163.html">Les r&#232;gles de s&#233;lection</A>
+<B> monter:</B> <A NAME="tex2html3245"
+  HREF="node160.html">Les s&#233;lecteurs</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3239"
+  HREF="node161.html">Introduction, D&#233;finition</A>
+ &nbsp; <B>  <A NAME="tex2html3247"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3249"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

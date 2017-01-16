@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Commande &#171;&nbsp;kill&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="Commande &#171;&nbsp;kill&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node86.html">
+<LINK REL="previous" HREF="node84.html">
+<LINK REL="up" HREF="node84.html">
+<LINK REL="next" HREF="node86.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1988"
+  HREF="node86.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1982"
+  HREF="node84.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1976"
+  HREF="node84.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1984"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1986"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1989"
+  HREF="node86.html">Commande &#171;&nbsp;wait&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html1983"
+  HREF="node84.html">Commandes associ&#233;es</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1977"
+  HREF="node84.html">Commandes associ&#233;es</A>
+ &nbsp; <B>  <A NAME="tex2html1985"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1987"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03231000000000000000"></A><A NAME="multi-task-kill"></A>
+<BR>
+Commande &#171;&nbsp;<TT>kill</TT>&nbsp;&#187;
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>kill [-sig_no] PID [PID ...]</TT></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+La commande &#171;&nbsp;<A NAME="10151"></A><TT>kill</TT>&nbsp;&#187; peut &#234;tre utilis&#233;e pour tuer n'importe quelle commande, y compris des commandes lanc&#233;es en arri&#232;re plan. &#171;&nbsp;<TT>kill</TT>&nbsp;&#187;, plus pr&#233;cis&#233;ment, envoie un signal aux processus d&#233;sign&#233;s. L'action effectu&#233;e par d&#233;faut pour un process est de mourir sur r&#233;ception de certains signaux. Pour transmettre un signal &#224; un processus il faut en &#234;tre le propri&#233;taire; &#171;&nbsp;<TT>kill</TT>&nbsp;&#187; ne peut &#234;tre utilis&#233; pour tuer le process d'un autre utilisateur &#224; moins d'&#234;tre le <I>super user</I> (utilisateur &#171;&nbsp;<TT>root</TT>&nbsp;&#187;).
+
+<P>
+Par d&#233;faut &#171;&nbsp;<TT>kill</TT>&nbsp;&#187; transmet le signal num&#233;ro 15 au process sp&#233;cifi&#233;.
+Dans le monde U<SMALL>NIX</SMALL>, il n'est pas possible de v&#233;ritablement tuer un process comme on pourrait le faire avec <I>Windows-NT</I> et OpenV<SMALL>MS</SMALL>. U<SMALL>NIX</SMALL>, en fait, envoie une requ&#234;te au processus pour qu'il se termine de lui-m&#234;me. Il est possible d'immuniser certaines commandes contre les signaux de terminaison. La
+m&#233;thode la plus efficace pour tuer un process est l'utilisation du signal 9.
+
+<P>
+Pour avoir la liste des signaux et leur action, reportez-vous &#224; &#171;&nbsp;<TT>signal(2)</TT>&nbsp;&#187;.
+
+<P>
+
+	<B>Exemple&nbsp;5..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+% cat /usr/man/man1/* &gt;big.file &amp;
+[[1] 1234
+% kill 1234
+[1] + Terminated	cat /usr/man/man1/* &gt;big.file
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1988"
+  HREF="node86.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1982"
+  HREF="node84.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1976"
+  HREF="node84.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1984"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1986"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1989"
+  HREF="node86.html">Commande &#171;&nbsp;wait&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html1983"
+  HREF="node84.html">Commandes associ&#233;es</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1977"
+  HREF="node84.html">Commandes associ&#233;es</A>
+ &nbsp; <B>  <A NAME="tex2html1985"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1987"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

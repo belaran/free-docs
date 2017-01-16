@@ -1,0 +1,410 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>D&#233;veloppement</TITLE>
+<META NAME="description" CONTENT="D&#233;veloppement">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node190.html">
+<LINK REL="previous" HREF="node188.html">
+<LINK REL="up" HREF="node186.html">
+<LINK REL="next" HREF="node190.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3655"
+  HREF="node190.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3649"
+  HREF="node186.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3643"
+  HREF="node188.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3651"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3653"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3656"
+  HREF="node190.html">Programme obtenu</A>
+<B> monter:</B> <A NAME="tex2html3650"
+  HREF="node186.html">Recherche des UID et</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3644"
+  HREF="node188.html">M&#233;thode utilis&#233;e</A>
+ &nbsp; <B>  <A NAME="tex2html3652"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3654"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041133000000000000000">
+D&#233;veloppement</A>
+</H2>
+
+<P>
+Apr&#232;s les commentaires d'ent&#234;te d'usage, la premi&#232;re chose
+&#224; faire est d'initialiser les variables d'environnement
+n&#233;cessaires au programme. Toutefois, sachant qu'elles peuvent
+&#234;tre d&#233;finies au niveau du shell, les valeurs sp&#233;cifi&#233;es
+ici seront les valeurs par d&#233;faut. Pour cela, nous utiliserons la
+syntaxe
+<DIV ALIGN="CENTER">
+"<code>VARIABLE=${VARIABLE:=valeur}</code>"
+
+</DIV>
+ (cf. section <A HREF="node103.html#variables-manip"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Nous aurons donc&nbsp;:<PRE>
+TMP_DIR=${TMP_DIR:=/home/adm/tmp}
+START_UID=${START_UID:=1000}
+START_GID=${START_GID:=1000}
+PASSWD=${PASSWD:=/etc/passwd}
+GROUP=${GROUP:=/etc/group}
+AWK=${AWK:=/usr/ucb/gawk}
+
+export TMP_DIR START_UID START_GID PASSWD GROUP AWK
+</PRE>
+
+<P>
+
+	<B>Remarque&nbsp;16..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Nous utilisons ici une extension de la commande "<TT>awk</TT>"&nbsp;: "<TT>gawk</TT>".
+Les fonctionnalit&#233;s et les syntaxes vues &#224; la section <A HREF="node158.html#adv-fltrs-awk"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> sont
+identiques. Par contre, ses possibilit&#233;s sont &#233;tendues et les options disponibles
+sur la ligne de commande sont plus importantes. Pour assurer l'ind&#233;pendance du
+script, nous utiliserons une variable d'environnement "<TT>AWK</TT>" r&#233;f&#233;ren&#231;ant
+l'ex&#233;cutable "<I>awk</I>" &#224; prendre en compte.
+	
+</I></BLOCKQUOTE>
+
+<P>
+En cas d'erreur de syntaxe, il est de r&#232;gle de pr&#233;ciser &#224; l'utilisateur
+le format de la commande, ainsi que les options. Pour cela, nous allons cr&#233;er
+une fonction qui affichera la syntaxe &#224; utiliser sur la sortie d'erreur standard,
+canal &#224; utiliser pour tout affichage de messages d'erreur. Nous aurons donc&nbsp;:<PRE>
+_usage()
+{
+    echo "Usage: `basename $0` -u|-g" &gt;&amp;2
+}
+</PRE>
+
+<P>
+Maintenant, nous allons voir si le nombre d'arguments sp&#233;cifi&#233;s sur la ligne de
+commandes est conforme. D'apr&#232;s le format explicit&#233; au paragraphe
+<A HREF="node187.html#adv-programming-ex2-fcnt"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, ce script doit avoir un et un seul argument
+sur la ligne de commande qui est l'option sp&#233;cifiant si la recherche
+doit s'effectuer pour les UID ou les GID. Par cons&#233;quent, la valeur
+de la variable "<code>#</code>" doit &#234;tre &#233;gal &#224; 1. Dans tous les autres
+cas, l'appel de cette proc&#233;dure est incorrect. Nous aurons donc&nbsp;:<PRE>
+if [ $# -lt 1 ]; then
+    _usage
+    exit 1
+fi
+</PRE>
+
+<P>
+Nous devons maintenant&nbsp;:
+
+<UL>
+<LI>analyser l'argument pass&#233; sur la ligne de commande,
+</LI>
+<LI>m&#233;moriser le fichier sur lequel les informations sont &#224; prendre
+			(stocker dans la variable locale "<TT>map</TT>"),
+</LI>
+<LI>m&#233;moriser quelle sera la valeur de la borne inf&#233;rieure (stock&#233;e
+			dans la variable "<TT>start_id</TT>" &#224; partir de la variable
+			d'environnement ad&#233;quate,
+</LI>
+<LI>afficher un message d'erreur si l'option sp&#233;cifi&#233;e n'est pas
+			connue.
+</LI>
+</UL>
+Nous utiliserons donc l'instruction "<TT>case</TT>" permettant de faire
+des branchements conditionnels &#224; partir de la valeur contenue dans
+le seul et unique argument, pr&#233;sent dans la variable "<TT>1</TT>" (dont le
+contenu est obtenu par la s&#233;quence "<code>$1</code>"). Nous avons donc&nbsp;:<PRE>
+case $1 in
+    -u)
+        map=$PASSWD
+        start_id=$START_STUDENT_UID
+        ;;
+
+    -g)
+        map=$GROUP
+        start_id=$START_PROJECT_GID
+        ;;
+    *)
+        _usage
+        exit 1
+        ;;
+esac
+</PRE>
+
+<P>
+Sachant que les informations seront extraites &#224; partir du fichier dont le
+nom est contenu dans la variable locale "<TT>map</TT>", avant toute op&#233;ration
+de traitement de fichier, il est pr&#233;f&#233;rable de v&#233;rifier que celui-ci existe.
+Si c'est le cas, aucun probl&#232;me. Par contre, s'il n'existe pas, on peut consid&#233;rer
+que nous sommes en train d'en cr&#233;er un nouveau de toute pi&#232;ce. Par cons&#233;quent,
+la premi&#232;re valeur &#224; affecter est la borne inf&#233;rieure. Nous avons donc&nbsp;:<PRE>
+if [ ! -f $map ]; then
+    echo $start_id
+    exit 0
+fi
+</PRE>
+
+<P>
+&#192; ce point du programme,
+
+<UL>
+<LI>nous sommes s&#251;r de la pr&#233;sence des informations dans les fichiers
+			ad&#233;quats,
+</LI>
+<LI>nous connaissons la valeur de la borne inf&#233;rieure,
+</LI>
+<LI>nous connaissons le type d'information &#224; communiquer (UID ou GID).
+</LI>
+</UL>
+
+<P>
+Comme nous l'avons vu au paragraphe <A HREF="node188.html#adv-programming-ex2-meth"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, la m&#233;thode
+utilis&#233;e pour calculer cette donn&#233;e repose sur&nbsp;:
+
+<OL>
+<LI>l'extraction de tous les valeurs d&#233;j&#224; affect&#233;es,
+</LI>
+<LI>le tri de ces valeurs,
+</LI>
+<LI>la s&#233;lection des valeurs d&#233;j&#224; allou&#233;es sup&#233;rieures ou &#233;gales &#224; la
+			borne inf&#233;rieure,
+</LI>
+<LI>le calcul de la premi&#232;re valeur disponible.
+</LI>
+</OL>
+
+<P>
+Pour extraire les donn&#233;es, il suffit d'utiliser la commande "<TT>cut</TT>"
+&#224; partir des informations contenues dans le fichier dont le nom est
+stock&#233; dans la valriable locale "<TT>map</TT>". Sachant que le champ UID
+du fichier "<TT>passwd(5)</TT>" et le champ GID du fichier "<TT>group(5)</TT>"
+est, dans les deux cas, le troisi&#232;me champ et que le s&#233;parateur de champ
+est le caract&#232;re "<TT>:</TT>", il nous suffit d'&#233;crire&nbsp;:<PRE>
+cut -f3 -d: $map
+</PRE>
+Le r&#233;sultat est donc envoy&#233; sur la sortie standard, r&#233;sultat &#224; traiter pour
+l'&#233;tape suivante.
+
+<P>
+Le tri de ces valeurs doit se faire dans l'ordre num&#233;rique. La commande
+"<TT>sort</TT>" est don,c utilis&#233;e avec l'option "<TT>-n</TT>". Ici, nous n'avons
+pas &#224; sp&#233;cifier de s&#233;parateur de champs, ni m&#234;me de champs sur lesquels le tri est
+effectu&#233;. En effet, chaque enregistrement (c'est-&#224;-dire chaque ligne arrivant
+sur l'entr&#233;e standard), n'est compos&#233;e que d'un seul champ&nbsp;: le r&#233;sultat de
+la commande "<TT>cut</TT>". Nous avons donc&nbsp;:<PRE>
+cut -f3 -d: $map	|\
+    sort -n -u
+</PRE>
+L'option "<TT>-u</TT>" de "<TT>sort</TT>" permet d'&#233;liminer les &#233;ventuels
+doublons<A NAME="tex2html95"
+  HREF="footnode.html#foot21876"><SUP>16.1</SUP></A>Le r&#233;sultat est donc envoy&#233; sur la sortie standard, r&#233;sultat &#224; traiter pour
+l'&#233;tape suivante.
+
+<P>
+L'&#233;tape suivante consiste &#224; ne s&#233;lectionner les informations dont la
+valeur est sup&#233;rieure ou &#233;gale &#224; la borne inf&#233;rieure contenue dans la
+variable locale "<TT>start_id</TT>". Nous allons, pour cela, utiliser
+"<TT>awk</TT>". &#192; partir de la ligne de commande, on initialise une
+variable interne &#224; "<TT>awk</TT>", la variable "<TT>min_id</TT>", &#224;
+partir de la valeur contenue dans la variable "<TT>start_id</TT>" du
+shell. Si le contenu du premier champ (voire m&#234;me de la totalit&#233; de
+l'enregistrement) est sup&#233;rieur ou &#233;gal &#224; la variable "<TT>min_id</TT>",
+alors l'enregistrement est affich&#233; sur la sortie standard. Nous obtenons
+donc&nbsp;:<PRE>
+cut -f3 -d: $map                            |\
+    sort -n -u                              |\
+    $AWK -v min_id=$start_id '$1 &gt;= min_id { print $0}'
+</PRE>
+Comme pour les &#233;tapes pr&#233;c&#233;dentes, le r&#233;sultat obtenu est dirig&#233; sur la sortie
+standard, canal par d&#233;faut pour le filtre "<TT>awk</TT>".
+
+<P>
+
+	<B>Remarque&nbsp;16..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Comme il l'a &#233;t&#233; pr&#233;cis&#233; pr&#233;c&#233;demment, la variable d'environnement
+"<TT>AWK</TT>" permet de r&#233;f&#233;rencer l'ex&#233;cutable "<TT>awk</TT>" souhait&#233;.
+	
+</I></BLOCKQUOTE>
+
+<P>
+La derni&#232;re &#233;tape consiste &#224; prendre les donn&#233;es pr&#233;c&#233;dentes et de d&#233;terminer
+quelle est la premi&#232;re valeur disponible. Pour cela, nous allons utiliser &#224; nouveau
+la commande "<TT>awk</TT>" (ou plus pr&#233;cisemment celle contenue dans la variable
+d'environnement "<TT>AWK</TT>"). Comme pr&#233;c&#233;demment, les donn&#233;es arrivant
+sur l'entr&#233;e standard sont une suite de nombres, chacun sur une ligne distincte.
+Nous allons proc&#233;der de la fa&#231;on suivante&nbsp;:
+
+<UL>
+<LI>On initialise une variable interne &#224; "<TT>awk</TT>", la variable
+			"<TT>min_id</TT>", &#224; partir de la variable du shell
+			"<TT>start_id</TT>".
+</LI>
+<LI>Avant tout traitement des enregistrements, on enregistre cette
+			valeur dans une variable "<TT>awk</TT>", la variable
+			"<TT>affected_id</TT>", qui nous permettra par la suite de comparer
+			la valeur de l'enregistrement courrant &#224; celle contenue dans cette
+			variable.
+</LI>
+<LI>Chaque enregistrement, dont les valeurs sont ordonn&#233;es, est compar&#233;
+			&#224; la valeur courrante de la variable "<TT>affected_id</TT>".
+			
+<UL>
+<LI>S'il y a &#233;galit&#233;, la valeur contenue dans
+						"<TT>affected_id</TT>" est donc
+						d&#233;j&#224; enregistr&#233;e dans le fichier de donn&#233;es.
+						Il faut donc prendre une valeur sup&#233;rieure, pour cela elle
+						est incr&#233;ment&#233;e de "1".
+</LI>
+<LI>Dans le cas, contraire, cette valeur est disponible. Par
+						cons&#233;quent, elle reste inchang&#233;e. Tous les enregistrements
+						suivants auront donc une valeur diff&#233;rente de celle contenue
+						dans la variable "<TT>affected_id</TT>".
+			
+</LI>
+</UL>
+</LI>
+<LI>En fonction de l'algorithme d&#233;crit pr&#233;c&#233;demment, lorsque le dernier
+			enregistrement est trait&#233;, nous avons deux cas de figure possibles&nbsp;:
+			
+<OL>
+<LI>Une valeur interm&#233;diaire a &#233;t&#233; localis&#233;e. Dans ce cas,
+						la variable "<TT>awk</TT>", "<TT>affected_id</TT>",
+						contient cette valeur.
+</LI>
+<LI>Aucune valeur interm&#233;diaire n'a &#233;t&#233; localis&#233;e. Dans ce
+						cas, la variable "<TT>affected_id</TT>" a &#233;t&#233;
+						syst&#233;matiquement incr&#233;ment&#233;e de "1". Elle contient
+						donc la plus grande valeur enregistr&#233;e dans le fichier
+						de donn&#233;es incr&#233;ment&#233;e de "1".
+			
+</LI>
+</OL>
+			Par cons&#233;quent, lorsque le dernier enregistrement est trait&#233;, la
+			variable "<TT>affected_id</TT>" contient la valeur ad&#233;quate. Il suffit
+			donc d'en afficher le contenu sur la sortie standard.
+</LI>
+</UL>
+Nous obtenons donc&nbsp;:<PRE>
+cut -f3 -d: $map                            |\
+    sort -n -u                              |\
+    $AWK -v min_id=$start_id '$1 &gt;= min_id { print $0}' |\
+    $AWK -v min_id=$start_id '
+        BEGIN {
+            affected_id=min_id
+        }
+        {
+            if ( $1 == affected_id )
+                affected_id ++
+        }
+        END {
+            print affected_id
+        }'
+</PRE>
+
+<P>
+Sachant que nous voulons r&#233;cup&#233;rer ce r&#233;sultat dans une variable, il suffit
+de faire en sorte que l'&#233;valuation de l'expression pr&#233;c&#233;dente serve &#224; initialiser
+une variable. Or nous avons vu que le r&#233;sultat de l'&#233;valuation &#233;tait dirig&#233; sur
+la sortie standard. Gr&#226;ce &#224; la syntaxe examin&#233;e &#224; la section <A HREF="node83.html#multi-task-backq"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>,
+le r&#233;sultat d'une commande affich&#233;e sur la sortie standard peut &#234;tre m&#233;moris&#233;e
+dans une variable de la fa&#231;on suivante&nbsp;:
+<BLOCKQUOTE>
+<DIV ALIGN="CENTER">
+<code>variable=`expression`</code>
+
+</DIV>
+</BLOCKQUOTE>
+Par cons&#233;quent, si le r&#233;sultat de l'expression pr&#233;c&#233;dente doit &#234;tre m&#233;moris&#233;e dans
+la variable <I>shell</I> "<TT>no_id</TT>", il suffit d'&#233;crire&nbsp;:<PRE>
+no_id=` cut -f3 -d: $map                    |\
+    sort -n -u                              |\
+    $AWK -v min_id=$start_id '$1 &gt;= min_id { print $0}' |\
+    $AWK -v min_id=$start_id '
+        BEGIN {
+            affected_id=min_id
+        }
+        {
+            if ( $1 == affected_id )
+                affected_id ++
+        }
+        END {
+            print affected_id
+        }'`
+</PRE>
+
+<P>
+Il ne reste plus qu'&#224; afficher la valeur de la variable sur la
+sortie standard et terminer avec un code de sortie &#233;quivalent &#224;
+un bon d&#233;roulement des op&#233;rations. Nous avons donc&nbsp;:<PRE>
+echo $no_id
+exit 0
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3655"
+  HREF="node190.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3649"
+  HREF="node186.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3643"
+  HREF="node188.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3651"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3653"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3656"
+  HREF="node190.html">Programme obtenu</A>
+<B> monter:</B> <A NAME="tex2html3650"
+  HREF="node186.html">Recherche des UID et</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3644"
+  HREF="node188.html">M&#233;thode utilis&#233;e</A>
+ &nbsp; <B>  <A NAME="tex2html3652"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3654"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

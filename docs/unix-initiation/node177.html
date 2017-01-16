@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exemple</TITLE>
+<META NAME="description" CONTENT="Exemple">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node178.html">
+<LINK REL="previous" HREF="node173.html">
+<LINK REL="up" HREF="node158.html">
+<LINK REL="next" HREF="node178.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3459"
+  HREF="node178.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3453"
+  HREF="node158.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3447"
+  HREF="node176.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3455"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3457"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3460"
+  HREF="node178.html">Remarque sur l'utilisation de</A>
+<B> monter:</B> <A NAME="tex2html3454"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3448"
+  HREF="node176.html">Utilisation de variables du</A>
+ &nbsp; <B>  <A NAME="tex2html3456"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3458"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION041060000000000000000"></A><A NAME="adv-fltrs-awk-ex"></A>
+<BR>
+Exemple
+</H1>
+
+<P>
+Soit le fichier "<TT>donjon</TT>"&nbsp;:
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT"><code>LANCELOT:DULAC:chevalier:200</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>GODEFROY:DE BOUILLON:chevalier:300</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>ARTHUR::roi:150</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>MERLIN:L'ENCHANTEUR:magicien:0</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>GODEFROY:DE BOUILLON:chevalier:400</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>LANCELOT:DULAC:chevalier:300</code></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Soit le fichier programme "<TT>cumul.awk</TT>"&nbsp;:<PRE>
+BEGIN {
+    FS=":"
+    print "Statistiques sur le nombre de sarrasins occis"
+    nb=0
+}
+
+$1 ~ /[a-zA-Z]/ {
+    cumul[$1] += $4
+    for (i=1; (i &lt;= nb) &amp;&amp; (list[i] != $1; i++)
+    if ( i &gt; nb) {
+        nb ++
+        list[nb]=$1 $2
+    }
+}
+END {
+    printf ("%.20s\t%.20s \n","Zigoto", "Cumul")
+    for (i=1; i &lt;= nb; i++)
+        printf ("%.20s\t%.20s \n",
+             list[i], cumul[list[i]])
+}
+</PRE>
+
+<P>
+La commande
+<DIV ALIGN="CENTER">
+</DIV><PRE>
+awk -f cumul.awk donjon
+</PRE>
+<DIV ALIGN="CENTER">
+</DIV>
+produit le r&#233;sultat suivant&nbsp;:<PRE>
+Statistiques sur le nombre de sarrasins occis
+Zigoto                  Cumul
+LANCELOT DULAC          500
+GODEFROY DE BOUILLON    700
+ARTHUR                  150
+MERLIN L'ENCHANTEUR     0
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

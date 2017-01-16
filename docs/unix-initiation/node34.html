@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Permissions</TITLE>
+<META NAME="description" CONTENT="Permissions">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node35.html">
+<LINK REL="previous" HREF="node33.html">
+<LINK REL="up" HREF="node32.html">
+<LINK REL="next" HREF="node35.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1185"
+  HREF="node35.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1179"
+  HREF="node32.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1173"
+  HREF="node33.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1181"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1183"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1186"
+  HREF="node35.html">Changement de protection -</A>
+<B> monter:</B> <A NAME="tex2html1180"
+  HREF="node32.html">Protections sur les fichiers</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1174"
+  HREF="node33.html">Notion d'identit&#233; sous UNIX</A>
+ &nbsp; <B>  <A NAME="tex2html1182"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1184"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02232000000000000000">
+Permissions</A>
+</H2>
+
+<P>
+Sous U<SMALL>NIX</SMALL>, on distingue trois <A NAME="3857"></A>modes
+d'acc&#232;s&nbsp;:
+
+<UL>
+<LI>l'acc&#232;s en lecture,
+</LI>
+<LI>l'acc&#232;s en &#233;criture,
+</LI>
+<LI>l'acc&#232;s en ex&#233;cution.
+</LI>
+</UL>
+
+<P>
+En fonction du type de fichier (un r&#233;pertoire ou un fichier standard),
+le mode de protection permet de faire les actions d&#233;crites dans le tableau
+<A HREF="#tab-cmds-prot-actions"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="3863"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+Actions possibles en fonction du masque de
+protection</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Acc&#232;s</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>Fichier</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>R&#233;pertoire</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Lecture</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>Le contenu du fichier est visible.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>le contenu du r&#233;pertoire est visible<A NAME="tex2html29"
+  HREF="footnode.html#foot3860"><SUP>2.4</SUP></A>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&#201;criture</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>Le contenu du fichier peut &#234;tre modifi&#233;.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>Le contenu du r&#233;pertoire peut &#234;tre
+		modifi&#233;<A NAME="tex2html30"
+  HREF="footnode.html#foot3861"><SUP>2.5</SUP></A>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Ex&#233;cution</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>Le fichier peut &#234;tre utilis&#233; en commande<A NAME="tex2html31"
+  HREF="footnode.html#foot3862"><SUP>2.6</SUP></A>.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>Le r&#233;pertoire peut devenir le r&#233;pertoire courant.</TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+
+	<B>Remarque&nbsp;2..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I><B>Remarques sur les protections d'un r&#233;pertoire</B>
+<BR>
+Si le r&#233;pertoire est accessible en lecture, alors on peut voir les
+fichiers qui s'y trouvent par la commande <TT>ls</TT> par exemple.
+</I></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><I>Si le r&#233;pertoire est accessible en &#233;criture, il est alors possible de
+faire des manipulations sur les fichiers qui s'y trouvent avec les
+commandes <TT>mv</TT>, <TT>cp</TT> et <TT>rm</TT>. Il faut donc bien faire
+attention &#224; ce mode de protection.
+</I></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><I>Si le r&#233;pertoire est accessible en ex&#233;cution, il peut devenir le
+r&#233;pertoire courant avec la commande <TT>cd</TT>.
+</I></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><I>Par cons&#233;quent, pour qu'un fichier puisse &#234;tre effac&#233;, <B>il faut avoir les
+droits d'&#233;criture sur le r&#233;pertoire qui le contient</B>.
+	
+</I></BLOCKQUOTE>
+
+<P>
+Les protections d'un fichier se situent &#224; trois niveaux&nbsp;:
+
+<UL>
+<LI>le niveau utilisateur (<TT>user</TT>),
+</LI>
+<LI>le niveau groupe (<TT>group</TT>),
+</LI>
+<LI>le niveau autre (<TT>other</TT>).
+</LI>
+</UL>
+
+<P>
+La figure <A HREF="#tab-cmds-fileaccess"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> d&#233;crit la m&#233;thode d'acc&#232;s d'un
+processus &#224; un fichier.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="tab-cmds-fileaccess"></A><A NAME="3887"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Algorithme de v&#233;rification des
+droits d'acc&#232;s sous U<SMALL>NIX</SMALL></CAPTION>
+<TR><TD><IMG
+ WIDTH="601" HEIGHT="376" BORDER="0"
+ SRC="img12.png"
+ ALT="\begin{figure}\centering\setlength{\unitlength}{0.92pt}
+\begin{picture}(430,2...
+...l(66,32)}
+\put(223,78){\makebox(66,32){Accept{\'e}}}
+\end{picture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1185"
+  HREF="node35.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1179"
+  HREF="node32.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1173"
+  HREF="node33.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1181"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1183"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1186"
+  HREF="node35.html">Changement de protection -</A>
+<B> monter:</B> <A NAME="tex2html1180"
+  HREF="node32.html">Protections sur les fichiers</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1174"
+  HREF="node33.html">Notion d'identit&#233; sous UNIX</A>
+ &nbsp; <B>  <A NAME="tex2html1182"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1184"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

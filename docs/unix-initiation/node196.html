@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Extraction des anciennes entr&#233;es et mise-&#224;-jour</TITLE>
+<META NAME="description" CONTENT="Extraction des anciennes entr&#233;es et mise-&#224;-jour">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node197.html">
+<LINK REL="previous" HREF="node195.html">
+<LINK REL="up" HREF="node194.html">
+<LINK REL="next" HREF="node197.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3769"
+  HREF="node197.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3763"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3757"
+  HREF="node195.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3765"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3767"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3770"
+  HREF="node197.html">Cr&#233;ation des nouvelles entr&#233;es</A>
+<B> monter:</B> <A NAME="tex2html3764"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3758"
+  HREF="node195.html">D&#233;termination des entr&#233;es de</A>
+ &nbsp; <B>  <A NAME="tex2html3766"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3768"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION041143200000000000000"></A><A NAME="adv-programming-ex3-devlext"></A>
+<BR>
+Extraction des anciennes entr&#233;es
+		et mise-&#224;-jour
+</H3>
+
+<P>
+Les anciennes entr&#233;es sont localisables gr&#226;ce &#224; l'intersection de l'ensemble
+des anciens utilisateurs et celui des utilisateurs &#224; cr&#233;er. L'op&#233;ration se
+sch&#233;matise comme suit.
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\begin{array}{l@{\quad}l@{\;=\;}l}
+	\mbox{Soit}	&
+		\mathcal{U}_{\mbox{{\textsc{Unix}}}} 		&	\mbox{utilisateur {\textsc{Unix}}.} 	\\[2ex]
+				&
+		\mathcal{U}_{\mbox{{Open\textsc{Vms}}}} 	&	\mbox{utilisateur {Open\textsc{Vms}}.}	\\[2ex]
+				&
+		\mathcal{E}_{\mbox{{Open\textsc{Vms}}}}		&	\mbox{liste des utilisateurs
+					{Open\textsc{Vms}} devant poss{\'e}der un compte sous {\textsc{Unix}}.}			\\[2ex]
+\end{array}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="633" HEIGHT="105" BORDER="0"
+ SRC="img66.png"
+ ALT="\begin{displaymath}
+\begin{array}{l@{\quad}l@{\;=\;}l}
+\mbox{Soit} &amp;
+\mathcal{...
+...s{\'e}der un compte sous {\textsc{Unix}}.} \\ [2ex]
+\end{array}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<BR>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\begin{array}{l@{\;=\;}l}
+	\mathcal{E}_{ancien}		&
+		\left\{ \mathcal{U}_{\mbox{{\textsc{Unix}}}} \; \mbox{d{\'e}j{\`a} existants} \right\}
+		\\[2ex]
+	\mathcal{E}_{nouveau}	&
+		\left\{ \mathcal{U}_{\mbox{{\textsc{Unix}}}} \; tq. \;
+			\exists \; \mathcal{U}_{\mbox{{Open\textsc{Vms}}}} \: \in \: \mathcal{E}_{\mbox{{Open\textsc{Vms}}}}
+			\right\}
+		\\[2ex]
+	\mathcal{E}_{1}			&
+		\mathcal{E}_{ancien} \cap \mathcal{E}_{nouveau}
+		\\[2ex]
+\end{array}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="372" HEIGHT="110" BORDER="0"
+ SRC="img67.png"
+ ALT="\begin{displaymath}
+\begin{array}{l@{\;=\;}l}
+\mathcal{E}_{ancien} &amp;
+\left\{ \...
+...al{E}_{ancien} \cap \mathcal{E}_{nouveau}
+\\ [2ex]
+\end{array}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+Or cette derni&#232;re liste ne contient que les "<I>username</I>s"
+OpenV<SMALL>MS</SMALL>. Par cons&#233;quent, &#224; partir du "<I>username</I>", nous
+allons extraire son pr&#233;nom et son nom. Gr&#226;ce &#224; cette information, nous
+pourrons rechercher dans "<TT>PASSWD_REF</TT>", en fonction du contenu
+du cinqui&#232;me champ, la pr&#233;sence &#233;ventuelle de l'ancienne d&#233;finition.
+
+<P>
+Nous allons donc faire une boucle de lecture sur chaque enregistrement
+du fichier "<TT>LIST</TT>", la valeur sera stock&#233;e dans la variable
+locale "<TT>username</TT>". Nous obtenons&nbsp;:<PRE>
+cat $LIST |\
+while
+    read username
+do
+</PRE><BLOCKQUOTE>
+<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+</BLOCKQUOTE><PRE>
+done
+</PRE>
+
+<P>
+L'extraction du pr&#233;nom et du nom se fait gr&#226;ce&nbsp;:
+
+<UL>
+<LI>une recherche en fonction du "<I>username</I>" dans le fichier
+			"<TT>WHO_REF</TT>" avec la commande "<TT>grep</TT>",
+</LI>
+<LI>un extraction du second champ, avec la commande "<TT>cut</TT>"
+			utilisant comme d&#233;limiteur le caract&#232;re "<code>!</code>",
+</LI>
+<LI>la suppression des deux premiers espaces, donc des deux premiers
+			caract&#232;res, avec la commande "<TT>cut</TT>".
+</LI>
+</UL>
+Pour obtenir le "<I>login</I>" U<SMALL>NIX</SMALL>, il suffira d'utiliser "<TT>awk</TT>".
+La condition du s&#233;lecteur du programme "<TT>awk</TT>" sera l'identit&#233; entre
+le cinqui&#232;me champ du fichier "<TT>PASSWD_REF</TT>" et le nom obtenu gr&#226;ce
+&#224; la pr&#233;c&#233;dente requ&#234;te.
+Nous aurons donc&nbsp;:<PRE>
+name=`grep $username $WHO_REF  | cut -d! -f2 | cut -c2-`
+is_user=`$AWK -v name="$name" '
+    BEGIN { FS=":" }
+    $5 == name { print $0 }
+' $PASSWD_REF`
+</PRE>
+
+<P>
+Par cons&#233;quent, si la variable "<TT>is_user</TT>" est vide, le bloc action
+associ&#233; au s&#233;lecteur "<code>$5 == name</code>" n'a jamais &#233;t&#233; ex&#233;cut&#233;. Il n'y
+a donc aucun utilisateur actuel qui satisfait ce crit&#232;re&nbsp;: <B>cet utilisateur
+n'est pas d&#233;j&#224; d&#233;fini</B>&nbsp;. Par contre, si cette variable est non vide,
+<B>l'utilisateur courrant est d&#233;j&#224; enregistr&#233;</B>. Dans ce cas, il ne restera plus
+qu'&#224; g&#233;n&#233;rer les informations ad&#233;quates en fonction des deux informations clef&nbsp;:
+le "<I>username</I>" OpenV<SMALL>MS</SMALL> et le "<I>logname</I>" U<SMALL>NIX</SMALL> de
+l'utilisateur en train d'&#234;tre trait&#233;.
+
+<P>
+Pour plus d'information sur les fichiers concern&#233;s et leurs formats, reportez-vous
+aux pages de manuels ad&#233;quates. Pour le d&#233;tail concernant la g&#233;n&#233;ration
+des informations, reportez-vous &#224; la section <A HREF="node205.html#adv-programming-ex3-pgmpgm"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+
+	<B>Remarque&nbsp;16..6&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>La variable "<TT>is_user</TT>" contiendra alors l'ancienne d&#233;finition
+associ&#233;e au compte U<SMALL>NIX</SMALL> (extraite de "<TT>PASSWD_REF</TT>") pour
+cet utilisateur.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3769"
+  HREF="node197.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3763"
+  HREF="node194.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3757"
+  HREF="node195.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3765"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3767"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3770"
+  HREF="node197.html">Cr&#233;ation des nouvelles entr&#233;es</A>
+<B> monter:</B> <A NAME="tex2html3764"
+  HREF="node194.html">D&#233;veloppement</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3758"
+  HREF="node195.html">D&#233;termination des entr&#233;es de</A>
+ &nbsp; <B>  <A NAME="tex2html3766"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3768"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Modes de fonctionnement de "vi"</TITLE>
+<META NAME="description" CONTENT="Modes de fonctionnement de "vi"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node237.html">
+<LINK REL="previous" HREF="node235.html">
+<LINK REL="up" HREF="node234.html">
+<LINK REL="next" HREF="node237.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4479"
+  HREF="node237.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4473"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4467"
+  HREF="node235.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4475"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4477"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4480"
+  HREF="node237.html">D&#233;marrage d'une session "vi"</A>
+<B> monter:</B> <A NAME="tex2html4474"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4468"
+  HREF="node235.html">Introduction et conventions</A>
+ &nbsp; <B>  <A NAME="tex2html4476"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4478"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION05322000000000000000"></A><A NAME="ann-edt-vi-fcts"></A>
+<BR>
+Modes de fonctionnement de "<TT>vi</TT>"
+</H2>
+
+<P>
+"<TT>vi</TT>" distingue deux modes de fonctionnements&nbsp;:
+<DL>
+<DT><STRONG>le mode "<I>commande</I>"</STRONG></DT>
+<DD>
+<BR>
+Ce mode correspond lorsque vous n'&#234;tes pas en train de saisir du texte.
+		Pour cela, chaque touche du clavier alphanum&#233;rique correspond &#224; une
+		fonctionnalit&#233; de l'&#233;diteur de texte. Vous pouvez d&#233;placer le curseur,
+		rechercher du texte, sauvegarder le <I>buffer</I> courrant, appeler le
+		<I>prompt</I> de "<TT>vi</TT>" afin de saisir des commandes
+		internes de l'&#233;diteur. Comme tout utilitaire U<SMALL>NIX</SMALL>,
+		"<TT>vi</TT>" fait la diff&#233;rence entre les majuscules et les minuscules.
+		Par cons&#233;quent, <B>vous devez prendre garde que la touche <!-- MATH
+ $\fbox{{\sc Caps}}$
+ -->
+<IMG
+ WIDTH="54" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img73.png"
+ ALT="\fbox{{\sc Caps}}">
+		ou "<I>Verrouillage en majuscule</I>" ne soit pas en fonction</B>. Dans
+		ce cas, le comportement que pourrait avoir "<TT>vi</TT>" risque de
+		vous surprendre et <B>surtout</B> ne pas faire ce que vous souhait&#233; (mais
+		par contre ce qui a &#233;t&#233; demand&#233; !).
+<BR>
+<BR>
+<BR>	
+</DD>
+<DT><STRONG>le mode "<I>insertion</I>"</STRONG></DT>
+<DD>
+<BR>
+Ce mode correspond lorsque vous &#234;tes en train de saisir ou de modifier
+		du texte. Vous pouvez ins&#233;rer autant de lignes que vous voulez, par contre,
+		vous ne pouvez modifier le texte que de la ligne courrant.
+
+<P>
+Pour quitter le mode "<I>insertion</I>", il vous suffit d'appuyer
+		sur la touche <!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> .
+</DD>
+</DL>
+
+<P>
+&#192; la section <A HREF="node235.html#ann-edt-vi-intro"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, nous avons parl&#233; de commandes
+"<TT>vi</TT>" commen&#231;ant par le caract&#232;re "<TT>:</TT>" et valid&#233;e par
+<!-- MATH
+ $\fbox{\textsc{return}}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="\fbox{\textsc{return}}"> . Ce mode de fonctionnement correspond au "<I>prompt</I>"
+de "<TT>vi</TT>", invite &#224; partir de laquelle il est possible de saisir
+des commandes internes &#224; "<TT>vi</TT>". Ce mode est accessible &#224; partir
+du mode "<I>commande</I>". Les diff&#233;rences entre ces deux comportements
+sont les suivantes&nbsp;:
+
+<UL>
+<LI>En mode <I>commande</I>, toutes les touches du clavier
+			alphanum&#233;rique ont une fonction particuli&#232;re, par exemple
+			pour d&#233;placer le curseur, effacer des caract&#232;res ou des lignes,
+			s&#233;lectionner du texte, etc. Ce mode serait l'&#233;quivalent, sous
+			les &#233;diteurs de texte de OpenV<SMALL>MS</SMALL>, d'acc&#233;der &#224; toutes les
+			fonctionnalit&#233;s des touches du pav&#233; num&#233;rique sur des claviers
+			LK200, LK400. En effet, pour ces &#233;diteurs, chaque touche
+			correspond &#224; une fonctionnalit&#233; donn&#233;e. Sous "<TT>vi</TT>",
+			le clavier num&#233;rique est cens&#233; permettre d'afficher des nombres
+			ou d'utiliser les fl&#232;ches (sur des claviers de type PC). Il a
+			donc fallu trouver une m&#233;thode pour associer des raccourcis
+			clavier &#224; un certain nombre de fonctionnalit&#233;. L'une d'entre
+			elle est d'acc&#233;der au "<I>prompt</I>" de "<TT>vi</TT>"
+			afin de saisir des commandes internes &#224; l'&#233;diteur.
+<BR>
+<BR>
+<BR></LI>
+<LI>&#192; l'invite de "<TT>vi</TT>", il est possible de saisir
+			un certain nombre de commandes explicit&#233;es dans toute la suite.
+			Ces commandes servent &#224; d&#233;finir l'environnement de travail,
+			ex&#233;cuter des actions, etc. Pour y acc&#233;der, il suffit d'appuyer
+			sur la touche <IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img74.png"
+ ALT="\fbox{:}"> &#224; partir du mode commande. Ce mode de
+			fonctionnement est &#233;quivalent &#224; celui des &#233;diteurs de texte
+			sous OpenV<SMALL>MS</SMALL> une fois que la touche <!-- MATH
+ $\fbox{{\sc do}}$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img75.png"
+ ALT="\fbox{{\sc do}}"> est
+			press&#233;e.
+</LI>
+</UL>
+
+<P>
+Dans tout ce qui suit, les commandes explicit&#233;es sont valables en
+mode "<I>commande</I>" &#224; moins que celui-ci ne soit pr&#233;cis&#233;. Toutes
+les commandes pr&#233;c&#233;d&#233;es par le caract&#232;re &#171;<TT>:</TT>" sont accessibles
+&#224; partir du "<I>prompt</I>" de "<TT>vi</TT>". Pour appeler le
+prompt, il suffit de&nbsp;:
+
+<OL>
+<LI>&#234;tre en mode "<I>commande</I>",
+</LI>
+<LI>appuyer sur la touche <IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img74.png"
+ ALT="\fbox{:}">.
+</LI>
+</OL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4479"
+  HREF="node237.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4473"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4467"
+  HREF="node235.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4475"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4477"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4480"
+  HREF="node237.html">D&#233;marrage d'une session "vi"</A>
+<B> monter:</B> <A NAME="tex2html4474"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4468"
+  HREF="node235.html">Introduction et conventions</A>
+ &nbsp; <B>  <A NAME="tex2html4476"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4478"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

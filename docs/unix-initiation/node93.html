@@ -1,0 +1,370 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction &#224; la programmation Bourne Shell</TITLE>
+<META NAME="description" CONTENT="Introduction &#224; la programmation Bourne Shell">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node206.html">
+<LINK REL="previous" HREF="node53.html">
+<LINK REL="up" HREF="00-unix-esme.html">
+<LINK REL="next" HREF="node94.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2097"
+  HREF="node94.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2091"
+  HREF="00-unix-esme.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2085"
+  HREF="node92.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2093"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2095"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2098"
+  HREF="node94.html">Introduction</A>
+<B> monter:</B> <A NAME="tex2html2092"
+  HREF="00-unix-esme.html">Introduction &#224; UNIX et</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2086"
+  HREF="node92.html">Exemple de fichier de</A>
+ &nbsp; <B>  <A NAME="tex2html2094"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2096"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04000000000000000000"></A><A NAME="prgm-shell"></A>
+<BR>
+Introduction &#224; la programmation Bourne Shell
+</H1>
+	
+	<A NAME="prgm-shell"></A>Introduction &#224; la programmation Bourne Shell - 
+
+<P>
+<P>
+
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Sous-sections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2099"
+  HREF="node94.html">Introduction</A>
+<UL>
+<LI><A NAME="tex2html2100"
+  HREF="node95.html">D&#233;finition</A>
+<LI><A NAME="tex2html2101"
+  HREF="node96.html">Historique des shells</A>
+<LI><A NAME="tex2html2102"
+  HREF="node97.html">Quelques r&#232;gles et recommandations pour l'&#233;criture des shells-scripts</A>
+<UL>
+<LI><A NAME="tex2html2103"
+  HREF="node98.html">R&#232;gles &#224; observer</A>
+<LI><A NAME="tex2html2104"
+  HREF="node99.html">Recommandations</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html2105"
+  HREF="node100.html">Les arguments des programmes shell</A>
+<LI><A NAME="tex2html2106"
+  HREF="node101.html">Les variables</A>
+<UL>
+<LI><A NAME="tex2html2107"
+  HREF="node102.html">Les variables sp&#233;ciales</A>
+<LI><A NAME="tex2html2108"
+  HREF="node103.html">Manipulation sur les variables</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2109"
+  HREF="node104.html">Commandes &#233;volu&#233;es pour les scripts</A>
+<UL>
+<LI><A NAME="tex2html2110"
+  HREF="node105.html">La commande &lt;&lt;&nbsp;<TT>shift</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2111"
+  HREF="node106.html">La commande &lt;&lt;&nbsp;<TT>read</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2112"
+  HREF="node107.html">La commande &lt;&lt;&nbsp;<TT>expr</TT>&nbsp;&gt;&gt;</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2113"
+  HREF="node108.html">Les listes de commandes et les fonctions</A>
+<UL>
+<LI><A NAME="tex2html2114"
+  HREF="node109.html">Les listes de commandes</A>
+<LI><A NAME="tex2html2115"
+  HREF="node110.html">Les fonctions</A>
+<UL>
+<LI><A NAME="tex2html2116"
+  HREF="node111.html">D&#233;claration et utilisation des fonctions</A>
+<LI><A NAME="tex2html2117"
+  HREF="node112.html">Commande &lt;&lt;&nbsp;<TT>return</TT>&nbsp;&gt;&gt;</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html2118"
+  HREF="node113.html">Les commentaires et les techniques d'ex&#233;cution</A>
+<UL>
+<LI><A NAME="tex2html2119"
+  HREF="node114.html">Les commentaires</A>
+<LI><A NAME="tex2html2120"
+  HREF="node115.html">Interpr&#233;tation sp&#233;ciale du signe &lt;&lt;&nbsp;<TT>#</TT>&nbsp;&gt;&gt; sur la premi&#232;re ligne d'un shell script</A>
+<UL>
+<LI><A NAME="tex2html2121"
+  HREF="node116.html">Les appels d'un shell script au niveau de la ligne de commandes</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html2122"
+  HREF="node117.html">Les tests et les boucles</A>
+<UL>
+<LI><A NAME="tex2html2123"
+  HREF="node118.html">Les tests</A>
+<UL>
+<LI><A NAME="tex2html2124"
+  HREF="node119.html">La commande &lt;&lt;&nbsp;<TT>test</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2125"
+  HREF="node120.html">Tests sur les fichiers</A>
+<LI><A NAME="tex2html2126"
+  HREF="node121.html">Tests sur les cha&#238;nes de caract&#232;res</A>
+<LI><A NAME="tex2html2127"
+  HREF="node122.html">Les test num&#233;riques</A>
+<LI><A NAME="tex2html2128"
+  HREF="node123.html">Autres op&#233;rations</A>
+</UL>
+<LI><A NAME="tex2html2129"
+  HREF="node124.html">La construction &lt;&lt;&nbsp;<TT>if</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2130"
+  HREF="node125.html">La construction &lt;&lt;&nbsp;<TT>case</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2131"
+  HREF="node126.html">La boucle &lt;&lt;&nbsp;<TT>while</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2132"
+  HREF="node127.html">La boucle &lt;&lt;&nbsp;<TT>until</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2133"
+  HREF="node128.html">La boucle &lt;&lt;&nbsp;<TT>for</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2134"
+  HREF="node129.html">Les commandes &lt;&lt;&nbsp;<TT>break</TT>&nbsp;&gt;&gt;, &lt;&lt;&nbsp;<TT>continue</TT>&nbsp;&gt;&gt; et &lt;&lt;&nbsp;<TT>exit</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2135"
+  HREF="node130.html">Signaux et traps</A>
+<UL>
+<LI><A NAME="tex2html2136"
+  HREF="node131.html">D&#233;finition des signaux et des traps</A>
+<UL>
+<LI><A NAME="tex2html2137"
+  HREF="node132.html">Les signaux</A>
+<LI><A NAME="tex2html2138"
+  HREF="node133.html">Les <I>traps</I></A>
+<LI><A NAME="tex2html2139"
+  HREF="node134.html">La commande &lt;&lt;&nbsp;<TT>trap</TT>&nbsp;&gt;&gt;</A>
+</UL>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html2140"
+  HREF="node135.html">Utilisation avanc&#233;es de certains filtres</A>
+<UL>
+<LI><A NAME="tex2html2141"
+  HREF="node136.html">Introduction</A>
+<LI><A NAME="tex2html2142"
+  HREF="node137.html">Utilisation avanc&#233;e de &lt;&lt;&nbsp;<TT>grep</TT>&nbsp;&gt;&gt;, &lt;&lt;&nbsp;<TT>egrep</TT>&nbsp;&gt;&gt; et &lt;&lt;&nbsp;<TT>fgrep</TT>&nbsp;&gt;&gt;</A>
+<UL>
+<LI><A NAME="tex2html2143"
+  HREF="node138.html">Introduction - Rappels</A>
+<LI><A NAME="tex2html2144"
+  HREF="node139.html">Utilisation de &lt;&lt;&nbsp;<TT>grep</TT>&nbsp;&gt;&gt;</A>
+</UL>
+<LI><A NAME="tex2html2145"
+  HREF="node140.html">Utilisation de &lt;&lt;&nbsp;<TT>egrep</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2146"
+  HREF="node141.html">Utilisation de &lt;&lt;&nbsp;<TT>fgrep</TT>&nbsp;&gt;&gt;</A>
+<LI><A NAME="tex2html2147"
+  HREF="node142.html">Remarque sur l'utilisation de l'option &lt;&lt;&nbsp;<TT>-f</TT>&nbsp;&gt;&gt;</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2148"
+  HREF="node143.html">Utilisation de &lt;&lt;&nbsp;<TT>sed</TT>&nbsp;&gt;&gt;</A>
+<UL>
+<LI><A NAME="tex2html2149"
+  HREF="node144.html">Introduction</A>
+<LI><A NAME="tex2html2150"
+  HREF="node145.html">Mode de fonctionnement</A>
+<LI><A NAME="tex2html2151"
+  HREF="node146.html">Formulation des requ&#234;tes</A>
+<UL>
+<LI><A NAME="tex2html2152"
+  HREF="node147.html">Introduction</A>
+<LI><A NAME="tex2html2153"
+  HREF="node148.html">D&#233;finition des adresses</A>
+<LI><A NAME="tex2html2154"
+  HREF="node149.html">Les Commandes</A>
+<LI><A NAME="tex2html2155"
+  HREF="node150.html">Les symboles particuliers</A>
+</UL>
+<LI><A NAME="tex2html2156"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<UL>
+<LI><A NAME="tex2html2157"
+  HREF="node152.html">Exemple 1</A>
+<LI><A NAME="tex2html2158"
+  HREF="node153.html">Exemple 2</A>
+<LI><A NAME="tex2html2159"
+  HREF="node154.html">Exemple 3</A>
+<LI><A NAME="tex2html2160"
+  HREF="node155.html">Exemple 4</A>
+<LI><A NAME="tex2html2161"
+  HREF="node156.html">Exemple 5</A>
+</UL>
+<LI><A NAME="tex2html2162"
+  HREF="node157.html">Remarque sur l'utilisation de l'option &lt;&lt;&nbsp;<TT>-f</TT>&nbsp;&gt;&gt;</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2163"
+  HREF="node158.html">Utilisation de &lt;&lt;&nbsp;<TT>awk</TT>&nbsp;&gt;&gt;</A>
+<UL>
+<LI><A NAME="tex2html2164"
+  HREF="node159.html">Introduction</A>
+<LI><A NAME="tex2html2165"
+  HREF="node160.html">Les s&#233;lecteurs</A>
+<UL>
+<LI><A NAME="tex2html2166"
+  HREF="node161.html">Introduction, D&#233;finition</A>
+<LI><A NAME="tex2html2167"
+  HREF="node162.html">Les s&#233;lecteurs pr&#233;d&#233;fini</A>
+<LI><A NAME="tex2html2168"
+  HREF="node163.html">Les r&#232;gles de s&#233;lection</A>
+<LI><A NAME="tex2html2169"
+  HREF="node164.html">Les caract&#232;res sp&#233;ciaux pour la s&#233;lection</A>
+<LI><A NAME="tex2html2170"
+  HREF="node165.html">Les expressions logiques pour la s&#233;lection</A>
+<LI><A NAME="tex2html2171"
+  HREF="node166.html">Syntaxe des s&#233;lecteurs</A>
+</UL>
+<LI><A NAME="tex2html2172"
+  HREF="node167.html">Les variables</A>
+<UL>
+<LI><A NAME="tex2html2173"
+  HREF="node168.html">Les tableaux</A>
+</UL>
+<LI><A NAME="tex2html2174"
+  HREF="node169.html">Les actions</A>
+<UL>
+<LI><A NAME="tex2html2175"
+  HREF="node170.html">Les fonctions pr&#233;d&#233;finies</A>
+<LI><A NAME="tex2html2176"
+  HREF="node171.html">Les fonctions utilisateur</A>
+<LI><A NAME="tex2html2177"
+  HREF="node172.html">Les structures de contr&#244;le</A>
+</UL>
+<LI><A NAME="tex2html2178"
+  HREF="node173.html">Trucs et astuces</A>
+<UL>
+<LI><A NAME="tex2html2179"
+  HREF="node174.html">Commentaires</A>
+<LI><A NAME="tex2html2180"
+  HREF="node175.html">Passage de param&#232;tres du shell vers le programme "<TT>awk</TT>"</A>
+<LI><A NAME="tex2html2181"
+  HREF="node176.html">Utilisation de variables du Shell dans le corps du programme
+				"<TT>awk</TT>"</A>
+</UL>
+<LI><A NAME="tex2html2182"
+  HREF="node177.html">Exemple</A>
+<LI><A NAME="tex2html2183"
+  HREF="node178.html">Remarque sur l'utilisation de l'option "<TT>-f</TT>"</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2184"
+  HREF="node179.html">Programmation avanc&#233;e de Shell Scripts</A>
+<UL>
+<LI><A NAME="tex2html2185"
+  HREF="node180.html">Introduction</A>
+<LI><A NAME="tex2html2186"
+  HREF="node181.html">Tri par adresse IP du fichier "<TT>/etc/hosts</TT>"</A>
+<UL>
+<LI><A NAME="tex2html2187"
+  HREF="node182.html">&#201;tude des fonctionnalit&#233;s</A>
+<LI><A NAME="tex2html2188"
+  HREF="node183.html">M&#233;thode utilis&#233;e</A>
+<LI><A NAME="tex2html2189"
+  HREF="node184.html">D&#233;veloppement</A>
+<LI><A NAME="tex2html2190"
+  HREF="node185.html">Programme obtenu</A>
+</UL>
+<LI><A NAME="tex2html2191"
+  HREF="node186.html">Recherche des UID et GID disponibles</A>
+<UL>
+<LI><A NAME="tex2html2192"
+  HREF="node187.html">&#201;tude des fonctionnalit&#233;s</A>
+<LI><A NAME="tex2html2193"
+  HREF="node188.html">M&#233;thode utilis&#233;e</A>
+<LI><A NAME="tex2html2194"
+  HREF="node189.html">D&#233;veloppement</A>
+<LI><A NAME="tex2html2195"
+  HREF="node190.html">Programme obtenu</A>
+</UL>
+<LI><A NAME="tex2html2196"
+  HREF="node191.html">Traduction de fichiers d'informations</A>
+<UL>
+<LI><A NAME="tex2html2197"
+  HREF="node192.html">&#201;tude des fonctionnalit&#233;s</A>
+<LI><A NAME="tex2html2198"
+  HREF="node193.html">M&#233;thode utilis&#233;e</A>
+<LI><A NAME="tex2html2199"
+  HREF="node194.html">D&#233;veloppement</A>
+<UL>
+<LI><A NAME="tex2html2200"
+  HREF="node195.html">D&#233;termination des entr&#233;es de r&#233;f&#233;rence</A>
+<LI><A NAME="tex2html2201"
+  HREF="node196.html">Extraction des anciennes entr&#233;es
+		et mise-&#224;-jour</A>
+<LI><A NAME="tex2html2202"
+  HREF="node197.html">Cr&#233;ation des nouvelles entr&#233;es utilisateur</A>
+<LI><A NAME="tex2html2203"
+  HREF="node198.html">Suppression des r&#233;pertoires inutiles</A>
+<LI><A NAME="tex2html2204"
+  HREF="node199.html">Cr&#233;ation des nouvelles entr&#233;es "<I>projet</I>"</A>
+<LI><A NAME="tex2html2205"
+  HREF="node200.html">Cr&#233;ation des r&#233;pertoires utilisateurs et "<I>projet</I>"</A>
+</UL>
+<LI><A NAME="tex2html2206"
+  HREF="node201.html">Programmes obtenus</A>
+<UL>
+<LI><A NAME="tex2html2207"
+  HREF="node202.html">Fichier "<TT>mkpasswd.define</TT>"</A>
+<LI><A NAME="tex2html2208"
+  HREF="node203.html">Fichier "<TT>mkpasswd.functions</TT>"</A>
+<LI><A NAME="tex2html2209"
+  HREF="node204.html">Fichier "<TT>mkpasswd.check</TT>"</A>
+<LI><A NAME="tex2html2210"
+  HREF="node205.html">Fichier "<TT>mkpasswd</TT>"</A>
+</UL></UL></UL></UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

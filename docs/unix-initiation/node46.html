@@ -1,0 +1,364 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Transfert de fichiers - commande ftp</TITLE>
+<META NAME="description" CONTENT="Transfert de fichiers - commande ftp">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node47.html">
+<LINK REL="previous" HREF="node45.html">
+<LINK REL="up" HREF="node44.html">
+<LINK REL="next" HREF="node47.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1359"
+  HREF="node47.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1353"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1347"
+  HREF="node45.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1355"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1357"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1360"
+  HREF="node47.html">Connexion automatique - commande</A>
+<B> monter:</B> <A NAME="tex2html1354"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1348"
+  HREF="node45.html">Connexion &#224; une autre</A>
+ &nbsp; <B>  <A NAME="tex2html1356"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1358"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION02320000000000000000">
+Transfert de fichiers - commande <TT>ftp</TT></A>
+</H1>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+ftp [-g] [-i] [-n] [v] [host]
+</PRE>
+
+<P>
+<A NAME="6463"></A>&#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; est une famille de commandes pour les op&#233;rations de manipulation de fichiers ou de r&#233;pertoires &#224; travers le r&#233;seau.
+
+<P>
+Vous pouvez importer ou exporter des fichiers &#224; partir d'une machine distante (sous U<SMALL>NIX</SMALL> ou non), en utilisant soit le mode de transfert
+<TT>ASCII</TT>, soit le mode de transfert <I>binaire</I>.
+
+<P>
+Vous pouvez&nbsp;:
+
+<UL>
+<LI>mettre &#224; jour, renommer et supprimer des fichiers,
+</LI>
+<LI>lister le contenu de r&#233;pertoires,
+</LI>
+<LI>changer, cr&#233;er et supprimer des r&#233;pertoires,
+</LI>
+<LI>v&#233;rifier l'&#233;tat, changer les options,
+</LI>
+<LI>demander de l'aide.
+</LI>
+</UL>
+
+<P>
+&#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; admet quatre <A NAME="6464"></A>options&nbsp;:
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><TT>-g</TT></TD>
+<TD ALIGN="CENTER">:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>inhibition des m&#233;tacaract&#232;res.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Lorsque cette option n'est pas pr&#233;cis&#233;e, par d&#233;faut, les
+		m&#233;tacaract&#232;res sont interpr&#233;t&#233;s pour l'importation ou l'exportation
+		de fichiers. Pour plus de pr&#233;cisions sur les m&#233;tacaract&#232;res,
+		reportez vous &#224; la section <A HREF="node72.html#basic-metacars"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-i</TT></TD>
+<TD ALIGN="CENTER">:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>inhibition du mode interactif sur les manipulations de
+					fichiers.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Le mode interactif est actif par d&#233;faut.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-n</TT></TD>
+<TD ALIGN="CENTER">:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>d&#233;sactivation de la connexion automatique.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>La connexion automatique est autoris&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-v</TT></TD>
+<TD ALIGN="CENTER">:</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>mode <I>verbose</I>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>En l'absence de cette option, &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; utilise le mode <I>verbose</I>
+		uniquement si la sortie standard est associ&#233;e &#224; un terminal.</TD>
+</TR>
+</TABLE>
+
+<P>
+Quelques-unes des commandes de &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; sont expliqu&#233;es ci-dessous. Dans les explications, &#171;&nbsp;<TT>server-host</TT>&nbsp;&#187; d&#233;signe la machine sur laquelle on se connecte avec &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187;. &#171;&nbsp;<TT>local-host</TT>&nbsp;&#187; d&#233;signe la machine sur laquelle la commande &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; a &#233;t&#233; lanc&#233;e. La figure
+<A HREF="#fig-cmdnet-ftpdesc"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> illustre les terminologies utilis&#233;es.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig-cmdnet-ftpdesc"></A><A NAME="6466"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Terminologie pour la description de
+		&#171;&nbsp;<TT>ftp</TT>&nbsp;&#187;.</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><IMG
+  WIDTH="463" HEIGHT="196" ALIGN="BOTTOM" BORDER="0"
+ SRC="./ftpdesc.jpg"
+ ALT="Image ftpdesc">
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<B>Apercu des <A NAME="6467"></A>commandes <TT>ftp</TT>&nbsp;:</B>
+<BR><DL>
+<DT><STRONG><TT>open server-host [port-number]</TT></STRONG></DT>
+<DD>
+<BR>
+Etablit une connexion avec &#171;&nbsp;<TT>server-host</TT>&nbsp;&#187; en utilisant un num&#233;ro de port
+	si sp&#233;cifi&#233;. Si aucun port n'est pr&#233;cis&#233;, &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; essaie de
+	contacter un serveur avec le num&#233;ro de port standard.
+
+<P>
+</DD>
+<DT><STRONG><TT>user user_name [password] [account]</TT></STRONG></DT>
+<DD>
+<BR>
+Connexion sous l'identit&#233; &#171;&nbsp;<TT>user_name</TT>&nbsp;&#187; sur &#171;&nbsp;<TT>	server-host</TT>&nbsp;&#187; ouverte avec la commande &#171;&nbsp;<TT>open</TT>&nbsp;&#187;. La figure
+	<A HREF="#fig-cmdnet-ftpconn"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> illustre l'&#233;tablissement d'une connexion.
+	
+<DIV ALIGN="CENTER"><A NAME="fig-cmdnet-ftpconn"></A><A NAME="6468"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Etablissement d'une connexion <TT>ftp</TT></CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><IMG
+  WIDTH="490" HEIGHT="272" ALIGN="BOTTOM" BORDER="0"
+ SRC="./ftpconn.jpg"
+ ALT="Image ftpconn">
+	</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+</DD>
+<DT><STRONG><TT>glob</TT></STRONG></DT>
+<DD>
+<BR>
+Autorise l'usage des m&#233;tacaract&#232;res. Si cette option est activ&#233;e,
+	&#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; envoie les m&#233;tacaract&#232;res &#224; &#171;&nbsp;<TT>server-host</TT>&nbsp;&#187; pour qu'il
+	puisse les interpr&#233;ter au niveau des noms de fichiers et des
+	r&#233;pertoires existants. La substitution des m&#233;tacaract&#232;res est
+	toujours faite avec la commande &#171;&nbsp;<TT>ls</TT>&nbsp;&#187;. Pour plus de pr&#233;cisions
+	sur les m&#233;tacaract&#232;res, preportez-vous &#224; la section <A HREF="node72.html#basic-metacars"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+</DD>
+<DT><STRONG><TT>binary</TT></STRONG></DT>
+<DD>
+<BR>
+Positionne l'option binaire pour le type de transfert de fichiers.
+
+<P>
+</DD>
+<DT><STRONG><TT>ls [remote_dir [local_file]</TT></STRONG></DT>
+<DD>]
+<BR>
+Affiche les noms des fichiers du site distant &#171;&nbsp;<TT>remote_dir</TT>&nbsp;&#187;
+	&#224; l'&#233;cran, ou &#233;ventuellement la redirige dans un fichier local
+	&#171;&nbsp;<TT>local_file</TT>&nbsp;&#187;. Si &#171;&nbsp;<TT>remote_dir</TT>&nbsp;&#187; et &#171;&nbsp;<TT>	local_file</TT>&nbsp;&#187; ne sont pas pr&#233;cis&#233;s,alors le r&#233;pertoire de travail
+	distant est affich&#233; sur la sortie standard.
+
+<P>
+</DD>
+<DT><STRONG><TT>put local_file [remote_file]</TT></STRONG></DT>
+<DD>
+<BR>
+Copie un fichier local &#171;&nbsp;<TT>local_file</TT>&nbsp;&#187; vers le site distant
+	sous le nom &#171;&nbsp;<TT>remote_file</TT>&nbsp;&#187;. Si &#171;&nbsp;<TT>remote_file</TT>&nbsp;&#187; n'est
+	pas sp&#233;cifi&#233;, &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; copie le fichier sous le m&#234;me nom. La figure
+	<A HREF="#fig-cmdnet-ftpexch"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> illustre l'envoi et la r&#233;ception de fichiers
+	entre un serveur et un client &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187;.
+
+<P>
+</DD>
+<DT><STRONG><TT>mput local_file local_file ...</TT></STRONG></DT>
+<DD>
+<BR>
+Copie plusieurs fichiers du site local vers le site distant. Les
+	fichiers de destination ont les m&#234;mes noms que les fichiers locaux
+	d'origine. Si l'option &#171;&nbsp;<TT>glob</TT>&nbsp;&#187; est activ&#233;e, les
+	m&#233;tacaract&#232;res sont interpr&#233;t&#233;s. La figure <A HREF="#fig-cmdnet-ftpexch"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>
+	illustre l'envoi et la r&#233;ception de fichiers entre un serveur et un
+	client &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187;.
+
+<P>
+</DD>
+<DT><STRONG><TT>get remote_file [local_file]</TT></STRONG></DT>
+<DD>
+<BR>
+Copie un fichier distant &#171;&nbsp;<TT>remote_file</TT>&nbsp;&#187; sur le syst&#232;me local
+	sous le nom &#171;&nbsp;<TT>local_file</TT>&nbsp;&#187;. Si &#171;&nbsp;<TT>local_file</TT>&nbsp;&#187; n'est
+	pas pr&#233;cis&#233;, &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; copie le fichier avec le m&#234;me nom. La figure
+	<A HREF="#fig-cmdnet-ftpexch"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> illustre l'envoi et la r&#233;ception de fichiers
+	entre un serveur et un client &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187;.
+
+<P>
+</DD>
+<DT><STRONG><TT>mget remote_file remote_file ...</TT></STRONG></DT>
+<DD>
+<BR>
+Copie plusieurs fichiers distants vers le syst&#232;me local. Si l'option
+	&#171;&nbsp;<TT>glob</TT>&nbsp;&#187; est activ&#233;e, les m&#233;tacaract&#232;res sont interpr&#233;t&#233;s. La figure
+	<A HREF="#fig-cmdnet-ftpexch"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> illustre l'envoi et la r&#233;ception de fichiers
+	entre un serveur et un client &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187;.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig-cmdnet-ftpexch"></A><A NAME="6469"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Envoi/R&#233;ception de fichier(s) de
+	&#171;&nbsp;<TT>server-host</TT>&nbsp;&#187; vers &#171;&nbsp;<TT>local-host</TT>&nbsp;&#187; avec &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187;.</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><IMG
+  WIDTH="471" HEIGHT="249" ALIGN="BOTTOM" BORDER="0"
+ SRC="./ftpexch.jpg"
+ ALT="Image ftpexch">
+	</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+</DD>
+<DT><STRONG><TT>close</TT></STRONG></DT>
+<DD>
+<BR>
+Ferme la connexion avec &#171;&nbsp;<TT>server-host</TT>&nbsp;&#187;. La commande &#171;&nbsp;<TT>	close</TT>&nbsp;&#187; ne permet pas de sortir de &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; si la connexion a &#233;t&#233;
+	&#233;tablie avec une commande &#171;&nbsp;<TT>open</TT>&nbsp;&#187;.
+
+<P>
+</DD>
+<DT><STRONG><I><TT>quit</TT> ou <TT>bye</TT></I></STRONG></DT>
+<DD>
+<BR>
+Les commandes &#171;&nbsp;<TT>quit</TT>&nbsp;&#187; et &#171;&nbsp;<TT>bye</TT>&nbsp;&#187; ont le m&#234;me effet.
+	Elles ferment la connexion avec &#171;&nbsp;<TT>server-host</TT>&nbsp;&#187; si une
+	connexion &#233;tait ouverte et sort de &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187;.
+</DD>
+</DL>
+
+<P>
+
+	<B>Exemple&nbsp;3..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<B>Utilisation de &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; dans un programme shell</B>
+
+<BLOCKQUOTE>
+Vous pouvez utiliser &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; dans un programme shell en respectant
+certaines r&#232;gles. Voici un exemple d'utilisation de &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187; dans un
+programme Bourne Shell.
+</BLOCKQUOTE></BLOCKQUOTE>
+<P><PRE>
+(
+    for host in willow arthur merlin
+    do
+        echo "
+            open $host
+            user lancelot dulac
+            binary
+            mput excalibur*
+            close
+        "
+    done
+) | ftp -i -n
+</PRE>
+<P>
+<BLOCKQUOTE><BLOCKQUOTE>Ce programme shell repr&#233;sente un risque au niveau de la s&#233;curit&#233; (mot de passe en clair dans une proc&#233;dure). Ce type de programme est &#224; utiliser avec parcimonie. Pour plus de renseignements, consultez &#171;&nbsp;<TT>ftp(1)</TT>&nbsp;&#187;.
+
+</BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1359"
+  HREF="node47.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1353"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1347"
+  HREF="node45.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1355"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1357"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1360"
+  HREF="node47.html">Connexion automatique - commande</A>
+<B> monter:</B> <A NAME="tex2html1354"
+  HREF="node44.html">Commandes usuelles de communication</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1348"
+  HREF="node45.html">Connexion &#224; une autre</A>
+ &nbsp; <B>  <A NAME="tex2html1356"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1358"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

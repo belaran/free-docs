@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>D&#233;claration et utilisation des fonctions</TITLE>
+<META NAME="description" CONTENT="D&#233;claration et utilisation des fonctions">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node112.html">
+<LINK REL="previous" HREF="node110.html">
+<LINK REL="up" HREF="node110.html">
+<LINK REL="next" HREF="node112.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2469"
+  HREF="node112.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2463"
+  HREF="node110.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2457"
+  HREF="node110.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2465"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2467"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2470"
+  HREF="node112.html">Commande &#171;&nbsp;return&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2464"
+  HREF="node110.html">Les fonctions</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2458"
+  HREF="node110.html">Les fonctions</A>
+ &nbsp; <B>  <A NAME="tex2html2466"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2468"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04521000000000000000">
+D&#233;claration et utilisation des fonctions</A>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+nom_fonction ()
+{
+    liste
+}
+</PRE>
+
+<P>
+Une <A NAME="13110"></A>fonction doit &#234;tre d&#233;crite avant tout appel. Elle g&#232;re ses param&#232;tres de la m&#234;me fa&#231;on qu'un
+shell script (variables &#171;&nbsp;<TT>0</TT>&nbsp;&#187; &#224; &#171;&nbsp;<TT>9</TT>&nbsp;&#187;, commande &#171;&nbsp;<TT>shift</TT>&nbsp;&#187;, etc.).
+Elle n'est connu seulement que <B>du process dans lequel elle a &#233;t&#233; d&#233;finie</B>.
+
+<P>
+L'utilisation des fonctions en Shell diff&#232;re de celle que l'on peut en faire avec les langages &#233;volu&#233;s.
+Elles servent &#224; effectuer un traitement &#233;l&#233;mentaire &#224; l'int&#233;rieur d'un script (connu de lui seul). Si le
+traitement doit &#234;tre commun &#224; un ensemble de proc&#233;dure, il est pr&#233;f&#233;rable d'utiliser un script
+externe.
+
+<P>
+Une fonction en Shell diff&#232;re de celles que l'on peut trouver dans un langage &#233;volu&#233; comme
+le C ou le Fortran par le fait qu'elle ne sait renvoyer qu'un statut d'ex&#233;cution. Elle
+ne permet donc  pas de remonter de valeurs au programme appelant, voire-m&#234;me
+modifier des arguments qui lui seraient pass&#233;s.
+
+<P>
+
+	<B>Remarque&nbsp;10..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Pour plus de clart&#233;, il est pr&#233;f&#233;rable de faire pr&#233;c&#233;d&#233; le nom de chaque fonction par le
+caract&#232;re &#171;&nbsp;<TT>_</TT>&nbsp;&#187; (underscore).
+	
+</I></BLOCKQUOTE>
+
+<P>
+Une fonction s'ex&#233;cute dans le shell courant,  c'est-&#224;-dire dans le m&#234;me processus. Par
+cons&#233;quent, tout appel &#224; la commande &#171;&nbsp;<TT>exit</TT>&nbsp;&#187; entra&#238;ne la fin du shell script.
+
+<P>
+
+	<B>Exemple&nbsp;10..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+La fonction ci-apr&#232;s va nous permettre de demander &#224; l'utilisateur de r&#233;pondre par
+&#171;&nbsp;<TT>O</TT>&nbsp;&#187; pour <I>oui</I> ou &#171;&nbsp;<TT>N</TT>&nbsp;&#187; pour <I>non</I>. A chaque fois que le
+script aura besoin de poser ce type de question, cette fonction sera appel&#233;e. Elle
+va donc admettre les agurments suivants&nbsp;:
+</BLOCKQUOTE>
+<UL>
+<LI>la question,
+</LI>
+<LI>la r&#233;ponse par d&#233;faut.
+</LI>
+</UL>
+<P>
+<BLOCKQUOTE>Sachant qu'une fonction ne peut renvoyer qu'un statut d'ex&#233;cution, il faudra utiliser d'autres
+m&#233;canismes si l'on veut retourner la r&#233;ponse effectivement saisie&nbsp;: <I>le m&#233;canisme des
+redirections d'entr&#233;es/sorties</I>.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Dans le cas qui nous interresse, tous les messages de la fonction seront redirig&#233;s sur la sortie
+d'erreurs standard et la r&#233;ponse saisie par l'utilisateur, sur la sortie standard.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Nous aurons donc&nbsp;:
+</BLOCKQUOTE>
+<P><PRE>
+_ask ()
+{
+    # Arg1 = message
+    # Arg2 = reponse par defaut
+
+    if [ $# -ne 2 ]; then
+        echo "Missing arguments in function \"ask\"." &gt;&amp;2
+        exit
+    fi
+    case "$2" in
+        o|O)
+            message="$1 ([o]/n):"
+            ;;
+        n|N)
+            message="$1 (o/[n]):"
+            ;;
+        *)
+            echo "Invalid default answer in function \"ask\"." &gt;&amp;2
+            exit
+            ;;
+    esac
+    while
+        echo "$message \c" &gt;&amp;2
+        read answer
+        [ "$answer" = "" ] &amp;&amp; answer=$2
+        answer=`echo $answer | tr '[A-Z]' '[a-z]'`
+        [ "$answer" != "o" -a "$answer" != "n" ]
+    do
+        echo "Reponse invalide. Recommencez." &gt;&amp;2
+    done
+    echo $answer
+}
+
+rep=`_ask "Voulez-vous  vraiment poursuivre ce programme" "o"`
+
+if [ "$rep" = "n" ]; then
+    exit
+fi
+
+echo "Bonjour."
+echo "Voici un programme Shell."
+
+rep=`_ask "Est-ce que l'on continue" "o"`
+</PRE><BLOCKQUOTE>
+<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2469"
+  HREF="node112.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2463"
+  HREF="node110.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2457"
+  HREF="node110.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2465"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2467"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2470"
+  HREF="node112.html">Commande &#171;&nbsp;return&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2464"
+  HREF="node110.html">Les fonctions</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2458"
+  HREF="node110.html">Les fonctions</A>
+ &nbsp; <B>  <A NAME="tex2html2466"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2468"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

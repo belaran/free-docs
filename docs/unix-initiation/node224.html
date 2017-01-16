@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les tests ("if")</TITLE>
+<META NAME="description" CONTENT="Les tests ("if")">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node225.html">
+<LINK REL="previous" HREF="node223.html">
+<LINK REL="up" HREF="node223.html">
+<LINK REL="next" HREF="node225.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4253"
+  HREF="node225.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4247"
+  HREF="node223.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4241"
+  HREF="node223.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4249"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4251"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4254"
+  HREF="node225.html">Choix multiples (case, switch)</A>
+<B> monter:</B> <A NAME="tex2html4248"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4242"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+ &nbsp; <B>  <A NAME="tex2html4250"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4252"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION05281000000000000000">
+Les tests ("<TT>if</TT>")</A>
+</H2>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>C Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Bourne Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Syntaxe</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>if ( </code><I>expression</I><code> ) then</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><A NAME="24606"></A><code>if [ </code><I>expression</I><code> ]</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>then</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>else if ( </code><I>expression</I><code> )</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>elif [ </code><I>expression</I><code> ]</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>else</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>then</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>endif</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>else</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>fi</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Remarque</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Les instructions et les &#233;valuations de tests sont internes au C Shell.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Un espace est <B>indispensable</B> entre les crochets
+		("<code>[</code>", "<code>]</code>") et l'expression.
+
+<P>
+L'&#233;valuation des tests est externe au Bourne Shell.</TD>
+</TR>
+</TABLE>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=2>C Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=2>Bourne Shell</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=4>Op&#233;rateurs</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>!</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>n&#233;gation</TD>
+<TD ALIGN="CENTER"><code>!</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>n&#233;gation</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>==</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>&#233;gal</TD>
+<TD ALIGN="CENTER"><code>=</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>&#233;gal (cha&#238;nes)</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>&nbsp;</TD>
+<TD ALIGN="CENTER"><code>-eq</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>&#233;gal (nombres)</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>!=</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>diff&#233;rent</TD>
+<TD ALIGN="CENTER"><code>!=</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>diff&#233;rent (cha&#238;nes)</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>&nbsp;</TD>
+<TD ALIGN="CENTER"><code>-ne</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>diff&#233;rent (nombres)</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>&lt;</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>inf&#233;rieur</TD>
+<TD ALIGN="CENTER"><code>-lt</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>inf&#233;rieur</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>&lt;=</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>inf&#233;rieur ou &#233;gal</TD>
+<TD ALIGN="CENTER"><code>-le</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>inf&#233;rieur ou &#233;gal</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>&gt;</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>sup&#233;rieur</TD>
+<TD ALIGN="CENTER"><code>-gt</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>sup&#233;rieur</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>&gt;=</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>sup&#233;rieur ou &#233;gal</TD>
+<TD ALIGN="CENTER"><code>-ge</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>sup&#233;rieur ou &#233;gal</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>&amp;&amp;</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>et (logique)</TD>
+<TD ALIGN="CENTER"><code>-a</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>et (logique)</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><code>||</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>ou (logique)</TD>
+<TD ALIGN="CENTER"><code>-o</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>ou (logique)</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=4>Remarque</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198 COLSPAN=2>cf. "<TT>csh(1)</TT>" pour les op&#233;rateurs sur les fichiers.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198 COLSPAN=2>cf. "<TT>test(1)</TT>" pour les op&#233;rateurs sur les fichiers.</TD>
+</TR>
+</TABLE>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>C Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Bourne Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Exemple</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><TABLE  WIDTH="317">
+<TR><TD>
+		<PRE>
+if (-x $dir/$file) then
+   source $dir/$file
+endif
+</PRE></TD></TR>
+</TABLE></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><TABLE  WIDTH="317">
+<TR><TD>
+		<PRE>
+if [ -x $dir/$file ]
+then
+   . $dir/$file
+fi
+</PRE></TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><TABLE  WIDTH="317">
+<TR><TD>
+		<PRE>
+set system=`uname -a | \
+   cut -d' ' -f1`
+if ( "$system" == "Irix") then
+   setenv MACHINE SGI
+endif
+</PRE></TD></TR>
+</TABLE></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><TABLE  WIDTH="317">
+<TR><TD>
+		<PRE>
+system=`uname -a | \
+   cut -d' ' -f1`
+if [ "$system" == "Irix"]; then
+   MACHINE=SGI
+   export MACHINE
+fi
+</PRE></TD></TR>
+</TABLE></TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4253"
+  HREF="node225.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4247"
+  HREF="node223.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4241"
+  HREF="node223.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4249"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4251"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4254"
+  HREF="node225.html">Choix multiples (case, switch)</A>
+<B> monter:</B> <A NAME="tex2html4248"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4242"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+ &nbsp; <B>  <A NAME="tex2html4250"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4252"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

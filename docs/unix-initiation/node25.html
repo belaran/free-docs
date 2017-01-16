@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>R&#233;pertoires &#171;&nbsp;.&nbsp;&#187; et &#171;&nbsp;..&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="R&#233;pertoires &#171;&nbsp;.&nbsp;&#187; et &#171;&nbsp;..&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node24.html">
+<LINK REL="up" HREF="node21.html">
+<LINK REL="next" HREF="node26.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1053"
+  HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1047"
+  HREF="node21.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1043"
+  HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1049"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1051"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1054"
+  HREF="node26.html">Commandes de manipulation de</A>
+<B> monter:</B> <A NAME="tex2html1048"
+  HREF="node21.html">Commandes li&#233;es au file</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1044"
+  HREF="node24.html">Commandes mkdir et rmdir</A>
+ &nbsp; <B>  <A NAME="tex2html1050"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1052"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02214000000000000000">
+R&#233;pertoires &#171;&nbsp;<TT>.</TT>&nbsp;&#187; et &#171;&nbsp;<TT>..</TT>&nbsp;&#187;</A>
+</H2>
+
+<P>
+<A NAME="3823"></A><A NAME="3824"></A> Quand un r&#233;pertoire est cr&#233;&#233;, le syst&#232;me g&#233;n&#232;re automatiquement deux sous-r&#233;pertoires repr&#233;sentant des liens vers le r&#233;pertoire cr&#233;&#233; et le r&#233;pertoire p&#232;re&nbsp;:
+
+<UL>
+<LI>le r&#233;pertoire &#171;&nbsp;<TT>.</TT>&nbsp;&#187;= r&#233;pertoire courant,
+</LI>
+<LI>le r&#233;pertoire &#171;&nbsp;<TT>..</TT>&nbsp;&#187; = r&#233;pertoire p&#232;re.
+</LI>
+</UL>
+
+<P>
+Le r&#233;pertoire &#171;&nbsp;<TT>..</TT>&nbsp;&#187; est tr&#232;s utile pour r&#233;f&#233;rencer ce qui se trouve au dessus du r&#233;pertoire courant dans l'arborescence du file system. Ainsi il suffira d'utiliser &#171;&nbsp;<TT>..</TT>&nbsp;&#187; dans un chemin d'acc&#232;s relatif pour r&#233;f&#233;rencer le r&#233;pertoire p&#232;re.
+
+<P>
+Par exemple &#171;&nbsp;<TT>cd ..</TT>&nbsp;&#187; remonte d'un cran dans l'arborescence et &#171;&nbsp;<TT>more ../../fic</TT>&nbsp;&#187; liste le contenu d'un fichier deux niveaux au dessus dans l'arborescence. La figure <A HREF="#fig-cmds-dotdirs"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> montre les liens entre les r&#233;pertoires &#171;&nbsp;<TT>.</TT>&nbsp;&#187; et &#171;&nbsp;<TT>..</TT>&nbsp;&#187; et les r&#233;pertoires fils et p&#232;res.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig-cmds-dotdirs"></A><A NAME="3825"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Liens des r&#233;pertoires &#171;&nbsp;<TT>.</TT>&nbsp;&#187; et
+&#171;&nbsp;<TT>..</TT>&nbsp;&#187;</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><IMG
+  WIDTH="396" HEIGHT="292" ALIGN="BOTTOM" BORDER="0"
+ SRC="./dotdirs.jpg"
+ ALT="Image dotdirs">
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Le tableau <A HREF="#tab-cmds-dotdirs"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> montre des exemples d'&#233;quivalences
+entre les syst&#232;mes U<SMALL>NIX</SMALL>, OpenV<SMALL>MS</SMALL> et <I>MS-DOS</I> de manipulation des
+r&#233;pertoires &#171;&nbsp;<TT>.</TT>&nbsp;&#187; et &#171;&nbsp;<TT>..</TT>&nbsp;&#187;.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="3826"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+Exemples d'equivalences entre syst&#232;mes pour
+la manipulation des r&#233;pertoires &#171;&nbsp;<TT>.</TT>&nbsp;&#187; et &#171;&nbsp;<TT>..</TT>&nbsp;&#187;</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="LEFT">OpenV<SMALL>MS</SMALL></TD>
+<TD ALIGN="LEFT"><I>MS-DOS</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>.</TT></TD>
+<TD ALIGN="LEFT"><TT>[]</TT></TD>
+<TD ALIGN="LEFT"><TT>.</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>..</TT></TD>
+<TD ALIGN="LEFT"><TT>[-]</TT></TD>
+<TD ALIGN="LEFT"><TT>..</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>../..</TT></TD>
+<TD ALIGN="LEFT"><TT>[-]</TT></TD>
+<TD ALIGN="LEFT"><code>..\..</code></TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1053"
+  HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1047"
+  HREF="node21.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1043"
+  HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1049"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1051"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1054"
+  HREF="node26.html">Commandes de manipulation de</A>
+<B> monter:</B> <A NAME="tex2html1048"
+  HREF="node21.html">Commandes li&#233;es au file</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1044"
+  HREF="node24.html">Commandes mkdir et rmdir</A>
+ &nbsp; <B>  <A NAME="tex2html1050"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1052"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

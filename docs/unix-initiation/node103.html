@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Manipulation sur les variables</TITLE>
+<META NAME="description" CONTENT="Manipulation sur les variables">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node102.html">
+<LINK REL="up" HREF="node101.html">
+<LINK REL="next" HREF="node104.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2352"
+  HREF="node104.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2346"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2342"
+  HREF="node102.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2348"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2350"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2353"
+  HREF="node104.html">Commandes &#233;volu&#233;es pour les</A>
+<B> monter:</B> <A NAME="tex2html2347"
+  HREF="node101.html">Les variables</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2343"
+  HREF="node102.html">Les variables sp&#233;ciales</A>
+ &nbsp; <B>  <A NAME="tex2html2349"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2351"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04320000000000000000"></A><A NAME="variables-manip"></A>
+<BR>
+Manipulation sur les variables
+</H1>
+
+<P>
+Il est possible de combiner des appels &#224; une variable avec une
+<A NAME="12252"></A>expression qui sera
+&#233;valu&#233;e par le shell et, ainsi, renverra une valeur suivant le
+contexte.
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Expression</TD>
+<TD ALIGN="CENTER" COLSPAN=1>R&#233;sultat de l'&#233;valuation</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>${variable-chaine}</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Si la variable est initialis&#233;e, l'expression renvoie son contenu. Dans
+		le cas contraire, elle renvoie la cha&#238;ne de caract&#232;res sp&#233;cifi&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>${variable:-chaine}</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Si la variable est initialis&#233;e et est non vide (diff&#233;rente de la cha&#238;ne
+		vide &#171;&nbsp;&#187;), l'expression renvoie son contenu. Dans le cas contraire,
+		elle renvoie la cha&#238;ne de caract&#232;res sp&#233;cifi&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>${variable=chaine}</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Si la variable est initialis&#233;e, l'expression renvoie son contenu. Dans
+		le cas contraire, la variable est initialis&#233;e avec la cha&#238;ne sp&#233;cifi&#233;e
+		dans l'expression. La valeur finale retourn&#233;e au shell est le nouveau
+		contenu de la variable (donc la cha&#238;ne sp&#233;cifi&#233;e dans l'expression).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>${variable:=chaine}</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Si la variable est initialis&#233;e et est non vide (diff&#233;rente de la cha&#238;ne
+		vide &#171;&nbsp;&#187;), l'expression renvoie son contenu. Dans le cas contraire, la
+		variable est initialis&#233;e avec la cha&#238;ne sp&#233;cifi&#233;e dans l'expression. La
+		valeur finale retourn&#233;e au shell est le nouveau contenu de la
+		variable (donc la cha&#238;ne sp&#233;cifi&#233;e dans l'expression).</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>${variable?chaine}</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Si la variable est initialis&#233;e, l'expression renvoie son contenu. Dans
+		le cas contraire, le shell affiche un message d'erreur dont la forme
+		est&nbsp;: &#171;&nbsp;<TT>variable:&nbsp;cha&#238;ne</TT>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>${variable:?chaine}</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Si la variable est initialis&#233;e et est non vide (diff&#233;rente de la cha&#238;ne
+		vide &#171;&nbsp;&#187;), l'expression renvoie son contenu. Dans le cas contraire, le
+		shell affiche un message d'erreur dont la forme est&nbsp;: &#171;&nbsp;<TT>variable:&nbsp;cha&#238;ne</TT>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>${variable+chaine}</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Si la variable est initialis&#233;e, l'expression renvoie la valeur de la
+		cha&#238;ne. Dans le cas contraire, on renvoie une cha&#238;ne nulle.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>${variable:+chaine}</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Si la variable est initialis&#233;e et est non vide (diff&#233;rente de la cha&#238;ne
+		vide &#171;&nbsp;&#187;), l'expression renvoie la valeur de la cha&#238;ne. Dans le cas
+		contraire, on renvoie une cha&#238;ne nulle.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<BR>
+<BR>
+<BR>
+<BR>
+
+	<B>Exemple&nbsp;8..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+echo ${MY_VAR-"non defini"}
+echo ${HOME_ADM=/home/adm}
+echo ${MY_VAR?"Variable non initialisee dans `basename $0`"}
+echo ${MY_VAR+"Ca roule, ma poule"}
+</PRE>
+
+<P>
+
+	<B>Remarque&nbsp;8..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I><B>Attention</B>, le contenu de la variable &#171;&nbsp;<TT>*</TT>&nbsp;&#187; est le r&#233;sultat
+de l'&#233;valuation de la ligne de commande. Par cons&#233;quent, les espaces ou
+tabulations suppl&#233;mentaires d&#233;limitant les arguments du script seront &#233;limin&#233;s.
+</I></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><I>Par cons&#233;quent, le programme appel&#233; de la fa&#231;on suivante sur la ligne de commandes&nbsp;:
+</I></BLOCKQUOTE>
+<DIV ALIGN="CENTER"><BLOCKQUOTE><I><code>% nom_prog arg1  arg2   arg3     arg4</code>
+
+contiendra la valeur suivante dans la variable &#171;&nbsp;<TT>*</TT>&nbsp;&#187;&nbsp;:
+</I></BLOCKQUOTE></DIV>
+<DIV ALIGN="CENTER">
+<DIV ALIGN="CENTER"><BLOCKQUOTE><I><code>arg1 arg2 arg3 arg4</code>
+
+<B>et non pas</B>&nbsp;:
+</I></BLOCKQUOTE></DIV></DIV>
+<DIV ALIGN="CENTER">
+<DIV ALIGN="CENTER">
+<DIV ALIGN="CENTER"><BLOCKQUOTE><I><code>arg1  arg2   arg3     arg4</code>
+
+</I></BLOCKQUOTE></DIV></DIV></DIV>
+
+
+<P>
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2352"
+  HREF="node104.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2346"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2342"
+  HREF="node102.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2348"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2350"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2353"
+  HREF="node104.html">Commandes &#233;volu&#233;es pour les</A>
+<B> monter:</B> <A NAME="tex2html2347"
+  HREF="node101.html">Les variables</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2343"
+  HREF="node102.html">Les variables sp&#233;ciales</A>
+ &nbsp; <B>  <A NAME="tex2html2349"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2351"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exemple 1</TITLE>
+<META NAME="description" CONTENT="Exemple 1">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node153.html">
+<LINK REL="previous" HREF="node151.html">
+<LINK REL="up" HREF="node151.html">
+<LINK REL="next" HREF="node153.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3088"
+  HREF="node153.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3082"
+  HREF="node151.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3076"
+  HREF="node151.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3084"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3086"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3089"
+  HREF="node153.html">Exemple 2</A>
+<B> monter:</B> <A NAME="tex2html3083"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3077"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+ &nbsp; <B>  <A NAME="tex2html3085"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3087"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04941000000000000000"></A><A NAME="adv-fltrs-sed-ex1"></A>
+<BR>
+Exemple 1
+</H2>
+
+<P>
+Le but de cet exemple est de&nbsp;:
+<DL>
+<DT><STRONG>But&nbsp;:</STRONG></DT>
+<DD>
+<BR>
+L'utilisateur d&#233;sire conna&#238;tre la localisation dans l'arborescence du
+		syst&#232;me de diverses commandes.
+<BR>
+<BR>
+<BR>	
+</DD>
+<DT><STRONG>R&#233;alisation&nbsp;:</STRONG></DT>
+<DD>
+<BR>
+On se propose, alors, de d&#233;velopper un script en Bourne Shell, dont le nom est
+		&#171;&nbsp;<TT>locate</TT>&nbsp;&#187;, acceptant un nombre quelconque d'arguments
+		repr&#233;sentant les commandes &#224; localiser et d'afficher le chemin absolu de
+		chaque ex&#233;cutable correspondant. Si, par hasard, aucun fichier n'a pu &#234;tre
+		trouv&#233;, on affichera un message d'erreur.
+<BR>
+<BR>
+<BR>	
+</DD>
+<DT><STRONG>Syntaxe&nbsp;:</STRONG></DT>
+<DD>
+<BR>
+La syntaxe propos&#233;e, pour appeler ce script est&nbsp;:
+		<BLOCKQUOTE>
+<TT>locate</TT>&nbsp;<I>file</I><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+</BLOCKQUOTE>
+</DD>
+</DL>
+
+<P>
+Le script obtenu est alors&nbsp;:
+<PRE>
+#!/bin/sh
+if [ $# -eq 0 ]; then
+    echo "`basename $0`: missing arguments." &gt;&amp;2
+    echo "usage: `basename $0` file ..." &gt;&amp;2
+    exit -1
+fi
+while
+    [ $# -ne 0 ]
+do
+    find_it=0
+    for dir in `echo $PATH | sed -e 's/:/ /g'`
+    do
+        if [ -f $dir/$1 ]; then
+            echo $dir/$1
+            find_it=1
+            break
+        fi
+    done
+    [ $find_it -eq 0 ] &amp;&amp; echo "$1 not found in \"PATH\" variable." &gt;&amp;2
+    shift
+done
+</PRE>
+
+<P>
+Nous allons maintenant d&#233;tailler le fonctionnement.
+
+<P>
+<PRE>
+#!/bin/sh
+if [ $# -eq 0 ]; then
+    echo "`basename $0`: missing arguments." &gt;&amp;2
+    echo "usage: `basename $0` file ..." &gt;&amp;2
+    exit -1
+fi
+</PRE>
+<P>
+<BLOCKQUOTE>Tout d'abord, le script v&#233;rifie que le nombre d'arguments est bien non nul gr&#226;ce &#224; la variable &#171;&nbsp;<code>$#</code>&nbsp;&#187;. Si ce n'est pas le cas, on extrait le nom du script, contenu dans la variable &#171;&nbsp;<code>$0</code>&nbsp;&#187; pour afficher le message d'erreur correspondant, ainsi que la fa&#231;on de l'utiliser.
+
+</BLOCKQUOTE>
+
+<P>
+<PRE>
+while
+    [ $# -ne 0 ]
+do
+</PRE>
+<BR>
+<BR>
+<BR>
+<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+<BR>
+<BR>
+<BR><PRE>
+    shift
+done
+</PRE>
+<BLOCKQUOTE>
+Afin de pouvoir analyser tous les arguments, le programme va effectuer une boucle tant que le nombre d'arguments est non nul. L'utilisation de la commande &#171;&nbsp;<TT>shift</TT>&nbsp;&#187; permettra de mettre &#224; jour la valeur qui y est contenue et l'argument qui sera trait&#233; sera toujours contenu dans la variable positionnelle &#171;&nbsp;<TT>1</TT>&nbsp;&#187; (son contenu sera appel&#233; gr&#226;ce &#224; &#171;&nbsp;<code>$1</code>&nbsp;&#187;).
+
+</BLOCKQUOTE>
+
+<P>
+<PRE>
+find_it=0
+for dir in `echo $PATH | sed -e 's/:/ /g'`
+do
+</PRE>
+<BR>
+<BR>
+<BR>
+<IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+<BR>
+<BR>
+<BR><PRE>
+done
+</PRE>
+<BLOCKQUOTE>
+La variable &#171;&nbsp;<TT>PATH</TT>&nbsp;&#187; contient la liste des r&#233;pertoires &#224; examiner, sachant que chaque nom est s&#233;par&#233; par le caract&#232;re &#171;&nbsp;<TT>:</TT>&nbsp;&#187;. La boucle &#171;&nbsp;<TT>for</TT>&nbsp;&#187; admet une liste de valeurs s&#233;par&#233;es par des espaces. Par cons&#233;quent, il faut fournir &#224; &#171;&nbsp;<TT>for</TT>&nbsp;&#187;, cette liste &#224; partir du contenu de &#171;&nbsp;<TT>PATH</TT>&nbsp;&#187; dont il faudra remplacer &#171;&nbsp;<TT>:</TT>&nbsp;&#187; par <!-- MATH
+ $\fbox{\textsc{space}}$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="\fbox{\textsc{space}}"> .
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Pour cela, la commande &#171;&nbsp;<code>echo $PATH</code>&nbsp;&#187; renvoie sur l'entr&#233;e standard de la commande &#171;&nbsp;<TT>sed</TT>&nbsp;&#187;. La requ&#234;te &#171;&nbsp;<code>s/:/ /g</code>&nbsp;&#187; substitue chaque occurence (gr&#226;ce &#224; l'option &#171;&nbsp;<TT>g</TT>&nbsp;&#187;) du caract&#232;re &#171;&nbsp;<TT>:</TT>&nbsp;&#187; par <!-- MATH
+ $\fbox{\textsc{space}}$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="\fbox{\textsc{space}}"> .
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Le r&#233;sultat de &#171;&nbsp;<code>`echo $PATH | sed -e 's/:/ /g'`</code>&nbsp;&#187; est &#233;valu&#233; par le shell lors de l'&#233;tape des &#171;&nbsp;<I>substitutions de commandes</I>&nbsp;&#187;. Le r&#233;sultat obtenu est donc&nbsp;:
+
+<DIV ALIGN="CENTER">
+<code>for dir in</code> <I>rep1</I> <I>rep2</I> <I>rep3</I> <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$">
+</DIV>
+Par cons&#233;quent, la variable &#171;&nbsp;<TT>dir</TT>&nbsp;&#187; va contenir, &#224; chaque it&#233;ration, l'un des r&#233;pertoires contenus dans la variable &#171;&nbsp;<TT>PATH</TT>&nbsp;&#187;. Il ne restera plus qu'&#224; v&#233;rifier l'existance du fichier concern&#233;, dont le nom, lui, est contenu dans la variable &#171;&nbsp;<TT>1</TT>&nbsp;&#187;. Cette variable prendra, &#224; tour de r&#244;le, la valeur des diff&#233;rents arguments pass&#233; au script, gestion assur&#233; par la boucle &#171;&nbsp;<TT>while</TT>&nbsp;&#187; associ&#233; &#224; la commande &#171;&nbsp;<TT>shift</TT>&nbsp;&#187;.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>La variable &#171;&nbsp;<TT>find_it</TT>&nbsp;&#187; est un <I>flag</I> indiquant si le fichier a &#233;t&#233; trouv&#233; lors de l'ex&#233;cution de la boucle &#171;&nbsp;<TT>for</TT>&nbsp;&#187;.
+
+</BLOCKQUOTE>
+
+<P>
+<PRE>
+if [ -f $dir/$1 ]; then
+    echo $dir/$1
+    find_it=1
+    break
+fi
+</PRE>
+<BLOCKQUOTE>
+Cette op&#233;ration est simple. Un test v&#233;rifie l'existance du fichier. S'il existe, le nom complet est affich&#233; sur la sortie standard et le <I>flag</I> &#171;&nbsp;<TT>find_it</TT>&nbsp;&#187; est positionn&#233; &#224; la valeur <IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img42.png"
+ ALT="$1$"> et on force la sortie de la boucle &#171;&nbsp;<TT>for</TT>&nbsp;&#187;. Dans le cas contraire, l'ex&#233;cution de la boucle se poursuit.
+
+</BLOCKQUOTE>
+
+<P>
+<PRE>
+[ $find_it -eq 0 ] &amp;&amp; echo "$1 not found in \"PATH\" variable." &gt;&amp;2
+shift
+</PRE>
+<BLOCKQUOTE>
+&#192; ce stade de l'ex&#233;cution, chaque r&#233;pertoire contenu dans la variable &#171;&nbsp;<TT>PATH</TT>&nbsp;&#187; a &#233;t&#233; examin&#233;, &#224; moins qu'une sortie n'aie &#233;t&#233; provoqu&#233; lorsque le fichier a &#233;t&#233; trouv&#233;.
+Dans ce cas, le script affichera le message d'information sur la sortie d'erreur standard (redirection gr&#226;ce &#224; &#171;&nbsp;<code>&gt;&amp;2</code>&nbsp;&#187;) &#224; condition que la variable &#171;&nbsp;<code>find_it</code>&nbsp;&#187; soit non nulle.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Il ne restera plus qu'&#224; passer &#224; l'argument suivant gr&#226;ce &#224; la commande &#171;&nbsp;<code>shift</code>&nbsp;&#187;.
+
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3088"
+  HREF="node153.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3082"
+  HREF="node151.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3076"
+  HREF="node151.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3084"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3086"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3089"
+  HREF="node153.html">Exemple 2</A>
+<B> monter:</B> <A NAME="tex2html3083"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3077"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+ &nbsp; <B>  <A NAME="tex2html3085"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3087"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

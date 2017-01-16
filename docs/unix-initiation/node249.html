@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Copier/Coller</TITLE>
+<META NAME="description" CONTENT="Copier/Coller">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node250.html">
+<LINK REL="previous" HREF="node248.html">
+<LINK REL="up" HREF="node234.html">
+<LINK REL="next" HREF="node250.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4662"
+  HREF="node250.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4656"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4650"
+  HREF="node248.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4658"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4660"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4663"
+  HREF="node250.html">Modifier du texte</A>
+<B> monter:</B> <A NAME="tex2html4657"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4651"
+  HREF="node248.html">Indentation de texte</A>
+ &nbsp; <B>  <A NAME="tex2html4659"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4661"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION053212000000000000000"></A><A NAME="ann-edt-vi-cutpaste"></A>
+<BR>
+Copier/Coller
+</H2>
+
+<P>
+"<TT>vi</TT>" dispose d'un certain nombre de <I>buffer</I> permettant
+de copier ou coller un certain nombre de lignes, de mots ou de caract&#232;res
+qu'il sera possible de replacer n'importe o&#249; dans le fichier.Ces
+<I>buffers</I> sont nomm&#233;s par une lettre allant de "<TT>a</TT>" &#224;
+"<TT>z</TT>".
+
+<P>
+Dans toute la suite, nous d&#233;signerons l'op&#233;ration "<I>couper</I>"
+par le fait de copier du texte dans un <I>buffer</I> et de les
+effacer du fichier. De m&#234;me, nous d&#233;signerons l'op&#233;ration "<I>coller</I>"
+par le fait de placer &#224; la position courrante du curseur, le contenu
+d'un <I>buffer</I>.
+
+<P>
+Dans le tableau suivant, nous d&#233;signerons l'un de ces <I>buffers</I>
+par "<I>(a-z)</I>".
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=71><I>n</I><TT>yy</TT> ou <I>n</I><TT>Y</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=241>Copie les "<I>n</I>" lignes &#224; partir de la position
+		courrante dans le <I>buffer</I> par d&#233;faut. Si "<I>n</I>" n'est
+		pas pr&#233;cis&#233;, alors seule la ligne courrante est m&#233;moris&#233;e
+		dans le <I>buffer</I>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=71><TT>y</TT><I>cmd<IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img91.png"
+ ALT="$_{curseur}$"></I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=241>Copie la partie de texte sp&#233;cifi&#233;e par la commande
+		de d&#233;placement de curseur "<I>cmd<IMG
+ WIDTH="51" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img91.png"
+ ALT="$_{curseur}$"></I>" dans
+		le <I>buffer</I> par d&#233;faut, &#224; partir de la position du curseur.
+		Par exemple, "<TT>yG</TT>", copie le texte &#224; partir de la
+		position courrante du curseur jusqu'&#224; la fin de la ligne dans le
+		<I>buffer</I>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=71><TT>"</TT><I>(a-z)n</I><TT>yy</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=241>Copie les "<I>n</I>" lignes &#224; partir de la position
+		courrante dans le <I>buffer</I> sp&#233;cifi&#233;. Si "<I>n</I>" n'est pas
+		pr&#233;cis&#233;, alors seule la ligne courrante est m&#233;moris&#233;e
+		dans le <I>buffer</I>. Par exemple, "<TT>"a10yy</TT>" copie
+		les dix lignes suivantes (ligne courrante comprise) dans
+		le <I>buffer</I> "<TT>a</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=71><TT>"</TT><I>(a-z)n</I><TT>dd</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=241><I>Coupe</I> les "<I>n</I>" lignes &#224; partir de la position
+		courrante dans le <I>buffer</I> sp&#233;cifi&#233;. Si "<I>n</I>" n'est pas
+		pr&#233;cis&#233;, alors seule la ligne courrante est m&#233;moris&#233;e
+		dans le <I>buffer</I>. Par exemple, "<TT>"a10dd</TT>" <I>coupe</I>
+		les dix lignes suivantes (ligne courrante comprise) dans
+		le <I>buffer</I> "<TT>a</TT>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=71><TT>p</TT> (minuscule)</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=241><I>Colle</I> le contenu du <I>buffer</I> par d&#233;faut <B>apr&#232;s</B>&#239;&#191;12a
+		position courrante du curseur. Apr&#232;s cette op&#233;ration, le <I>buffer</I>
+		est vid&#233;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=71><TT>P</TT> (majuscule)</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=241><I>Colle</I> le contenu du <I>buffer</I> par d&#233;faut <B>avant</B>&#239;&#191;12a
+		position courrante du curseur. Apr&#232;s cette op&#233;ration, le <I>buffer</I>
+		est vid&#233;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=71><TT>"</TT><I>(a-z)n</I><TT>p</TT>&#239;&#191;12</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=241><I>Colle</I> le contenu du <I>buffer</I> sp&#233;cifi&#233; <B>apr&#232;s</B>&#239;&#191;12a
+		position courrante du curseur. Apr&#232;s cette op&#233;ration, le <I>buffer</I>
+		est vid&#233;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=71><TT>"</TT><I>(a-z)n</I><TT>P</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=241><I>Colle</I> le contenu du <I>buffer</I> sp&#233;cifi&#233; <B>avant</B>&#239;&#191;12a
+		position courrante du curseur. Apr&#232;s cette op&#233;ration, le <I>buffer</I>
+		est vid&#233;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=71>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=241>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4662"
+  HREF="node250.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4656"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4650"
+  HREF="node248.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4658"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4660"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4663"
+  HREF="node250.html">Modifier du texte</A>
+<B> monter:</B> <A NAME="tex2html4657"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4651"
+  HREF="node248.html">Indentation de texte</A>
+ &nbsp; <B>  <A NAME="tex2html4659"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4661"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

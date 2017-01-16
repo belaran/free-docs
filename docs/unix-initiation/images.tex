@@ -1,0 +1,1757 @@
+\batchmode
+\documentclass[titlepage,twoside,a4paper]{book}
+\RequirePackage{ifthen}
+
+
+
+
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+
+\usepackage{makeidx}
+\usepackage{longtable}
+\usepackage{multirow}
+
+
+\usepackage{fancybox}
+\usepackage{fancyhdr}
+\usepackage{graphics}
+
+
+\usepackage[pdftex,colorlinks=true,urlcolor=blue]{hyperref}
+
+
+\usepackage{alltt}
+\usepackage{fancyvrb}
+
+
+\usepackage{graphicx}
+\graphicspath{{_Images/}}
+
+
+\pagestyle{fancy}
+
+
+\makeindex						%
+
+
+\input epsf
+
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+
+
+\newcounter{remarque-cnt} \setcounter{remarque-cnt}{1}
+
+
+
+\newcounter{example-cnt} \setcounter{example-cnt}{1}
+
+
+%
+\renewcommand{\chaptermark}[1]{
+	\markboth{\chaptername\  \thechapter. #1}{}
+}
+%
+\renewcommand{\sectionmark}[1]{
+	\markright{\thesection. #1}{}
+}
+
+
+\setlongtables
+
+\setlength{\parskip}{1.5ex} 
+
+\setlength{\topsep}{0cm} 
+
+\setlength{\partopsep}{0cm} 
+
+%
+\providecommand{\docversion}{4.1} 			%%
+\providecommand{\docdate}{Janvier 2017} 		%
+
+%
+\providecommand{\key}[1]{\fbox{#1}}%
+\providecommand{\seqkey}[2]{\fbox{#1}--\fbox{#2}}%
+\providecommand{\control}[1]{\fbox{\textsc{ctrl}}--\fbox{#1}}%
+\providecommand{\escape}[1]{\fbox{\textsc{esc}}--\fbox{#1}}%
+\providecommand{\ctrlkey}{\fbox{\textsc{ctrl}}\ }%
+\providecommand{\esckey}{\fbox{\textsc{esc}}\ }%
+\providecommand{\altkey}{\fbox{\textsc{alt}}\ }%
+\providecommand{\shiftkey}{\fbox{\textsc{shift}}\ }%
+\providecommand{\tabkey}{\fbox{\textsc{tab}}\ }%
+\providecommand{\returnkey}{\fbox{\textsc{return}}\ }%
+\providecommand{\spacekey}{\fbox{\textsc{space}}\ } 
+
+%
+\providecommand{\Unix}{\textsc{Unix}}%
+\providecommand{\Linux}{\textsc{Linux}}%
+\providecommand{\OpenVMS}{Open\textsc{Vms}}%
+\providecommand{\DOS}{\textsf{MS-DOS}}%
+\providecommand{\MacOS}{\textsf{MacOS}}%
+\providecommand{\Windows}{\textsf{Windows}}%
+\providecommand{\WindowsNT}{\textsf{Windows--NT}}%
+\providecommand{\ASCII}{\texttt{ASCII}} 
+
+%
+\providecommand{\myparttitle}{}%
+\providecommand{\mypart}[1]{
+	{
+		\pagestyle{empty}
+		\part{#1}
+	}
+	\renewcommand {}{#1 -- }
+} 
+
+
+\lhead[\leftmark]{\rightmark}
+\chead{}
+\rhead[]{}
+\lfoot[\thepage ]
+	{S. \textsc{Baudry}, v4.1}
+\cfoot{}
+\rfoot[S. \textsc{Baudry}, v4.1]
+	{\thepage }
+%
+\renewcommand{\headrulewidth}{0.4pt}
+%
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+\title{
+	Introduction {\`a} {\textsc{Unix}} et {\`a} la programmation Shell
+}
+\author{
+	Sylvain \textsc{Baudry}\\[3ex]
+	ESME-Sudria\thanks{T{\'e}l: +33 (0)  56 20 62 00}\\
+	\textsl{D{\'e}partement Informatique}\\
+	38 rue Moli{\`e}re
+	94200 \textsc{Ivry sur Seine}\\[3ex]
+	Version 4.1
+}
+\date{Janvier 2017}
+
+
+\makeindex
+
+
+
+
+\usepackage[dvips]{color}
+
+
+\pagecolor[gray]{.7}
+
+\usepackage[latin1]{inputenc}
+
+
+
+\makeatletter
+
+\makeatletter
+\count@=\the\catcode`\_ \catcode`\_=8 
+\newenvironment{tex2html_wrap}{}{}%
+\catcode`\<=12\catcode`\_=\count@
+\newcommand{\providedcommand}[1]{\expandafter\providecommand\csname #1\endcsname}%
+\newcommand{\renewedcommand}[1]{\expandafter\providecommand\csname #1\endcsname{}%
+  \expandafter\renewcommand\csname #1\endcsname}%
+\newcommand{\newedenvironment}[1]{\newenvironment{#1}{}{}\renewenvironment{#1}}%
+\let\newedcommand\renewedcommand
+\let\renewedenvironment\newedenvironment
+\makeatother
+\let\mathon=$
+\let\mathoff=$
+\ifx\AtBeginDocument\undefined \newcommand{\AtBeginDocument}[1]{}\fi
+\newbox\sizebox
+\setlength{\hoffset}{0pt}\setlength{\voffset}{0pt}
+\addtolength{\textheight}{\footskip}\setlength{\footskip}{0pt}
+\addtolength{\textheight}{\topmargin}\setlength{\topmargin}{0pt}
+\addtolength{\textheight}{\headheight}\setlength{\headheight}{0pt}
+\addtolength{\textheight}{\headsep}\setlength{\headsep}{0pt}
+\setlength{\textwidth}{349pt}
+\newwrite\lthtmlwrite
+\makeatletter
+\let\realnormalsize=\normalsize
+\global\topskip=2sp
+\def\preveqno{}\let\real@float=\@float \let\realend@float=\end@float
+\def\@float{\let\@savefreelist\@freelist\real@float}
+\def\liih@math{\ifmmode$\else\bad@math\fi}
+\def\end@float{\realend@float\global\let\@freelist\@savefreelist}
+\let\real@dbflt=\@dbflt \let\end@dblfloat=\end@float
+\let\@largefloatcheck=\relax
+\let\if@boxedmulticols=\iftrue
+\def\@dbflt{\let\@savefreelist\@freelist\real@dbflt}
+\def\adjustnormalsize{\def\normalsize{\mathsurround=0pt \realnormalsize
+ \parindent=0pt\abovedisplayskip=0pt\belowdisplayskip=0pt}%
+ \def\phantompar{\csname par\endcsname}\normalsize}%
+\def\lthtmltypeout#1{{\let\protect\string \immediate\write\lthtmlwrite{#1}}}%
+\newcommand\lthtmlhboxmathA{\adjustnormalsize\setbox\sizebox=\hbox\bgroup\kern.05em }%
+\newcommand\lthtmlhboxmathB{\adjustnormalsize\setbox\sizebox=\hbox to\hsize\bgroup\hfill }%
+\newcommand\lthtmlvboxmathA{\adjustnormalsize\setbox\sizebox=\vbox\bgroup %
+ \let\ifinner=\iffalse \let\)\liih@math }%
+\newcommand\lthtmlboxmathZ{\@next\next\@currlist{}{\def\next{\voidb@x}}%
+ \expandafter\box\next\egroup}%
+\newcommand\lthtmlmathtype[1]{\gdef\lthtmlmathenv{#1}}%
+\newcommand\lthtmllogmath{\dimen0\ht\sizebox \advance\dimen0\dp\sizebox
+  \ifdim\dimen0>.95\vsize
+   \lthtmltypeout{%
+*** image for \lthtmlmathenv\space is too tall at \the\dimen0, reducing to .95 vsize ***}%
+   \ht\sizebox.95\vsize \dp\sizebox\z@ \fi
+  \lthtmltypeout{l2hSize %
+:\lthtmlmathenv:\the\ht\sizebox::\the\dp\sizebox::\the\wd\sizebox.\preveqno}}%
+\newcommand\lthtmlfigureA[1]{\let\@savefreelist\@freelist
+       \lthtmlmathtype{#1}\lthtmlvboxmathA}%
+\newcommand\lthtmlpictureA{\bgroup\catcode`\_=8 \lthtmlpictureB}%
+\newcommand\lthtmlpictureB[1]{\lthtmlmathtype{#1}\egroup
+       \let\@savefreelist\@freelist \lthtmlhboxmathB}%
+\newcommand\lthtmlpictureZ[1]{\hfill\lthtmlfigureZ}%
+\newcommand\lthtmlfigureZ{\lthtmlboxmathZ\lthtmllogmath\copy\sizebox
+       \global\let\@freelist\@savefreelist}%
+\newcommand\lthtmldisplayA{\bgroup\catcode`\_=8 \lthtmldisplayAi}%
+\newcommand\lthtmldisplayAi[1]{\lthtmlmathtype{#1}\egroup\lthtmlvboxmathA}%
+\newcommand\lthtmldisplayB[1]{\edef\preveqno{(\theequation)}%
+  \lthtmldisplayA{#1}\let\@eqnnum\relax}%
+\newcommand\lthtmldisplayZ{\lthtmlboxmathZ\lthtmllogmath\lthtmlsetmath}%
+\newcommand\lthtmlinlinemathA{\bgroup\catcode`\_=8 \lthtmlinlinemathB}
+\newcommand\lthtmlinlinemathB[1]{\lthtmlmathtype{#1}\egroup\lthtmlhboxmathA
+  \vrule height1.5ex width0pt }%
+\newcommand\lthtmlinlineA{\bgroup\catcode`\_=8 \lthtmlinlineB}%
+\newcommand\lthtmlinlineB[1]{\lthtmlmathtype{#1}\egroup\lthtmlhboxmathA}%
+\newcommand\lthtmlinlineZ{\egroup\expandafter\ifdim\dp\sizebox>0pt %
+  \expandafter\centerinlinemath\fi\lthtmllogmath\lthtmlsetinline}
+\newcommand\lthtmlinlinemathZ{\egroup\expandafter\ifdim\dp\sizebox>0pt %
+  \expandafter\centerinlinemath\fi\lthtmllogmath\lthtmlsetmath}
+\newcommand\lthtmlindisplaymathZ{\egroup %
+  \centerinlinemath\lthtmllogmath\lthtmlsetmath}
+\def\lthtmlsetinline{\hbox{\vrule width.1em \vtop{\vbox{%
+  \kern.1em\copy\sizebox}\ifdim\dp\sizebox>0pt\kern.1em\else\kern.3pt\fi
+  \ifdim\hsize>\wd\sizebox \hrule depth1pt\fi}}}
+\def\lthtmlsetmath{\hbox{\vrule width.1em\kern-.05em\vtop{\vbox{%
+  \kern.1em\kern0.8 pt\hbox{\hglue.17em\copy\sizebox\hglue0.8 pt}}\kern.3pt%
+  \ifdim\dp\sizebox>0pt\kern.1em\fi \kern0.8 pt%
+  \ifdim\hsize>\wd\sizebox \hrule depth1pt\fi}}}
+\def\centerinlinemath{%
+  \dimen1=\ifdim\ht\sizebox<\dp\sizebox \dp\sizebox\else\ht\sizebox\fi
+  \advance\dimen1by.5pt \vrule width0pt height\dimen1 depth\dimen1 
+ \dp\sizebox=\dimen1\ht\sizebox=\dimen1\relax}
+
+\def\lthtmlcheckvsize{\ifdim\ht\sizebox<\vsize 
+  \ifdim\wd\sizebox<\hsize\expandafter\hfill\fi \expandafter\vfill
+  \else\expandafter\vss\fi}%
+\providecommand{\selectlanguage}[1]{}%
+\makeatletter \tracingstats = 1 
+
+
+\begin{document}
+\pagestyle{empty}\thispagestyle{empty}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength hsize=\the\hsize}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength vsize=\the\vsize}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength hoffset=\the\hoffset}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength voffset=\the\voffset}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength topmargin=\the\topmargin}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength topskip=\the\topskip}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength headheight=\the\headheight}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength headsep=\the\headsep}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength parskip=\the\parskip}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength oddsidemargin=\the\oddsidemargin}\lthtmltypeout{}%
+\makeatletter
+\if@twoside\lthtmltypeout{latex2htmlLength evensidemargin=\the\evensidemargin}%
+\else\lthtmltypeout{latex2htmlLength evensidemargin=\the\oddsidemargin}\fi%
+\lthtmltypeout{}%
+\makeatother
+\setcounter{page}{1}
+\onecolumn
+
+% !!! IMAGES START HERE !!!
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+
+
+\newedenvironment{example}{
+	\begin{sloppypar}
+	\noindent
+	\textbf{Exemple~{\thechapter}.\arabic{example-cnt}~:}\\
+	\hspace*{\fill} \linebreak \vspace{-7ex}
+	\begin{quote}
+}
+{	\end{quote}
+	\stepcounter{example-cnt}
+	\end{sloppypar}
+}%
+
+
+
+\newedenvironment{remarque}{
+	\begin{sloppypar}
+	\noindent
+	\textbf{Remarque~{\thechapter}.\arabic{remarque-cnt}~:}\\
+	\hspace*{\fill} \linebreak \vspace{-7ex}
+	\begin{quote}\it
+}
+{
+	\end{quote}
+	\stepcounter{remarque-cnt}
+	\end{sloppypar}
+}%
+
+
+
+\newedenvironment{definition}[1]{
+	\begin{sloppypar}
+	\noindent
+	\textbf{#1~:}\\
+	\hspace*{\fill} \linebreak \vspace{-7ex}
+	\begin{quote}
+}
+{	\end{quote}
+	\end{sloppypar}
+}%
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline476}%
+$+$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{part}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline1985}%
+\fbox{\textsc{return}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline1987}%
+\fbox{\textsc{space}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline1989}%
+\fbox{{\tt Q}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline1991}%
+\fbox{{\tt q}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{subsubsection}
+\stepcounter{section}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlfigureA{figure1044}%
+\begin{figure}\centering
+
+\setlength{\unitlength}{0.92pt} 
+\begin{picture}(359,151)
+	
+\thinlines 
+	\put(260,47){\line(1,0){34}}	\put(299,43){fichier}
+	\put(279,47){\line(0,-1){16}}	\put(299,27){fichier}
+	\put(279,30){\line(1,0){16}}	\put(293,114){fichier}
+	\put(272,117){\line(1,0){16}}	\put(293,98){fichier}
+	\put(272,134){\line(0,-1){16}}	\put(198,12){fichier}
+	\put(272,101){\line(1,0){16}}	\put(198,28){fichier}
+	\put(272,118){\line(0,-1){16}}	\put(198,44){r{\'e}pertoire}
+	\put(160,134){\line(1,0){124}}	\put(199,81){fichier}
+	\put(177,32){\line(0,-1){16}}	\put(199,97){fichier}
+	\put(177,15){\line(1,0){16}}	\put(289,129){r{\'e}pertoire}
+	\put(158,48){\line(1,0){34}}	\put(95,17){fichier}
+	\put(177,48){\line(0,-1){16}}	\put(95,70){fichier}
+	\put(177,31){\line(1,0){16}}	\put(95,46){r{\'e}pertoire}
+	\put(179,84){\line(1,0){16}}	\put(95,98){r{\'e}pertoire}
+	\put(179,101){\line(0,-1){16}}	\put(95,131){r{\'e}pertoire}
+	\put(160,101){\line(1,0){34}}	\put(10,132){{\tt /} (root)}
+	\put(95,100){\line(-1,0){21}}	\put(95,73){\line(-1,0){21}}
+	\put(95,49){\line(-1,0){21}}	\put(74,20){\line(0,1){115}}
+	\put(96,20){\line(-1,0){21}}	\put(60,135){\line(1,0){32}}
+\end{picture}
+
+\end{figure}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline2085}%
+\fbox{\textsc{esc}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline2087}%
+\fbox{\textsc{ctrl}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline2089}%
+\fbox{H}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline2093}%
+\fbox{C}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4290}%
+$\cdots$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{subsubsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+{\newpage\clearpage
+\lthtmlfigureA{figure3247}%
+\begin{figure}\centering
+
+\setlength{\unitlength}{0.92pt} 
+\begin{picture}(430,283)
+	
+\thinlines 
+	\put(139,94){\vector(1,0){83}}
+	\put(139,171){\vector(1,0){51}}
+	\put(139,248){\vector(1,0){51}}
+	\put(253,215){\vector(1,0){102}}
+	\put(320,172){\vector(1,0){35}}
+	\put(320,250){\vector(1,0){33}}
+	\put(73,70){\vector(0,-1){29}}
+	\put(73,148){\vector(0,-1){29}}
+	\put(73,225){\vector(0,-1){29}}
+	\put(253,148){\vector(0,-1){38}}
+	\put(355,215){\vector(0,-1){102}}
+	\put(253,225){\vector(0,-1){10}}
+	\put(329,216){Non}	\put(52,131){Non}
+	\put(53,210){Non}	\put(329,178){Non}
+	\put(51,54){Non}
+	\put(329,255){Oui}	\put(155,100){Oui}
+	\put(155,176){Oui}	\put(155,253){Oui}
+	\put(260,125){Oui}
+	\put(10,225){\framebox{(}128,48){
+		\parbox{110pt}{Le fichier a-t-il le m{\^e}me {\sl UID} que le
+		processus ?}}}
+	\put(191,225){\framebox{(}128,48){
+		\parbox{110pt}{Le masque de protection <<~niveau {\sl Utilisateur}~>>
+		autorise-t-il l'acc{\`e}s ?}}}
+	\put(10,148){\framebox{(}128,48){
+		\parbox{110pt}{Le masque de protection <<~niveau {\sl Groupe}~>>
+		autorise-t-il l'acc{\`e}s ?}}}
+	\put(192,148){\framebox{(}128,60){
+		\parbox{110pt}{Le fichier a-t-il un {\sl GID} identique au
+		GID ou l'un des groupes secondaire du processus ?}}}
+	\put(10,70){\framebox{(}128,48){
+		\parbox{110pt}{Le masque de protection <<~niveau {\sl Autre}~>>
+		autorise-t-il l'acc{\`e}s ?}}}
+	\put(387,250){\oval(66,32)}
+	\put(354,234){\makebox(66,32){Accept{\'e}}}
+	\put(354,96){\oval(66,32)}
+	\put(321,80){\makebox(66,32){Refus{\'e}}}
+	\put(76,26){\oval(66,32)}
+	\put(43,10){\makebox(66,32){Refus{\'e}}}
+	\put(256,94){\oval(66,32)}
+	\put(223,78){\makebox(66,32){Accept{\'e}}}
+\end{picture}
+
+\end{figure}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4294}%
+$2^2 = 4$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4296}%
+$2^1 = 2$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4298}%
+$2^0 =1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4300}%
+$2^2$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4302}%
+$2^1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4304}%
+$2^0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4306}%
+$2^2 \times 1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4308}%
+$2^1 \times 1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4310}%
+$2^0 \times 1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4314}%
+$2^1 \times 0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4318}%
+$2^2 \times 0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline4322}%
+$2^0 \times 0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{example-cnt}
+\stepcounter{example-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5476}%
+\fbox{\textsc{tab}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlineA{tex2html_nomath_inline6722}%
+\oe%
+\lthtmlinlineZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{part}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline33437}%
+$\textstyle \parbox{0.8\textwidth}{\Large Ce n'est pas ce qui est saisi qui sera ex{\'e}cut{\'e} 
+		mais le r{\'e}sultat de l'{\'e}valuation de l'expression.
+		}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{example-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline8998}%
+\fbox{\texttt{commande 2>\&1 >fichier}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline9006}%
+\fbox{\texttt{commande >fichier 2>\&1}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline9040}%
+\fbox{\texttt{commande > /dev/null}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline8756}%
+$\mathtt{\backslash}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline10555}%
+\fbox{{\sc break}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline10575}%
+\fbox{Z}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline10511}%
+$\star$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline11003}%
+\fbox{D}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{example-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline10525}%
+$3^e$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline10527}%
+$5^e$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline10529}%
+$1^{er}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{part}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline11773}%
+$n^{e}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{remarque-cnt}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{example-cnt}
+{\newpage\clearpage
+\lthtmlfigureA{figure13079}%
+\begin{figure}
+\setlength{\unitlength}{0.92pt} 
+\begin{picture}(241,74)
+	
+\thinlines 
+	\put(170,81){\framebox{(}0,1){cd /tmp/trf; tar -xvf -}}
+	\put(174,37){\circle{54}}
+	\put(64,37){\vector(1,0){83}}
+	\put(37,37){\circle{54}}
+	\put(51,-7){\framebox{(}0,0){cd /home/users/schmoll; tar -cvf - .}}
+\end{picture}
+
+\end{figure}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline14641}%
+$^{e}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline14645}%
+$1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline14647}%
+$2$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline14649}%
+$9$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsubsection}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{example-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17232}%
+$_{r\acute{e}guli\grave{e}re}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17236}%
+$^1_{r\acute{e}guli\grave{e}re}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17238}%
+$^2_{r\acute{e}guli\grave{e}re}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17242}%
+$_1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17244}%
+$_2$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17246}%
+$[$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17248}%
+$]$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17256}%
+$_\sqcup$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17260}%
+$n$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17262}%
+$n^{i\grave{e}me}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{example-cnt}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17984}%
+\fbox{{\sl login}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17988}%
+\fbox{{\sl UID}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17990}%
+\fbox{{\sl regroupement$_1$}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline17994}%
+\fbox{{\sl regroupement$_3$}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline19426}%
+$0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline19456}%
+$E(x)$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline19462}%
+$str_1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline19464}%
+$str_2$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline19480}%
+$arg_1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline19482}%
+$arg_2$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{section}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline22110}%
+$n+1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsubsection}
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmldisplayA{displaymath21277}%
+\begin{displaymath}
+\begin{array}{l@{\quad}l@{\;=\;}l}
+	\mbox{Soit}	&
+		\mathcal{U}_{\mbox{{\textsc{Unix}}}} 		&	\mbox{utilisateur {\textsc{Unix}}.} 	\\[2ex]
+				&
+		\mathcal{U}_{\mbox{{Open\textsc{Vms}}}} 	&	\mbox{utilisateur {Open\textsc{Vms}}.}	\\[2ex]
+				&
+		\mathcal{E}_{\mbox{{Open\textsc{Vms}}}}		&	\mbox{liste des utilisateurs
+					{Open\textsc{Vms}} devant poss{\'e}der un compte sous {\textsc{Unix}}.}			\\[2ex]
+\end{array}
+\end{displaymath}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmldisplayA{displaymath21295}%
+\begin{displaymath}
+\begin{array}{l@{\;=\;}l}
+	\mathcal{E}_{ancien}		&
+		\left\{ \mathcal{U}_{\mbox{{\textsc{Unix}}}} \; \mbox{d{\'e}j{\`a} existants} \right\}
+		\\[2ex]
+	\mathcal{E}_{nouveau}	&
+		\left\{ \mathcal{U}_{\mbox{{\textsc{Unix}}}} \; tq. \;
+			\exists \; \mathcal{U}_{\mbox{{Open\textsc{Vms}}}} \: \in \: \mathcal{E}_{\mbox{{Open\textsc{Vms}}}}
+			\right\}
+		\\[2ex]
+	\mathcal{E}_{1}			&
+		\mathcal{E}_{ancien} \cap \mathcal{E}_{nouveau}
+		\\[2ex]
+\end{array}
+\end{displaymath}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmldisplayA{displaymath21440}%
+\begin{displaymath}
+\begin{array}{l@{\;=\;}l}
+	\mathcal{E}_{ancien}		&
+		\left\{ \mathcal{U}_{\mbox{{\textsc{Unix}}}} \; \mbox{d{\'e}j{\`a} existants} \right\}
+		\\[2ex]
+	\mathcal{E}_{nouveau}	&
+		\left\{ \mathcal{U}_{\mbox{{\textsc{Unix}}}} \; tq. \;
+			\exists \; \mathcal{U}_{\mbox{{Open\textsc{Vms}}}} \: \in \: \mathcal{E}_{\mbox{{Open\textsc{Vms}}}}
+			\right\}
+		\\[2ex]
+	\mathcal{E}_{2}			&
+		\mathcal{E}_{nouveau} - \left( \mathcal{E}_{ancien} \cap \mathcal{E}_{nouveau} \right)
+		\\[2ex]
+\end{array}
+\end{displaymath}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsubsection}
+\stepcounter{subsubsection}
+\stepcounter{remarque-cnt}
+\stepcounter{subsubsection}
+\stepcounter{subsection}
+\stepcounter{subsubsection}
+\stepcounter{subsubsection}
+\stepcounter{subsubsection}
+\stepcounter{subsubsection}
+\stepcounter{part}
+\stepcounter{chapter}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline23185}%
+$31,12345$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{chapter}
+
+\renewcommand{\arraystretch}{1.5}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline24686}%
+$n \le 9$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline24688}%
+$n^e$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsubsection}
+\stepcounter{subsubsection}
+\stepcounter{subsection}
+\stepcounter{example-cnt}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline24766}%
+$\rightarrow$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\setcounter{remarque-cnt}{1}
+\setcounter{example-cnt}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{section}
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28060}%
+\fbox{{\sc Caps}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28104}%
+\fbox{:}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28106}%
+\fbox{{\sc do}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28252}%
+\fbox{g}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28282}%
+\fbox{v}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28394}%
+\fbox{p}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28396}%
+\fbox{$\uparrow$}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28402}%
+\fbox{j}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28406}%
+\fbox{n}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28408}%
+\fbox{$\downarrow$}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28414}%
+\fbox{h}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28416}%
+\fbox{{\small \sc Back Space}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28418}%
+\fbox{$\leftarrow$}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28424}%
+\fbox{$\rightarrow$}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28528}%
+\fbox{w}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28534}%
+\fbox{x}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline27874}%
+$n \in \mathcal{N}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline27876}%
+$m \in \mathcal{N}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline27878}%
+$_{curseur}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline27884}%
+$n \in \{0, \cdots, +\infty\}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{subsubsection}
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28776}%
+\fbox{y}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline27902}%
+$_3$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline28836}%
+\fbox{i}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline27926}%
+$_{cmd}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29168}%
+\fbox{e}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29176}%
+\fbox{u}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29180}%
+\fbox{d}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29184}%
+\fbox{b}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29190}%
+\fbox{f}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29196}%
+\fbox{l}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline27952}%
+$_{cmds}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline27974}%
+$\times$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29684}%
+\fbox{I}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29686}%
+\fbox{O}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29694}%
+\fbox{a}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29696}%
+\fbox{A}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline29698}%
+\fbox{o}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\stepcounter{section}
+
+\renewcommand{\arraystretch}{1.5}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31309}%
+\fbox{c}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31317}%
+\fbox{s}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{remarque-cnt}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31405}%
+\fbox{{\tt -----Emacs:} {\sl fichier}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31407}%
+\fbox{{\tt --**-Emacs:} {\sl fichier}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31413}%
+\fbox{{\tt (language)}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31425}%
+\fbox{{\sl x}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31429}%
+\fbox{r}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31439}%
+\fbox{{\sl y}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{example-cnt}
+\stepcounter{subsection}
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31565}%
+\fbox{?}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31573}%
+\fbox{k}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31577}%
+\fbox{X}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31581}%
+\fbox{B}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{remarque-cnt}
+\stepcounter{subsubsection}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31705}%
+\fbox{t}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31749}%
+\fbox{$<$}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31753}%
+\fbox{$>$}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31789}%
+\fbox{\%}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31797}%
+\fbox{{\sc del}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31799}%
+\fbox{.}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31801}%
+\fbox{!}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31815}%
+\fbox{{\sc space}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31819}%
+\fbox{0}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31921}%
+\fbox{Y}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsubsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31959}%
+\fbox{2}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline31977}%
+\fbox{4}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32007}%
+\fbox{\^{ }}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32019}%
+\fbox{1}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsubsection}
+\stepcounter{subsection}
+\stepcounter{remarque-cnt}
+
+\renewcommand{\arraystretch}{1}
+\stepcounter{chapter}
+\addtocounter{enumi}{-1}
+
+\renewcommand{\myparttitle}{\bibname -- }
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32612}%
+$\sqcup$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32636}%
+\fbox{\textsc{alt}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32642}%
+\fbox{\textsc{shift}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32614}%
+$\uparrow$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32668}%
+\fbox{$\hookleftarrow$}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32680}%
+\fbox{{\tt x}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32684}%
+\fbox{{\tt X}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32690}%
+\fbox{{\sl X}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline32692}%
+\fbox{{\sl Y}}%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{part}
+
+\renewcommand{\myparttitle}{}
+
+\end{document}

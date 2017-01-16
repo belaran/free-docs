@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Syntaxe des s&#233;lecteurs</TITLE>
+<META NAME="description" CONTENT="Syntaxe des s&#233;lecteurs">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node165.html">
+<LINK REL="up" HREF="node160.html">
+<LINK REL="next" HREF="node167.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3304"
+  HREF="node167.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3298"
+  HREF="node160.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3294"
+  HREF="node165.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3300"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3302"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3305"
+  HREF="node167.html">Les variables</A>
+<B> monter:</B> <A NAME="tex2html3299"
+  HREF="node160.html">Les s&#233;lecteurs</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3295"
+  HREF="node165.html">Les expressions logiques pour</A>
+ &nbsp; <B>  <A NAME="tex2html3301"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3303"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041026000000000000000">
+Syntaxe des s&#233;lecteurs</A>
+</H2>
+
+<P>
+La syntaxe des <A NAME="19202"></A>s&#233;lecteur peut s'exprimer de trois fa&#231;ons&nbsp;:
+
+<UL>
+<LI>s&#233;lection en fonction d'une expression r&#233;guli&#232;re,
+</LI>
+<LI>s&#233;lection en fonction d'expression logiques,
+</LI>
+<LI>s&#233;lection en utilisant les deux formats pr&#233;c&#233;dents.
+</LI>
+</UL>
+
+<P>
+Dans le premier cas de figure, si aucun champ n'est sp&#233;cifi&#233; dans le s&#233;lecteur,
+l'expression r&#233;guli&#232;re s'applique &#224; l'ensemble de l'enregistrement. On aura donc
+les syntaxes suivantes&nbsp;:
+<BLOCKQUOTE>
+<code>/</code>expression<!-- MATH
+ $_{r\acute{e}guli\grave{e}re}$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$_{r\acute{e}guli\grave{e}re}$"><code>/</code>
+<BR><code>$</code>champ&nbsp;<code>~ /</code>expression<!-- MATH
+ $_{r\acute{e}guli\grave{e}re}$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$_{r\acute{e}guli\grave{e}re}$"><code>/</code>
+
+</BLOCKQUOTE>
+
+<P>
+Dans le second cas de figure, on peut &#233;crire une expression logique en utilisant
+les op&#233;rateurs logiques pr&#233;c&#233;demment d&#233;crits. On pourra donc avoir, par exemple&nbsp;:<PRE>
+$1 == $2
+$2 &lt; $3
+$2 != $3
+( $2 &lt; $3 ) &amp;&amp; ($2 &gt; $4)
+(($2 &gt; 100) || ( $2 == $3*50)) &amp;&amp; ($4 &gt; 10)
+</PRE>
+
+<P>
+Il est &#233;videmment possible d'utiliser les op&#233;rateurs logiques pour relier les
+expressions correspondant au premier cas de figure. On pourra donc avoir&nbsp;:<PRE>
+($1 ~ /[a-z]/) &amp;&amp; ($2 ~ /[0-9]/)
+($1 ~ /[a-z]/) &amp;&amp; ($2 ~ /[0-9]/) &amp;&amp; ($2 &lt; 10)
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les caract&#232;res d'&#233;chappements</TITLE>
+<META NAME="description" CONTENT="Les caract&#232;res d'&#233;chappements">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node80.html">
+<LINK REL="previous" HREF="node78.html">
+<LINK REL="up" HREF="node77.html">
+<LINK REL="next" HREF="node80.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1893"
+  HREF="node80.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1887"
+  HREF="node77.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1881"
+  HREF="node78.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1889"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1891"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1894"
+  HREF="node80.html">R&#233;sum&#233;</A>
+<B> monter:</B> <A NAME="tex2html1888"
+  HREF="node77.html">Les quotes et les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1882"
+  HREF="node78.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html1890"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1892"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03162000000000000000">
+Les caract&#232;res d'&#233;chappements</A>
+</H2>
+
+<P>
+<DL>
+<DT><STRONG><B><A NAME="8520"></A>back slash &#171;&nbsp;<!-- MATH
+ $\mathtt{\backslash}$
+ -->
+<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img31.png"
+ ALT="$\mathtt{\backslash}$">&nbsp;&#187;</B></STRONG></DT>
+<DD>
+<BR>
+Annule la signification particuli&#232;re du caract&#232;re imm&#233;diatement apr&#232;s.
+<BR>
+<BR>	<I>Exemple&nbsp;:</I>
+<BR>	<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>echo \$ABC</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>renvoie la cha&#238;ne &#171;&nbsp;<TT>$ABC</TT>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>echo abc \</code><!-- MATH
+ $\fbox{\textsc{return}}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="\fbox{\textsc{return}}"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>annule l'interpr&#233;tation du &#171;&nbsp;<code>&lt;RETURN&gt;</code>&nbsp;&#187;, il n'y a
+										donc pas d'interpr&#233;tation de la commande d'o&#249; l'apparition d'un
+										&#171;&nbsp;<I>prompt secondaire</I>&nbsp;&#187; pour continuer la commande.</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG><A NAME="8522"></A><B>simple quote &#171;&nbsp;<TT>'</TT>&nbsp;&#187;</B></STRONG></DT>
+<DD>
+<BR>
+Annule l'interpr&#233;tation de tous les caract&#232;res &#224; l'int&#233;rieur des quotes &#224; l'exception de la
+	simple quote elle-m&#234;me.
+<BR>
+<BR>	<I>Exemple&nbsp;:</I>
+<BR>	<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>echo '$ABC &gt; Bonjour'</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>renvoie la cha&#238;ne &#171;&nbsp;<code>$ABC &gt; Bonjour</code>&nbsp;&#187; &#224; l'&#233;cran.</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG><A NAME="8525"></A><B>doubles quotes &#171;&nbsp;<TT>"</TT>&nbsp;&#187;</B></STRONG></DT>
+<DD>
+<BR>
+Annule l'interpr&#233;tation de tous les caract&#232;res entre les doubles quotes, &#224; l'exception des
+		caract&#232;res <code>\</code>, <TT>"</TT>, <TT>$</TT> et <TT>`</TT> (back quote).
+<BR>
+<BR>	<I>Exemple&nbsp;:</I>
+<BR>	<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><TT>ABC=Salut</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>echo "$ABC &gt; Bonjour"</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>renvoie la cha&#238;ne &#171;&nbsp;<TT>Salut &gt; Bonjour</TT>&nbsp;&#187; &#224; l'&#233;cran.</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+</DL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1893"
+  HREF="node80.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1887"
+  HREF="node77.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1881"
+  HREF="node78.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1889"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1891"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1894"
+  HREF="node80.html">R&#233;sum&#233;</A>
+<B> monter:</B> <A NAME="tex2html1888"
+  HREF="node77.html">Les quotes et les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1882"
+  HREF="node78.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html1890"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1892"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

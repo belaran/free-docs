@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Notion d'identit&#233; sous UNIX</TITLE>
+<META NAME="description" CONTENT="Notion d'identit&#233; sous UNIX">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node34.html">
+<LINK REL="previous" HREF="node32.html">
+<LINK REL="up" HREF="node32.html">
+<LINK REL="next" HREF="node34.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1171"
+  HREF="node34.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1165"
+  HREF="node32.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1159"
+  HREF="node32.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1167"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1169"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1172"
+  HREF="node34.html">Permissions</A>
+<B> monter:</B> <A NAME="tex2html1166"
+  HREF="node32.html">Protections sur les fichiers</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1160"
+  HREF="node32.html">Protections sur les fichiers</A>
+ &nbsp; <B>  <A NAME="tex2html1168"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1170"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02231000000000000000"></A><A NAME="cmds-unix-id"></A>
+<BR>
+Notion d'identit&#233; sous U<SMALL>NIX</SMALL>
+</H2>
+
+<P>
+Comme tout syst&#232;me multi-utilisateurs, multi-t&#226;ches, vous devez vous
+identifer avant de pouvoir travailler sous U<SMALL>NIX</SMALL> par&nbsp;:
+
+<UL>
+<LI>votre nom de login ou <I>logname</I>,
+</LI>
+<LI>votre mot de passe.
+</LI>
+</UL>
+
+<P>
+D&#232;s que vous &#234;tes authentifi&#233;, le syst&#232;me lance
+l'interp&#233;teur de commande votre num&#233;ro d'utilisateur&nbsp;:
+l'<A NAME="3092"></A><I>UID</I><A NAME="tex2html26"
+  HREF="footnode.html#foot3853"><SUP>2.2</SUP></A>. Il lui
+associe aussi un ou plusieurs groupes (en fonction du profil
+utilisateur)&nbsp;: le <A NAME="3095"></A><I>GID</I><A NAME="tex2html27"
+  HREF="footnode.html#foot3854"><SUP>2.3</SUP></A>.
+
+<P>
+A partir de ce moment, tous les sous-processes g&#233;n&#233;r&#233;s seront lanc&#233;s
+sous la m&#234;me identit&#233;, c'est &#224; dire avec les m&#234;mes <I>UID</I>/<I>GID</I>.
+
+<P>
+<A NAME="3855"></A>Chaque fichier sous U<SMALL>NIX</SMALL> poss&#232;de un propri&#233;taire (associ&#233; &#224; un
+<I>UID</I>) et un groupe (associ&#233; &#224; un <I>GID</I>). De fa&#231;on g&#233;n&#233;ral, le
+propri&#233;taire et le groupe du fichier correspondent &#224; ceux du process qui
+l'a cr&#233;&#233;.
+
+<P>
+Le propri&#233;taire du fichier peut en modifier la paternit&#233;.
+
+<P>
+Le propri&#233;taire du fichier peut en modifier le groupe.
+
+<P>
+Au niveau du m&#233;canisme des protections, il n'y a pas de liaison entre le
+<I>GID</I> et l'<I>UID</I>. Si un utilisateur a un <I>UID</I> donn&#233;
+identique &#224; celui du fichier et un GID diff&#233;rent, il se placera au
+niveau du propri&#233;taire. Le num&#233;ro d'<I>UID</I> est unique par
+utilisateur.
+
+<P>
+Il n'y a donc pas de notion de couple (<I>UID</I>,<I>GID</I>) au m&#234;me
+titre que sur OpenV<SMALL>MS</SMALL> avec les UIC &#171;&nbsp;<TT>[group,member]</TT>&nbsp;&#187;.
+
+<P>
+L'administrateur du syst&#232;me (<TT>root</TT> ou <I>super-user</I> &#233;quivalent &#224;
+<TT>SYSTEM</TT> sur OpenV<SMALL>MS</SMALL>) est vu comme le propri&#233;taire de tous les
+fichiers.
+
+<P>
+Le tableau <A HREF="#tab-cmds-equiv-root"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> donne les &#233;quivalences entre U<SMALL>NIX</SMALL>
+et OpenV<SMALL>MS</SMALL> pour les notions d'identit&#233;s sur le syst&#232;me.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="3856"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+&#201;quivalences pour les notions d'identit&#233;s
+entre U<SMALL>NIX</SMALL> et OpenV<SMALL>MS</SMALL></CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="CENTER">OpenV<SMALL>MS</SMALL></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>logname</TT></TD>
+<TD ALIGN="CENTER"><TT>Username</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>UID</TT></TD>
+<TD ALIGN="CENTER"><I>UIC</I></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>GID</TT></TD>
+<TD ALIGN="CENTER">groupe dans l'<I>UIC</I></TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1171"
+  HREF="node34.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1165"
+  HREF="node32.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1159"
+  HREF="node32.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1167"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1169"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1172"
+  HREF="node34.html">Permissions</A>
+<B> monter:</B> <A NAME="tex2html1166"
+  HREF="node32.html">Protections sur les fichiers</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1160"
+  HREF="node32.html">Protections sur les fichiers</A>
+ &nbsp; <B>  <A NAME="tex2html1168"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1170"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

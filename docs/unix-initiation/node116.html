@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les appels d'un shell script au niveau de la ligne de commandes</TITLE>
+<META NAME="description" CONTENT="Les appels d'un shell script au niveau de la ligne de commandes">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node115.html">
+<LINK REL="up" HREF="node115.html">
+<LINK REL="next" HREF="node117.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2537"
+  HREF="node117.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2531"
+  HREF="node115.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2527"
+  HREF="node115.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2533"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2535"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2538"
+  HREF="node117.html">Les tests et les</A>
+<B> monter:</B> <A NAME="tex2html2532"
+  HREF="node115.html">Interpr&#233;tation sp&#233;ciale du signe</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2528"
+  HREF="node115.html">Interpr&#233;tation sp&#233;ciale du signe</A>
+ &nbsp; <B>  <A NAME="tex2html2534"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2536"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04621000000000000000">
+Les appels d'un shell script au niveau de la ligne de commandes</A>
+</H2>
+
+<P>
+La notion expos&#233;e ici s'applique &#224; tout type de programmes
+<A NAME="13617"></A>interpr&#233;t&#233;s sous U<SMALL>NIX</SMALL>. Nous ne traiterons ici que l'exemple
+du Bourne Shell (&#171;&nbsp;<TT>/bin/sh</TT>&nbsp;&#187;).
+
+<P>
+
+	<B>Syntaxes&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142 COLSPAN=1>Appel au niveau de la ligne de commande</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Descriptions - Restrictions</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>shell_script [arguments-programme]</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>&#171;&nbsp;<TT>shell_script</TT>&nbsp;&#187; repr&#233;sente le nom du fichier. Celui-ci doit &#234;tre accessible en
+		lecture <B>et en ex&#233;cution</B>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>/bin/sh shell_script [arguments-programme]</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>&#171;&nbsp;<TT>shell_script</TT>&nbsp;&#187; repr&#233;sente le nom du fichier. Celui-ci doit &#234;tre accessible en
+		lecture <B>uniquement</B>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>/bin/sh -vx shell_script [arguments-programme]</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>&#171;&nbsp;<TT>shell_script</TT>&nbsp;&#187; repr&#233;sente le nom du fichier. Celui-ci doit &#234;tre accessible en
+		lecture. Chaque ligne du fichier est interpr&#233;t&#233;e et affich&#233;e avant son ex&#233;cution sur la
+		sortie d'erreurs standard.</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Remarque&nbsp;11..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>L'option &#171;&nbsp;<TT>-vx</TT>&nbsp;&#187; est propre au Bourne Shell, C Shell et Korn
+Shell. Pour d'autres outils comme
+<A NAME="13623"></A>&#171;&nbsp;<TT>sed</TT>&nbsp;&#187;,
+<A NAME="13624"></A>&#171;&nbsp;<TT>awk</TT>&nbsp;&#187; ou &#171;&nbsp;<TT>perl</TT>&nbsp;&#187;,
+reportez-vous &#224; la page du manuel associ&#233;e.
+	
+</I></BLOCKQUOTE>
+
+
+<P>
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2537"
+  HREF="node117.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2531"
+  HREF="node115.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2527"
+  HREF="node115.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2533"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2535"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2538"
+  HREF="node117.html">Les tests et les</A>
+<B> monter:</B> <A NAME="tex2html2532"
+  HREF="node115.html">Interpr&#233;tation sp&#233;ciale du signe</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2528"
+  HREF="node115.html">Interpr&#233;tation sp&#233;ciale du signe</A>
+ &nbsp; <B>  <A NAME="tex2html2534"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2536"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

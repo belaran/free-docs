@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exemple de fichier de description</TITLE>
+<META NAME="description" CONTENT="Exemple de fichier de description">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node91.html">
+<LINK REL="up" HREF="node89.html">
+<LINK REL="next" HREF="node93.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2083"
+  HREF="node93.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2077"
+  HREF="node89.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2073"
+  HREF="node91.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2079"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2081"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2084"
+  HREF="node93.html">Introduction &#224; la programmation</A>
+<B> monter:</B> <A NAME="tex2html2078"
+  HREF="node89.html">R&#233;p&#233;tition de t&#226;ches&nbsp;: crontab</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2074"
+  HREF="node91.html">Fichier de description de</A>
+ &nbsp; <B>  <A NAME="tex2html2080"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2082"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03243000000000000000">
+Exemple de fichier de description</A>
+</H2>
+
+<P>
+
+	<B>Exemple&nbsp;5..8&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+# Utiliser /bin/sh pour executer les commandes et non pas celui
+# precise dans le fichier /etc/passwd.
+SHELL=/bin/sh
+# Envoyer un message a "bart" pour rediriger la sortie standard
+# toutes les commandes.
+MAILTO=bart
+#
+# Commande a lancer 5 minutes apres minuit chaque jour.
+5  0  *  *  *    $HOME/bin/daily.job &gt;&gt; $HOME/tmp/out 2&gt;&amp;1
+# Commande a lancer a 14:15 le premier de chaque mois -- la sortie
+# standard de la commande arrive dans la boite aux lettres de "bart".
+15 14 1  *  *    $HOME/bin/monthly
+# Commande a lancer a 22:00 tous les jours de la semaine (hors week-end)
+0  22 *  *  1-5  if [ -d /var/adm/acct ]; then chacct; else echo "no acct"; fi
+# Autres commandes
+23 0-23/2 * * *  echo "execute tous les jours 23 minutes apres 0h, 2h, 4h ..."
+5  4  *  *  0    echo "execute a 04:05 chaque dimanche"
+</PRE>
+
+
+<P>
+
+	
+		
+		<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

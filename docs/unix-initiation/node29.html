@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Manipulation de fichiers - Commandes cp, mv et ln</TITLE>
+<META NAME="description" CONTENT="Manipulation de fichiers - Commandes cp, mv et ln">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node31.html">
+<LINK REL="previous" HREF="node28.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node30.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1114"
+  HREF="node30.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1108"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1102"
+  HREF="node28.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1110"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1112"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1115"
+  HREF="node30.html">Visualisation du nombre de</A>
+<B> monter:</B> <A NAME="tex2html1109"
+  HREF="node26.html">Commandes de manipulation de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1103"
+  HREF="node28.html">Affichage du contenu d'un</A>
+ &nbsp; <B>  <A NAME="tex2html1111"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1113"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02223000000000000000"></A><A NAME="cmds-cpmvln"></A>
+<BR>
+Manipulation de fichiers - Commandes <TT>cp</TT>, <TT>mv</TT> et <TT>ln</TT>
+</H2>
+
+<P>
+
+	<B>D&#233;finition&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><TT>cp</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>copie les fichiers.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>mv</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>renomme les fichiers et r&#233;pertoires et/ou
+					d&#233;place les fichiers.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>ln</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>cr&#233;e un lien sur un fichier ou un r&#233;pertoire.</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TT>cp [-i] fichier-source</TT> <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"> <TT>destination</TT>
+<BR><TT>mv [-i] fichier-source</TT> <IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"> <TT>destination</TT>
+<BR><TT>ln [-s] fichier-source lien-destination</TT>	
+</BLOCKQUOTE>
+
+<P>
+<A NAME="3838"></A>Lorsque le commande &#171;&nbsp;<TT>cp</TT>&nbsp;&#187; ne poss&#232;de que deux (&#171;&nbsp;<TT>cp fichier1
+fichier2</TT>&nbsp;&#187;), elle effectue une copie du fichier source vers le fichier
+destination. Si celui-ci existait d&#233;j&#224; il est supprim&#233; pour &#234;tre
+remplacer par le nouveau.
+
+<P>
+Lorsque la commande &#171;&nbsp;<TT>cp</TT>&nbsp;&#187; poss&#232;de plus de deux arguments
+(plusieurs fichiers source), la destination est obligatoirement un
+r&#233;pertoire (&#171;&nbsp;<TT>cp fichier1 fichier2 repertoire</TT>&nbsp;&#187;). Dans ce cas,
+elle duplique ces fichiers dans le r&#233;pertoire sp&#233;cifi&#233;. S'il en existait
+d&#233;j&#224; sous le m&#234;me nom , ils sont supprim&#233;s pour &#234;tre remplac&#233; par les
+copies.
+
+<P>
+<A NAME="3839"></A>La commande &#171;&nbsp;<TT>mv</TT>&nbsp;&#187; r&#233;agit de fa&#231;on similaire&nbsp;:
+
+<UL>
+<LI>si elle ne poss&#232;de que deux arguments, elle renomme le fichier
+			source sous le nouveau nom,
+</LI>
+<LI>si elle poss&#232;de plusieurs arguments, la destination est
+			obligatoirement un r&#233;pertoire. Dans ce cas, elle d&#233;place les
+			fichiers sources dans le r&#233;pertoire sp&#233;cifi&#233;.
+</LI>
+</UL>
+
+<P>
+De m&#234;me, si des fichiers existaient d&#233;j&#224; sous le m&#234;me nom, ils seront
+supprim&#233;s. Dans le cas particulier o&#249; la commande &#171;&nbsp;<TT>mv</TT>&nbsp;&#187; ne
+poss&#232;de que deux arguments et que la destination est un nom de
+r&#233;pertoire, le fichier source est d&#233;plac&#233; &#224; ce nouveau point de
+l'arborescence.
+
+<P>
+Les fichiers source de la commande &#171;&nbsp;<TT>cp</TT>&nbsp;&#187; ne peuvent pas &#234;tre des
+r&#233;pertoires.
+
+<P>
+Les fichiers source de la commande &#171;&nbsp;<TT>mv</TT>&nbsp;&#187; peuvent &#234;tre de
+n'importe quel type.
+
+<P>
+<A NAME="3840"></A>La commande &#171;&nbsp;<TT>ln</TT>&nbsp;&#187; autorise l'acc&#232;s
+&#224; un fichier via plusieurs noms, ce sont des cr&#233;ations de liens
+entre fichiers. La syntaxe est&nbsp;:
+<BLOCKQUOTE>
+<DIV ALIGN="CENTER">
+<TT>ln fichier1 fichier2</TT>
+
+</DIV>
+</BLOCKQUOTE>
+<UL>
+<LI><TT>fichier1</TT> qui existe d&#233;j&#224;, va pouvoir &#234;tre acc&#233;d&#233; via
+		le nouveau nom <TT>fichier2</TT>.
+</LI>
+<LI><TT>fichier2</TT> est alors li&#233; avec <TT>fichier1</TT>.
+</LI>
+</UL>
+
+<P>
+<A NAME="2869"></A>On distingue deux types de liens&nbsp;: les liens symboliques et les liens logiques.
+
+<P>
+
+<UL>
+<LI><A NAME="2871"></A>Dans le cas du lien symbolique, <TT>fichier2</TT> (fichier lien)
+			pointe sur <TT>fichier1</TT> (fichier source) permettant d'acc&#233;der
+			aux informations sur le disque. Par cons&#233;quent, si <TT>fichier1</TT>
+			est effac&#233;, le contenu est perdu et <TT>fichier2</TT> pointe
+			sur quelque chose d'inexistant. <B>L'information est donc perdue</B>.
+<BR></LI>
+<LI><A NAME="2880"></A>Dans le cas du lien logique, <TT>fichier1</TT> (fichier source) et
+			<TT>fichier2</TT> (fichier lien) pointent directement sur les donn&#233;es
+			r&#233;sidant sur le disque. Par cons&#233;quent,si <TT>fichier1</TT> est effac&#233;,
+			<B>le contenu n'est pas perdu et est toujours accessible par
+			<TT>fichier2</TT></B>.
+</LI>
+</UL>
+
+<P>
+La figure <A HREF="#fig-cmds-links"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> montre les diff&#233;rences entre les liens symboliques
+et les liens logiques vis &#224; vis de leur liaisons avec les informations sur
+le syst&#232;me de fichiers.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig-cmds-links"></A><A NAME="3842"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Diff&#233;rence entre les liens symboliques et les
+liens logiques</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><IMG
+  WIDTH="268" HEIGHT="119" ALIGN="BOTTOM" BORDER="0"
+ SRC="./log-links.jpg"
+ ALT="Image log-links"><IMG
+  WIDTH="258" HEIGHT="118" ALIGN="BOTTOM" BORDER="0"
+ SRC="./symb-links.jpg"
+ ALT="Image symb-links">
+</DIV></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+	<B>Remarque&nbsp;2..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Deux ou plusieurs fichiers li&#233;s par un lien logique doivent r&#233;sider
+sur le m&#234;me syst&#232;me de fichiers.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Sous-sections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1116"
+  HREF="node30.html">Visualisation du nombre de liens avec la commande <TT>ls</TT></A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1114"
+  HREF="node30.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1108"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1102"
+  HREF="node28.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1110"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1112"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1115"
+  HREF="node30.html">Visualisation du nombre de</A>
+<B> monter:</B> <A NAME="tex2html1109"
+  HREF="node26.html">Commandes de manipulation de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1103"
+  HREF="node28.html">Affichage du contenu d'un</A>
+ &nbsp; <B>  <A NAME="tex2html1111"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1113"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

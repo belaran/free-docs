@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Effacement d'un fichier - Commande rm</TITLE>
+<META NAME="description" CONTENT="Effacement d'un fichier - Commande rm">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node29.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node32.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1139"
+  HREF="node32.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1133"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1129"
+  HREF="node30.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1135"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1137"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1140"
+  HREF="node32.html">Protections sur les fichiers</A>
+<B> monter:</B> <A NAME="tex2html1134"
+  HREF="node26.html">Commandes de manipulation de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1130"
+  HREF="node30.html">Visualisation du nombre de</A>
+ &nbsp; <B>  <A NAME="tex2html1136"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1138"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02224000000000000000">
+Effacement d'un fichier - Commande <TT>rm</TT></A>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+rm [-irf] fichier...
+</PRE>
+
+<P>
+<A NAME="3847"></A>La commande &#171;&nbsp;<TT>rm</TT>&nbsp;&#187; est utilis&#233;e pour effacer des fichiers. Une
+fois effac&#233;s, les fichiers ne peuvent plus &#234;tre r&#233;cup&#233;r&#233;s<A NAME="tex2html24"
+  HREF="footnode.html#foot3848"><SUP>2.1</SUP></A>. La commande <TT>rm </TT>exige au moins un argument. Si plusieurs arguments sont fournis &#224; la
+commande, tous les fichiers sp&#233;cifi&#233;s seront effac&#233;s en fonction des
+modes de protections.
+
+<P>
+L'option &#171;&nbsp;<TT>-r</TT>&nbsp;&#187; (r&#233;cursif) indique la r&#233;cursivit&#233; et permet d'effacer un r&#233;pertoire et tout son contenu.
+
+<P>
+L'option &#171;&nbsp;<TT>-i</TT>&nbsp;&#187; (interactive) demande une confirmation (y ou n) sur chaque fichier &#224; effacer.
+
+<P>
+L'option &#171;&nbsp;<TT>-f</TT>&nbsp;&#187; (force) ne fait plus tenir compte &#224; &#171;&nbsp;<TT>rm</TT>&nbsp;&#187; des protections du fichier, mais uniquement du
+propri&#233;taire. Vous pouvez donc effacer vos fichiers, m&#234;me s'ils sont prot&#233;g&#233;s.
+
+<P>
+<DIV ALIGN="CENTER">
+<FONT SIZE="+1">	<B>		ATTENTION AUX CATASTROPHES AVEC LES
+		OPTIONS &#171;&nbsp;<TT>-f</TT>&nbsp;&#187; ET SURTOUT &#171;&nbsp;<TT>-r</TT>&nbsp;&#187; !!!
+	</B>
+</FONT>
+
+</DIV>
+
+<P>
+Le tableau <A HREF="#tab-cmds-equiv-rm"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> donne les correspondances des
+diff&#233;rents comportements de la commande <TT>rm</TT> entre les syst&#232;mes
+d'exploitations U<SMALL>NIX</SMALL>, OpenV<SMALL>MS</SMALL> et <I>MS-DOS</I>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="3850"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+&#201;quivalences de la commande
+<TT>rm</TT> entre U<SMALL>NIX</SMALL>,OpenV<SMALL>MS</SMALL> et <I>MS-DOS</I>.</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="CENTER">OpenV<SMALL>MS</SMALL></TD>
+<TD ALIGN="CENTER"><I>MS-DOS</I></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>rm</TT></TD>
+<TD ALIGN="CENTER"><TT>DELETE</TT></TD>
+<TD ALIGN="CENTER"><TT>DEL</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>rm -i</TT></TD>
+<TD ALIGN="CENTER"><TT>DELETE/CONFIRM</TT></TD>
+<TD ALIGN="CENTER">Pas d'&#233;quivalence</TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1139"
+  HREF="node32.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1133"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1129"
+  HREF="node30.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1135"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1137"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1140"
+  HREF="node32.html">Protections sur les fichiers</A>
+<B> monter:</B> <A NAME="tex2html1134"
+  HREF="node26.html">Commandes de manipulation de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1130"
+  HREF="node30.html">Visualisation du nombre de</A>
+ &nbsp; <B>  <A NAME="tex2html1136"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1138"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

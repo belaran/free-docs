@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les arguments des programmes shell</TITLE>
+<META NAME="description" CONTENT="Les arguments des programmes shell">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node101.html">
+<LINK REL="previous" HREF="node94.html">
+<LINK REL="up" HREF="node93.html">
+<LINK REL="next" HREF="node101.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2310"
+  HREF="node101.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2304"
+  HREF="node93.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2298"
+  HREF="node99.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2306"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2308"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2311"
+  HREF="node101.html">Les variables</A>
+<B> monter:</B> <A NAME="tex2html2305"
+  HREF="node93.html">Introduction &#224; la programmation</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2299"
+  HREF="node99.html">Recommandations</A>
+ &nbsp; <B>  <A NAME="tex2html2307"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2309"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04200000000000000000">
+Les arguments des programmes shell</A>
+</H1>
+
+<P>
+Tout programme shell peut &#234;tre invoqu&#233; depuis la ligne de
+commande. Les <A NAME="11985"></A>arguments de la ligne de commande
+sont r&#233;f&#233;renc&#233;s par le programme shell lui-m&#234;me en
+fonction de leur position relative dans la ligne de commande. Ces
+arguments sont appel&#233;s param&#232;tres ou
+<A NAME="11992"></A>variables positionnels. Ils prennent la
+valeur correspondante &#224; l'argument de la ligne de commande. Les
+param&#232;tres positionnels peuvent &#234;tre utilis&#233;s dans les
+programmes shell de la m&#234;me mani&#232;re que les variables shell,
+c'est-&#224;-dire que pour les r&#233;f&#233;rencer, il suffit d'utiliser
+le symbole &#171;&nbsp;<code>$</code>&nbsp;&#187;. On ne r&#233;f&#233;rence que jusqu'&#224; neuf
+arguments de la ligne de commande (<code>$1</code> &#224; <code>$9</code>). Nous
+verrons qu'il est possible de r&#233;cup&#233;rer tous les arguments de la
+ligne de commande.
+
+<P>
+L'argument z&#233;ro de la ligne de commande (variable &#171;&nbsp;<code>$0</code>&nbsp;&#187; correspond au nom de la commande.
+
+<P>
+
+	<B>En r&#233;sum&#233;&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+Ligne de commande&nbsp;:
+<BR><code>$ nom_prog arg1 arg2 arg3 arg4 ...</code>
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Dans le programme Shell&nbsp;:
+<BR></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT" COLSPAN=2>&nbsp;</TD>
+<TD ALIGN="CENTER" COLSPAN=2>&#201;quivalences</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=1>Commande shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Sortie</TD>
+<TD ALIGN="CENTER" COLSPAN=1>OpenV<SMALL>MS</SMALL></TD>
+<TD ALIGN="CENTER" COLSPAN=1>Langage C</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>echo $0</TT></TD>
+<TD ALIGN="LEFT"><TT>nom_prog</TT></TD>
+<TD ALIGN="LEFT"><I>pas d'&#233;quivalent</I></TD>
+<TD ALIGN="LEFT"><TT>argv[0]</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>echo $1</TT></TD>
+<TD ALIGN="LEFT"><TT>arg1</TT></TD>
+<TD ALIGN="LEFT"><TT>P1</TT></TD>
+<TD ALIGN="LEFT"><TT>argv[1]</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>echo $2</TT></TD>
+<TD ALIGN="LEFT"><TT>arg2</TT></TD>
+<TD ALIGN="LEFT"><TT>P2</TT></TD>
+<TD ALIGN="LEFT"><TT>argv[2]</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" COLSPAN=4><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>echo $8</TT></TD>
+<TD ALIGN="LEFT"><TT>arg8</TT></TD>
+<TD ALIGN="LEFT"><TT>P8</TT></TD>
+<TD ALIGN="LEFT"><TT>argv[8]</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>echo $9</TT></TD>
+<TD ALIGN="LEFT"><TT>arg9</TT></TD>
+<TD ALIGN="LEFT"><I>pas d'&#233;quivalent</I></TD>
+<TD ALIGN="LEFT"><TT>argv[9]</TT></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Il est possible de r&#233;f&#233;rencer la totalit&#233; des arguments
+&#224; l'int&#233;rieur d'un script shell. Pour cela, la variable
+<A NAME="12073"></A>&#171;&nbsp;<code>$#</code>&nbsp;&#187; et la commande
+<A NAME="12074"></A>&#171;&nbsp;<TT>shift</TT>&nbsp;&#187; seront utilis&#233;es.
+Reportez-vous aux sections <A HREF="node102.html#variables-special-var"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> et
+<A HREF="node105.html#advcmds-shift"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2310"
+  HREF="node101.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2304"
+  HREF="node93.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2298"
+  HREF="node99.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2306"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2308"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2311"
+  HREF="node101.html">Les variables</A>
+<B> monter:</B> <A NAME="tex2html2305"
+  HREF="node93.html">Introduction &#224; la programmation</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2299"
+  HREF="node99.html">Recommandations</A>
+ &nbsp; <B>  <A NAME="tex2html2307"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2309"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

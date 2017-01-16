@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Comparaisons telnet/rlogin/ssh et ftp/rcp/scp</TITLE>
+<META NAME="description" CONTENT="Comparaisons telnet/rlogin/ssh et ftp/rcp/scp">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node51.html">
+<LINK REL="up" HREF="node51.html">
+<LINK REL="next" HREF="node53.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1440"
+  HREF="node53.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1434"
+  HREF="node51.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1430"
+  HREF="node51.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1436"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1438"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1441"
+  HREF="node53.html">Introduction au shell</A>
+<B> monter:</B> <A NAME="tex2html1435"
+  HREF="node51.html">Transfert chiffr&#233;e de fichier</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1431"
+  HREF="node51.html">Transfert chiffr&#233;e de fichier</A>
+ &nbsp; <B>  <A NAME="tex2html1437"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1439"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02371000000000000000">
+Comparaisons <TT>telnet</TT>/<TT>rlogin</TT>/<TT>ssh</TT> et <TT>ftp</TT>/<TT>rcp</TT>/<TT>scp</TT></A>
+</H2>
+
+<P>
+<A NAME="6506"></A>
+<A NAME="6507"></A>
+<A NAME="6508"></A>
+<A NAME="6517"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Tableau:</STRONG>
+Comparaisons <TT>telnet</TT>/<TT>rlogin</TT>/<TT>ssh</TT></CAPTION>
+<TR><TD ALIGN="CENTER" COLSPAN=1>Fonctionnalit&#233;</TD>
+<TD ALIGN="CENTER" COLSPAN=1><TT>telnet</TT></TD>
+<TD ALIGN="CENTER" COLSPAN=1>rlogin</TD>
+<TD ALIGN="CENTER" COLSPAN=1>ssh</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Ensemble de commandes.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Peut se connecter &#224; des syst&#232;mes non U<SMALL>NIX</SMALL>.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non<A NAME="tex2html50"
+  HREF="footnode.html#foot6515"><SUP>3.5</SUP></A></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui<A NAME="tex2html51"
+  HREF="footnode.html#foot6516"><SUP>3.6</SUP></A></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Peut &#234;tre configur&#233; en connexion automatique.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui (fichiers <TT>/etc/hosts.equiv</TT> et <TT>/.rhosts</TT>)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui(Utilisation de cl&#233; priv&#233;e)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Peut utiliser l'adresse IP pour la connexion.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Sortie autoris&#233;e.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui (vers &#171;&nbsp;<TT>telnet</TT>&nbsp;&#187; en mode commande)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui (vers le terminal local)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Nombre de modes.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>2 (commande et connect&#233;)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>1 (connect&#233; seulement)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>1 (connection partageable<A NAME="tex2html52"
+  HREF="footnode.html#foot6373"><SUP>3.7</SUP></A>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Peut &#234;tre lac&#233; depuis un programme Shell.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Remarque&nbsp;3..5&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Notez que &#171;&nbsp;<TT>telnet</TT>&nbsp;&#187; et &#171;&nbsp;<TT>rlogin</TT>&nbsp;&#187; peuvent &#234;tre appel&#233;s
+depuis un programme Shell, mais vous ne pouvez pas leur transmettre des
+informations au clavier (comme vous pouvez le faire avec &#171;&nbsp;<TT>ftp</TT>&nbsp;&#187;).
+	
+</I></BLOCKQUOTE>
+
+<P>
+<A NAME="6518"></A>
+<A NAME="6519"></A>
+<A NAME="6520"></A>
+<A NAME="6533"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Tableau:</STRONG>
+Comparaisons <TT>ftp</TT>/<TT>rlogin</TT>/<TT>scp</TT></CAPTION>
+<TR><TD ALIGN="CENTER" COLSPAN=1>Fonctionnalit&#233;</TD>
+<TD ALIGN="CENTER" COLSPAN=1><TT>ftp</TT></TD>
+<TD ALIGN="CENTER" COLSPAN=1><TT>rcp</TT></TD>
+<TD ALIGN="CENTER" COLSPAN=1><TT>scp</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Ensemble de commandes</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Peut transf&#233;rer des fichiers sur un syst&#232;me non U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non<A NAME="tex2html54"
+  HREF="footnode.html#foot6531"><SUP>3.8</SUP></A></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non<A NAME="tex2html55"
+  HREF="footnode.html#foot6532"><SUP>3.9</SUP></A></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Peut &#234;tre ex&#233;cut&#233; dans un programme Shell</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Peut mettre en jeu 3 n<IMG
+ WIDTH="13" HEIGHT="9" ALIGN="BOTTOM" BORDER="0"
+ SRC="img26.png"
+ ALT="\oe">uds</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Autorise les m&#233;tacaract&#232;res</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui (commande &#171;&nbsp;<TT>glob</TT>&nbsp;&#187;)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Peut faire une copie r&#233;cursive</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui (option &#171;&nbsp;<TT>-r</TT>&nbsp;&#187;)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui (option &#171;&nbsp;<TT>-r</TT>&nbsp;&#187;)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Peut configurer une &#233;quivalence utilisateur</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui (fichier &#171;&nbsp;<TT>/.netrc</TT>&nbsp;&#187;)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui (fichiers &#171;&nbsp;<TT>/etc/hosts.equiv</TT>&nbsp;&#187;, &#171;&nbsp;<TT>/.rhosts</TT>&nbsp;&#187;)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui (cl&#233; priv&#233;e)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Equivalence utilisateur requise</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Peut utiliser une adresse IP pour la connexion</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Oui</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>Non</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	
+		
+		<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1440"
+  HREF="node53.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1434"
+  HREF="node51.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1430"
+  HREF="node51.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1436"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1438"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1441"
+  HREF="node53.html">Introduction au shell</A>
+<B> monter:</B> <A NAME="tex2html1435"
+  HREF="node51.html">Transfert chiffr&#233;e de fichier</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1431"
+  HREF="node51.html">Transfert chiffr&#233;e de fichier</A>
+ &nbsp; <B>  <A NAME="tex2html1437"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1439"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

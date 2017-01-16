@@ -1,0 +1,286 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les variables</TITLE>
+<META NAME="description" CONTENT="Les variables">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node169.html">
+<LINK REL="previous" HREF="node160.html">
+<LINK REL="up" HREF="node158.html">
+<LINK REL="next" HREF="node168.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3318"
+  HREF="node168.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3312"
+  HREF="node158.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3306"
+  HREF="node166.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3314"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3316"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3319"
+  HREF="node168.html">Les tableaux</A>
+<B> monter:</B> <A NAME="tex2html3313"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3307"
+  HREF="node166.html">Syntaxe des s&#233;lecteurs</A>
+ &nbsp; <B>  <A NAME="tex2html3315"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3317"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION041030000000000000000">
+Les variables</A>
+</H1>
+
+<P>
+<A NAME="19205"></A>"<TT>awk</TT>" permet l'utilisation de
+variables internes. Ces variables peuvent &#234;tre de type num&#233;rique ou bien
+alphanum&#233;rique.
+
+<P>
+Il poss&#232;de aussi un certain nombre de variables pr&#233; d&#233;finies permettant de
+param&#232;trer l'environnement de "<TT>awk</TT>" ou bien d'obtenir des informations
+sur le contexte courant. Ces <A NAME="19206"></A>variables sont&nbsp;:
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Variable</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19208"></A><TT>FILENAME</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>nom du fichier courant en entr&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19209"></A><TT>NR</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>num&#233;ro de l'enregistrement courant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19210"></A><TT>NF</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>nombre de champs dans l'enregistrement courant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19211"></A><TT>FS</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>caract&#232;re s&#233;parateur de champs.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19212"></A><TT>RS</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>caract&#232;re de s&#233;paration d'enregistrements.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19213"></A><code>$0</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>l'enregistrement courant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19214"></A><code>$</code><I>n</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>le <!-- MATH
+ $n^{i\grave{e}me}$
+ -->
+<IMG
+ WIDTH="42" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img54.png"
+ ALT="$n^{i\grave{e}me}$"> champ de l'enregistrement courant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19216"></A><TT>IFS</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>caract&#232;re s&#233;parateur de champs en entr&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19217"></A><TT>IRS</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>caract&#232;re de s&#233;paration d'enregistrements en entr&#233;e.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19218"></A><TT>OFS</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>caract&#232;re s&#233;parateur de champs en sortie.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19219"></A><TT>ORS</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>caract&#232;re de s&#233;paration d'enregistrements en sortie.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="19220"></A><TT>OFMT</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>format de sortie pour les chiffres.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Exemple&nbsp;15..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+Commande&nbsp;:
+</BLOCKQUOTE><PRE>
+awk '
+    BEGIN {
+        print "Liste du fichier ", FILENAME
+        print
+        printf ("N.L.\tUID"\t|\tNom de login\n")
+        FS=":"
+        OFS="\t|\t"
+    }
+    {
+        printf ("%03d:\t",NR)
+        print $3,$1
+    }
+' /etc/passwd
+</PRE>
+<P>
+<BLOCKQUOTE>Le programme "<TT>awk</TT>" pr&#233;c&#233;dent s'applique au fichier "<TT>/etc/passwd</TT>",
+contenant la liste des utilisateurs autoris&#233;s &#224; se connecter au syst&#232;me. Ce fichier
+se compose des champs suivants s&#233;par&#233;s par le caract&#232;re "<TT>:</TT>"&nbsp;:
+</BLOCKQUOTE>
+<UL>
+<LI>le nom de connexion ou "<I>logname</I>",
+</LI>
+<LI>le mot de passe crypt&#233; de l'utilisateur,
+</LI>
+<LI>son identifiant num&#233;rique unique, l'UID,
+</LI>
+<LI>son identifiant num&#233;rique de groupe, le GID,
+</LI>
+<LI>un champ de commentaires, appel&#233; "GCOS", contenant usuellement
+			le pr&#233;nom et le nom complet de l'utilisateur,
+</LI>
+<LI>son r&#233;pertoire de connexion, c'est-&#224;-dire le r&#233;pertoire qu'il aura
+			par d&#233;faut lorsqu'il se connectera au syst&#232;me<A NAME="tex2html86"
+  HREF="footnode.html#foot19221"><SUP>15.1</SUP></A>
+</LI>
+<LI>le nom de l'ex&#233;cutable correspondant &#224; son interpr&#233;teur de commandes.
+</LI>
+</UL><BLOCKQUOTE>
+Pour plus de renseignements sur ce fichiers, reportez-vous &#224; "<TT>passwd(5)</TT>".
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Ce programme se d&#233;compose en deux parties&nbsp;:
+</BLOCKQUOTE>
+<OL>
+<LI>Le s&#233;lecteur "<TT>BEGIN</TT>" permet d'afficher un texte pr&#233;limaire
+			indiquant&nbsp;:
+			
+<UL>
+<LI>la liste des utilisateurs du fichier trait&#233; (r&#233;f&#233;renc&#233; par la
+						variable "<TT>FILENAME</TT>",
+</LI>
+<LI>une ligne blanche (commande "<TT>print</TT>" sans arguments),
+</LI>
+<LI>la premi&#232;re ligne du tableau g&#233;n&#233;r&#233; par le programme.
+			
+</LI>
+</UL>
+			L'initialisation de la variable "<TT>FS</TT>" permet de sp&#233;cifier la nouvelle
+			valeur du s&#233;parateur de champ. Celui-ci devient le caract&#232;re "<TT>:</TT>".
+			L'initialisation de la variable "<TT>OFS</TT>" permet de sp&#233;cifier
+			le nouveau format d'affichage de la commande "<TT>print</TT>". Chaque
+			argument de cette commande sera s&#233;par&#233; par le caract&#232;re "<code>|</code>"
+			pr&#233;c&#233;d&#233; et suivi d'une tabulation.
+<BR>
+<BR></LI>
+<LI>Le second s&#233;lecteur ne poss&#232;de aucun crit&#232;re, les actions qui y sont pr&#233;sentes
+			s'appliquent &#224; chaque enregistrement du fichier c'est-&#224;-dire &#224; chaque
+			ligne. Les deux actions pr&#233;sentes ont les fonctions suivantes&nbsp;:
+			
+<UL>
+<LI>la premi&#232;re affiche le num&#233;ro de l'enregistrement courant sur
+						trois chiffres<A NAME="tex2html87"
+  HREF="footnode.html#foot19222"><SUP>15.2</SUP></A>						gr&#226;ce &#224; la variable "<TT>NR</TT>",
+</LI>
+<LI>la seconde affiche le troisi&#232;me et le premier champ en utilisant
+						le format de sortie contenu dans la variable "<TT>OFS</TT>".
+			
+</LI>
+</UL>
+</LI>
+</OL>
+<P>
+<BLOCKQUOTE>Le r&#233;sultat obtenu sera donc&nbsp;:
+</BLOCKQUOTE><PRE>
+liste du fichier /etc/passwd
+
+N.L.	UID	|	Nom de login
+001:	0	|	root
+</PRE><BLOCKQUOTE><BLOCKQUOTE>
+etc.
+
+</BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<P>
+La d&#233;finition des variables utilisateur est dynamique. Par cons&#233;quent, leur
+d&#233;claration se fait &#224; la premi&#232;re utilisation et leur type s'adapte en fonction
+de la valeur &#224; laquelle elle a &#233;t&#233; initialis&#233;e. Le type d'une variable d&#233;pend de
+son utilisation. Il peut &#234;tre&nbsp;:
+
+<UL>
+<LI>num&#233;rique (virgule flottante ou enti&#232;re)
+</LI>
+<LI>alphanum&#233;rique
+</LI>
+</UL>
+
+<P>
+Les variables sont d&#233;clar&#233;es de fa&#231;on globale &#224; tous les blocs action de toutes
+les requ&#234;tes "<TT>awk</TT>". Par cons&#233;quent, une variable cr&#233;&#233;e dans la requ&#234;te
+"<TT>BEGIN</TT>", sera accessible par toutes les requ&#234;tes "<TT>awk</TT>".
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Sous-sections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3320"
+  HREF="node168.html">Les tableaux</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3318"
+  HREF="node168.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3312"
+  HREF="node158.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3306"
+  HREF="node166.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3314"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3316"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3319"
+  HREF="node168.html">Les tableaux</A>
+<B> monter:</B> <A NAME="tex2html3313"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3307"
+  HREF="node166.html">Syntaxe des s&#233;lecteurs</A>
+ &nbsp; <B>  <A NAME="tex2html3315"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3317"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

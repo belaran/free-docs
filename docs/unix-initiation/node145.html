@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Mode de fonctionnement</TITLE>
+<META NAME="description" CONTENT="Mode de fonctionnement">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node146.html">
+<LINK REL="previous" HREF="node144.html">
+<LINK REL="up" HREF="node143.html">
+<LINK REL="next" HREF="node146.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2983"
+  HREF="node146.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2977"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2971"
+  HREF="node144.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2979"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2981"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2984"
+  HREF="node146.html">Formulation des requ&#234;tes</A>
+<B> monter:</B> <A NAME="tex2html2978"
+  HREF="node143.html">Utilisation de &#171;&nbsp;sed&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2972"
+  HREF="node144.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html2980"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2982"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04920000000000000000"></A><A NAME="sed-fonct"></A>
+<BR>
+Mode de fonctionnement
+</H1>
+
+<P>
+La commande <A NAME="17051"></A>&#171;&nbsp;<TT>sed</TT>&nbsp;&#187; permet de copier les fichiers indiqu&#233;s sur la sortie standard en l'&#233;ditant en fonction du texte de requ&#234;tes.
+Si aucun fichier n'est pr&#233;cis&#233; en entr&#233;e, &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; lit sur son entr&#233;e standard.
+
+<P>
+La sortie standard peut &#234;tre redirig&#233;e sur un fichier avec les m&#233;canismes classiques du Shell (cf. section <A HREF="node64.html#redirect-io"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). Les requ&#234;tes de la commande &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; dont identiques &#224; celles de la commande &#171;&nbsp;<TT>ed(1)</TT>&nbsp;&#187;. La r&#233;p&#233;tition des requ&#234;tes globales de substitution est plus efficace avec &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; qu'avec &#171;&nbsp;<TT>ed</TT>&nbsp;&#187;.
+
+<P>
+Pendant son ex&#233;cution, la commande &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; proc&#232;de de la fa&#231;on suivante&nbsp;:
+
+<OL>
+<LI>Chaque ligne s&#233;lectionn&#233;e par les adresses est copi&#233;e dans un
+			espace de travail (&#171;&nbsp;<I>pattern space</I>&nbsp;&#187;) et toutes les
+			commandes lui sont appliqu&#233;es.
+</LI>
+<LI>Lorsque toutes les commandes ont &#233;t&#233; appliqu&#233;es, le contenu
+			de l'espace de travail modifi&#233; est envoy&#233; sur la sortie
+			standard. Le contenu de l'espace de travail est supprim&#233; afin
+			de recevoir un nouveau contenu.
+</LI>
+<LI>En plus de l'espace de travail, &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; dispose d'un espace m&#233;moire
+			(&#171;&nbsp;<I>hold space</I>&nbsp;&#187;) o&#249; peut &#234;tre stock&#233; temporairement
+			le contenu de l'espace de travail. L'utilisation de cet espace
+			est utilis&#233; par les commandes &#171;&nbsp;<TT>g</TT>&nbsp;&#187;, &#171;&nbsp;<TT>G</TT>&nbsp;&#187;,
+			&#171;&nbsp;<TT>h</TT>&nbsp;&#187; et &#171;&nbsp;<TT>H</TT>&nbsp;&#187; d&#233;crites &#224; la section
+			<A HREF="node149.html#sed-cmds"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+</LI>
+</OL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2983"
+  HREF="node146.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2977"
+  HREF="node143.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2971"
+  HREF="node144.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2979"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2981"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2984"
+  HREF="node146.html">Formulation des requ&#234;tes</A>
+<B> monter:</B> <A NAME="tex2html2978"
+  HREF="node143.html">Utilisation de &#171;&nbsp;sed&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2972"
+  HREF="node144.html">Introduction</A>
+ &nbsp; <B>  <A NAME="tex2html2980"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2982"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

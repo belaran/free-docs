@@ -1,0 +1,465 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Commandes &#171;&nbsp;at&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="Commandes &#171;&nbsp;at&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node87.html">
+<LINK REL="up" HREF="node84.html">
+<LINK REL="next" HREF="node89.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2028"
+  HREF="node89.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2022"
+  HREF="node84.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2018"
+  HREF="node87.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2024"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2026"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2029"
+  HREF="node89.html">R&#233;p&#233;tition de t&#226;ches&nbsp;: crontab</A>
+<B> monter:</B> <A NAME="tex2html2023"
+  HREF="node84.html">Commandes associ&#233;es</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2019"
+  HREF="node87.html">Les commandes &#171;&nbsp;fg&nbsp;&#187; et</A>
+ &nbsp; <B>  <A NAME="tex2html2025"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2027"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03234000000000000000">
+Commandes &#171;&nbsp;<TT>at</TT>&nbsp;&#187;</A>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>at [-c | -s | -k] [-m] [-q queuename] [-f file]</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>date [increment] [command | file]</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>at -r job_number ...</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>at -l [-q queuename] [user ...]</TT></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+La commande &#171;&nbsp;<A NAME="10169"></A><TT>at</TT>&nbsp;&#187; permet de diff&#233;rer
+l'ex&#233;cution de travaux. Elle lit sur son entr&#233;e standard les commandes
+qu'elle doit lancer &#224; la date sp&#233;cifi&#233;e.
+
+<P>
+Au lieu d'envoyer les ordres &#224; ex&#233;cuter sur l'entr&#233;e standard, vous pouvez&nbsp;:
+
+<UL>
+<LI>sp&#233;cifier directement la commande &#224; la suite. Dans ce cas, l'entr&#233;e standard
+			de la commande qui aura &#233;t&#233; saisie, devra &#234;tre prise &#224; partir d'un fichier
+			avec les m&#233;canismes d&#233;crits &#224; la section <A HREF="node66.html#basnot-stdin"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+</LI>
+<LI>donner le nom d'un fichier contenant les commandes &#224; ex&#233;cuter. Celui-ci n'est pas
+			lu &#224; la place de l'entr&#233;e standard mais est trait&#233; comme une proc&#233;dure de commande.
+			Il doit donc &#234;tre accessible en ex&#233;cution par le Shell (cf. sections
+			<A HREF="node32.html#cmds-protect"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> et <A HREF="node63.html#basicnot-exec"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).
+</LI>
+</UL>
+
+<P>
+La commande &#171;&nbsp;<A NAME="10170"></A><TT> batch</TT>&nbsp;&#187; ex&#233;cute les travaux seulement lorsque le
+niveau de la charge du syst&#232;me le permet. La commande &#171;&nbsp;<TT>at</TT>&nbsp;&#187;
+redirige automatiquement sa sortie standard et sa sortie d'erreurs
+standard dans la boite aux lettres du courrier &#233;lectronique. Par d&#233;faut,
+la commande &#171;&nbsp;<TT>at</TT>&nbsp;&#187; utilise le Bourne Shell comme interpr&#233;teur de
+commandes. Si vous d&#233;sirez changer l'interpr&#233;teur de commande par
+d&#233;faut, les options suivantes devront &#234;tre sp&#233;cifi&#233;es&nbsp;:
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Option</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&#171;&nbsp;<TT>-c</TT>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">C Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&#171;&nbsp;<TT>-k</TT>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">Korn Shell</TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+Le param&#232;tre &#171;&nbsp;<TT>date</TT>&nbsp;&#187; a le format suivant&nbsp;:
+<DIV ALIGN="CENTER">
+<TT>[[CC]AA]MMJJhhmm[.ss]</TT>
+
+</DIV>
+avec&nbsp;:
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>CC</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">les deux chiffres des centaines de l'ann&#233;e,</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>AA</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">les deux derniers chiffres de l'ann&#233;e,</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>MM</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">le mois (01-12),</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>JJ</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">le jour (01-31),</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>hh</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">l'heure (00-23),</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>mm</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">les minutes (00-59),</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>ss</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">les secondes (00-59).</TD>
+</TR>
+</TABLE>
+
+<P>
+&#171;&nbsp;<TT>CC</TT>&nbsp;&#187; et &#171;&nbsp;<TT>AA</TT>&nbsp;&#187; sont optionnels, l'ann&#233;e en cours est prise par d&#233;faut.
+
+<P>
+Le param&#232;tre &#171;&nbsp;<TT>date</TT>&nbsp;&#187; admet aussi les formats suivants&nbsp;:
+
+<UL>
+<LI>La commande &#171;&nbsp;<TT>at</TT>&nbsp;&#187; interpr&#232;te les valeurs compos&#233;es d'un ou deux chiffres
+			comme &#233;tant des heures. Elle interpr&#232;te les valeurs compos&#233;es de quatre chiffres
+			comme &#233;tant des heures et des minutes. Vous pouvez &#233;ventuellement s&#233;parer les heures
+			des minutes par le caract&#232;re deux points &#171;&nbsp;<TT>:</TT>&nbsp;&#187;. Dans ce cas, le format sera
+			&#171;&nbsp;<TT>hh:mm</TT>&nbsp;&#187;.
+</LI>
+<LI>Vous pouvez indiquer le suffixe &#171;&nbsp;<TT>am</TT>&nbsp;&#187;, &#171;&nbsp;<TT>pm</TT>&nbsp;&#187; ou &#171;&nbsp;<TT>zulu</TT>&nbsp;&#187;.
+			Si vous ne sp&#233;cifiez ni &#171;&nbsp;<TT>am</TT>&nbsp;&#187; ni &#171;&nbsp;<TT>pm</TT>&nbsp;&#187;, la commande &#171;&nbsp;<TT>at</TT>&nbsp;&#187;
+			utilise une horloge de 24 heures. Si vous sp&#233;cifiez &#171;&nbsp;<TT>zulu</TT>&nbsp;&#187;, le temps
+			universel<A NAME="tex2html62"
+  HREF="footnode.html#foot9543"><SUP>5.1</SUP></A>			est utilis&#233;.
+</LI>
+<LI>L'un des mots clefs suivants&nbsp;:
+		<DL COMPACT>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>&#171;&nbsp;<TT>noon</TT>&nbsp;&#187; pour <I>midi</I>,
+			
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>&#171;&nbsp;<TT>midnight</TT>&nbsp;&#187; pour <I>minuit</I>,
+			
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>&#171;&nbsp;<TT>now</TT>&nbsp;&#187; pour repr&#233;senter l'instant pr&#233;sent,
+			
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>&#171;&nbsp;<TT>A</TT>&nbsp;&#187; en abr&#233;viation de &#171;&nbsp;<TT>am</TT>&nbsp;&#187;,
+			
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>&#171;&nbsp;<TT>P</TT>&nbsp;&#187; en abr&#233;viation de &#171;&nbsp;<TT>pm</TT>&nbsp;&#187;,
+			
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>&#171;&nbsp;<TT>N</TT>&nbsp;&#187; en abr&#233;viation de &#171;&nbsp;<TT>noon</TT>&nbsp;&#187;,
+			
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>&#171;&nbsp;<TT>M</TT>&nbsp;&#187; en abr&#233;viation de &#171;&nbsp;<TT>midnight</TT>&nbsp;&#187;.
+		
+</DD>
+</DL>
+</LI>
+</UL>
+
+<P>
+
+	<B>Remarque&nbsp;5..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Le mot clef &#171;&nbsp;<TT>now</TT>&nbsp;&#187; peut &#234;tre utilis&#233; uniquement si vous indiquez le param&#232;tre
+	&#171;&nbsp;<TT>date</TT>&nbsp;&#187; ou &#171;&nbsp;<TT>increment</TT>&nbsp;&#187;. Dans le cas contraire, le message
+	&#171;&nbsp;<TT>too late</TT>&nbsp;&#187; s'affiche.
+	
+</I></BLOCKQUOTE>
+
+<P>
+Le param&#232;tre &#171;&nbsp;<TT>date</TT>&nbsp;&#187; permet d'indiquer un nom de mois et un
+num&#233;ro de jour (&#233;ventuellement un num&#233;ro d'ann&#233;e pr&#233;c&#233;d&#233; d'une virgule),
+ou un jour de la semaine. La commande &#171;&nbsp;<TT>at</TT>&nbsp;&#187; reconna&#238;t deux
+jours particuliers&nbsp;: il s'agit de &#171;&nbsp;<TT>today</TT>&nbsp;&#187; et de &#171;&nbsp;<TT>tomorrow</TT>&nbsp;&#187;. Si l'heure indiqu&#233;e est post&#233;rieure &#224; l'heure d'entr&#233;e de
+la commande, &#171;&nbsp;<TT>today</TT>&nbsp;&#187; est utilis&#233;e par d&#233;faut en tant que
+param&#232;tre &#171;&nbsp;<TT>date</TT>&nbsp;&#187;. Dans le cas contraire, celui-ci prend la
+valeur &#171;&nbsp;<TT>tomorrow</TT>&nbsp;&#187;. Si vous indiquez un mois ant&#233;rieur &#224; celui
+en cours sans pr&#233;ciser d'ann&#233;e, l'ann&#233;e suivante est utilis&#233;e par
+d&#233;faut.
+
+<P>
+Le param&#232;tre facultatif &#171;&nbsp;<TT>increment</TT>&nbsp;&#187; peut prendre l'une des
+valeurs suivantes&nbsp;:
+
+<UL>
+<LI>le signe plus &#171;&nbsp;<TT>+</TT>&nbsp;&#187; suivi d'un nombre et de l'un des mots suivants&nbsp;:
+			&#171;&nbsp;<TT>minute[s]</TT>&nbsp;&#187;, &#171;&nbsp;<TT>hour[s]</TT>&nbsp;&#187;, &#171;&nbsp;<TT>day[s]</TT>&nbsp;&#187;, &#171;&nbsp;<TT>week[s]</TT>&nbsp;&#187;,
+			&#171;&nbsp;<TT>month[s]</TT>&nbsp;&#187; ou &#171;&nbsp;<TT>year[s]</TT>&nbsp;&#187; (ou tout &#233;quivalent en anglais).
+</LI>
+<LI>le mot &#171;&nbsp;<TT>next</TT>&nbsp;&#187; suivi de l'un des mots suivants&nbsp;: &#171;&nbsp;<TT>minute[s]</TT>&nbsp;&#187;,
+			&#171;&nbsp;<TT>hour[s]</TT>&nbsp;&#187;, &#171;&nbsp;<TT>day[s]</TT>&nbsp;&#187;, &#171;&nbsp;<TT>week[s]</TT>&nbsp;&#187;,
+			&#171;&nbsp;<TT>month[s]</TT>&nbsp;&#187; ou &#171;&nbsp;<TT>year[s]</TT>&nbsp;&#187; (ou tout &#233;quivalent en anglais).
+</LI>
+</UL>
+
+<P>
+
+	<B>Options&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>-c</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Indique que le C Shell sera utilis&#233; pour ex&#233;cuter
+									le travail.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>-k</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Indique que le Korn Shell sera utilis&#233; pour ex&#233;cuter le
+									travail.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>-l</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Liste les travaux &#224; ex&#233;cuter.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>-m</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Envoie un message &#224; l'utilisateur apr&#232;s l'ex&#233;cution de
+									la commande.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>-q</TT> <I>queuename</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Sp&#233;cifie la file d'attente dans laquelle on effectue le
+									travail.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>-s</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Indique que le Bourne Shell sera utilis&#233; pour ex&#233;cuter
+									le travail.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>-r</TT> <I>job</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Supprime des travaux programm&#233;s par la commande
+									&#171;&nbsp;<TT>at</TT>&nbsp;&#187; (le param&#232;tre &#171;&nbsp;<TT>job</TT>&nbsp;&#187; correspond
+									&#224; un num&#233;ro affect&#233; par la commande).</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Par d&#233;faut, l'attribution des files d'attente se fait de la fa&#231;on suivante&nbsp;:
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">file d'attente</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>type de travaux</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>a</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>travaux soumis avec la commande &#171;&nbsp;<TT>at</TT>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>b</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>travaux &#171;&nbsp;<I>batch</I>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>c</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>travaux soumis par le &#171;&nbsp;<I>cron</I>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>d</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>travaux &#171;&nbsp;<I>sync</I>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>e</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>travaux Korn Shell.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>f</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>travaux C Shell.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Remarque&nbsp;5..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Les travaux &#171;&nbsp;<I>batch</I>&nbsp;&#187; sous U<SMALL>NIX</SMALL> ont un sens diff&#233;rent de celui
+habituellement entendu sous OpenV<SMALL>MS</SMALL>. Ceux-ci ne sont ex&#233;cut&#233;s seulement
+si le syst&#232;me dispose de suffisamment de ressources. Avec OpenV<SMALL>MS</SMALL>, il est possible
+d'affecter un niveau de priorit&#233; des processus pris en compte par l'ordonnanceur du
+syst&#232;me (<I>scheduler</I>). Il est donc possible d'avoir une file d'attente offrant
+un niveau bas de ressource (priorit&#233; faible), les travaux ne seront donc ex&#233;cut&#233;s
+seulement si le syst&#232;me dispose de suffisamment de ressources. Par contre, il est
+aussi possible d'avoir une file d'attent avec un niveau &#233;lev&#233;. Dans ce cas, les travaux
+passeront en priorit&#233;. Ceci peut &#234;tre utile en fonction de l'environnement
+d'exploitation.
+	
+</I></BLOCKQUOTE>
+
+<P>
+Pour plus de renseignements, reportez-vous &#224; &#171;&nbsp;<TT>at(1)</TT>&nbsp;&#187;.
+
+<P>
+
+	<B>Exemple&nbsp;5..5&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+Pour programmer l'ex&#233;cution d'une commande &#224; partir du terminal, entrez une commande
+semblable &#224; l'un des exemples suivants.
+<BR>
+Si &#171;&nbsp;<TT>uuclean</TT>&nbsp;&#187; se trouve dans le r&#233;pertoire courrant (ou dans un r&#233;pertoire sp&#233;cifi&#233; dans la
+variable &#171;&nbsp;<TT>PATH</TT>&nbsp;&#187;)&nbsp;:
+</BLOCKQUOTE><PRE>
+% at 5 pm Friday uuclean
+% at now next week uuclean
+</PRE><BLOCKQUOTE>
+Si &#171;&nbsp;<TT>uuclean</TT>&nbsp;&#187; se trouve dans le r&#233;pertoire &#171;&nbsp;<code>$HOME/bin/uuclean</code>&nbsp;&#187;&nbsp;:
+</BLOCKQUOTE><PRE>
+% at now + 2 days $HOME/bin/uuclean
+% at now + 2 days
+$HOME/bin/uuclean
+</PRE><BLOCKQUOTE>
+<!-- MATH
+ $\fbox{\textsc{ctrl}}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="\fbox{\textsc{ctrl}}">-<IMG
+ WIDTH="27" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img35.png"
+ ALT="\fbox{D}">
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Remarque&nbsp;5..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Lorsque vous indiquez, sur la ligne de commande, un nom de commande
+comme dernier &#233;l&#233;ment, vous devez sp&#233;cifier le chemin d'acc&#232;s complet si
+celle-ci ne se trouve pas dans le r&#233;pertoire courrant. En outre, la
+commande &#171;&nbsp;<TT>at</TT>&nbsp;&#187; ne prend en compte aucun argument pour les
+commandes &#224; lancer.
+	
+</I></BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;5..6&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+Pour ex&#233;cuter la commande &#171;&nbsp;<TT>uuclean</TT>&nbsp;&#187; le 24 Janvier &#224; 15 heures, entrez l'une des
+commandes ci-dessous&nbsp;:
+</BLOCKQUOTE><PRE>
+% echo uuclean | at 3:00 pm January 24
+% echo uuclean | at 3pm Jan 24
+% echo uuclean | at 1500 jan 24
+</PRE>
+
+<P>
+
+	<B>&#201;quivalence&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="CENTER">OpenV<SMALL>MS</SMALL></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>at</TT></TD>
+<TD ALIGN="CENTER"><TT>submit</TT></TD>
+</TR>
+</TABLE>
+</DIV>
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2028"
+  HREF="node89.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2022"
+  HREF="node84.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2018"
+  HREF="node87.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2024"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2026"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2029"
+  HREF="node89.html">R&#233;p&#233;tition de t&#226;ches&nbsp;: crontab</A>
+<B> monter:</B> <A NAME="tex2html2023"
+  HREF="node84.html">Commandes associ&#233;es</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2019"
+  HREF="node87.html">Les commandes &#171;&nbsp;fg&nbsp;&#187; et</A>
+ &nbsp; <B>  <A NAME="tex2html2025"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2027"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

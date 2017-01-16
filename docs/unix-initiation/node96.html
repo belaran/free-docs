@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Historique des shells</TITLE>
+<META NAME="description" CONTENT="Historique des shells">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node97.html">
+<LINK REL="previous" HREF="node95.html">
+<LINK REL="up" HREF="node94.html">
+<LINK REL="next" HREF="node97.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2256"
+  HREF="node97.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2250"
+  HREF="node94.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2244"
+  HREF="node95.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2252"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2254"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2257"
+  HREF="node97.html">Quelques r&#232;gles et recommandations</A>
+<B> monter:</B> <A NAME="tex2html2251"
+  HREF="node94.html">Introduction</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2245"
+  HREF="node95.html">D&#233;finition</A>
+ &nbsp; <B>  <A NAME="tex2html2253"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2255"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04120000000000000000">
+Historique des shells</A>
+</H1>
+
+<P>
+Le premier Shell d&#233;velopp&#233; pour U<SMALL>NIX</SMALL> fut appel&#233; le
+<A NAME="11728"></A>Bourne Shell, nom provenant du responsable
+de l'&#233;quipe de d&#233;veloppement (<I>Steve Bourne</I>). Les personnes
+de l'universit&#233; de Berkeley en Californie<A NAME="tex2html68"
+  HREF="footnode.html#foot11385"><SUP>6.1</SUP></A> trouv&#232;rent des lacunes au Bourne Shell
+(d'apr&#232;s eux, trop de donn&#233;es devaient &#234;tre saisies) et
+d&#233;velopp&#232;rent un nouveau Shell&nbsp;: le
+<A NAME="11729"></A>&#171;&nbsp;<I>C Shell</I>&nbsp;&#187; <A NAME="tex2html69"
+  HREF="footnode.html#foot11394"><SUP>6.2</SUP></A>. Le &#171;&nbsp;<I>C Shell</I>&nbsp;&#187; offrit
+de nouvelles caract&#233;ristiques que n'avait pas le Bourne Shell&nbsp;:
+
+<UL>
+<LI>Premi&#232;rement, l'utilisateur pouvait rappeler les commandes et les &#233;diter. La proc&#233;dure
+			n'est pas tr&#232;s ais&#233;e<A NAME="tex2html70"
+  HREF="footnode.html#foot11730"><SUP>6.3</SUP></A> mais fonctionnait et avait, au moins, le m&#233;rite d'exister
+			contrairement au Bourne Shell.
+</LI>
+<LI>En second, le &#171;&nbsp;<I>C shell</I>&nbsp;&#187; permettait de d&#233;finir diff&#233;rents noms pour une
+			commande&nbsp;: les &#171;&nbsp;<I>aliases</I>&nbsp;&#187;.
+</LI>
+<LI>Troisi&#232;mement, le &#171;&nbsp;<I>C shell</I>&nbsp;&#187; permit la g&#233;n&#233;ration automatique
+			de fin de nom de fichier. Il permettait de terminer le nom du fichier en tapant
+			sur la touche &#171;&nbsp;<I>Escape</I>&nbsp;&#187; du clavier.
+</LI>
+<LI>En fin, l'initialisation et la terminaision du contexte d'une session utilisateur
+			appelle un ou plusieurs fichiers de configuration, en fonction du mode d'appel.
+			Il a donc &#233;t&#233; distingu&#233;&nbsp;:
+			<DL COMPACT>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>l'initialisation d'une session interactive,
+				
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>l'initialisation de l'environnement li&#233; &#224; une proc&#233;dure ou
+								un <I>sous-shell</I><A NAME="tex2html71"
+  HREF="footnode.html#foot11731"><SUP>6.4</SUP></A>,
+				
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>la fin d'une session interactive.
+			
+</DD>
+</DL>.
+			Par cons&#233;quent, il est possible de param&#232;trer son environnement plus finement.
+</LI>
+</UL>
+
+<P>
+Il pr&#233;senta donc beaucoup d'autres avantages par rapport au Bourne Shell mais avait deux
+inconv&#233;nients majeurs&nbsp;:
+
+<UL>
+<LI>il n'&#233;tait pas standard,
+</LI>
+<LI>il &#233;tait incompatible avec les programmes Bourne Shell.
+</LI>
+</UL>
+
+<P>
+Finalement, David K<SMALL>ORN</SMALL> des laboratoires B<SMALL>ELL</SMALL> d'AT&amp;T e&#251;t
+le dernier mot. Il &#233;crivit le <A NAME="11732"></A>&#171;&nbsp;<I>Korn Shell</I>&nbsp;&#187; (appel&#233; K Shell) avec son &#233;quipe de
+d&#233;veloppeurs. Celui-ci poss&#232;de les meilleures
+caract&#233;ristiques du Bourne Shell, inclut celles du C Shell tout en
+&#233;tant 100% compatible avec le Bourne Shell. Il rajouta aussi un
+certain nombre de fonctionnalit&#233;s pour la programmation de
+proc&#233;dures de commandes. Enfin, pour <I>concurencer</I> le &#171;&nbsp;<I>Korn Shell</I>&nbsp;&#187;, son &#233;quivalent fut d&#233;velopp&#233; avec les
+syntaxes du &#171;&nbsp;<I>C Shell</I>&nbsp;&#187;&nbsp;: le &#171;&nbsp;<TT>tcsh</TT>&nbsp;&#187;. Ce dernier est un
+sur-ensemble du &#171;&nbsp;<I>C Shell</I>&nbsp;&#187; avec un effort accrue sur la
+souplesse d'utilisation de l'interpr&#233;teur de commande (utilisation
+plus <I>conviviale</I>, fonctionnalit&#233;s pour les proc&#233;dures de
+commandes accrues, etc.).
+
+<P>
+Toutefois, l'&#233;quipe du &#171;&nbsp;<I>Bourne Shell</I>&nbsp;&#187; n'en resta pas
+l&#224;. Ses fonctionnalit&#233;s furent accrues avec le
+<A NAME="11733"></A>&#171;&nbsp;<TT>bash</TT>&nbsp;&#187; signifiant &#171;&nbsp;<I>Bourne another Shell</I>&nbsp;&#187;.
+
+<P>
+
+	<B>En conclusion&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+Il existe deux grandes familles pour les syntaxes&nbsp;:
+</BLOCKQUOTE>
+<UL>
+<LI>celle du &#171;&nbsp;<I>Bourne Shell</I>&nbsp;&#187;, regroupant
+			le Bourne Shell, le Korn Shell et le <TT>bash</TT>,
+</LI>
+<LI>celle du &#171;&nbsp;<I>C Shell</I>&nbsp;&#187;, regroupant
+			le C Shell et le <TT>tcsh</TT>.
+</LI>
+</UL><BLOCKQUOTE>
+Nous ne parlerons dans ce document que du &#171;&nbsp;<I>Bourne Shell</I>&nbsp;&#187;,
+premi&#232;re &#233;tape vers la cr&#233;ation de proc&#233;dures sous
+U<SMALL>NIX</SMALL>. La correspondance entre les syntaxes du &#171;&nbsp;<I>Bourne
+Shell</I>&nbsp;&#187; et du &#171;&nbsp;<I>C Shell</I>&nbsp;&#187; seront explicit&#233;es &#224;
+l'annexe <A HREF="node209.html#ann-csh-sh"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.	
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Remarque&nbsp;6..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Le Shell POSIX s'appuie sur le &#171;&nbsp;<I>Korn Shell</I>&nbsp;&#187;. Donc si vous
+voulez rester dans la norme POSIX, exigez le &#171;&nbsp;<I>Korn Shell</I>&nbsp;&#187;.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2256"
+  HREF="node97.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2250"
+  HREF="node94.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2244"
+  HREF="node95.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2252"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2254"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2257"
+  HREF="node97.html">Quelques r&#232;gles et recommandations</A>
+<B> monter:</B> <A NAME="tex2html2251"
+  HREF="node94.html">Introduction</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2245"
+  HREF="node95.html">D&#233;finition</A>
+ &nbsp; <B>  <A NAME="tex2html2253"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2255"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

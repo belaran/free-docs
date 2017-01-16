@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Substitution de commande</TITLE>
+<META NAME="description" CONTENT="Substitution de commande">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node84.html">
+<LINK REL="previous" HREF="node82.html">
+<LINK REL="up" HREF="node81.html">
+<LINK REL="next" HREF="node84.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1956"
+  HREF="node84.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1950"
+  HREF="node81.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1944"
+  HREF="node82.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1952"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1954"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1957"
+  HREF="node84.html">Commandes associ&#233;es</A>
+<B> monter:</B> <A NAME="tex2html1951"
+  HREF="node81.html">Le mode multi-t&#226;che</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1945"
+  HREF="node82.html">T&#226;che de fond -</A>
+ &nbsp; <B>  <A NAME="tex2html1953"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1955"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION03220000000000000000"></A><A NAME="multi-task-backq"></A>
+<BR>
+Substitution de commande
+</H1>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>`<I>commande</I>`</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><TT>$(<I>commande</I>)</TT></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+La substitution de commande se fait en utilisant le caract&#232;re back quote (&#171;&nbsp;<A NAME="10147"></A><TT>`</TT>&nbsp;&#187;)
+pour lancer des commandes &#224; ins&#233;rer dans une cha&#238;ne de caract&#232;res. La substituion peut aussi
+s'effectuer en d&#233;limitant la commande respectivement par &#171;&nbsp;<TT>$(</TT>&nbsp;&#187; et &#171;&nbsp;<TT>)</TT>&nbsp;&#187;. Il est &#224;
+noter que la deuxi&#232;me syntaxe pr&#233;cis&#233;e ici est plus r&#233;cente que la premi&#232;re. Sur d'anciens
+interpr&#233;teurs, celle-ci pourra ne pas &#234;tre accept&#233;e. Par contre, elle ne posera aucun probl&#232;me
+dans les environnements plus r&#233;cents comme le Bash.
+
+<P>
+La substitution de commandes dans une cha&#238;ne de caract&#232;res est une autre facilit&#233; offerte par le shell. Elle permet de capturer la sortie d'une commande et de l'assigner &#224; une variable ou de l'utiliser comme un argument d'une autre commande. Comme beaucoup de commandes U<SMALL>NIX</SMALL> g&#233;n&#232;rent une sortie, la substitution de commandes peut &#234;tre tr&#232;s int&#233;ressante.
+
+<P>
+A propos de l'efficacit&#233;, il est plus rapide, dans certains cas, d'effectuer une substitution de commande plut&#244;t que de passer par une redirection.
+
+<P>
+
+	<B>Exemple&nbsp;5..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+% echo "my current shell is `basename $SHELL`"
+% current_dir=`pwd`
+% cd /etc
+% cd $current_dir
+</PRE>
+<P><PRE>
+% echo "my current shell is $(basename $SHELL)"
+% current_dir=$(pwd)
+% cd /etc
+% cd $current_dir
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1956"
+  HREF="node84.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1950"
+  HREF="node81.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1944"
+  HREF="node82.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1952"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1954"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1957"
+  HREF="node84.html">Commandes associ&#233;es</A>
+<B> monter:</B> <A NAME="tex2html1951"
+  HREF="node81.html">Le mode multi-t&#226;che</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1945"
+  HREF="node82.html">T&#226;che de fond -</A>
+ &nbsp; <B>  <A NAME="tex2html1953"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1955"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

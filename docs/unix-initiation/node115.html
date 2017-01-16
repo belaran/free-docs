@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Interpr&#233;tation sp&#233;ciale du signe &#171;&nbsp;#&nbsp;&#187; sur la premi&#232;re ligne d'un shell script</TITLE>
+<META NAME="description" CONTENT="Interpr&#233;tation sp&#233;ciale du signe &#171;&nbsp;#&nbsp;&#187; sur la premi&#232;re ligne d'un shell script">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node114.html">
+<LINK REL="up" HREF="node113.html">
+<LINK REL="next" HREF="node116.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2524"
+  HREF="node116.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2518"
+  HREF="node113.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2514"
+  HREF="node114.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2520"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2522"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2525"
+  HREF="node116.html">Les appels d'un shell</A>
+<B> monter:</B> <A NAME="tex2html2519"
+  HREF="node113.html">Les commentaires et les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2515"
+  HREF="node114.html">Les commentaires</A>
+ &nbsp; <B>  <A NAME="tex2html2521"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2523"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04620000000000000000">
+Interpr&#233;tation sp&#233;ciale du signe &#171;&nbsp;<TT>#</TT>&nbsp;&#187; sur la premi&#232;re ligne d'un shell script</A>
+</H1>
+
+<P>
+Si l'on satisfait les conditions suivantes&nbsp;:
+
+<UL>
+<LI>le signe &#171;&nbsp;<code>#</code>&nbsp;&#187; se trouve en premi&#232;re ligne du fichier shell script <B>et</B>
+			sur la premi&#232;re colonne,
+</LI>
+<LI>il est suivi du caract&#232;re &#171;&nbsp;<code>!</code>&nbsp;&#187;,
+</LI>
+<LI>la s&#233;quence &#171;&nbsp;<code>#!</code>&nbsp;&#187; est suivie du nom de l'ex&#233;cutable d'un shell (chemin absolu),
+</LI>
+</UL>
+
+<P>
+alors, cette ligne permettra d'avoir la description du shell &#224; lancer au moment de l'ex&#233;cution.
+
+<P>
+Le processus mis en place est le suivant lorsqu'une telle ligne est trouv&#233;e&nbsp;:
+
+<UL>
+<LI>lancement du shell sp&#233;cifi&#233; sur la premi&#232;re ligne,
+</LI>
+<LI>lecture du fichier et &#233;valuation/ex&#233;cution des commandes par le shell que l'on
+			vient le lancer.
+</LI>
+</UL>
+
+<P>
+Cette d&#233;marche est obligatoire pour tout shell script (cf. r&#232;gle 10 de la section <A HREF="node98.html#pgm-intro-basic-rules"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).
+
+<P>
+Cette technique est donc utilis&#233; pour l'ensemble des langages interpr&#233;t&#233;s sous U<SMALL>NIX</SMALL> comme&nbsp;:
+
+<UL>
+<LI>les diff&#233;rentes variantes du shell (Bourne Shell, C-Shell, Korn Shell, etc.),
+</LI>
+<LI>des utilitaires admettant des fichiers de requ&#234;tes comme &#171;&nbsp;<TT>egrep</TT>&nbsp;&#187; (cf. section <A HREF="node140.html#adv-fltrs-egrep"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>),
+			&#171;&nbsp;<TT>sed</TT>&nbsp;&#187; (cf. section <A HREF="node143.html#adv-fltrs-sed"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) et &#171;&nbsp;<TT>awk</TT>&nbsp;&#187; (cf. section <A HREF="node158.html#adv-fltrs-awk"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>),
+</LI>
+<LI>des langages interpr&#233;t&#233;s comme &#171;&nbsp;<TT>perl</TT>&nbsp;&#187;[<A
+ HREF="node274.html#learning-perl">5</A>,<A
+ HREF="node274.html#programming-perl">6</A>,<A
+ HREF="node274.html#advpgm-perl">7</A>].
+</LI>
+</UL>
+
+<P>
+Nous pourrons donc avoir les cas de figure suivants&nbsp;:
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Syntaxe</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Signification</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>#!/bin/sh</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Tout ce qui va suivre ob&#233;it &#224; la syntaxe Bourne Shell. Le processus
+			&#224; lancer pour ex&#233;cuter et &#233;valuer les instructions suivantes ex&#233;cutera le
+			programme &#171;&nbsp;<code>/bin/sh</code>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>#!/bin/csh</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Tout ce qui va suivre ob&#233;it &#224; la syntaxe C Shell. Le processus
+			&#224; lancer pour ex&#233;cuter et &#233;valuer les instructions suivantes ex&#233;cutera le
+			programme &#171;&nbsp;<code>/bin/csh</code>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>#!/bin/ksh</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Tout ce qui va suivre ob&#233;it &#224; la syntaxe Korn Shell. Le processus
+			&#224; lancer pour ex&#233;cuter et &#233;valuer les instructions suivantes ex&#233;cutera le
+			programme &#171;&nbsp;<code>/bin/ksh</code>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>#!/bin/egrep</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Tout ce qui va suivre ob&#233;it &#224; la syntaxe de la commande &#171;&nbsp;/bin/egrep&nbsp;&#187;. Le processus
+			&#224; lancer pour ex&#233;cuter et &#233;valuer les instructions suivantes ex&#233;cutera le
+			programme &#171;&nbsp;<code>/bin/egrep</code>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>#!/bin/sed</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Tout ce qui va suivre ob&#233;it &#224; la syntaxe de la commande &#171;&nbsp;<TT>/bin/sed</TT>&nbsp;&#187;. Le processus
+			&#224; lancer pour ex&#233;cuter et &#233;valuer les instructions suivantes ex&#233;cutera le
+			programme &#171;&nbsp;<code>/bin/sh</code>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>#!/bin/awk</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Tout ce qui va suivre ob&#233;it &#224; la syntaxe de l'utilitaire &#171;&nbsp;<TT>awk</TT>&nbsp;&#187;. Le processus
+			&#224; lancer pour ex&#233;cuter et &#233;valuer les instructions suivantes ex&#233;cutera le
+			programme &#171;&nbsp;<code>/bin/awk</code>&nbsp;&#187;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>#!/usr/bin/perl</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>Tout ce qui va suivre ob&#233;it &#224; la syntaxe de Perl. Le processus
+			&#224; lancer pour ex&#233;cuter et &#233;valuer les instructions suivantes ex&#233;cutera le
+			programme &#171;&nbsp;<code>/usr/bin/perl</code>&nbsp;&#187;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" COLSPAN=2>etc.</TD>
+</TR>
+</TABLE>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Sous-sections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2526"
+  HREF="node116.html">Les appels d'un shell script au niveau de la ligne de commandes</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2524"
+  HREF="node116.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2518"
+  HREF="node113.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2514"
+  HREF="node114.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2520"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2522"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2525"
+  HREF="node116.html">Les appels d'un shell</A>
+<B> monter:</B> <A NAME="tex2html2519"
+  HREF="node113.html">Les commentaires et les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2515"
+  HREF="node114.html">Les commentaires</A>
+ &nbsp; <B>  <A NAME="tex2html2521"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2523"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

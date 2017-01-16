@@ -1,0 +1,267 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exemple 3</TITLE>
+<META NAME="description" CONTENT="Exemple 3">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node155.html">
+<LINK REL="previous" HREF="node153.html">
+<LINK REL="up" HREF="node151.html">
+<LINK REL="next" HREF="node155.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3116"
+  HREF="node155.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3110"
+  HREF="node151.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3104"
+  HREF="node153.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3112"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3114"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3117"
+  HREF="node155.html">Exemple 4</A>
+<B> monter:</B> <A NAME="tex2html3111"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3105"
+  HREF="node153.html">Exemple 2</A>
+ &nbsp; <B>  <A NAME="tex2html3113"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3115"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04943000000000000000"></A><A NAME="adv-fltrs-sed-ex3"></A>
+<BR>
+Exemple 3
+</H2>
+
+<P>
+Le but de cet exemple est de&nbsp;:
+
+<UL>
+<LI>supprimer les lignes commen&#231;ant par &#171;&nbsp;<code>#</code>&nbsp;&#187;,
+</LI>
+<LI>sur une ligne, tout ce qui suit le caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187;.
+</LI>
+</UL>
+
+<P>
+Nous devons donc proc&#233;der en deux &#233;tapes&nbsp;:
+<DL>
+<DT><STRONG><I>Premi&#232;re &#233;tape&nbsp;:</I></STRONG></DT>
+<DD>
+<BR>
+Le premier traitement &#224; effectuer est celui de supprimer toute ligne
+		comman&#231;ant par &#171;&nbsp;<code>#</code>&nbsp;&#187;. En effet, si notre commande supprime
+		tout d'abord tout ce qui suit le caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187;, y compris
+		celui-ci, nous obtiendrons une ligne blanche &#224; supprimer, qu'il ne sera pas
+		possible de distinguer d'une ligne d&#233;j&#224; blanche qui, elle, ne devra pas &#234;tre
+		supprim&#233;e.
+	
+</DD>
+<DT><STRONG><I>Seconde &#233;tape&nbsp;:</I></STRONG></DT>
+<DD>
+<BR>
+Le traitement doit s'effectuer sur le r&#233;sultat de la premi&#232;re &#233;tape. Nous obtenons
+		une s&#233;rie d'enregistrements (<I>lignes de fichiers</I>) dont, aucune ne commence
+		par &#171;&nbsp;<code>#</code>&nbsp;&#187;. Il ne restera donc plus qu'&#224; substituer tout ce qui suit le
+		caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187; par rien, caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187; compris.
+		Ce traitement s'effectuera sur toutes les lignes. L'op&#233;ration de substitution ne
+		s'ex&#233;cutera donc seulement si il existe une occurence du caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187;
+		sur la ligne.
+</DD>
+</DL>
+
+<P>
+Deux m&#233;thodes sont possibles&nbsp;:
+
+<UL>
+<LI>soit nous utilisons deux commandes &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; disposant chacune
+			de la requ&#234;te associ&#233;e &#224; l'&#233;tape consid&#233;r&#233;e et reli&#233;es entre elles
+			par le m&#233;canisme des &#171;&nbsp;<I>pipe</I>&nbsp;&#187; gr&#226;ce au caract&#232;re &#171;&nbsp;<code>|</code>&nbsp;&#187;,
+</LI>
+<LI>soit nous utilisons une seule commande &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; devant ex&#233;cuter
+			ces deux requ&#234;tes.
+</LI>
+</UL>
+
+<P>
+Dans un but p&#233;dagogique, nous montrerons la seconde m&#233;thode. En effet, elle mettra en &#233;vidence comment combiner les requ&#234;tes entre-elles et aussi la fa&#231;on de les ordonner.
+
+<P>
+Examinons la requ&#234;te &#224; &#233;crire pour ex&#233;cuter la premi&#232;re &#233;tape. Tout d'abord, la commande &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; associ&#233;e &#224; la suppression est &#171;&nbsp;<TT>d</TT>&nbsp;&#187;. &#192; cette commande, la sp&#233;cification des adresses de d&#233;but et de fin doit correspondre &#224; toute ligne commen&#231;ant par &#171;&nbsp;<code>#</code>&nbsp;&#187;. Nous allons donc utiliser une expression r&#233;guli&#232;re et les deux adresses seront identiques. L'expression r&#233;guli&#232;re ad&#233;quate correspond &#224;&nbsp;:
+
+<OL>
+<LI>d&#233;but de ligne,
+</LI>
+<LI>caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187;,
+</LI>
+<LI>quelque chose &#233;ventuellement, c'est-&#224;-dire un caract&#232;re quelconque un
+			nombre quelconque de fois (z&#233;ro &#233;ventuellement).
+</LI>
+</OL>
+Les correspondances, au niveau des expressions r&#233;guli&#232;res sont&nbsp;:
+<BR>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Description</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Expression</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">d&#233;but de ligne</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>^</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>#</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">quelque chose &#233;ventuellement</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>.*</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+La requ&#234;te correspondant &#224; la premi&#232;re &#233;tape est donc&nbsp;:
+<DIV ALIGN="CENTER">
+<code>/^#.*/d</code>
+
+</DIV>
+
+<P>
+Examinons maintenant la requ&#234;te &#224; &#233;crire pour ex&#233;cuter la seconde &#233;tape. Comme il a &#233;t&#233; dit pr&#233;c&#233;demment, cette requ&#234;te devra s'appliquer sur toutes les lignes obtenues par la premi&#232;re. Sachant que les requ&#234;tes s'ex&#233;cutent s&#233;quentiellement, lors de l'appel &#224; la seconde, les enregistrements qui lui sont fournis sont ceux qui r&#233;sultent de la <I>premi&#232;re</I> ex&#233;cution. Par cons&#233;quent, les adresses de d&#233;but et de fin ne sont pas &#224; sp&#233;cifier car ce sont toutes les lignes qu'il faut traiter.
+
+<P>
+La commande de substitution de &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; est &#171;&nbsp;<TT>s</TT>&nbsp;&#187;. Sa syntaxe est&nbsp;:
+<DIV ALIGN="CENTER">
+<TT>s/</TT><I>expression<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I><TT>/</TT><I>expression<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I><TT>/</TT>[<TT>g</TT>]
+
+</DIV>
+Ici, &#171;&nbsp;<I>expression<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I>&nbsp;&#187; devra correspondre &#224; la s&#233;quence suivante&nbsp;:
+
+<UL>
+<LI>caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187;,
+</LI>
+<LI>quelque chose &#233;ventuellement, c'est-&#224;-dire une suite de caract&#232;res
+			quelconques un nombre quelconque de fois,
+</LI>
+<LI>fin de ligne.
+</LI>
+</UL>
+Quant &#224; &#171;&nbsp;<I>expression<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I>&nbsp;&#187;, elle devra repr&#233;sent&#233; ce par quoi &#171;&nbsp;<I>expression<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I>&nbsp;&#187; devra &#234;tre remplac&#233;, c'est-&#224;-dire &#171;&nbsp;<B>rien</B>&nbsp;&#187;.
+Par cons&#233;quent, <B>&#171;&nbsp;<I>expression<IMG
+ WIDTH="12" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$_2$"></I>&nbsp;&#187; sera vide</B>. Il ne nous reste donc plus qu'&#224; formuler l'expression r&#233;gul&#232;re associ&#233;e &#224; &#171;&nbsp;<I>expression<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I>&nbsp;&#187;.
+En fonction de ce que doit d&#233;crire &#171;&nbsp;<I>expression<IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$_1$"></I>&nbsp;&#187;, nous avons les correspondances suivantes avec les expressions r&#233;guli&#232;res&nbsp;:
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Description</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Expression</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>#</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">quelque chose &#233;ventuellement</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>.*</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">fin de ligne</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>$</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+La requ&#234;te correspondant &#224; la seconde &#233;tape est donc&nbsp;:
+<DIV ALIGN="CENTER">
+<code>s/#.*$//</code>
+
+</DIV>
+Nous prenons donc bien en compte tout ce qu'il y a entre la premi&#232;re occurence du caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187; jusqu'&#224; la fin de la ligne. Cette entit&#233; est substitu&#233;e par &#171;&nbsp;<I>rien</I>&nbsp;&#187;.
+
+<P>
+Nous obtenons donc&nbsp;:<PRE>
+sed -e '/^#.*/d' -e 's/#.*$//' fichier
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3116"
+  HREF="node155.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3110"
+  HREF="node151.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3104"
+  HREF="node153.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3112"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3114"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3117"
+  HREF="node155.html">Exemple 4</A>
+<B> monter:</B> <A NAME="tex2html3111"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3105"
+  HREF="node153.html">Exemple 2</A>
+ &nbsp; <B>  <A NAME="tex2html3113"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3115"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

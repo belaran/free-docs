@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les variables sp&#233;ciales</TITLE>
+<META NAME="description" CONTENT="Les variables sp&#233;ciales">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node103.html">
+<LINK REL="previous" HREF="node101.html">
+<LINK REL="up" HREF="node101.html">
+<LINK REL="next" HREF="node103.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2340"
+  HREF="node103.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2334"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2328"
+  HREF="node101.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2336"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2338"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2341"
+  HREF="node103.html">Manipulation sur les variables</A>
+<B> monter:</B> <A NAME="tex2html2335"
+  HREF="node101.html">Les variables</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2329"
+  HREF="node101.html">Les variables</A>
+ &nbsp; <B>  <A NAME="tex2html2337"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2339"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04310000000000000000"></A><A NAME="variables-special-var"></A>
+<BR>
+Les variables sp&#233;ciales
+</H1>
+
+<P>
+La variable <A NAME="12353"></A>&#171;&nbsp;<code>#</code>&nbsp;&#187;  renvoie le
+nombre d'arguments pass&#233;s &#224; la proc&#233;dure.
+
+<P>
+La variable <A NAME="12354"></A>&#171;&nbsp;<code>*</code>&nbsp;&#187; renvoie la liste
+de tous les arguments pass&#233;s &#224; la proc&#233;dure m&#234;me s'ils
+sont plus de neuf.
+
+<P>
+Le fait de lancer un programme shell cr&#233;e un process dans lequel un
+shell s'ex&#233;cute pour interpr&#233;ter les commandes du Shell Script.
+La variable <A NAME="12355"></A>&#171;&nbsp;<TT>$</TT>&nbsp;&#187; renvoie le PID
+du nouveau shell qui est lanc&#233;.
+
+<P>
+La variable <A NAME="12356"></A>&#171;&nbsp;<code>!</code>&nbsp;&#187; renvoie le
+num&#233;ro de process (PID) de la derni&#232;re commande lanc&#233;e en
+arri&#232;re plan gr&#226;ce au caract&#232;re de terminaison
+&#171;&nbsp;<code>&amp;</code>&nbsp;&#187;. Cette variable peut &#234;tre utile pour synchroniser  un
+script gr&#226;ce &#224; la commande interne
+<A NAME="12357"></A>&#171;&nbsp;<code>wait</code>&nbsp;&#187;.
+
+<P>
+La variable <A NAME="12358"></A>&#171;&nbsp;<code>-</code>&nbsp;&#187; renvoie la liste
+des options positionn&#233;es pour le shell courant gr&#226;ce &#224; la
+commande interne <A NAME="12359"></A>&#171;&nbsp;<TT>set</TT>&nbsp;&#187; (cf. &#171;&nbsp;<TT>sh(1)</TT>&nbsp;&#187;).
+
+<P>
+La variable <A NAME="12360"></A>&#171;&nbsp;<code>?</code>&nbsp;&#187; contient le code de retour de la derni&#232;re commande qui
+a &#233;t&#233; ex&#233;cut&#233;e. De fa&#231;on g&#233;n&#233;rale, une valeur nulle indique <I>VRAI</I>, un retour
+non nul indique une erreur.
+
+<P>
+
+	<B>En r&#233;sum&#233;&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Variable</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Valeur retourn&#233;e</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>#</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Nombre d'arguments.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>*</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Liste des arguments du script.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>$</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Num&#233;ro du process shell dans lequel s'ex&#233;cute le script.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>!</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Num&#233;ro du process de la derni&#232;re commande lanc&#233;e en
+		arri&#232;re plan (gr&#226;ce au caract&#232;re &#171;&nbsp;<code>&amp;</code>&nbsp;&#187;)</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>-</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Liste des options du shell positionn&#233;es avec la commande
+		<TT>set</TT>.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>?</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Code de retour de la derni&#232;re commande ex&#233;cut&#233;e.</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;8..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" COLSPAN=2><TT>% nom_prog arg1 arg2 arg3</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=255>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>echo $#</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=255>affiche &#171;&nbsp;<TT>3</TT>&nbsp;&#187; dans le programme shell.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>echo $*</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=255>affiche la chaine &#171;&nbsp;<code>arg1 arg2 arg3</code>&nbsp;&#187;
+						dans le programme shell, &#171;&nbsp;<code> </code>&nbsp;&#187;
+						repr&#233;sentant <!-- MATH
+ $\fbox{\textsc{space}}$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="\fbox{\textsc{space}}"> .</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>echo $$</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=255>affiche le num&#233;ro du processus dans le programme shell
+						s'ex&#233;cute.</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2340"
+  HREF="node103.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2334"
+  HREF="node101.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2328"
+  HREF="node101.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2336"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2338"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2341"
+  HREF="node103.html">Manipulation sur les variables</A>
+<B> monter:</B> <A NAME="tex2html2335"
+  HREF="node101.html">Les variables</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2329"
+  HREF="node101.html">Les variables</A>
+ &nbsp; <B>  <A NAME="tex2html2337"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2339"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

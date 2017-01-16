@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>La commande &#171;&nbsp;expr&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="La commande &#171;&nbsp;expr&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node106.html">
+<LINK REL="up" HREF="node104.html">
+<LINK REL="next" HREF="node108.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2409"
+  HREF="node108.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2403"
+  HREF="node104.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2399"
+  HREF="node106.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2405"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2407"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2410"
+  HREF="node108.html">Les listes de commandes</A>
+<B> monter:</B> <A NAME="tex2html2404"
+  HREF="node104.html">Commandes &#233;volu&#233;es pour les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2400"
+  HREF="node106.html">La commande &#171;&nbsp;read&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2406"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2408"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04430000000000000000">
+La commande &#171;&nbsp;<TT>expr</TT>&nbsp;&#187;</A>
+</H1>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+expr expression
+</PRE>
+
+<P>
+Les arguments de la commande <A NAME="12782"></A>&#171;&nbsp;<TT>expr</TT>&nbsp;&#187; sont consid&#233;r&#233;s comme une expression.
+La commande &#171;&nbsp;<TT>expr</TT>&nbsp;&#187; &#233;value ses arguments et &#233;crit le r&#233;sultat sur
+la sortie standard. &#171;&nbsp;<TT>expr</TT>&nbsp;&#187;, comme toutes les commandes U<SMALL>NIX</SMALL>,
+doit avoir ses arguments <B>s&#233;par&#233;s par des espaces</B>.
+La premi&#232;re utilisation de &#171;&nbsp;<TT>expr</TT>&nbsp;&#187; concerne les op&#233;rations arithm&#233;tiques
+simples. Les op&#233;rateurs <code>+</code>, <code>-</code>, <code>*</code> et <code>/</code> correspondent
+respectivement &#224; l'addition, &#224; la soustraction, &#224; la multiplication et
+&#224; la division.
+
+<P>
+La seconde utilisation de la commande &#171;&nbsp;<TT>expr</TT>&nbsp;&#187; concerne la comparaison et
+la gestion des cha&#238;nes de caract&#232;res gr&#226;ce &#224; l'op&#233;rateur &#171;&nbsp;<code>:</code>&nbsp;&#187;.
+Celui-ci permet de compter combien de fois appara&#238;t, dans l'expression plac&#233;e
+en premier membre, <A NAME="12784"></A>l'expression r&#233;guli&#232;re sp&#233;cifi&#233;e en second membre.
+Pour plus de renseignements, reportez vous au chapitre <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+Il est possible d'effectuer des regroupements gr&#226;ce &#224; des parenth&#232;ses, comme
+dans toute op&#233;ration arithm&#233;tique.
+
+<P>
+
+	<B><FONT SIZE="+1">Attention</FONT>&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+Ne pas oublier que le processus <A NAME="12786"></A>d'&#233;valuation du shell effectue ses op&#233;rations
+avant de passer le contr&#244;le &#224; la commande &#171;&nbsp;<TT>expr</TT>&nbsp;&#187;.
+Par cons&#233;quent, les caract&#232;res &#171;&nbsp;<code>*</code>&nbsp;&#187;, &#171;&nbsp;<code>(</code>&nbsp;&#187; et
+&#171;&nbsp;<code>)</code>&nbsp;&#187; risquent d'&#234;tre &#233;valu&#233;s par le shell et non
+pas pass&#233; en argument &#224; la commande &#171;&nbsp;<TT>expr</TT>&nbsp;&#187;. Il
+faudra donc les faire pr&#233;c&#233;der du caract&#232;re &#171;&nbsp;<code>\</code>&nbsp;&#187;
+(cf. sections <A HREF="node72.html#basic-metacars"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> et <A HREF="node108.html#listfcts"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).	
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;9..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+Exemples valides&nbsp;:
+</BLOCKQUOTE><PRE>
+% X=3; Y=5
+% Z=`expr $X + 4 `
+% echo $Z
+7
+% Z=`expr \( $Z + $X \) \* $Y`
+% echo $Z
+50
+% X=abcdef
+% Z=`expr $X : '.*' `
+% echo $Z
+6
+% Z=`expr \( $X : '.*' \) + $Y`
+% echo $Z
+11
+</PRE>
+<P>
+<BLOCKQUOTE>Exemples non valides&nbsp;:
+<BR>
+<BR>
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>Z=`expr $X+4`</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>Z=`expr $X * $Y`</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>Z=`expr 3 fic1 fic2 fic3 fic4 fic5 fic6 4`</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>Z=`expr ( $X \* $Y ) + $Z`</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&nbsp;</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+
+<P>
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2409"
+  HREF="node108.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2403"
+  HREF="node104.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2399"
+  HREF="node106.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2405"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2407"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2410"
+  HREF="node108.html">Les listes de commandes</A>
+<B> monter:</B> <A NAME="tex2html2404"
+  HREF="node104.html">Commandes &#233;volu&#233;es pour les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2400"
+  HREF="node106.html">La commande &#171;&nbsp;read&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2406"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2408"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

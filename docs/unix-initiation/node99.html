@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Recommandations</TITLE>
+<META NAME="description" CONTENT="Recommandations">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node98.html">
+<LINK REL="up" HREF="node97.html">
+<LINK REL="next" HREF="node100.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2296"
+  HREF="node100.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2290"
+  HREF="node97.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2286"
+  HREF="node98.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2292"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2294"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2297"
+  HREF="node100.html">Les arguments des programmes</A>
+<B> monter:</B> <A NAME="tex2html2291"
+  HREF="node97.html">Quelques r&#232;gles et recommandations</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2287"
+  HREF="node98.html">R&#232;gles &#224; observer</A>
+ &nbsp; <B>  <A NAME="tex2html2293"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2295"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04132000000000000000">
+Recommandations</A>
+</H2>
+
+<P>
+Le premier souci du d&#233;veloppeur de <I>shell script</I> doit &#234;tre la portabilit&#233;.
+En effet, il est dispendieux d'avoir &#224; r&#233;adapter des proc&#233;dures d'exploitation &#224;
+chaque introduction d'une nouvelle machine. Les scripts d&#233;velopp&#233;s sur une
+architecture d'un constructeur sous le m&#234;me syst&#232;me d'exploitation (U<SMALL>NIX</SMALL>),
+doivent se comporter de fa&#231;on identique sur <I>SunOS</I>, <I>Solaris</I>, HP-UX, <I>Irix</I>, <I>Digital U<SMALL>NIX</SMALL></I>, <I>AIX</I>, etc. La normalisation POSIX
+est l&#224; pour le permettre.
+
+<P>
+Les d&#233;veloppements ne doivent pas &#234;tre des op&#233;rations o&#249; l'on red&#233;couvre et reconstruit la roue.
+Un usage syst&#233;matique des utilitaires ad-hoc (de la &#171;&nbsp;<I>section 1</I>&nbsp;&#187;) est recommand&#233;. Quand cela s'av&#232;re
+n&#233;cessaire pour les traitements de donn&#233;es symboliques, on utilisera en priorit&#233; les utilitaires de
+manipulation de fichiers.
+
+<P>
+On limitera volontairement l'usage des utilitaires &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; et
+&#171;&nbsp;<TT>awk</TT>&nbsp;&#187;  &#224; des s&#233;quences simples de traitement, d&#232;s
+l'instant o&#249; l'on a recours &#224; des expressions
+r&#233;guli&#232;res. D&#233;composez les traitements &#224; effectuer.
+Exploitez la philosophie et les possibilit&#233;s d'U<SMALL>NIX</SMALL>&nbsp;:
+
+<UL>
+<LI>chaque commande s'ex&#233;cute dans un sous process,
+</LI>
+<LI>U<SMALL>NIX</SMALL> dispose d'un ensemble de commande tr&#232;s vastes, chacune ayant une fonction bien
+			pr&#233;cise (t&#226;che &#233;l&#233;mentaire).
+</LI>
+</UL>
+
+<P>
+Il est beaucoup plus &#233;conomique d'utiliser plusieurs commandes qui s'encha&#238;nent (avec les
+m&#233;canismes des <I>pipes</I>) pour r&#233;aliser une t&#226;che complexe. Vous y gagnerez en simplicit&#233; de
+raisonnement et de mise au point.
+
+<P>
+N'oubliez pas que le <I>C Shell</I>, le <I>TC Shell</I>, le <I>Bourne Another
+Shell</I> (ou <TT>bash</TT>) et le Korn Shell ex&#233;cutent, &#224; chaque lancement, les
+fichiers suivants&nbsp;:
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Fichier</TD>
+</TR>
+<TR><TD ALIGN="CENTER">C Shell</TD>
+<TD ALIGN="LEFT"><code>~/.cshrc</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER">TC Shell</TD>
+<TD ALIGN="LEFT"><code>~/.tcshrc</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER">Bourne Another Shell</TD>
+<TD ALIGN="LEFT"><code>~/.bashrc</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER">Korn Shell</TD>
+<TD ALIGN="LEFT"><code>~/.kshrc</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Par cons&#233;quent, &#224; chaque lancement d'un script <I>C Shell</I>, <I>TC Shell</I>, <I>Bourne Another
+Shell</I> (ou <TT>bash</TT>) ou Korn Shell, le fichier d'initialisation est
+ex&#233;cut&#233; par d&#233;faut.
+
+<P>
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2296"
+  HREF="node100.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2290"
+  HREF="node97.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2286"
+  HREF="node98.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2292"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2294"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2297"
+  HREF="node100.html">Les arguments des programmes</A>
+<B> monter:</B> <A NAME="tex2html2291"
+  HREF="node97.html">Quelques r&#232;gles et recommandations</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2287"
+  HREF="node98.html">R&#232;gles &#224; observer</A>
+ &nbsp; <B>  <A NAME="tex2html2293"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2295"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

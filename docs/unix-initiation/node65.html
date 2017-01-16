@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction</TITLE>
+<META NAME="description" CONTENT="Introduction">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node66.html">
+<LINK REL="previous" HREF="node64.html">
+<LINK REL="up" HREF="node64.html">
+<LINK REL="next" HREF="node66.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1696"
+  HREF="node66.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1690"
+  HREF="node64.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1684"
+  HREF="node64.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1692"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1694"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1697"
+  HREF="node66.html">Redirection de l'entr&#233;e standard</A>
+<B> monter:</B> <A NAME="tex2html1691"
+  HREF="node64.html">Redirection des entr&#233;es/sorties</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1685"
+  HREF="node64.html">Redirection des entr&#233;es/sorties</A>
+ &nbsp; <B>  <A NAME="tex2html1693"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1695"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03141000000000000000">
+Introduction</A>
+</H2>
+
+<P>
+Chaque processus sous U<SMALL>NIX</SMALL> poss&#233;de trois canaux de communication&nbsp;:
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Canal de communication</TD>
+<TD ALIGN="CENTER">Fichier</TD>
+<TD ALIGN="CENTER">Num&#233;ro logique</TD>
+<TD ALIGN="CENTER">Analogie OpenV<SMALL>MS</SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Entr&#233;e standard</TD>
+<TD ALIGN="CENTER"><TT>stdin</TT></TD>
+<TD ALIGN="CENTER"><TT>0</TT></TD>
+<TD ALIGN="CENTER"><TT>SYS$INPUT</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Sortie standard</TD>
+<TD ALIGN="CENTER"><TT>stdout</TT></TD>
+<TD ALIGN="CENTER"><TT>1</TT></TD>
+<TD ALIGN="CENTER"><TT>SYS$OUTPUT</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Sortie d'erreurs standard</TD>
+<TD ALIGN="CENTER"><TT>stderr</TT></TD>
+<TD ALIGN="CENTER"><TT>2</TT></TD>
+<TD ALIGN="CENTER"><TT>SYS$ERROR</TT></TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+La redirection de ces canaux est tr&#232;s utilis&#233;e sous U<SMALL>NIX</SMALL>. En
+effet, beaucoup de commandes &#233;crivent leur r&#233;sultat par d&#233;faut sur la
+sortie standard (comme les filtres, par exemple). Le seul moyen de l'avoir
+dans un fichier est de rediriger la sortie standard.
+D'autres commandes lisent syst&#233;matiquement sur leur entr&#233;e standard
+(comme les filtres). Si l'on veut qu'elles prennent un fichier comme
+argument, il faudra rediriger l'entr&#233;e standard.
+
+<P>
+Les syntaxes utilis&#233;es pour les redirections sont explicit&#233;es aux sections
+<A HREF="node66.html#basnot-stdin"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, <A HREF="node67.html#basnot-stdout"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> et <A HREF="node68.html#basnot-stderr"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

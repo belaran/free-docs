@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exercices d'utilisation des expressions r&#233;guli&#232;res</TITLE>
+<META NAME="description" CONTENT="Exercices d'utilisation des expressions r&#233;guli&#232;res">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node207.html">
+<LINK REL="up" HREF="node207.html">
+<LINK REL="next" HREF="node209.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4001"
+  HREF="node209.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3995"
+  HREF="node207.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3991"
+  HREF="node207.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3997"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3999"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4002"
+  HREF="node209.html">Correspondances entre le Bourne</A>
+<B> monter:</B> <A NAME="tex2html3996"
+  HREF="node207.html">Instructions de formatage</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3992"
+  HREF="node207.html">Instructions de formatage</A>
+ &nbsp; <B>  <A NAME="tex2html3998"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4000"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION05110000000000000000">
+Exercices d'utilisation des expressions r&#233;guli&#232;res</A>
+</H1>
+
+<P>
+Soit le tableau de cha&#238;nes suivant&nbsp;:
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Num&#233;ro</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Cha&#238;ne</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>a</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>abc</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>b</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>zzzz xx</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>c</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>abcdef</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>d</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>123456 7890 abcaziuz</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>e</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>yyyy</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>f</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>xyz stuv abc</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>g</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>xx abcxxxxxxxxx</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>h</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>xAb*  12345</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>i</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>xAB*  45678</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>j</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>98745 xaB* 23654</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>k</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>abc$!k;</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>l</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>567</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>m</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>5666777</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>n</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>57</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>o</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>Suite... du paragraphe</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>p</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>Suite... de l'histoire</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>q</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>la suite...</code></TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>r</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>Suite.. au prochain numero.</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Pour chaque expression r&#233;guli&#232;res ci dessous, trouver la ou les cha&#238;nes
+du tableau ci-dessus satisfaisant &#224; l'expression r&#233;guli&#232;re&nbsp;:
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=2>Expression R&#233;guli&#232;re</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Cha&#238;nes correspondantes</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>1</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>c$</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>2</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>c\$</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>3</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>^abc</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>4</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>abc$</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>5</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>^abc$</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>6</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>^abc.</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>7</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>45</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>8</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>^56[67]</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>9</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>.56[67]</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>10</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>x[Aa][Bb]</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>11</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>x[^Aa]</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>12</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>[Aa][^b]</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>13</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>abcd*</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>14</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>566?7</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>15</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>[r-v]</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>16</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>56*7*</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>17</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>56+7+</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>18</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>56?7?</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>19</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>566?7</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>20</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>987|789</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>21</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>abc|[def]</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>22</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>.*[Aa][Bb].*12.*</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>23</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>.*12.*[Aa][Bb]</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>24</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>.*[Aa]b.*12.*|.*12.*[Aa]b.*</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>25</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>.*([Aa]b.*12.*|.*12.*[Aa]b).*</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>26</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>abc[def][m-x]*</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+<TR><TH ALIGN="CENTER"><I>27</I></TH>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198><code>^[Ss]uite\.\.\..*</code></TD>
+<TD ALIGN="CENTER">&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4001"
+  HREF="node209.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3995"
+  HREF="node207.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3991"
+  HREF="node207.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3997"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3999"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4002"
+  HREF="node209.html">Correspondances entre le Bourne</A>
+<B> monter:</B> <A NAME="tex2html3996"
+  HREF="node207.html">Instructions de formatage</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3992"
+  HREF="node207.html">Instructions de formatage</A>
+ &nbsp; <B>  <A NAME="tex2html3998"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4000"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

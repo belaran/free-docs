@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Tests sur les cha&#238;nes de caract&#232;res</TITLE>
+<META NAME="description" CONTENT="Tests sur les cha&#238;nes de caract&#232;res">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node122.html">
+<LINK REL="previous" HREF="node120.html">
+<LINK REL="up" HREF="node118.html">
+<LINK REL="next" HREF="node122.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2629"
+  HREF="node122.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2623"
+  HREF="node118.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2617"
+  HREF="node120.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2625"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2627"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2630"
+  HREF="node122.html">Les test num&#233;riques</A>
+<B> monter:</B> <A NAME="tex2html2624"
+  HREF="node118.html">Les tests</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2618"
+  HREF="node120.html">Tests sur les fichiers</A>
+ &nbsp; <B>  <A NAME="tex2html2626"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2628"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04713000000000000000">
+Tests sur les cha&#238;nes de caract&#232;res</A>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" ROWSPAN=5 WIDTH=3>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER">Est &#201;gal</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER">N'est pas &#201;gal</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER"><code>[ chaine1 = chaine2 ]</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER">Est &#201;gal</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER"><code>test chaine1 = chaine2</code></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+<A NAME="14422"></A>Quand un test est
+effectu&#233; sur une variable shell, il est judicieux de penser que
+celle-ci peut tr&#232;s bien ne rien contenir. Par exemple,
+consid&#233;rons le test suivant&nbsp;:
+<DIV ALIGN="CENTER">
+<code>[ $XX = oui ]</code>
+
+</DIV>
+
+<P>
+Si la variable &#171;&nbsp;<TT>XX</TT>&nbsp;&#187; n'est pas initialis&#233;e, c'est &#224; dire si
+&#171;&nbsp;<TT>XX</TT>&nbsp;&#187; est nulle, le shell r&#233;alisera la substitution de
+variable et tentera d'ex&#233;cuter le test suivant&nbsp;:
+<DIV ALIGN="CENTER">
+<code>[  = oui ]</code>
+
+</DIV>
+qui est incorrect au niveau syntaxe et promet un message d'erreur. Le
+moyen simple pour pallier &#224; ce probl&#232;me est de pr&#233;ciser le nom de
+variable entre double quotes (&#171;&nbsp;<code>"</code>&nbsp;&#187;) ce qui assure l'affectation de la
+variable m&#234;me si celle-ci est <TT>NULL</TT>. Soit&nbsp;:
+<DIV ALIGN="CENTER">
+<code>[ "$XX" = oui ]</code>
+
+</DIV>
+ce qui donne apr&#232;s &#233;valuation du shell&nbsp;:
+<DIV ALIGN="CENTER">
+<code>[ "" = oui ]</code>
+
+</DIV>
+
+<P>
+Remarquez &#233;galement que si la variable est susceptible de contenir des
+caract&#232;res blancs, il est int&#233;ressant d'entourer celle-ci de double
+quotes.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2629"
+  HREF="node122.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2623"
+  HREF="node118.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2617"
+  HREF="node120.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2625"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2627"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2630"
+  HREF="node122.html">Les test num&#233;riques</A>
+<B> monter:</B> <A NAME="tex2html2624"
+  HREF="node118.html">Les tests</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2618"
+  HREF="node120.html">Tests sur les fichiers</A>
+ &nbsp; <B>  <A NAME="tex2html2626"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2628"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

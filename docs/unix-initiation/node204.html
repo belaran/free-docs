@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Fichier "mkpasswd.check"</TITLE>
+<META NAME="description" CONTENT="Fichier "mkpasswd.check"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node205.html">
+<LINK REL="previous" HREF="node203.html">
+<LINK REL="up" HREF="node201.html">
+<LINK REL="next" HREF="node205.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3881"
+  HREF="node205.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3875"
+  HREF="node201.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3869"
+  HREF="node203.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3877"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3879"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3882"
+  HREF="node205.html">Fichier "mkpasswd"</A>
+<B> monter:</B> <A NAME="tex2html3876"
+  HREF="node201.html">Programmes obtenus</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3870"
+  HREF="node203.html">Fichier "mkpasswd.functions"</A>
+ &nbsp; <B>  <A NAME="tex2html3878"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3880"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION041144300000000000000"></A><A NAME="adv-programming-ex3-pgmchk"></A>
+<BR>
+Fichier "<TT>mkpasswd.check</TT>"
+</H3>
+
+<P>
+<PRE>
+#!/bin/sh
+#
+#
+#   SERVICE DES ADMINISTRATEURS:
+#       Traduction des bases OpenVMS vers Unix.
+#       Verification des donnees
+#
+#   Fichier: $BIN_DIR/mkpasswd.check
+#
+#   Creation: S. Baudry
+#
+#   Modifications:
+#
+#-----------------------------------------------------------
+#-----------------------------------------------------------
+#
+# Verifie la presence des scripts ou executables externes
+#
+#-----------------------------------------------------------
+
+if [ ! -x $SEARCHID ]; then
+    echo "`basename $1`: impossible de trouver  $SEARCHID" &gt;&amp;2
+    echo "`basename $1`: execution avortee" &gt;&amp;2
+    exit 1
+fi
+
+if [ ! -x $BUILDPASSWD ]; then
+    if [ ! -f ${BUILDPASSWD}.c ]; then
+        echo "`basename $1`: impossible de construire  $BUILDPASSWD" &gt;&amp;2
+        echo "`basename $1`: execution avortee" &gt;&amp;2
+        exit 1
+    fi
+    ( cd `dirname $BUILDPASSWD`; make `basename $BUILDPASSWD` ) \
+        &gt;/dev/null 2&gt;&amp;1
+    if [ ! -x $BUILDPASSWD ]; then
+        echo "`basename $1`: impossible de trouver  $BUILDPASSWD" &gt;&amp;2
+        echo "`basename $1`: execution avortee" &gt;&amp;2
+        exit 1
+    fi
+fi
+
+if [ ! -x $ECHO ]; then
+    echo "`basename $1`: impossible de trouver  $ECHO" &gt;&amp;2
+    echo "`basename $1`: execution avortee" &gt;&amp;2
+    exit 1
+fi
+
+if [ ! -x $AWK ]; then
+    echo "`basename $1`: impossible de trouver  $AWK" &gt;&amp;2
+    echo "`basename $1`: execution avortee" &gt;&amp;2
+    exit 1
+fi
+
+#-----------------------------------------------------------
+#
+# Verifie la presence des fichiers en entree
+#
+#-----------------------------------------------------------
+
+if [ ! -f $LCLUAF ]; then
+    echo "`basename $1`: fichier en entree $LCLUAF manquant" &gt;&amp;2
+    echo "`basename $1`: execution avortee" &gt;&amp;2
+    exit 1
+fi
+
+if [ ! -f $LIST ]; then
+    echo "`basename $1`: fichier en entree $LIST manquant" &gt;&amp;2
+    echo "`basename $1`: execution avortee" &gt;&amp;2
+    exit 1
+fi
+
+if [ ! -f $WHO ]; then
+    echo "`basename $1`: fichier en entree $WHO manquant" &gt;&amp;2
+    echo "`basename $1`: execution avortee" &gt;&amp;2
+    exit 1
+fi
+
+if [ ! -f $PASSWD ]; then
+    echo "`basename $1`: fichier en entree $PASSWD manquant" &gt;&amp;2
+    echo "`basename $1`: execution avortee" &gt;&amp;2
+    exit 1
+fi
+
+#-----------------------------------------------------------
+#
+# Verifie la presence des fichiers en sortie
+#
+#-----------------------------------------------------------
+
+if [ -f $PASSWD_NEW ]; then
+    echo "`basename $1`: fichier en sortie $PASSWD_NEW deja existant." &gt;&amp;2
+    echo "`basename $1`: $PASSWD_NEW supprime." &gt;&amp;2
+    rm -f $PASSWD_NEW
+fi
+
+if [ -f $GROUP_NEW ]; then
+    echo "`basename $1`: fichier en sortie $GROUP_NEW deja existant." &gt;&amp;2
+    echo "`basename $1`: $GROUP_NEW supprime." &gt;&amp;2
+    rm -f $GROUP_NEW
+fi
+
+if [ -f $SHADOW_NEW ]; then
+    echo "`basename $1`: fichier en sortie $SHADOW_NEW deja existant." &gt;&amp;2
+    echo "`basename $1`: $SHADOW_NEW supprime." &gt;&amp;2
+    rm -f $SHADOW_NEW
+fi
+
+if [ -f $USERS_INFO_FILE ]; then
+    echo "`basename $1`: fichier en sortie $USERS_INFO_FILE deja existant." &gt;&amp;2
+    echo "`basename $1`: $USERS_INFO_FILE supprime." &gt;&amp;2
+    rm -f $USERS_INFO_FILE
+fi
+
+if [ -f $AUTO_PROJECTS ]; then
+    echo "`basename $1`: fichier en sortie $AUTO_PROJECTS deja existant." &gt;&amp;2
+    echo "`basename $1`: $AUTO_PROJECTS supprime." &gt;&amp;2
+    rm -f $AUTO_PROJECTS
+fi
+
+if [ -f $AUTO_USERS ]; then
+    echo "`basename $1`: fichier en sortie $AUTO_USERS deja existant." &gt;&amp;2
+    echo "`basename $1`: $AUTO_USERS supprime." &gt;&amp;2
+    rm -f $AUTO_USERS
+fi
+
+exit 0
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

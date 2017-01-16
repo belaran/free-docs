@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Tableaux et listes</TITLE>
+<META NAME="description" CONTENT="Tableaux et listes">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node230.html">
+<LINK REL="previous" HREF="node226.html">
+<LINK REL="up" HREF="node223.html">
+<LINK REL="next" HREF="node230.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4323"
+  HREF="node230.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4317"
+  HREF="node223.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4311"
+  HREF="node228.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4319"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4321"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4324"
+  HREF="node230.html">Interruptions, d&#233;routements sur signaux</A>
+<B> monter:</B> <A NAME="tex2html4318"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4312"
+  HREF="node228.html">Boucle du type "while"</A>
+ &nbsp; <B>  <A NAME="tex2html4320"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4322"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION05284000000000000000">
+Tableaux et listes</A>
+</H2>
+
+<P>
+Le Bourne Shell ne conna&#238;t pas les tableaux. Par contre, il traite les listes ais&#233;ment. On 
+peut donc simuler les tableaux gr&#226;ce &#224; elles.
+
+<P>
+
+	<B>Exemple&nbsp;18..3&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+#!/bin/sh
+for script in `ls ex?.sh
+do
+    . ./$script
+done
+exit 0
+</PRE>
+
+<P>
+Les tableaux existent en C Shell. Ils doivent &#234;tre r&#233;serv&#233;s aux manipulation de variables 
+num&#233;riques. On peut toutefois y mettre d'autres objets comme des noms de fichiers comme le 
+montre l'exemple ci-dessous.
+
+<P>
+
+	<B>Exemple&nbsp;18..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+#!/bin/csh
+set liste_fic=`ls ex?.csh`
+set tableau=($liste_fic)
+set num=$#liste_fic
+@i=1
+while ($i &lt;= $num)
+    source $tableau[$i]
+    @i++
+end
+exit 0
+</PRE>
+<P>
+<BLOCKQUOTE>La solution ci-dessous est pr&#233;f&#233;rable (car plus lisible).
+</BLOCKQUOTE>
+<P><PRE>
+#!/bin/csh
+foreach script (`ls ex?.csh`)
+    source $script
+end
+exit 0
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

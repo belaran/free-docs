@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Choix multiples (case, switch)</TITLE>
+<META NAME="description" CONTENT="Choix multiples (case, switch)">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node226.html">
+<LINK REL="previous" HREF="node224.html">
+<LINK REL="up" HREF="node223.html">
+<LINK REL="next" HREF="node226.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4267"
+  HREF="node226.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4261"
+  HREF="node223.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4255"
+  HREF="node224.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4263"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4265"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4268"
+  HREF="node226.html">Les boucles</A>
+<B> monter:</B> <A NAME="tex2html4262"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4256"
+  HREF="node224.html">Les tests ("if")</A>
+ &nbsp; <B>  <A NAME="tex2html4264"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4266"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION05282000000000000000">
+Choix multiples (<TT>case</TT>, <TT>switch</TT>)</A>
+</H2>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>C Shell</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Bourne Shell</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Syntaxe</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>switch (</code><I>nom</I><code>)</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><A NAME="24619"></A><code>case </code><I>nom</I><code> in</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>case </code><I>label1</I><code>:</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><I>label1</I><code>)</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><I>commandes</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><I>commandes</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>breaksw</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>;;</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>case </code><I>label2</I><code>:</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><I>label2</I><code>)</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><I>commandes</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><I>commandes</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>breaksw</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>;;</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>default:</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>*)</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code># tous les autres cas</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code># tous les autres cas</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><I>commandes</I></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><I>commandes</I></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><IMG
+ WIDTH="23" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\cdots$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>breaksw</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>;;</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>endsw</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>esac</code></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Remarques</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Les labels suivant le "<TT>case</TT>" peuvent exprimer une alternative de type 
+		"<I>ou</I>" avec la notation "<code>[]</code>", ainsi&nbsp;:
+		"<code>case [oO][uU][iI]:</code>" accepte "<I>oui</I>" et "<I>OUI</I>" ainsi que
+		toutes les combinaisons possibles avec les minuscules et les majuscules.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Les labels de chaque cas peuvent exprimer un alternative de type "<I>ou</I>" en 
+		&#233;tant s&#233;par&#233;s par le caract&#232;re "<code>|</code>", ainsi "<code>oui|OUI)</code>"
+		accepte seulement les deux combinaisons suivantes&nbsp;: "<I>oui</I>" et "<I>OUI</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Le branchement s'effectue sur une clause "<TT>case</TT>" en fonction de la valeur
+		sp&#233;cifi&#233;e entre parenth&#232;ses &#224; l'instruction "<TT>switch</TT>". Les instructions
+		sont ex&#233;cut&#233;es jusqu'&#224; ce que "<TT>breaksw</TT>" (ou "<TT>endsw</TT>") soit localis&#233;.</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>Le branchement s'effectue sur une clause "<TT>label)</TT>" en fonction de la valeur
+		sp&#233;cifi&#233;e entre les mots clef "<TT>case</TT>" et "<TT>in</TT>". Les instructions
+		sont ex&#233;cut&#233;es jusqu'&#224; ce que "<TT>;;</TT>" (ou "<TT>esac</TT>") soit localis&#233;.</TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2>Exemple</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>#!/bin/csh</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>#!/bin/sh</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>switch ($MACHINE)</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>case $MACHINE in</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>case "SUN":</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>"SUN")</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Je suis sur Sun"</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Je suis sur Sun."</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>breaksw</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>;;</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>case "SGI":</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>"SGI")</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Je suis sur Silicon"</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Je suis sur Silicon."</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>breaksw</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>;;</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>case "DEC":</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>"DEC"|"HP"|"IBM")</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>case "HP":</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Je suis sur DEC"</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>case "IBM":</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Peut-etre ou HP"</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Je suis sur DEC"</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Ou bien encore IBM."</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Peut-etre ou HP"</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>;;</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Ou bien encore IBM."</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>*)</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>default:</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Je suis en SH"</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>echo "Je suis en CSH"</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>esac</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184><code>endsw</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=184>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4267"
+  HREF="node226.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4261"
+  HREF="node223.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4255"
+  HREF="node224.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4263"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4265"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4268"
+  HREF="node226.html">Les boucles</A>
+<B> monter:</B> <A NAME="tex2html4262"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4256"
+  HREF="node224.html">Les tests ("if")</A>
+ &nbsp; <B>  <A NAME="tex2html4264"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4266"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

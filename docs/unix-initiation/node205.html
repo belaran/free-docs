@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Fichier "mkpasswd"</TITLE>
+<META NAME="description" CONTENT="Fichier "mkpasswd"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node204.html">
+<LINK REL="up" HREF="node201.html">
+<LINK REL="next" HREF="node206.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3893"
+  HREF="node206.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3887"
+  HREF="node201.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3883"
+  HREF="node204.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3889"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3891"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3894"
+  HREF="node206.html">Annexes</A>
+<B> monter:</B> <A NAME="tex2html3888"
+  HREF="node201.html">Programmes obtenus</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3884"
+  HREF="node204.html">Fichier "mkpasswd.check"</A>
+ &nbsp; <B>  <A NAME="tex2html3890"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3892"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION041144400000000000000"></A><A NAME="adv-programming-ex3-pgmpgm"></A>
+<BR>
+Fichier "<TT>mkpasswd</TT>"
+</H3>
+
+<P>
+<PRE>
+#!/bin/sh
+#
+#
+#   SERVICE DES ADMINISTRATEURS:
+#       Traduction des bases OpenVMS vers Unix.
+#
+#   Fichier: $BIN_DIR/mkpasswd
+#
+#   Creation: S. Baudry
+#
+#   Modifications:
+#
+#-----------------------------------------------------------
+
+$ECHO "`basename $0`: chargement en cours ...\c"
+
+#-----------------------------------------------------------
+#
+# Repertoires par defaut
+#
+#-----------------------------------------------------------
+MKPASSD_DIR=${MKPASSD_DIR:=/home/adm/users/convert}
+export MKPASSD_DIR
+
+BIN_DIR=${BIN_DIR:=$MKPASSD_DIR/bin}
+export BIN_DIR
+
+#-----------------------------------------------------------
+#
+# Chargement des definitions
+#
+#-----------------------------------------------------------
+
+if [ ! -f $BIN_DIR/`basename $0`.define ]; then
+	message="impossible de trouver le fichier de definition"
+    echo "`basename $0`: $message $BIN_DIR/`basename $0`.define" &gt;&amp;2
+    echo "`basename $0`: execution avortee" &gt;&amp;2
+    exit
+fi
+
+. $BIN_DIR/`basename $0`.define
+
+#-----------------------------------------------------------
+#
+# Chargement des fonctions
+#
+#-----------------------------------------------------------
+
+if [ ! -f $BIN_DIR/`basename $0`.functions ]; then
+	message="impossible de trouver le fichier de definition"
+    echo "`basename $0`: $message $BIN_DIR/`basename $0`.functions" &gt;&amp;2
+    echo "`basename $0`: execution avortee" &gt;&amp;2
+    exit
+fi
+
+. $BIN_DIR/`basename $0`.functions
+
+$ECHO " Ok."
+
+#-----------------------------------------------------------
+#
+# Verification du contexte
+#
+#-----------------------------------------------------------
+$ECHO "`basename $0`: Verifications ..."
+
+if [ ! -x $BIN_DIR/`basename $0`.check ]; then
+	message="impossible d'executer le fichier de controle"
+    echo "`basename $0`: $message $BIN_DIR/`basename $0`.check" &gt;&amp;2
+    echo "`basename $0`: execution avortee" &gt;&amp;2
+    exit
+fi
+
+$BIN_DIR/`basename $0`.check `basename $0`
+[ $? -ne 0 ] &amp;&amp; exit
+
+$ECHO "`basename $0`: verifications Ok."
+
+trap "_stop_exec; exit" 1 9 15
+
+#-----------------------------------------------------------
+#
+# Creation du fichier temporaire PASSWD_REF
+#
+#-----------------------------------------------------------
+$ECHO "`basename $0`: creation de l'espace de travail ...\c"
+
+$AWK '
+    BEGIN { FS=":"}
+    {
+        field = substr ($5, 1, length($5) - 5)
+        printf ("%s:%s:%s:%s:%s:%s:%s\n",
+            $1, $2, $3, $4, field, $6, $7)
+    }
+' $PASSWD &gt; $PASSWD_REF
+
+#-----------------------------------------------------------
+#
+# Creation du fichier temporaire WHO_REF
+#
+#-----------------------------------------------------------
+
+sed -e 's/ - [0-9][ABC].*$//' $WHO &gt; $WHO_REF
+
+$ECHO " Ok."
+
+#-----------------------------------------------------------
+#
+# Extraction des anciennes entrees
+#
+#-----------------------------------------------------------
+
+$ECHO "Extraction des anciennes entrees dans passwd : \c"
+index=1
+
+cat $LIST |\
+while
+    read username
+do
+    _waiting_chars $index
+    name=`grep $username $WHO_REF  | cut -d! -f2 | cut -c2-`
+    is_user=`$AWK -v name="$name" '
+        BEGIN { FS=":" }
+        $5 == name { print $0 }
+    ' $PASSWD_REF`
+    if [ "$is_user" != "" ]; then
+        new_who=`grep $username $WHO`
+        login=`echo $is_user | cut -d: -f1`
+        new_who=`echo $new_who | cut -d! -f2 | cut -c2-`
+        project="p`grep $username $LCLUAF | cut -d: -f1 | tr '[A-Z]' '[a-z]'`"
+        uid=`echo $is_user | cut -d: -f3`
+        gid=`echo $is_user | cut -d: -f4`
+        part2=`echo $is_user | cut -d: -f6-`
+        new_passwd=`echo $login | cut -c-4``date +%M%S`
+        crypt_passwd="`$BUILDPASSWD $new_passwd`"
+        echo "${login}:${crypt_passwd}:${uid}:${gid}:${new_who}:$part2" \
+            &gt;&gt; $PASSWD_NEW
+        echo "${login}  ${FS_SERVER}:${FS_STUDENTS}/${login}" &gt;&gt; $AUTO_USERS
+        output="${login}:${crypt_passwd}:0:${PASSWD_WILL_CHANGE}"
+        echo "${output}:${PASSWD_EXPIRATION_TIME}:${PASSWD_WILL_EXPIRE}::" \
+            &gt;&gt; $SHADOW_NEW
+        echo "${login}:${username}:${new_passwd}:${uid}:${project}" \
+            &gt;&gt; $USERS_INFO_FILE
+    fi
+    index=`expr $index + 1`
+done
+echo " Ok."
+
+#-----------------------------------------------------------
+#
+# Creation des nouvelles entrees dans passwd
+#
+#-----------------------------------------------------------
+
+$ECHO "Creation des nouvelles entrees dans passwd : \c"
+index=1
+
+cat $LIST |\
+while
+    read username
+do
+    _waiting_chars $index
+
+    is_defined=`$AWK -v username="$username" -F: '
+        $2 == username { print $0 }
+        ' $USERS_INFO_FILE `
+    [ "$is_defined" != "" ] &amp;&amp; continue
+
+    login=`echo $username | tr '[A-Z]' '[a-z]'  | cut -d_ -f1`
+    new_who=`grep $username $WHO | cut -d! -f2 | cut -c2-`
+
+    login=`echo $login | cut -c-8`
+
+    status=0
+    while
+        is_allocated=`grep "^${login}:" $PASSWD_NEW`
+        [ "$is_allocated" != "" ]
+    do
+        echo "" &gt;&amp;2
+        echo "`basename $0`: login $login deja alloue pour $username" &gt;&amp;2
+        $ECHO "`basename $0`: Quel login : \c" &gt;&amp;2
+        read login &lt; /dev/tty
+        status=1
+    done
+    [ $status -eq 1 ] &amp;&amp; $ECHO "Creation des nouvelles entrees dans passwd : \c"
+
+    project="p`grep $username $LCLUAF | cut -d: -f1 | tr '[A-Z]' '[a-z]'`"
+
+    new_passwd=`echo $login | cut -c-4``date +%M%S`
+    crypt_passwd="`$BUILDPASSWD $new_passwd`"
+    uid=`$SEARCHID -u`
+    gid=$STUDENT_GID
+    student_home=${HOME_STUDENT}/$login
+
+    output="${login}:${crypt_passwd}:${uid}:${gid}"
+    echo "${output}:${new_who}:${student_home}:${LOGIN_SHELL}" &gt;&gt; $PASSWD_NEW
+    echo "${login}  ${FS_SERVER}:${FS_STUDENTS}/${login}" &gt;&gt; $AUTO_USERS
+    output="${login}:${crypt_passwd}:0:${PASSWD_WILL_CHANGE}"
+    echo "${output}:${PASSWD_EXPIRATION_TIME}:${PASSWD_WILL_EXPIRE}::" \
+        &gt;&gt; $SHADOW_NEW
+    echo "${login}:${username}:${new_passwd}:${uid}:${project}" &gt;&gt; $USERS_INFO_FILE
+
+    index=`expr $index + 1`
+done
+echo " Ok."
+
+
+#-----------------------------------------------------------
+#
+# Suppression des anciens repertoires
+#
+#-----------------------------------------------------------
+$ECHO "Suppression des anciens repertoires: \c"
+index=1
+
+cat $PASSWD_REF |\
+while
+    read line
+do
+    old_login=`echo $line | cut -d: -f1`
+    is_present=`$AWK -F: -v old_login="$old_login" '
+        $1 == old_login { print $1 }
+        ' $USERS_INFO_FILE`
+    if [ "$is_present" = "" ]; then
+        [ -d $FS_STUDENTS/$old_login ] &amp;&amp; \
+            rm -rf $FS_STUDENTS/$old_login 2&gt;&amp;/dev/null
+    fi
+    index=`expr $index + 1`
+done
+
+echo " Ok."
+
+#-----------------------------------------------------------
+#
+# Creation des nouvelles entrees dans group
+#
+#-----------------------------------------------------------
+
+$ECHO "Creation des nouvelles entrees dans group : \c"
+index=1
+
+cat $LCLUAF |\
+while
+    read line
+do
+    _waiting_chars $index
+
+    vms_project="`echo $line | cut -d: -f1 | tr '[A-Z]' '[a-z]'`"
+    unix_project="p${vms_project}"
+    project_gid=`$SEARCHID -g`
+    $ECHO "${unix_project}:*:${project_gid}:\c" &gt;&gt; $GROUP_NEW
+    members="`echo $line | cut -d: -f2 | sed -e 's/,/ /g'`"
+    group_members=`for this_member in $members
+    do
+        awk -F: -v  this_member=$this_member '
+            $2 == this_member { printf ("%s,",$1) }
+            ' $USERS_INFO_FILE
+    done`
+    echo "$group_members" | sed -e 's/,$//' &gt;&gt; $GROUP_NEW
+    echo "${unix_project}   ${FS_SERVER}:${FS_PROJECTS}/${unix_project}" \
+        &gt;&gt; $AUTO_PROJECTS
+
+    index=`expr $index + 1`
+
+done
+
+echo " Ok."
+
+#-----------------------------------------------------------
+#
+# Creation des repertoires
+#
+#-----------------------------------------------------------
+
+$ECHO "Creation des repertoires : \c"
+index=1
+
+cat $AUTO_USERS | cut -d: -f2 |\
+while
+    read directory
+do
+    _waiting_chars $index
+
+    owner=`basename $directory`
+    uid=`awk -F: -v owner=$owner '
+        $1 == owner { print $3 }
+        ' $PASSWD_NEW`
+    if [ ! -d $directory ]; then
+        mkdir -p $directory
+        cp $HOME_PROTOTYPE/.[a-z]* $HOME_PROTOTYPE/.[A-Z]*      \
+            $HOME_PROTOTYPE/* $FS_STUDENTS/$newname 2&gt;/dev/null
+        chown -R ${uid}.${STUDENT_GID} $directory
+    fi
+    index=`expr $index + 1`
+done
+
+cat $AUTO_PROJECTS | cut -d: -f2 |\
+while
+    read directory
+do
+    _waiting_chars $index
+
+    group=`basename $directory`
+    gid=`awk -F: -v group=$group '
+        $1 == group { print $3 }
+        ' $GROUP_NEW`
+    if [ ! -d $directory ]; then
+        mkdir -p $directory
+        chown -R root.${gid} $directory
+    fi
+    index=`expr $index + 1`
+done
+
+echo " Ok."
+
+#-----------------------------------------------------------
+#
+# Fin du programme
+#
+#-----------------------------------------------------------
+
+trap '' 1 9 15
+[ -f $PASSWD_REF ] &amp;&amp; rm $PASSWD_REF
+[ -f $WHO_REF ] &amp;&amp; rm $WHO_REF
+</PRE>
+
+<P>
+
+	
+		
+		<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

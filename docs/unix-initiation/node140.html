@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Utilisation de &#171;&nbsp;egrep&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="Utilisation de &#171;&nbsp;egrep&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node141.html">
+<LINK REL="previous" HREF="node137.html">
+<LINK REL="up" HREF="node135.html">
+<LINK REL="next" HREF="node141.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2901"
+  HREF="node141.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2895"
+  HREF="node135.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2889"
+  HREF="node139.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2897"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2899"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2902"
+  HREF="node141.html">Utilisation de &#171;&nbsp;fgrep&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2896"
+  HREF="node135.html">Utilisation avanc&#233;es de certains</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2890"
+  HREF="node139.html">Utilisation de &#171;&nbsp;grep&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2898"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2900"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04830000000000000000"></A><A NAME="adv-fltrs-egrep"></A>
+<BR>
+Utilisation de &#171;&nbsp;<TT>egrep</TT>&nbsp;&#187;
+</H1>
+
+<P>
+<A NAME="15298"></A><A NAME="15299"></A>La
+commande &#171;&nbsp;<TT>egrep</TT>&nbsp;&#187; fonctionne comme la commande &#171;&nbsp;<TT>grep</TT>&nbsp;&#187;.
+Par contre&nbsp;:
+
+<UL>
+<LI>elle accepte la d&#233;finition compl&#232;te des expressions r&#233;guli&#232;res
+			y compris &#171;&nbsp;<code>+</code>&nbsp;&#187;, &#171;&nbsp;<code>?</code>&nbsp;&#187;, &#171;&nbsp;<code>|</code>&nbsp;&#187;
+			et &#171;&nbsp;<code>( )</code>&nbsp;&#187;.
+</LI>
+<LI>elle admet une option suppl&#233;mentaire &#171;&nbsp;<TT>-f</TT>&nbsp;&#187;.
+			Celle-ci permet de sp&#233;cifier le nom d'un fichier contenant
+			l'ensemble des expressions r&#233;guli&#232;res &#224; rechercher dans
+			les fichiers pr&#233;sents sur la ligne de commande.
+</LI>
+</UL>
+
+<P>
+
+	<B>Exemple&nbsp;13..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+egrep -f fic.expressions.regulieres fichier1 fichier2
+</PRE><BLOCKQUOTE>
+Cet exemple donne un apercu de l'utilisation de l'option &#171;&nbsp;<TT>-f</TT>&nbsp;&#187;.
+Toutes les lignes de &#171;&nbsp;<TT>fichier1</TT>&nbsp;&#187; et &#171;&nbsp;<TT>fichier2</TT>&nbsp;&#187;
+satisfaisant les expressions r&#233;guli&#232;res contenues dans le fichier &#171;&nbsp;<TT>fic.expressions.regulieres</TT>&nbsp;&#187; seront affich&#233;es &#224; l'&#233;cran.	
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;13..5&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+ypcat -k aliases | egrep '^schmoll:.*$' | cut -d@ -f2
+</PRE><BLOCKQUOTE>
+<BR>
+<BR>
+<BR>
+Cet exemple combine l'utilisation des filtres avec le symbole &#171;&nbsp;<code>|</code>&nbsp;&#187;.
+La commande &#171;&nbsp;<TT>ypcat(1)</TT>&nbsp;&#187; permet d'interroger le syst&#232;me d'annuaire
+r&#233;parti &#171;&nbsp;<I>NIS</I><A NAME="tex2html78"
+  HREF="footnode.html#foot15300"><SUP>13.1</SUP></A>&nbsp;&#187;. &#171;&nbsp;<TT>ypcat -k aliases</TT>&nbsp;&#187; interroge les
+entr&#233;es d&#233;crivant les boites aux lettres du r&#233;seau. Les r&#233;ponses sont envoy&#233;es
+sur la sortie standard et leur format est&nbsp;:
+<BR>
+<BR></BLOCKQUOTE>
+<DIV ALIGN="CENTER"><BLOCKQUOTE><I>nom-utilisateur</I><TT>:</TT><I>boite aux lettres</I></BLOCKQUOTE></DIV>
+<P>
+<BLOCKQUOTE>
+<BR>
+<BR>
+<BR>
+La description des boites aux lettres ob&#233;it &#224; la syntaxe des adresses
+de courrier &#233;lectronique SMTP<A NAME="tex2html79"
+  HREF="footnode.html#foot15094"><SUP>13.2</SUP></A>&nbsp;:
+<BR>
+<BR></BLOCKQUOTE>
+<DIV ALIGN="CENTER"><BLOCKQUOTE><I>nom</I><TT>@</TT><I>domaine</I></BLOCKQUOTE></DIV>
+<P>
+<BLOCKQUOTE>
+<BR>
+<BR>
+<BR>
+La commande &#171;&nbsp;<TT>egrep</TT>&nbsp;&#187; r&#233;cup&#232;re la sortie standard de la commande
+&#171;&nbsp;<TT>ypcat</TT>&nbsp;&#187; sur son entr&#233;e standard et recherche les lignes
+satisfaisant l'expression r&#233;guli&#232;re &#171;&nbsp;<code>^schmoll:.*$</code>&nbsp;&#187;. Celle-ci
+correspond &#224; toute chaine commencant par &#171;&nbsp;<TT>schmoll:</TT>&nbsp;&#187; suivit
+d'un nombre quelconque de n'importe quels caract&#232;res.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Le r&#233;sultat de cette extraction sera donc toutes les lignes de la
+forme&nbsp;:
+<BR>
+<BR></BLOCKQUOTE>
+<DIV ALIGN="CENTER"><BLOCKQUOTE><TT>schmoll: </TT><I>nom</I><TT>@</TT><I>domaine</I></BLOCKQUOTE></DIV>
+<P>
+<BLOCKQUOTE>
+<BR>
+<BR>
+<BR>
+Ce r&#233;sultat est redirig&#233; sur l'entr&#233;e standard de la commande &#171;&nbsp;<TT>cut</TT>&nbsp;&#187;,
+qui devra extraire le second champ de chaque ligne, le caract&#232;re d&#233;limiteur
+&#233;tant &#171;&nbsp;<TT>@</TT>&nbsp;&#187;.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Nous aurons donc, comme r&#233;sultat, tous les domaines des adresses
+&#233;lectroniques des boites aux lettres de &#171;&nbsp;<TT>schmoll</TT>&nbsp;&#187;.	
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2901"
+  HREF="node141.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2895"
+  HREF="node135.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2889"
+  HREF="node139.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2897"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2899"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2902"
+  HREF="node141.html">Utilisation de &#171;&nbsp;fgrep&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2896"
+  HREF="node135.html">Utilisation avanc&#233;es de certains</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2890"
+  HREF="node139.html">Utilisation de &#171;&nbsp;grep&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2898"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2900"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

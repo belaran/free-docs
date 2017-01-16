@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Modifier du texte</TITLE>
+<META NAME="description" CONTENT="Modifier du texte">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node251.html">
+<LINK REL="previous" HREF="node249.html">
+<LINK REL="up" HREF="node234.html">
+<LINK REL="next" HREF="node251.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4676"
+  HREF="node251.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4670"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4664"
+  HREF="node249.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4672"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4674"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4677"
+  HREF="node251.html">Placement direct du curseur</A>
+<B> monter:</B> <A NAME="tex2html4671"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4665"
+  HREF="node249.html">Copier/Coller</A>
+ &nbsp; <B>  <A NAME="tex2html4673"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4675"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION053213000000000000000"></A><A NAME="ann-edt-vi-mod"></A>
+<BR>
+Modifier du texte
+</H2>
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>r</TT><I>caract</I></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Substitue le caract&#232;re courrant par le caract&#232;re "<I>caract</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>R</TT><I>texte</I><TT><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> </TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>R&#233;&#233;crit le texte saisi "<I>texte</I>" par dessus ce qui est
+		d&#233;j&#224; pr&#233;sent. Ceci &#233;quivaut au mode "<I>surimpression</I>"
+		des &#233;diteurs pleine-page classiques comme "<TT>EVE</TT>" ou
+		"<TT>LSEDIT</TT>" sous OpenV<SMALL>MS</SMALL>. Le remplacement de texte
+		se termine par la touche <!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> . En mode "<I>insertion</I>",
+		le texte saisi est ins&#233;r&#233; &#224; la position courrante du curseur.
+		En mode "<I>surimpression</I>", tout ce qui est saisi vient
+		s'&#233;crire par dessus le texte d&#233;j&#224; existant.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>s</TT><I>texte</I><TT><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> </TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Substitue le caract&#232;re courrant avec le texte saisi "<I>texte</I>".
+		L'insertion du nouveau texte se termine par <!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> . Par cons&#233;quent,
+		apr&#232;s la saisie de la commande "<TT>s</TT>", "<TT>vi</TT>" passe
+		en mode "<I>insertion</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>S</TT><I>texte</I><TT><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> </TT> ou <TT>cc</TT><I>texte</I><TT><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> </TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Efface la ligne courrante et la substitue par le texte saisi
+		"<I>texte</I>". L'insertion du nouveau texte se termine par
+		<!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> . Par cons&#233;quent, apr&#232;s la saisie de la commande
+		"<TT>s</TT>" ou "<TT>cc</TT>", "<TT>vi</TT>" passe
+		en mode "<I>insertion</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>cw</TT><I>texte</I><TT><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> </TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Change le mot courrant par le texte saisi "<I>texte</I>".
+		L'insertion du nouveau texte se termine par <!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> . Par cons&#233;quent,
+		apr&#232;s la saisie de la commande "<TT>cw</TT>", "<TT>vi</TT>" passe
+		en mode "<I>insertion</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>C</TT><I>texte</I><TT><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> </TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Change le reste de la ligne &#224; partir de la position courrante par le
+		texte saisi "<I>texte</I>". L'insertion du nouveau texte se termine
+		par <!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> . Par cons&#233;quent, apr&#232;s la saisie de la commande
+		"<TT>C</TT>", "<TT>vi</TT>" passe en mode "<I>insertion</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>c</TT><I>curs<IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img96.png"
+ ALT="$_{cmd}$">texte</I><TT><!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}"> </TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>De fa&#231;on plus g&#233;n&#233;rale, la commande "<TT>c</TT>" suivie d'une
+		commande "<TT>vi</TT>" de d&#233;placement de curseur (cf. section
+		<A HREF="node242.html#ann-edt-vi-move"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>), change le texte correspondant avec ce qui a
+		&#233;t&#233; saisi, jusqu'&#224; ce que la touche <!-- MATH
+ $\fbox{\textsc{esc}}$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="\fbox{\textsc{esc}}">  soit press&#233;e.
+		Par cons&#233;quent, apr&#232;s la saisie de la commande
+		"<TT>c</TT><I>curs<IMG
+ WIDTH="28" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img96.png"
+ ALT="$_{cmd}$"></I>", "<TT>vi</TT>" passe en mode
+		"<I>insertion</I>".</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><TT>J</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Rassemble la ligne courrante et la ligne suivante sur une seule et
+		m&#234;me ligne.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><I>n</I><TT>J</TT></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>Rassemble les "<I>n</I>" lignes, y compris la ligne courrante, sur
+		une seule et m&#234;me ligne.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=198>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4676"
+  HREF="node251.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4670"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4664"
+  HREF="node249.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4672"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4674"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4677"
+  HREF="node251.html">Placement direct du curseur</A>
+<B> monter:</B> <A NAME="tex2html4671"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4665"
+  HREF="node249.html">Copier/Coller</A>
+ &nbsp; <B>  <A NAME="tex2html4673"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4675"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

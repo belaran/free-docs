@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>M&#233;thode utilis&#233;e</TITLE>
+<META NAME="description" CONTENT="M&#233;thode utilis&#233;e">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node189.html">
+<LINK REL="previous" HREF="node187.html">
+<LINK REL="up" HREF="node186.html">
+<LINK REL="next" HREF="node189.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3641"
+  HREF="node189.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3635"
+  HREF="node186.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3629"
+  HREF="node187.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3637"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3639"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3642"
+  HREF="node189.html">D&#233;veloppement</A>
+<B> monter:</B> <A NAME="tex2html3636"
+  HREF="node186.html">Recherche des UID et</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3630"
+  HREF="node187.html">&#201;tude des fonctionnalit&#233;s</A>
+ &nbsp; <B>  <A NAME="tex2html3638"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3640"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041132000000000000000"></A><A NAME="adv-programming-ex2-meth"></A>
+<BR>
+M&#233;thode utilis&#233;e
+</H2>
+
+<P>
+La m&#233;thode utilis&#233;e est, de partir de cette valeur de base, stock&#233;e dans
+la variable d'environnement "<TT>START_UID</TT>" pour les identifiants
+d'utilisateur ou "<TT>START_GID</TT>" pour les identifiants de groupe,
+de parcourir le fichier ad&#233;quat et ainsi de localiser la valeur.
+
+<P>
+Si nous nous r&#233;f&#233;rons au manuel des fichiers "<TT>passwd(5)</TT>" et
+"<TT>group(5)</TT>", la valeur de l'UID ou du GID est le troisi&#232;me champ,
+sachant que chaque champ est s&#233;par&#233; par le caract&#232;re "<TT>:</TT>".
+
+<P>
+Nous allons donc&nbsp;:
+
+<OL>
+<LI>extraire ce champ de tous les enregistrements,
+</LI>
+<LI>trier cette s&#233;rie de nombre par ordre croissant,
+</LI>
+<LI>n'en extraire que les valeurs sup&#233;rieures ou &#233;gales &#224; la borne
+			inf&#233;rieure (contenue dans la variable d'environnement
+			"<TT>START_UID</TT>" ou "<TT>START_GID</TT>" en fonction
+			de l'option sp&#233;cifi&#233;e),
+</LI>
+<LI>d&#233;terminer, dans cette s&#233;rie, le premier num&#233;ro disponible
+			sup&#233;rieur &#224; la borne inf&#233;rieure.
+</LI>
+</OL>
+
+<P>
+Par cons&#233;quent, nous utiliserons les commandes suivantes&nbsp;:
+
+<UL>
+<LI>"<TT>cut</TT>" pour l'extraction des champs,
+</LI>
+<LI>"<TT>sort</TT>" pour l'op&#233;ration de tri,
+</LI>
+<LI>"<TT>awk</TT>" pour faire une s&#233;lection sur les valeurs,
+</LI>
+<LI>"<TT>awk</TT>" pour calculer le premier num&#233;ro disponible.
+</LI>
+</UL>
+
+<P>
+Notre proc&#233;dure disposera des codes de retour suivants&nbsp;:
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Retour</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=85>Retour sans erreur.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">valeur non nulle</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=85>Erreur d'ex&#233;cution.</TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3641"
+  HREF="node189.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3635"
+  HREF="node186.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3629"
+  HREF="node187.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3637"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3639"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3642"
+  HREF="node189.html">D&#233;veloppement</A>
+<B> monter:</B> <A NAME="tex2html3636"
+  HREF="node186.html">Recherche des UID et</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3630"
+  HREF="node187.html">&#201;tude des fonctionnalit&#233;s</A>
+ &nbsp; <B>  <A NAME="tex2html3638"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3640"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>&#201;tude des fonctionnalit&#233;s</TITLE>
+<META NAME="description" CONTENT="&#201;tude des fonctionnalit&#233;s">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node188.html">
+<LINK REL="previous" HREF="node186.html">
+<LINK REL="up" HREF="node186.html">
+<LINK REL="next" HREF="node188.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3627"
+  HREF="node188.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3621"
+  HREF="node186.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3615"
+  HREF="node186.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3623"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3625"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3628"
+  HREF="node188.html">M&#233;thode utilis&#233;e</A>
+<B> monter:</B> <A NAME="tex2html3622"
+  HREF="node186.html">Recherche des UID et</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3616"
+  HREF="node186.html">Recherche des UID et</A>
+ &nbsp; <B>  <A NAME="tex2html3624"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3626"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041131000000000000000"></A><A NAME="adv-programming-ex2-fcnt"></A>
+<BR>
+&#201;tude des fonctionnalit&#233;s
+</H2>
+
+<P>
+La proc&#233;dure que nous voulons mettre en place doit permettre de cr&#233;er
+de nouvelles entr&#233;es dans le fichier "<TT>passwd(5)</TT>". Pour rappel,
+ce fichier permet d&#233;finir la liste des utilisateurs pouvant se connecter au
+syst&#232;me. Comme il l'a &#233;t&#233; pr&#233;cis&#233; &#224; la section <A HREF="node33.html#cmds-unix-id"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, chaque
+utilisateur sous U<SMALL>NIX</SMALL> doit poss&#233;der un identifiant num&#233;rique unique et
+un num&#233;ro de groupe. Ce num&#233;ro doit &#234;tre unique <B>par groupe et non pas
+par utilisateur</B>.
+
+<P>
+Par cons&#233;quent, en se fixant une valeur de d&#233;part, il faudra chercher dans
+le fichier "<TT>passwd</TT>" le dernier identifiant non attribu&#233; &#224; partir
+de la valeur de d&#233;part. Le but de ce programme n'est donc pas de prendre
+le dernier num&#233;ro attribu&#233; et de l'incr&#233;menter de 1 mais bien de d&#233;terminer
+le premier num&#233;ro disponible sup&#233;rieur &#224; la valeur de d&#233;part. Il faudra
+proc&#233;der de m&#234;me pour pouvoir ins&#233;rer une nouvelle entr&#233;e dans
+le fichier "<TT>group(5)</TT>". Il en r&#233;sulte que nous allons introduire
+une option dans le lancement de notre proc&#233;dure qui, en fonction de celle-ci,
+d&#233;terminera le dernier UID ou GID disponible. Nous aurons donc les options
+suivantes&nbsp;:
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Option</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Action</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-u</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>D&#233;termination du dernier UID disponible.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>-g</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>D&#233;termination du dernier GID disponible.</TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+Pour pouvoir utiliser le r&#233;sultat de cette proc&#233;dure, nous afficherons la
+valeur ad&#233;quate sur la sortie standard. Ainsi, si notre proc&#233;dure
+s'appelle "<TT>searchid</TT>", nous pourrons r&#233;cuperer le r&#233;sultat
+de la fa&#231;on suivante&nbsp;:<PRE>
+variable=`searchid -u`
+</PRE><BLOCKQUOTE>
+ou bien
+</BLOCKQUOTE><PRE>
+variable=`searchid -g`
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3627"
+  HREF="node188.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3621"
+  HREF="node186.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3615"
+  HREF="node186.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3623"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3625"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3628"
+  HREF="node188.html">M&#233;thode utilis&#233;e</A>
+<B> monter:</B> <A NAME="tex2html3622"
+  HREF="node186.html">Recherche des UID et</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3616"
+  HREF="node186.html">Recherche des UID et</A>
+ &nbsp; <B>  <A NAME="tex2html3624"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3626"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

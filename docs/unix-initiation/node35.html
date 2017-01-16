@@ -1,0 +1,423 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Changement de protection - Commande chmod</TITLE>
+<META NAME="description" CONTENT="Changement de protection - Commande chmod">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node36.html">
+<LINK REL="previous" HREF="node34.html">
+<LINK REL="up" HREF="node32.html">
+<LINK REL="next" HREF="node36.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1199"
+  HREF="node36.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1193"
+  HREF="node32.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1187"
+  HREF="node34.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1195"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1197"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1200"
+  HREF="node36.html">Remarques sur les protections</A>
+<B> monter:</B> <A NAME="tex2html1194"
+  HREF="node32.html">Protections sur les fichiers</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1188"
+  HREF="node34.html">Permissions</A>
+ &nbsp; <B>  <A NAME="tex2html1196"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1198"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02233000000000000000">
+Changement de protection - Commande <TT>chmod</TT></A>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+chmod mode fichier...
+</PRE><BLOCKQUOTE>
+avec&nbsp;:
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><TT>mode</TT>=masque de protections</TD>
+</TR>
+<TR><TD ALIGN="LEFT">ou bien</TD>
+<TD ALIGN="LEFT"><TT>mode</TT>=<code>&lt;u|g|o&gt;&lt;+|-&gt;&lt;r|w|x&gt;</code></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Les permissions peuvent &#234;tre modifi&#233;es pour un fichier ou un r&#233;pertoire
+par le propri&#233;taire (ou l'administrateur) en utilisant la commande &#171;&nbsp;<TT>chmod</TT>&nbsp;&#187;.
+
+<P>
+Il est possible de sp&#233;cifier le nouveau masque de protection de deux fa&#231;ons&nbsp;:
+
+<UL>
+<LI>pr&#233;ciser la totalit&#233; du masque de protection en <B>octal</B>,
+</LI>
+<LI>changer le masque de protection niveau par niveau.
+</LI>
+</UL>
+
+<P>
+Le masque de protection en octal s'interpr&#232;te de la fa&#231;on suivante&nbsp;:
+
+<UL>
+<LI>le droit de l'acc&#232;s en lecture correspond &#224; <IMG
+ WIDTH="49" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img13.png"
+ ALT="$2^2 = 4$">,
+</LI>
+<LI>le droit de l'acc&#232;s en &#233;criture correspond &#224; <IMG
+ WIDTH="48" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img14.png"
+ ALT="$2^1 = 2$">,
+</LI>
+<LI>le droit de l'acc&#232;s en ex&#233;cution correspond &#224; <IMG
+ WIDTH="49" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img15.png"
+ ALT="$2^0 =1$">.
+</LI>
+</UL>
+
+<P>
+Le tableau <A HREF="#tab-cmds-prots"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> r&#233;sume les diff&#233;rentes valeurs associ&#233;es
+aux diff&#233;rents droits d'acc&#232;s.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="3889"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+Valeurs associ&#233;es aux diff&#233;rents droits
+d'acc&#232;s</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">droits d'acc&#232;s</TD>
+<TD ALIGN="CENTER">lecture</TD>
+<TD ALIGN="CENTER">&#233;criture</TD>
+<TD ALIGN="CENTER">ex&#233;cution</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="19" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img16.png"
+ ALT="$2^2$"></TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img17.png"
+ ALT="$2^1$"></TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="19" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img18.png"
+ ALT="$2^0$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER">4</TD>
+<TD ALIGN="CENTER">2</TD>
+<TD ALIGN="CENTER">1</TD>
+</TR>
+<TR><TD ALIGN="LEFT">abr&#233;viation utilis&#233;e</TD>
+<TD ALIGN="CENTER"><TT>r</TT></TD>
+<TD ALIGN="CENTER"><TT>w</TT></TD>
+<TD ALIGN="CENTER"><TT>x</TT></TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+Pour affecter les droits d'acc&#232;s &#224; un fichier ou un r&#233;pertoire, il suffit
+de proc&#233;der de la fa&#231;on suivante&nbsp;:
+
+<UL>
+<LI>on additionne entre elles toutes les autorisations d'acc&#232;s,
+</LI>
+<LI>on effectue cette op&#233;ration pour chaque niveau d'acc&#232;s
+		  (<I>utilisateur</I>, <I>groupe</I>, <I>autre</I>).
+</LI>
+</UL>
+
+<P>
+
+	<B>Exemple&nbsp;2..5&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+Le tableau <A HREF="#tab-cmds-exchmod-oct"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> donne un exemple de la d&#233;marche
+&#224; suivre pour affecter prot&#233;ger un fichier avec un masque en octal.
+</BLOCKQUOTE>
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="3893"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+Exemple d'affectation d'un masque en octal</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=3><I>Utilisateur</I></TD>
+<TD ALIGN="CENTER" COLSPAN=3><I>Groupe</I></TD>
+<TD ALIGN="CENTER" COLSPAN=3><I>Autre</I></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>r</TT></TD>
+<TD ALIGN="CENTER"><TT>w</TT></TD>
+<TD ALIGN="CENTER"><TT>x</TT></TD>
+<TD ALIGN="CENTER"><TT>r</TT></TD>
+<TD ALIGN="CENTER"><TT>-</TT></TD>
+<TD ALIGN="CENTER"><TT>x</TT></TD>
+<TD ALIGN="CENTER"><TT>-</TT></TD>
+<TD ALIGN="CENTER"><TT>-</TT></TD>
+<TD ALIGN="CENTER"><TT>-</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">1</TD>
+<TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">0</TD>
+<TD ALIGN="CENTER">0</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><IMG
+ WIDTH="47" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img19.png"
+ ALT="$2^2 \times 1$"></TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="46" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$2^1 \times 1$"></TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="47" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$2^0 \times 1$"></TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="47" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img19.png"
+ ALT="$2^2 \times 1$"></TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="46" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22.png"
+ ALT="$2^1 \times 0$"></TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="47" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$2^0 \times 1$"></TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="47" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img23.png"
+ ALT="$2^2 \times 0$"></TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="46" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22.png"
+ ALT="$2^1 \times 0$"></TD>
+<TD ALIGN="CENTER"><IMG
+ WIDTH="46" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img24.png"
+ ALT="$2^0 \times 0$"></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=3>7</TD>
+<TD ALIGN="CENTER" COLSPAN=3>5</TD>
+<TD ALIGN="CENTER" COLSPAN=3>0</TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+Une autre fa&#231;on de pr&#233;ciser le masque de protection est de dire, pour
+chaque niveau, quels sont les acc&#232;s que l'on autorise ou que l'on
+interdit par rapport au masque de protection courant. Les abr&#233;viations
+utilis&#233;es dans ce cas par la commande &#171;&nbsp;<TT>chmod</TT>&nbsp;&#187; sont d&#233;crites dans le
+tableau <A HREF="#tab-cmds-chmod-relprot"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="3897"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+Abr&#233;viations utilis&#233;es par la
+commande &#171;&nbsp;<TT>chmod</TT>&nbsp;&#187;</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">Abr&#233;viation utilis&#233;e par <TT>chmod</TT></TD>
+<TD ALIGN="CENTER">Signification pour <TT>chmod</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>Signification</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>u</TT></TD>
+<TD ALIGN="CENTER"><TT>user</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>niveau utilisateur</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>g</TT></TD>
+<TD ALIGN="CENTER"><TT>group</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>niveau groupe</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>o</TT></TD>
+<TD ALIGN="CENTER"><TT>other</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>niveau autre</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>r</TT></TD>
+<TD ALIGN="CENTER"><TT>read</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>acc&#232;s en lecture</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>w</TT></TD>
+<TD ALIGN="CENTER"><TT>write</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>acc&#232;s en &#233;criture</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>x</TT></TD>
+<TD ALIGN="CENTER"><TT>execute</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113>acc&#232;s en ex&#233;cution</TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+Pour chaque niveau, la commande <A NAME="3898"></A>&#171;&nbsp;<TT>chmod</TT>&nbsp;&#187;
+attend un masque de protection du type&nbsp;:
+
+<P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>&lt;protectionlevel&gt;+&lt;access permisssion&gt;</code></TD>
+<TD ALIGN="LEFT">pour autoriser un acc&#232;s,</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>&lt;protectionlevel&gt;-&lt;access permisssion&gt;</code></TD>
+<TD ALIGN="LEFT">pour supprimer un acc&#232;s.</TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+
+	<B>Exemple&nbsp;2..6&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+Les exemples donn&#233;s dans le tableau <A HREF="#tab-cmds-exchmod-modrel"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>
+montrent comment modifier les protections d'un fichiers par rapport &#224;
+celles qui sont d&#233;j&#224;s affect&#233;es.	
+</BLOCKQUOTE>
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="3900"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+Exemples de modifications des protections
+par rapport &#224; celles d&#233;j&#224; actives</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Exemple</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Signification</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>u+rwx</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Rajoute les droits de lecture, d'&#233;criture et d'ex&#233;cution au niveau
+	de l'utilisateur.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>g+rx</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Rajoute les droits de lecture et d'ex&#233;cution au niveau du groupe.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>g-w</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Retire les droits en &#233;criture au niveau du groupe.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>o-rwx</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170>Retire tous les acc&#232;s pour les autres utilisateurs
+	(ni le propri&#233;taire, ni un utilisateur du m&#234;me groupe).</TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+
+	<B>Remarque&nbsp;2..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Il est possible d'avoir des &#233;quivalences entre les deux fonctionnements. Par
+exemple, les deux commandes suivantes sont &#233;quivalentes&nbsp;:
+</I></BLOCKQUOTE>
+<P><PRE>
+% chmod 750 fichier
+% chmod u+rwx g+rx g-w o-rwx fichier
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1199"
+  HREF="node36.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1193"
+  HREF="node32.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1187"
+  HREF="node34.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1195"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1197"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1200"
+  HREF="node36.html">Remarques sur les protections</A>
+<B> monter:</B> <A NAME="tex2html1194"
+  HREF="node32.html">Protections sur les fichiers</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1188"
+  HREF="node34.html">Permissions</A>
+ &nbsp; <B>  <A NAME="tex2html1196"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1198"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

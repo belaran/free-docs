@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les structures de contr&#244;le</TITLE>
+<META NAME="description" CONTENT="Les structures de contr&#244;le">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node171.html">
+<LINK REL="up" HREF="node169.html">
+<LINK REL="next" HREF="node173.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3388"
+  HREF="node173.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3382"
+  HREF="node169.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3378"
+  HREF="node171.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3384"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3386"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3389"
+  HREF="node173.html">Trucs et astuces</A>
+<B> monter:</B> <A NAME="tex2html3383"
+  HREF="node169.html">Les actions</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3379"
+  HREF="node171.html">Les fonctions utilisateur</A>
+ &nbsp; <B>  <A NAME="tex2html3385"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3387"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION041043000000000000000">
+Les structures de contr&#244;le</A>
+</H2>
+
+<P>
+L'ensemble des <A NAME="19266"></A>structures de contr&#244;le de "<TT>awk</TT>" fonctionnent
+comme celles du langage C. Nous allons donc ne faire qu'un bref rappel
+sur la syntaxe des diff&#233;rentes structures de contr&#244;les disponibles.
+
+<P>
+Dans toute la suite de ce paragraphe, le terme instruction d&#233;signe un
+ensemble d'instructions "<TT>awk</TT>" s&#233;par&#233;es par le caract&#232;re
+"<TT>;</TT>" ou "<!-- MATH
+ $\fbox{\textsc{return}}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="\fbox{\textsc{return}}"> "et encadr&#233;es par des "{","}".
+
+<P>
+<A NAME="19267"></A>
+<A NAME="19268"></A>
+<I>Structure de contr&#244;le "<TT>if</TT>, <TT>else</TT>"&nbsp;:</I><PRE>
+if (condition)
+    instruction
+else
+    instruction
+</PRE>
+
+<P>
+<A NAME="19270"></A>
+<A NAME="19271"></A>
+<I>Structure de contr&#244;le "<TT>while</TT>"&nbsp;:</I><PRE>
+while (condition)
+    instruction
+</PRE>
+
+<P>
+<A NAME="19273"></A>
+<A NAME="19274"></A>
+<I>Structure de contr&#244;le "<TT>for</TT>"&nbsp;:</I><PRE>
+for (init;condition;it{\'e}ration)
+    instruction
+</PRE>
+
+<P>
+<A NAME="19276"></A>
+<A NAME="19277"></A>
+<I>Instruction "<TT>break</TT>"&nbsp;:</I>
+<BLOCKQUOTE>
+L'instruction "<TT>break</TT>" provoque la sortie du niveau courant d'une
+boucle "<TT>while</TT>" ou "<TT>for</TT>".
+
+</BLOCKQUOTE>
+
+<P>
+<A NAME="19279"></A>
+<A NAME="19280"></A>
+<I>Instruction "<TT>continue</TT>"&nbsp;:</I>
+<BLOCKQUOTE>
+L'instruction "<TT>continue</TT>" provoque l'it&#233;ration suivante au niveau
+courant d'une boucle "<TT>while</TT>" ou "<TT>for</TT>".
+
+</BLOCKQUOTE>
+
+<P>
+<A NAME="19282"></A>
+<A NAME="19283"></A>
+<I>Instruction "<TT>next</TT>"&nbsp;:</I>
+L'instruction "<TT>next</TT>" force "<TT>awk</TT>" &#224; passer &#224; la ligne
+suivante du fichier en entr&#233;e.
+
+<P>
+<A NAME="19285"></A>
+<A NAME="19286"></A>
+<I>Instruction "<TT>exit</TT>"&nbsp;:</I>
+<BLOCKQUOTE>
+L'instruction "<TT>exit</TT>" force "<TT>awk</TT>" <B>&#224; interrompre</B> la lecture
+du fichier d'entr&#233;e comme si la fin avait &#233;t&#233; atteinte.
+
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Exemple&nbsp;15..7&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+if ($3 == foo*5) {
+    a = $6 % 2;
+    print $5, $6, "total", a;
+    b = 0;
+}
+else {
+    next
+}
+while ( i &lt;= NF) {
+    print $i;
+    i ++;
+}
+for (i=1; ( i&lt;= NF) &amp;&amp; ( i &lt;= 10); i++) {
+    if ( i &lt; 0 ) break;
+    if ( i == 5) continue;
+    print $i;
+}
+</PRE>
+
+<P>
+
+	<B>Remarque&nbsp;15..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Ces structures de contr&#244;les et les instructions qui y sont li&#233;es , bien
+que leur nom soit identique &#224; celui utilis&#233; pour les structures du shell
+sont diff&#233;rentes en de multiples points&nbsp;:
+</I></BLOCKQUOTE>
+<UL>
+<LI>tout d'abord, leur syntaxe est diff&#233;rente,
+</LI>
+<LI>les structures de contr&#244;les pour "<TT>awk</TT>" s'ex&#233;cutent dans
+			le processus li&#233; &#224; cet utilitaire,
+</LI>
+<LI>les structures de contr&#244;les du shell sont ex&#233;cut&#233;es dans le processus
+			li&#233; au script ou bien &#224; l'interpr&#233;teur de commandes actif.
+</LI>
+</UL><BLOCKQUOTE><I>
+<B>Par cons&#233;quent, l'utilisation d'un "<TT>if</TT>" peut &#234;tre li&#233; au
+shell ou bien &#224; un utilitaire comme "<TT>awk</TT>".</B>
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3388"
+  HREF="node173.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3382"
+  HREF="node169.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3378"
+  HREF="node171.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3384"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3386"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3389"
+  HREF="node173.html">Trucs et astuces</A>
+<B> monter:</B> <A NAME="tex2html3383"
+  HREF="node169.html">Les actions</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3379"
+  HREF="node171.html">Les fonctions utilisateur</A>
+ &nbsp; <B>  <A NAME="tex2html3385"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3387"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Exemple 5</TITLE>
+<META NAME="description" CONTENT="Exemple 5">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node155.html">
+<LINK REL="up" HREF="node151.html">
+<LINK REL="next" HREF="node157.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3142"
+  HREF="node157.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3136"
+  HREF="node151.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3132"
+  HREF="node155.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3138"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3140"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3143"
+  HREF="node157.html">Remarque sur l'utilisation de</A>
+<B> monter:</B> <A NAME="tex2html3137"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3133"
+  HREF="node155.html">Exemple 4</A>
+ &nbsp; <B>  <A NAME="tex2html3139"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3141"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION04945000000000000000"></A><A NAME="adv-fltrs-sed-ex5"></A>
+<BR>
+Exemple 5
+</H2>
+
+<P>
+Le but de cet exemple est de copier de tous les utilisateurs pr&#233;c&#233;dent l'entr&#233;e du compte &#171;&nbsp;<TT>uucp</TT>&nbsp;&#187; dans &#171;&nbsp;<TT>/etc/passwd</TT>&nbsp;&#187; et d&#233;placer de les &#224; la fin, compte &#171;&nbsp;<TT>uucp</TT>&nbsp;&#187; compris. Le r&#233;sultat sera affich&#233; sur la sortie standard.
+
+<P>
+Pour cela on fait appel &#224; un fichier de commandes &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; que l'on nommera &#171;&nbsp;<TT>script.sed</TT>&nbsp;&#187;. L'appel se fera de la fa&#231;on suivante&nbsp;:<PRE>
+sed -f script.sed /etc/passwd
+</PRE>
+
+<P>
+D&#233;taillons les op&#233;rations &#224; effectuer&nbsp;:
+
+<UL>
+<LI><I>Couper</I> dans un espace de travail particulier, &#224; partir de
+			la premi&#232;re ligne jusqu'&#224; celle commen&#231;ant par &#171;&nbsp;<TT>uucp</TT>&nbsp;&#187;.
+</LI>
+<LI>Se placer &#224; la fin de l'espace m&#233;moire contenant les enregistrements
+			&#224; traiter par &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; et <I>coller</I> le contenu de l'espace
+			pr&#233;c&#233;dent.
+</LI>
+</UL>
+
+<P>
+Pour cela, nous allons utiliser les commandes li&#233;es &#224; la gestion de l'espace m&#233;moire et l'espace de travail de &#171;&nbsp;<TT>sed</TT>&nbsp;&#187;. Comme il l'a &#233;t&#233; d&#233;crit &#224; la section <A HREF="node145.html#sed-fonct"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; dispose d'un espace m&#233;moire permettant de stocker temporairement, un certain nombre d'informations.
+
+<P>
+La premi&#232;re &#233;tape consiste donc &#224; partir du d&#233;but du fichier (donc de la premi&#232;re ligne) et parcourir jusqu'&#224; la premi&#232;re ligne commen&#231;ant par &#171;&nbsp;<TT>uucp</TT>&nbsp;&#187;. Sachant que les nom d'utilisateurs sont uniques, le fichier ne contiendra qu'une et une seule ligne commen&#231;ant par
+&#171;&nbsp;<TT>uucp</TT>&nbsp;&#187;. Les adresses de d&#233;but et de fin sont donc&nbsp;:
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Description</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Expression</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Premi&#232;re ligne</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>1</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Premi&#232;re ligne commen&#231;ant par &#171;&nbsp;<TT>uucp</TT>&nbsp;&#187;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><code>/^uucp/</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+La commande &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; appropri&#233;e pour stocker l'ensemble de ces lignes
+dans un espace m&#233;moire est &#171;&nbsp;<TT>H</TT>&nbsp;&#187; (cf. section <A HREF="node149.html#sed-cmds"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).
+La requ&#234;te associ&#233;e est donc&nbsp;:<PRE>
+1,/^uucp/H
+</PRE>
+
+<P>
+&#192; ce stade de l'ex&#233;cution, l'enregistrement courrant arrivant sur l'entr&#233;e de &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; est la ligne du fichier &#171;&nbsp;<TT>/etc/passwd</TT>&nbsp;&#187; d&#233;finissant le compte utilisateur suivant celui de &#171;&nbsp;<TT>uucp</TT>&nbsp;&#187;. Aucune action n'est sp&#233;cifi&#233;e.
+Les lignes sont donc r&#233;&#233;critures sans aucune op&#233;ration sur la sortie standard.
+
+<P>
+Lorsque la fin de fichier est rencontr&#233;e, &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; doit afficher ce qu'il a pr&#233;c&#233;demment m&#233;moriser dans son espace m&#233;moire. Par cons&#233;quent, l'adresse valide pour ex&#233;cuter la requ&#234;te est celle correspondant &#224; la fin de fichier&nbsp;:
+&#171;&nbsp;<code>$</code>&nbsp;&#187;. Ici les adresses de d&#233;but et de fin sont identiques&nbsp;: elles doivent correspondre toutes les deux &#224; la fin de fichier.
+La commande &#171;&nbsp;<TT>sed</TT>&nbsp;&#187; appropri&#233;e pour afficher sur la sortie standard
+l'ensemble de ces lignes pr&#233;c&#233;demment stock&#233;es dans un espace m&#233;moire est &#171;&nbsp;<TT>G</TT>&nbsp;&#187; (cf. section <A HREF="node149.html#sed-cmds"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).
+La requ&#234;te associ&#233;e est donc&nbsp;:<PRE>
+$G
+</PRE>
+
+<P>
+En conclusion, le contenu du fichier &#171;&nbsp;<TT>script.sed</TT>&nbsp;&#187; est&nbsp;:<PRE>
+1,/^uucp/H
+$G
+</PRE>
+
+<P>
+
+	<B>Remarque&nbsp;14..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>L'espace m&#233;moire utilis&#233; est, bien s&#251;r, propre &#224; &#171;&nbsp;<TT>sed</TT>&nbsp;&#187;. Les op&#233;rations &#171;&nbsp;<TT>g</TT>&nbsp;&#187; et &#171;&nbsp;<TT>h</TT>&nbsp;&#187; sont similaires mais avec un espace vide au d&#233;part.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3142"
+  HREF="node157.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3136"
+  HREF="node151.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3132"
+  HREF="node155.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3138"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3140"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3143"
+  HREF="node157.html">Remarque sur l'utilisation de</A>
+<B> monter:</B> <A NAME="tex2html3137"
+  HREF="node151.html">Exemples avanc&#233;s</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3133"
+  HREF="node155.html">Exemple 4</A>
+ &nbsp; <B>  <A NAME="tex2html3139"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3141"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

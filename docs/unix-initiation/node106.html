@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>La commande &#171;&nbsp;read&nbsp;&#187;</TITLE>
+<META NAME="description" CONTENT="La commande &#171;&nbsp;read&nbsp;&#187;">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node107.html">
+<LINK REL="previous" HREF="node105.html">
+<LINK REL="up" HREF="node104.html">
+<LINK REL="next" HREF="node107.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2397"
+  HREF="node107.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2391"
+  HREF="node104.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2385"
+  HREF="node105.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2393"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2395"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2398"
+  HREF="node107.html">La commande &#171;&nbsp;expr&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2392"
+  HREF="node104.html">Commandes &#233;volu&#233;es pour les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2386"
+  HREF="node105.html">La commande &#171;&nbsp;shift&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2394"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2396"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION04420000000000000000">
+La commande &#171;&nbsp;<TT>read</TT>&nbsp;&#187;</A>
+</H1>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+read variable [variable...]
+</PRE>
+
+<P>
+La commande <A NAME="12777"></A>&#171;&nbsp;<TT>read</TT>&nbsp;&#187; est utilis&#233;e pour lire les informations sur
+l'entr&#233;e standard. S'il y a plus de variables dans la commande
+&#171;&nbsp;<TT>read</TT>&nbsp;&#187; que de valeurs r&#233;ellement saisies<A NAME="tex2html75"
+  HREF="footnode.html#foot12778"><SUP>9.1</SUP></A>, les variables les plus &#224; droites sont assign&#233;es &#224;
+&#171;&nbsp;<TT>NULL</TT>&nbsp;&#187; (cha&#238;ne vide).
+
+<P>
+Si l'utilisateur saisit plus de mots qu'il n'y a de variables, toutes les donn&#233;es
+de droite sont affect&#233;es &#224; la derni&#232;re variable de la liste.
+Une fois positionn&#233;es, celles-ci sont acc&#233;d&#233;es comme les autres.
+
+<P>
+La commande &#171;&nbsp;<TT>read</TT>&nbsp;&#187; est une commande <B>interne du Shell</B>.
+
+<P>
+
+	<B>Exemple&nbsp;9..1&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+On suppose qu'un script contient la commande suivante&nbsp;:
+
+<DIV ALIGN="CENTER"><code>read var1 var2 var3</code>
+
+</DIV></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>
+<DIV ALIGN="CENTER"></DIV></BLOCKQUOTE><DL>
+<DT><STRONG><I>Premier cas</I>&nbsp;:</STRONG></DT>
+<DD>
+<BR>
+L'utilisateur saisit la cha&#238;ne suivante&nbsp;:
+				<DIV ALIGN="CENTER"><code>chaine1 chaine2 chaine3</code>
+		
+		Dans ce cas, les variables contiendront&nbsp;:
+<BR>
+<BR>
+<BR>		<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">Variable</TD>
+<TD ALIGN="LEFT">Valeur</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>var1</TT></TD>
+<TD ALIGN="LEFT"><TT>chaine1</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>var2</TT></TD>
+<TD ALIGN="LEFT"><TT>chaine2</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>var3</TT></TD>
+<TD ALIGN="LEFT"><TT>chaine3</TT></TD>
+</TR>
+</TABLE>
+	
+</DD>
+<DT><STRONG><I>Deuxi&#232;me cas</I>&nbsp;:</STRONG></DT>
+<DD>
+<BR>
+L'utilisateur saisit la cha&#238;ne suivante&nbsp;:
+				
+<DIV ALIGN="CENTER"><code>chaine1 chaine2</code>
+		
+		Dans ce cas, les variables contiendront&nbsp;:
+<BR>
+<BR>
+<BR>		<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">Variable</TD>
+<TD ALIGN="LEFT">Valeur</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>var1</TT></TD>
+<TD ALIGN="LEFT"><TT>chaine1</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>var2</TT></TD>
+<TD ALIGN="LEFT"><TT>chaine2</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>var3</TT></TD>
+<TD ALIGN="LEFT"><TT>NULL</TT></TD>
+</TR>
+</TABLE>
+	
+</DD>
+<DT><STRONG><I>Troisi&#232;me cas</I>&nbsp;:</STRONG></DT>
+<DD>
+<BR>
+L'utilisateur saisit la cha&#238;ne suivante&nbsp;:
+				
+<DIV ALIGN="CENTER"><code>chaine1 chaine2 chaine3 chaine4 chaine 5</code>
+		
+		Dans ce cas, les variables contiendront&nbsp;:
+<BR>
+<BR>
+<BR>		<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">Variable</TD>
+<TD ALIGN="LEFT">Valeur</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>var1</TT></TD>
+<TD ALIGN="LEFT"><TT>chaine1</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>var2</TT></TD>
+<TD ALIGN="LEFT"><TT>chaine2</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>var3</TT></TD>
+<TD ALIGN="LEFT"><code>chaine3 chaine4 chaine 5</code></TD>
+</TR>
+</TABLE>
+</DD>
+</DL></DIV></DIV></DIV><BLOCKQUOTE>
+<DIV ALIGN="CENTER">
+</DIV></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2397"
+  HREF="node107.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2391"
+  HREF="node104.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2385"
+  HREF="node105.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2393"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2395"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2398"
+  HREF="node107.html">La commande &#171;&nbsp;expr&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html2392"
+  HREF="node104.html">Commandes &#233;volu&#233;es pour les</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2386"
+  HREF="node105.html">La commande &#171;&nbsp;shift&nbsp;&#187;</A>
+ &nbsp; <B>  <A NAME="tex2html2394"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2396"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

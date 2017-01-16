@@ -1,0 +1,373 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Fichier de description de t&#226;ches</TITLE>
+<META NAME="description" CONTENT="Fichier de description de t&#226;ches">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node92.html">
+<LINK REL="previous" HREF="node90.html">
+<LINK REL="up" HREF="node89.html">
+<LINK REL="next" HREF="node92.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2071"
+  HREF="node92.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2065"
+  HREF="node89.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2059"
+  HREF="node90.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2067"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2069"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2072"
+  HREF="node92.html">Exemple de fichier de</A>
+<B> monter:</B> <A NAME="tex2html2066"
+  HREF="node89.html">R&#233;p&#233;tition de t&#226;ches&nbsp;: crontab</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2060"
+  HREF="node90.html">Introduction - Syntaxe</A>
+ &nbsp; <B>  <A NAME="tex2html2068"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2070"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03242000000000000000">
+Fichier de description de t&#226;ches</A>
+</H2>
+
+<P>
+Le fichier de description des t&#226;ches va contenir les instructions
+n&#233;cessaires au processus de supervision (processus &#171;&nbsp;<TT>cron(8)</TT>&nbsp;&#187;). Celui d&#233;crira les op&#233;rations de la fa&#231;on suivante &#171;&nbsp;<I>ex&#233;cute cette commande &#224; cette heure l&#224; ce jour-ci</I>&nbsp;&#187;.
+
+<P>
+Dans ce fichier,
+
+<UL>
+<LI>toute ligne commen&#231;ant par le caract&#232;re &#171;&nbsp;<code>#</code>&nbsp;&#187; est ignor&#233;e (ligne
+			de commentaires),
+</LI>
+<LI>les lignes blanches sont ignor&#233;es,
+</LI>
+<LI>les espaces et les tabulations en d&#233;but de ligne sont ignor&#233;s.
+</LI>
+</UL>
+
+<P>
+
+	<B>Remarque&nbsp;5..5&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Il n'est pas possible de mettre des commentaires au milieu d'une ligne. Le signe de
+commentaire doit donc &#234;tre le premier caract&#232;re de la ligne.
+	
+</I></BLOCKQUOTE>
+
+<P>
+Chaque ligne de description, hormis les lignes de commentaires, peuvent , soit
+d&#233;finir des variables d'environnement pour l'ensemble des t&#226;ches &#224; effectuer,
+soit des commandes &#224; ex&#233;cuter aux instants sp&#233;cifi&#233;s. La d&#233;finition d'une
+variable d'environnement dans le fichier ob&#233;it &#224; la syntaxe suivante&nbsp;:
+<BLOCKQUOTE>
+<TT><I>nom</I> = <I>valeur</I></TT>
+
+</BLOCKQUOTE>
+o&#249; &#171;&nbsp;<I>nom</I>&nbsp;&#187; repr&#233;sente le nom de la variable d'environnement et &#171;&nbsp;<I>valeur</I>&nbsp;&#187; repr&#233;sente la valeur qui lui est affect&#233;e. Les espaces de part et
+d'autre du signe <I>&#233;gual</I> &#171;&nbsp;<TT>=</TT>&nbsp;&#187; sont optionnels. Si la valeur &#224;
+affecter &#224; la variable est une chaine de caract&#232;res, il est pr&#233;f&#233;rable de la
+mettre entre simple quotes (&#171;&nbsp;<TT>'</TT>&nbsp;&#187; ou double quotes (&#171;&nbsp;<code>"</code>&nbsp;&#187;).
+
+<P>
+<B>Pour toutes les commandes qui seront ex&#233;cut&#233;es&nbsp;:
+</B>
+<UL>
+<LI>leur sortie standard et leur sortie d'erreur standard redirig&#233;es vers
+			la boite aux lettres de l'utilisateur,
+</LI>
+<LI>leur entr&#233;e standard devra &#234;tre explicitement pr&#233;cis&#233;e si cela est
+			nec&#233;ssaire.
+</LI>
+</UL>
+
+<P>
+Certaines variables d'environnement sont automatiquement positionn&#233;es par le
+gestionnaire de t&#226;ches <TT>cron(8)</TT>&nbsp;:
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Variable</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>SHELL</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>repr&#233;sente l'interpr&#233;teur de commande par d&#233;faut. Cette variable est initialis&#233;e &#224;
+					&#171;&nbsp;<TT>/bin/sh</TT>&nbsp;&#187;, donc le Bourne Shell.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>LOGNAME</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>repr&#233;sente le nom de connexion de l'utilisateur. Par d&#233;faut, elle
+					correspond &#224; votre entr&#233;e dans la base des utilisateurs.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>USER</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>a exactement les m&#234;mes fonctionnalit&#233;s que la variable &#171;&nbsp;<TT>LOGNAME</TT>&nbsp;&#187;. Cependant,
+					certains utilitaires issus des syst&#232;mes BSD<A NAME="tex2html63"
+  HREF="footnode.html#foot9915"><SUP>5.2</SUP></A> utilisent
+					&#171;&nbsp;<TT>USER</TT>&nbsp;&#187; plut&#244;t que &#171;&nbsp;<TT>LOGNAME</TT>&nbsp;&#187;.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>HOME</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>repr&#233;sente votre r&#233;pertoire de connexion. Par d&#233;faut, il correspond &#224; celui
+					d&#233;fini dans les caract&#233;ristiques de l'utilisateur.</TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>MAILTO</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>En plus des variables <TT>LOGNAME</TT>, <TT>HOME</TT> et <TT>SHELL</TT>,
+					le processus &#171;&nbsp;<TT>cron(8)</TT>&nbsp;&#187; examine le contenu de la variable
+					d'environnement &#171;&nbsp;<TT>MAILTO</TT>&nbsp;&#187; afin de savoir s'il est n&#233;cessaire
+					d'envoyer un message donnant le r&#233;sultat de l'ex&#233;cution des commandes.
+					Si cette variable est d&#233;finie et non vide, elle doit contenir l'adresse
+					courrier de la personne &#224; qui envoyer les messages. Si elle est d&#233;finie
+					<B>mais vide</B><A NAME="tex2html64"
+  HREF="footnode.html#foot10187"><SUP>5.3</SUP></A>, aucun
+					message ne sera envoy&#233;.</TD>
+</TR>
+<TR><TD ALIGN="CENTER">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Au cas o&#249; aucune option se serait pr&#233;cis&#233; gr&#226;ce &#224; la variable
+					&#171;&nbsp;<TT>MAILTO</TT>&nbsp;&#187;, le r&#233;sultat produit sur la sortie standard
+					est envoy&#233; dans la boite aux lettres de l'utilisateur poss&#233;dant
+					cette liste de t&#226;ches &#224; ex&#233;cuter.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Remarque&nbsp;5..6&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Cette fonctionnanlit&#233; offerte gr&#226;ce &#224; la variable &#171;&nbsp;<TT>MAILTO</TT>&nbsp;&#187; peut &#234;tre
+tr&#232;s utile si vous d&#233;cidez d'utiliser un autre serveur de messagerie que
+&#171;&nbsp;<TT>/usr/lib/sendmail</TT>&nbsp;&#187;. Dans ce cas, &#171;&nbsp;<TT>/bin/mail</TT>&nbsp;&#187; sera employ&#233;
+pour assurer l'acheminement des messages. &#171;&nbsp;<TT>/bin/mail</TT>&nbsp;&#187; n'utilisera
+pas la notion d'<I>aliases</I> de &#171;&nbsp;<TT>/usr/lib/sendmail</TT>&nbsp;&#187;.
+	
+</I></BLOCKQUOTE>
+
+<P>
+Les lignes de description de t&#226;ches se composent de plusieurs champs s&#233;par&#233;s
+par des espaces ou tabulations. Chaque ligne poss&#232;de&nbsp;:
+
+<UL>
+<LI>cinq champs pr&#233;cisant la date et l'heure &#224; laquelle la commande
+			doit &#234;tre lanc&#233;e,
+</LI>
+<LI>dans le cas o&#249; la table de description est celle de l'administrateur,
+			le nom de l'utilisateur pour lequel on lance la commande<A NAME="tex2html65"
+  HREF="footnode.html#foot10188"><SUP>5.4</SUP></A>,
+</LI>
+<LI>la commande &#224; lancer.
+</LI>
+</UL>
+Le service &#171;&nbsp;<TT>cron(8)</TT>&nbsp;&#187;<A NAME="tex2html66"
+  HREF="footnode.html#foot10207"><SUP>5.5</SUP></A> examine toutes les
+minutes, les tables de description. Lorsque la date pr&#233;cis&#233;e dans une entr&#233;e
+d'une table de description de t&#226;ches, le service &#171;&nbsp;<TT>cron(8)</TT>&nbsp;&#187; cr&#233;e un sous
+processus sous l'identit&#233; de la personne et lance la commande &#224; l'int&#233;rieur
+de ce contexte. La sp&#233;cification de la date et de l'heure se compose
+des cinq informations suivantes&nbsp;:
+<BR>
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Champ</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Valeurs autoris&#233;es</TD>
+</TR>
+<TR><TD ALIGN="LEFT">minute</TD>
+<TD ALIGN="LEFT">0-59</TD>
+</TR>
+<TR><TD ALIGN="LEFT">heure</TD>
+<TD ALIGN="LEFT">0-23</TD>
+</TR>
+<TR><TD ALIGN="LEFT">jour du mois</TD>
+<TD ALIGN="LEFT">1-31</TD>
+</TR>
+<TR><TD ALIGN="LEFT">mois</TD>
+<TD ALIGN="LEFT">1-12</TD>
+</TR>
+<TR><TD ALIGN="LEFT">jour de la semaine</TD>
+<TD ALIGN="LEFT">0-7<A NAME="tex2html67"
+  HREF="footnode.html#foot10191"><SUP>5.6</SUP></A></TD>
+</TR>
+</TABLE>
+
+<P>
+Si l'un de ces champs contient le caract&#232;re &#171;&nbsp;<code>*</code>&nbsp;&#187;, celui-ci ne
+doit pas &#234;tre pris en compte, ou bien l'une des bornes inf&#233;rieure ou sup&#233;rieure
+doit &#234;tre consid&#233;r&#233;e dans la d&#233;termination de la date. Par exemple&nbsp;:
+<BR>
+<BR><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT"><TT>0 1 * * *</TT></TD>
+<TD ALIGN="LEFT"> indique&nbsp;:&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&#171;&nbsp;<I>tous les jours &#224; 01:00</I>&nbsp;&#187;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>0 0 * * 1</TT></TD>
+<TD ALIGN="LEFT"> indique&nbsp;:&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&#171;&nbsp;<I>tous les lundis &#224; minuit</I>&nbsp;&#187;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>* * * 2 3</TT></TD>
+<TD ALIGN="LEFT"> indique&nbsp;:&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>&#171;&nbsp;<I>tous les mardis du mois de f&#233;vrier &#224; minuit</I>&nbsp;&#187;</TD>
+</TR>
+</TABLE>
+
+<P>
+Pour chaque champ, il est possible de donner&nbsp;:
+
+<UL>
+<LI>une s&#233;quence de nombres s&#233;par&#233;s par des virgules,
+</LI>
+<LI>des plages de nombre, en sp&#233;cifiant les bornes inf&#233;rieurs et sup&#233;rieures
+			s&#233;par&#233;es par le caract&#232;re &#171;&nbsp;<TT>-</TT>&nbsp;&#187;,
+</LI>
+<LI>de combiner les deux possibilit&#233;s.
+</LI>
+</UL>
+
+<P>
+
+	<B>Exemple&nbsp;5..7&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT"><TT>1,5</TT></TD>
+<TD ALIGN="LEFT"> correspond &#224; la s&#233;quence&nbsp;:&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=85>&#171;&nbsp;<I>1, 5</I>&nbsp;&#187;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>8-10</TT></TD>
+<TD ALIGN="LEFT"> correspond &#224; la s&#233;quence&nbsp;:&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=85>&#171;&nbsp;<I>8, 9, 10</I>&nbsp;&#187;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>0-5,7,9</TT></TD>
+<TD ALIGN="LEFT"> correspond &#224; la s&#233;quence&nbsp;:&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=85>&#171;&nbsp;<I>0, 1, 2, 3, 4, 5, 7, 9</I>&nbsp;&#187;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>0-4,8-12</TT></TD>
+<TD ALIGN="LEFT"> correspond &#224; la s&#233;quence&nbsp;:&nbsp;</TD><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=85>&#171;&nbsp;<I>0, 1, 2, 3, 4, 8, 9, 10, 11, 12</I>&nbsp;&#187;</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Remarque&nbsp;5..7&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Aucun espace ne doit &#234;tre introduit dans les cinq champs associ&#233;s &#224; la date et
+&#224; l'heure de lancement d'une commande.
+	
+</I></BLOCKQUOTE>
+
+<P>
+
+	<B>Remarque&nbsp;5..8&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Certaines extensions du service &#171;&nbsp;<TT>cron(8)</TT>&nbsp;&#187; permettent
+de modifier l'incr&#233;ment des plages de nombres. Une plage de nombres suivie de
+&#171;&nbsp;<code>/&lt;number&gt;</code>&nbsp;&#187; indique le pas entre les valeurs &#224; prendre &#224; l'int&#233;rieur
+de l'intervalle. Par exemple, &#171;&nbsp;<code>0-23/2</code>&nbsp;&#187;, dans le champ &#171;&nbsp;<I>heure</I>&nbsp;&#187;
+sp&#233;cifie toutes les deux heures d'une journ&#233;e (c'est-&#224;-dire
+&#171;&nbsp;<TT>0,2,4,6,8,10,12,14,16,18,20,22</TT>&nbsp;&#187;). Cette option est aussi autoris&#233;e
+&#224; la suite du caract&#232;re &#171;&nbsp;<TT>*</TT>&nbsp;&#187;. Par exemple, &#171;&nbsp;<code>*/2</code>&nbsp;&#187; au niveau du
+champ &#171;&nbsp;<I>heure</I>&nbsp;&#187;, sera identique &#224; l'exmple pr&#233;c&#233;dent, c'est-&#224;-dire
+qu'il signifiera &#171;&nbsp;<I>toutes les deux heures</I>&nbsp;&#187;.
+	
+</I></BLOCKQUOTE>
+
+<P>
+Le dernier champ, c'est-&#224;-dire le reste de la ligne, sp&#233;cifie la commande
+&#224; ex&#233;cuter. <B>Par cons&#233;quent, la sp&#233;cification doit &#234;tre inscrite sur
+une seule ligne</B>. La commande sera ex&#233;cut&#233;e dans le contexte du Bourne Shell
+(<TT>/bin/sh</TT>) ou celui pr&#233;cis&#233; gr&#226;ce &#224; la variable d'environnement &#171;&nbsp;<TT>SHELL</TT>&nbsp;&#187;.
+
+<P>
+
+	<B>Remarque&nbsp;5..9&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Le jour de l'ex&#233;cution d'une commande peut &#234;tre pr&#233;cis&#233; dans deux champs&nbsp;:
+</I></BLOCKQUOTE>
+<UL>
+<LI>le jour du mois (<IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img36.png"
+ ALT="$3^e$"> champ),
+</LI>
+<LI>le jour de la semaine (<IMG
+ WIDTH="19" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img37.png"
+ ALT="$5^e$"> champ).
+</LI>
+</UL><BLOCKQUOTE><I>
+Si ces deux champs sont renseign&#233;s, c'est-&#224;-dire qu'ils ne contiennent pas le
+caract&#232;re &#171;&nbsp;<TT>*</TT>&nbsp;&#187;, la commande sera ex&#233;cut&#233;e d&#232;s que la date courrante correspondra
+&#224; l'une des deux possibilit&#233;s. Par exemple, &#171;&nbsp;<TT>30 4 1,15 * 5</TT>&nbsp;&#187; indiquera que la
+commande devra &#234;tre ex&#233;cut&#233;e &#224; 04:30 le <IMG
+ WIDTH="25" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img38.png"
+ ALT="$1^{er}$"> et le quinze de chaque mois, mais
+aussi tous les vendredi.
+	
+</I></BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2071"
+  HREF="node92.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html2065"
+  HREF="node89.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html2059"
+  HREF="node90.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html2067"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html2069"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html2072"
+  HREF="node92.html">Exemple de fichier de</A>
+<B> monter:</B> <A NAME="tex2html2066"
+  HREF="node89.html">R&#233;p&#233;tition de t&#226;ches&nbsp;: crontab</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html2060"
+  HREF="node90.html">Introduction - Syntaxe</A>
+ &nbsp; <B>  <A NAME="tex2html2068"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2070"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

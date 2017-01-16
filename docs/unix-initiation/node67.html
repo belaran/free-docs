@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Redirection de la sortie standard (stdout)</TITLE>
+<META NAME="description" CONTENT="Redirection de la sortie standard (stdout)">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node68.html">
+<LINK REL="previous" HREF="node66.html">
+<LINK REL="up" HREF="node64.html">
+<LINK REL="next" HREF="node68.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1724"
+  HREF="node68.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1718"
+  HREF="node64.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1712"
+  HREF="node66.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1720"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1722"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1725"
+  HREF="node68.html">Redirection de la sortie</A>
+<B> monter:</B> <A NAME="tex2html1719"
+  HREF="node64.html">Redirection des entr&#233;es/sorties</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1713"
+  HREF="node66.html">Redirection de l'entr&#233;e standard</A>
+ &nbsp; <B>  <A NAME="tex2html1721"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1723"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03143000000000000000"></A><A NAME="basnot-stdout"></A>
+<BR>
+Redirection de la sortie standard (<TT>stdout</TT>)
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><code>commande &gt; nouvelle-sortie</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">(Cr&#233;ation/R&#233;&#233;criture)</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>commande &gt;&gt; nouvelle-sortie</code></TD>
+<TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">(Ajout)</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Il est possible de rediriger la <A NAME="8479"></A>sortie
+de toute commande devant &#233;crire sur la sortie standard afin que l'&#233;criture se fasse sur un fichier.
+L'&#233;criture peut se faire de deux fa&#231;ons&nbsp;:
+
+<UL>
+<LI>&#233;criture dans un fichier et &#233;crasement si le fichier existe d&#233;j&#224;,
+</LI>
+<LI>&#233;criture &#224; la suite d'un fichier d&#233;j&#224; existant.
+</LI>
+</UL>
+
+<P>
+Si une ligne de commande contient le symbole de redirection de la sortie
+standard <A NAME="7848"></A>&#171;&nbsp;<code>&gt;</code>&nbsp;&#187; suivi d'un nom de fichier, celle-ci sera
+redirig&#233;e dans le fichier sp&#233;cifi&#233; au lieu du terminal. Deux cas peuvent
+se pr&#233;senter&nbsp;:
+
+<UL>
+<LI>Si le fichier n'existe pas au moment o&#249; la commande est ex&#233;cut&#233;e,
+			il est cr&#233;&#233;.
+</LI>
+<LI>Si le fichier existait, alors son contenu est &#233;cras&#233; par la sortie standard
+			de la commande. Si on souhaite que celle-ci vienne s'ajouter &#224; la suite,
+			afin de pr&#233;server son contenu initial, il suffit d'utiliser le double symbole
+			&#171;&nbsp;<code>&gt;&gt;</code>&nbsp;&#187;. Dans le cas o&#249; le fichier n'existait pas, il sera cr&#233;&#233;.
+</LI>
+</UL>
+
+<P>
+
+	<B>Exemple&nbsp;4..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+% ls &gt; fic
+% date &gt; who.log
+% who &gt;&gt; who.log
+</PRE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1724"
+  HREF="node68.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1718"
+  HREF="node64.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1712"
+  HREF="node66.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1720"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1722"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1725"
+  HREF="node68.html">Redirection de la sortie</A>
+<B> monter:</B> <A NAME="tex2html1719"
+  HREF="node64.html">Redirection des entr&#233;es/sorties</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1713"
+  HREF="node66.html">Redirection de l'entr&#233;e standard</A>
+ &nbsp; <B>  <A NAME="tex2html1721"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1723"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

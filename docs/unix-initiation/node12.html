@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>La commande man</TITLE>
+<META NAME="description" CONTENT="La commande man">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node11.html">
+<LINK REL="up" HREF="node9.html">
+<LINK REL="next" HREF="node13.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html848"
+  HREF="node13.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html842"
+  HREF="node9.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html838"
+  HREF="node11.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html844"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html846"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html849"
+  HREF="node13.html">Equivalences</A>
+<B> monter:</B> <A NAME="tex2html843"
+  HREF="node9.html">Le manuel UNIX</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html839"
+  HREF="node11.html">Format d'une page du</A>
+ &nbsp; <B>  <A NAME="tex2html845"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html847"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02143000000000000000">
+La commande <TT>man</TT></A>
+</H2>
+
+<P>
+La commande <A NAME="1393"></A>&#171;&nbsp;<TT>man</TT>&nbsp;&#187; recherche dans les diff&#233;rentes sections (1,2,3,4,5,6,7,8,9,1m) le mot clef. Elle s'arr&#234;te sur le premier mot clef trouv&#233;. Ainsi, par exemple, on verra syst&#233;matiquement l'aide sur &#171;&nbsp;<TT>passwd (1)</TT>&nbsp;&#187; par la commande &#171;&nbsp;<TT>man passwd</TT>&nbsp;&#187;; pour voir &#171;&nbsp;<TT>passwd(4)</TT>&nbsp;&#187;, il faudra taper la commande &#171;&nbsp;<TT>man 4 passwd</TT>&nbsp;&#187;. Une fois trouv&#233;e, elle affiche le contenu d'un fichier d'aide &#224; l'&#233;cran en faisant de la pagination. Celui-ci correspond &#224; la page de manuel associ&#233;e.
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">Pour passer &#224; la ligne suivante</TD>
+<TD ALIGN="LEFT">&nbsp;:&nbsp;</TD><TD ALIGN="LEFT">taper sur &#171;&nbsp;<!-- MATH
+ $\fbox{\textsc{return}}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="\fbox{\textsc{return}}">&nbsp;&#187;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Pour passer &#224; l'&#233;cran suivant</TD>
+<TD ALIGN="LEFT">&nbsp;:&nbsp;</TD><TD ALIGN="LEFT">taper sur &#171;&nbsp;<!-- MATH
+ $\fbox{\textsc{space}}$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="\fbox{\textsc{space}}">&nbsp;&#187;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Pour quitter</TD>
+<TD ALIGN="LEFT">&nbsp;:&nbsp;</TD><TD ALIGN="LEFT">taper sur &#171;&nbsp;<!-- MATH
+ $\fbox{{\tt Q}}$
+ -->
+<IMG
+ WIDTH="23" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="\fbox{{\tt Q}}">&nbsp;&#187; ou &#171;&nbsp;<!-- MATH
+ $\fbox{{\tt q}}$
+ -->
+<IMG
+ WIDTH="24" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="\fbox{{\tt q}}">&nbsp;&#187;</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+% man [n] commande
+</PRE><BLOCKQUOTE>
+O&#249; l'option &#171;&nbsp;<TT>n</TT>&nbsp;&#187; est le num&#233;ro d'une section	
+</BLOCKQUOTE>
+
+<P>
+
+	<B>Remarque&nbsp;1..4&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Il est possible d'avoir une liste de commandes concern&#233;es par un mot
+clef de deux fa&#231;ons&nbsp;:
+</I></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><BLOCKQUOTE><I><code>% man -k mot-clef</code> (<TT>k</TT> comme <I>keyword</I>)
+</I></BLOCKQUOTE></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><I>ou bien
+</I></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><BLOCKQUOTE><I><code>% apropos mot-clef</code>
+</I></BLOCKQUOTE></BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><I>Ceci ne fonctionnera que si l'administrateur a constitu&#233; la base de donn&#233;es r&#233;f&#233;ren&#231;ant les mots clefs dans le manuel (fichier <TT>whatis</TT>).
+	
+</I></BLOCKQUOTE>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Sous-sections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html850"
+  HREF="node13.html">Equivalences</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html848"
+  HREF="node13.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html842"
+  HREF="node9.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html838"
+  HREF="node11.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html844"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html846"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html849"
+  HREF="node13.html">Equivalences</A>
+<B> monter:</B> <A NAME="tex2html843"
+  HREF="node9.html">Le manuel UNIX</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html839"
+  HREF="node11.html">Format d'une page du</A>
+ &nbsp; <B>  <A NAME="tex2html845"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html847"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

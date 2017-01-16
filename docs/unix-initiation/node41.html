@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Filtre grep</TITLE>
+<META NAME="description" CONTENT="Filtre grep">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node42.html">
+<LINK REL="previous" HREF="node40.html">
+<LINK REL="up" HREF="node37.html">
+<LINK REL="next" HREF="node42.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1285"
+  HREF="node42.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1279"
+  HREF="node37.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1273"
+  HREF="node40.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1281"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1283"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1286"
+  HREF="node42.html">Filtre wc</A>
+<B> monter:</B> <A NAME="tex2html1280"
+  HREF="node37.html">Les filtres</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1274"
+  HREF="node40.html">Filtre sort</A>
+ &nbsp; <B>  <A NAME="tex2html1282"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1284"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02244000000000000000">
+Filtre <TT>grep</TT></A>
+</H2>
+
+<P>
+
+	<B>Syntaxe&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+grep [-inv] expression [fichier...]
+</PRE>
+
+<P>
+Le filtre <A NAME="3911"></A>&#171;&nbsp;<TT>grep</TT>&nbsp;&#187; recherche l'expression pr&#233;cis&#233;e sur son entr&#233;e standard et l'affiche sur sa sortie standard. Cette expression ob&#233;it aux lois des expressions r&#233;guli&#232;res U<SMALL>NIX</SMALL> (cf. chapitre <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>). De fa&#231;on g&#233;n&#233;rale, on sp&#233;cifie une cha&#238;ne de caract&#232;res.
+
+<P>
+Les options les plus courantes de la commande &#171;&nbsp;<TT>grep</TT>&nbsp;&#187; sont&nbsp;:
+
+<UL>
+<LI>l'option &#171;&nbsp;<TT>-i</TT>&nbsp;&#187; indique &#224; &#171;&nbsp;<TT>grep</TT>&nbsp;&#187; qu'il ne faut pas
+		  tenir compte des majuscules/minuscules,
+</LI>
+<LI>l'option &#171;&nbsp;<TT>-v</TT>&nbsp;&#187; indique &#224; &#171;&nbsp;<TT>grep</TT>&nbsp;&#187; qu'il faut afficher
+		  les lignes ne contenant pas l'expression pr&#233;cis&#233;e en argument,
+</LI>
+<LI>l'option &#171;&nbsp;<TT>-n</TT>&nbsp;&#187; permet de voir afficher les num&#233;ros de
+		  lignes courantes.
+</LI>
+</UL>
+
+<P>
+Comme la plupart des filtres, la commande &#171;&nbsp;<TT>grep</TT>&nbsp;&#187; accepte des
+fichiers en arguments. S'ils sont pr&#233;cis&#233;s sur la ligne de commande,
+&#171;&nbsp;<TT>grep</TT>&nbsp;&#187; redirige son entr&#233;e standard sur leur contenu.
+
+<P>
+
+	<B>Exemple&nbsp;2..8&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+% grep user /etc/passwd
+% ls -l | grep rwxrwxrwx
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

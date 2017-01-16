@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction et conventions</TITLE>
+<META NAME="description" CONTENT="Introduction et conventions">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node236.html">
+<LINK REL="previous" HREF="node234.html">
+<LINK REL="up" HREF="node234.html">
+<LINK REL="next" HREF="node236.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4465"
+  HREF="node236.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4459"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4453"
+  HREF="node234.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4461"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4463"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4466"
+  HREF="node236.html">Modes de fonctionnement de</A>
+<B> monter:</B> <A NAME="tex2html4460"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4454"
+  HREF="node234.html">Commandes de base de</A>
+ &nbsp; <B>  <A NAME="tex2html4462"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4464"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION05321000000000000000"></A><A NAME="ann-edt-vi-intro"></A>
+<BR>
+Introduction et conventions
+</H2>
+
+<P>
+Cette section donne un aper&#231;u du fonctionnement de l'&#233;diteur de
+texte <A NAME="27400"></A>"<TT>vi</TT>". Cet &#233;diteur est en standart sur l'ensemble des
+syst&#232;mes sous U<SMALL>NIX</SMALL>, voire m&#234;me sur d'autres syst&#232;mes
+d'exploitation comme OpenV<SMALL>MS</SMALL>, <I>MS-DOS</I>, <I>MacOS</I>, <I>Windows</I> et
+<I>Windows-NT</I>. Par cons&#233;quent, &#224; partir d'une installation de
+base de quelqu'U<SMALL>NIX</SMALL> que ce soit, vous aurez toujours "<TT>vi</TT>"
+&#224; votre disposition. De m&#234;me, c'est cet &#233;diteur qui est
+utilis&#233; par d&#233;faut pour de nombreuses commandes de configuration
+du syst&#232;me, car, peut importe le type de terminal utilis&#233; pour
+la console d'administration, "<TT>vi</TT>" vous permettra d'&#233;diter
+les diff&#233;rents fichiers de configuration.
+
+<P>
+"<TT>vi</TT>" souffre d'une tr&#232;s mauvaise image de par son peu de
+convivialit&#233;. Cependant, il peut &#234;tre utilis&#233; sur n'importe
+quel type de terminal <TT>ASCII</TT>, contrairement &#224; <TT>LSEDIT</TT> sur
+OpenV<SMALL>MS</SMALL> et dispose de nombreuses fonctionnalit&#233;s facilitant
+l'&#233;criture de programmes complexes.
+
+<P>
+Par contre, contrairement &#224; &#171;<TT>emacs</TT>", "<TT>vi</TT>" n'est
+pas un &#233;diteur programmable, c'est-&#224;-dire extensible gr&#226;ce
+&#224; un langage de programmation.
+
+<P>
+Dans toute la suite, les conventions suivantes seront utilis&#233;es&nbsp;:
+
+<UL>
+<LI>Toute commande pr&#233;c&#233;d&#233;e par le caract&#232;re
+			"<TT>:</TT>" correspond &#224; une commande interne &#224;
+			"<TT>vi</TT>". Par cons&#233;quent, elle doit &#234;tre valid&#233;e
+			par <!-- MATH
+ $\fbox{\textsc{return}}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="\fbox{\textsc{return}}"> .
+</LI>
+<LI><I>fichier</I> d&#233;signe le nom d'un fichier.
+</LI>
+<LI><I>cmd_curseur</I> d&#233;signe une commande li&#233;e au
+			d&#233;placement du curseur dans "<TT>vi</TT>".
+</LI>
+<LI><I>caract</I> d&#233;signe un et un seul caract&#232;re.
+</LI>
+<LI><I>str</I> d&#233;signe une cha&#238;ne de caract&#232;res ou bien
+			une expression r&#233;guli&#232;re (cf. chapitre <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>).
+</LI>
+<LI><I>n,m</I> repr&#233;sentent&nbsp;:
+		<DL COMPACT>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>soit deux num&#233;ros de lignes,
+					par exemple "<code>4,50</code>",
+			
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>soit deux marqueurs de lignes,
+					par exemple "<code>.,$</code>",
+			
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>soit deux expressions de recherche utilisant
+					les expressions r&#233;guli&#232;res (cf. chapitre <A HREF="#reg-exp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>),
+					par exemple "<code>/recherche 1/,/recherche 2/</code>",
+			
+</DD>
+<DT><IMG
+ WIDTH="12" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="$\star$"></DT>
+<DD>soit toute combinaison possible des trois
+					possibilit&#233;s pr&#233;c&#233;dentes, par exemple "<code>1,.</code>",
+					"<code>/recherche 1/,$</code>".
+		
+</DD>
+</DL>
+</LI>
+<LI><I>(a-z)</I> d&#233;signe n'importe quel caract&#232;re de "<TT>a</TT>" &#224;
+			"<TT>z</TT>"
+</LI>
+</UL>
+
+<P>
+Nous avons introduit la notion de marqueur de ligne. Un marqueur est une
+convention pour d&#233;signer certaines lignes particuli&#232;res dont il n'est pas
+possible de d&#233;terminer le num&#233;ro &#224; l'avance. Les deux marqueurs pr&#233;d&#233;finis
+dans "<TT>vi</TT>" sont&nbsp;:
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>Marqueur</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Description</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>.</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>ligne courante, c'est-&#224;-dire la ligne o&#249; se trouve
+						actuellement le curseur,</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>$</code></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>fin de fichier</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=283>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4465"
+  HREF="node236.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4459"
+  HREF="node234.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4453"
+  HREF="node234.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4461"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4463"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4466"
+  HREF="node236.html">Modes de fonctionnement de</A>
+<B> monter:</B> <A NAME="tex2html4460"
+  HREF="node234.html">Commandes de base de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4454"
+  HREF="node234.html">Commandes de base de</A>
+ &nbsp; <B>  <A NAME="tex2html4462"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4464"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

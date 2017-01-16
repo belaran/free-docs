@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Principaux r&#233;pertoires UNIX</TITLE>
+<META NAME="description" CONTENT="Principaux r&#233;pertoires UNIX">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node16.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node18.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html918"
+  HREF="node18.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html912"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html908"
+  HREF="node16.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html914"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html916"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html919"
+  HREF="node18.html">Les entr&#233;es/sorties</A>
+<B> monter:</B> <A NAME="tex2html913"
+  HREF="node14.html">Introduction &#224; la notion</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html909"
+  HREF="node16.html">Les chemins d'acc&#232;s</A>
+ &nbsp; <B>  <A NAME="tex2html915"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html917"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION02153000000000000000">
+Principaux r&#233;pertoires U<SMALL>NIX</SMALL></A>
+</H2>
+
+<P>
+<A NAME="1439"></A>
+<DL>
+<DT><STRONG><I>Root directory (&#171;&nbsp;<TT>/</TT>&nbsp;&#187;)</I></STRONG></DT>
+<DD>
+<BR>
+C'est le haut de l'arborescence. Il n'y a qu'une et une seule entr&#233;e sur
+		le file system. Le <I>root directory</I> est le seul r&#233;pertoire sans p&#232;re.
+		Tous les fichiers et chemins d'acc&#232;s absolus ont le <I>root directory</I>
+		dans le chemin d'acc&#232;s.
+
+<P>
+</DD>
+<DT><STRONG><I>R&#233;pertoires <TT>/bin</TT> et <TT>/sbin</TT></I></STRONG></DT>
+<DD>
+<BR>
+Les r&#233;pertoires <TT>/bin</TT> et <TT>/sbin</TT> contiennent les commandes de base
+		U<SMALL>NIX</SMALL> de la section 1 (<TT>ls</TT>, <TT>cp</TT>, <TT>rm</TT>, <TT>mv</TT>,
+		<TT>ln</TT>, etc.) utilis&#233;es entre autre lors du d&#233;marrage du syst&#232;me.
+		Les fichiers contenus dans ces r&#233;pertoires ne sont que des ex&#233;cutables.
+
+<P>
+</DD>
+<DT><STRONG><I>R&#233;pertoire <TT>/dev</TT></I></STRONG></DT>
+<DD>
+<BR>
+Le r&#233;pertoire <TT>/dev</TT> contient les
+		<A NAME="1443"></A>fichiers sp&#233;ciaux permettant de
+		communiquer avec tous les p&#233;riph&#233;riques comme les disques, les
+		terminaux, les d&#233;rouleurs de bandes, les imprimantes, etc.
+
+<P>
+</DD>
+<DT><STRONG><I>R&#233;pertoire <TT>/etc</TT></I></STRONG></DT>
+<DD>
+<BR>
+Le r&#233;pertoire <TT>/etc</TT> contient tous les fichiers d'administration et
+		un certain nombre de commandes syst&#232;me. Le r&#233;pertoire <TT>/etc</TT> porte
+		bien son nom<A NAME="tex2html11"
+  HREF="footnode.html#foot1445"><SUP>1.6</SUP></A>.
+
+<P>
+</DD>
+<DT><STRONG><I>R&#233;pertoires <TT>/home</TT> et <TT>/root</TT></I></STRONG></DT>
+<DD>
+<BR>
+Le r&#233;pertoire <TT>/home</TT> contient les r&#233;pertoires personnels des utilisateurs du syst&#232;me.
+<BR>
+Le r&#233;pertoire <TT>/root</TT> est le r&#233;pertoire personnel de l'administrateur.
+
+<P>
+</DD>
+<DT><STRONG><I>R&#233;pertoire <TT>/usr</TT> et sous-r&#233;pertoires</I></STRONG></DT>
+<DD>
+<BR>
+Le r&#233;pertoire <TT>/usr</TT> contient un certain nombre de sous-r&#233;pertoires.
+		Chacun contient les fichiers n&#233;cessaires au fonctionnement en mode normal
+		du syst&#232;me<A NAME="tex2html12"
+  HREF="footnode.html#foot1240"><SUP>1.7</SUP></A>. Par exemple&nbsp;:
+		
+<UL>
+<LI><TT>/usr/bin</TT> et <TT>/usr/sbin</TT> contiennent les commandes
+			suppl&#233;mentaires non contenues dans <TT>/bin</TT> et <TT>/sbin</TT>&nbsp;;
+</LI>
+<LI><TT>/usr/lib</TT> contient les biblioth&#232;ques pour le fonctionnement
+			d'U<SMALL>NIX</SMALL> et pour le d&#233;veloppement&nbsp;;
+</LI>
+<LI><TT>/usr/include</TT> contient les fichiers de d&#233;claration des
+			fonctions syst&#232;me pour le d&#233;veloppement.
+		
+</LI>
+</UL>
+
+<P>
+</DD>
+<DT><STRONG><I>R&#233;pertoire <TT>/var</TT></I></STRONG></DT>
+<DD>
+<BR>
+Le r&#233;pertoire <TT>/var</TT> contient les fichiers variables (succeptibles d'&#234;tre modifi&#233;s fr&#233;quemment) : journaux (logs), e-mails, bases de donn&#233;es, archives, ...
+</DD>
+</DL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html918"
+  HREF="node18.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html912"
+  HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html908"
+  HREF="node16.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html914"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html916"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html919"
+  HREF="node18.html">Les entr&#233;es/sorties</A>
+<B> monter:</B> <A NAME="tex2html913"
+  HREF="node14.html">Introduction &#224; la notion</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html909"
+  HREF="node16.html">Les chemins d'acc&#232;s</A>
+ &nbsp; <B>  <A NAME="tex2html915"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html917"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

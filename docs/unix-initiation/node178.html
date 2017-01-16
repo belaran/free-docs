@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Remarque sur l'utilisation de l'option "-f"</TITLE>
+<META NAME="description" CONTENT="Remarque sur l'utilisation de l'option "-f"">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node177.html">
+<LINK REL="up" HREF="node158.html">
+<LINK REL="next" HREF="node179.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3471"
+  HREF="node179.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3465"
+  HREF="node158.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3461"
+  HREF="node177.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3467"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3469"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3472"
+  HREF="node179.html">Programmation avanc&#233;e de Shell</A>
+<B> monter:</B> <A NAME="tex2html3466"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3462"
+  HREF="node177.html">Exemple</A>
+ &nbsp; <B>  <A NAME="tex2html3468"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3470"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION041070000000000000000"></A><A NAME="adv-fltrs-awk-f"></A>
+<BR>
+Remarque sur l'utilisation de l'option "<TT>-f</TT>"
+</H1>
+
+<P>
+&#192; la r&#232;gle 10 explicit&#233;e &#224; la section <A HREF="node98.html#pgm-intro-basic-rules"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, nous
+avions pr&#233;ciser que la premi&#232;re ligne d'un script devait sp&#233;cifier le nom
+de l'ex&#233;cutable associ&#233; au shell utiliser.
+
+<P>
+Nous avons vu de m&#234;me, que la commande "<TT>awk</TT>" dispose de l'option
+"<TT>-f</TT>", permettant de pr&#233;ciser un fichier de requ&#234;tes "<TT>awk</TT>".
+
+<P>
+Si l'analogie est faite avec le shell, le processus charg&#233; d'&#233;valuer chaque
+ligne du fichier est l'ex&#233;cutable sp&#233;cifi&#233; au niveau de la premi&#232;re
+ligne du fichier contenant les instructions. Par cons&#233;quent si le fichier
+contenant les requ&#234;tes "<TT>awk</TT>"&nbsp;:
+
+<UL>
+<LI>a comme premi&#232;re ligne "<code>#!/usr/bin/awk</code>"<A NAME="tex2html94"
+  HREF="footnode.html#foot19297"><SUP>15.7</SUP></A>,
+</LI>
+<LI>est accessible en ex&#233;cution,
+</LI>
+</UL>
+il peut &#234;tre consid&#233;r&#233; comme un filtre ex&#233;cutant les requ&#234;tes "<TT>awk</TT>"
+qu'il contient.
+
+<P>
+Par exemple, si cette notion est appliqu&#233;e au fichier d&#233;crit dans l'exemple
+de la section <A HREF="node177.html#adv-fltrs-awk-ex"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>, le contenu du fichier
+"<TT>cumul.awk</TT>"&nbsp;:<PRE>
+#!/usr/bin/awk
+BEGIN {
+    FS=":"
+    print "Statistiques sur le nombre de sarrasins occis"
+    nb=0
+}
+
+$1 ~ /[a-zA-Z]/ {
+    cumul[$1] += $4
+    for (i=1; (i &lt;= nb) &amp;&amp; (list[i] != $1; i++)
+    if ( i &gt; nb) {
+        nb ++
+        list[nb]=$1 $2
+    }
+}
+END {
+    printf ("%.20s\t%.20s \n","Zigoto", "Cumul")
+    for (i=1; i &lt;= nb; i++)
+        printf ("%.20s\t%.20s \n",
+             list[i], cumul[list[i]])
+}
+</PRE>
+
+<P>
+La commande qui sera saisie deviendra&nbsp;:<PRE>
+cumul.awk donjon
+</PRE>
+
+<P>
+Si nous voulons utiliser le programme "<TT>cumul.awk</TT>" comme un filtre,
+il sera alors possible de saisir la commande suivante&nbsp;:<PRE>
+cat donjon | cumul.awk
+</PRE>
+
+<P>
+Dans tous les cas, le r&#233;sultat obtenu sur la sortie standard sera identique &#224;
+celui montr&#233; &#224; la section <A HREF="node177.html#adv-fltrs-awk-ex"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3471"
+  HREF="node179.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html3465"
+  HREF="node158.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html3461"
+  HREF="node177.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html3467"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html3469"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html3472"
+  HREF="node179.html">Programmation avanc&#233;e de Shell</A>
+<B> monter:</B> <A NAME="tex2html3466"
+  HREF="node158.html">Utilisation de &#171;&nbsp;awk&nbsp;&#187;</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html3462"
+  HREF="node177.html">Exemple</A>
+ &nbsp; <B>  <A NAME="tex2html3468"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3470"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

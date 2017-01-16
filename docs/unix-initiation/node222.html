@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Les fonctions externes</TITLE>
+<META NAME="description" CONTENT="Les fonctions externes">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="previous" HREF="node221.html">
+<LINK REL="up" HREF="node220.html">
+<LINK REL="next" HREF="node223.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4219"
+  HREF="node223.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html4213"
+  HREF="node220.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html4209"
+  HREF="node221.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html4215"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html4217"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html4220"
+  HREF="node223.html">Les structures de contr&#244;le</A>
+<B> monter:</B> <A NAME="tex2html4214"
+  HREF="node220.html">Les fonctions</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html4210"
+  HREF="node221.html">Les fonctions internes (built</A>
+ &nbsp; <B>  <A NAME="tex2html4216"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4218"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION05272000000000000000">
+Les fonctions externes</A>
+</H2>
+
+<P>
+Le C Shell <B>ne supporte pas</B> la notion de fonctions, par contre on peut simuler leur avec la 
+commande "<TT>goto</TT>".
+Le Bourne Shell, par contre, supporte les fonctions. Pour plus de renseignements, reportez vous &#224;
+la section <A HREF="node110.html#sh-functions"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+
+	<B>Exemple&nbsp;18..2&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<PRE>
+#!/bin/sh
+#appel de fonctions externes
+_f1()
+{
+    echo "execution fonction f1"
+    return
+}
+
+_f2 ()
+{
+    echo "execution fonction f2"
+    return
+}
+
+_main ()
+{
+    # appel fonctions
+    f1
+    echo "retour en s{\'e}quence"
+    f2
+    echo "retour en s{\'e}quence"
+    exit 0
+}
+
+_main
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>

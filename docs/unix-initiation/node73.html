@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2012 (1.2)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction</TITLE>
+<META NAME="description" CONTENT="Introduction">
+<META NAME="keywords" CONTENT="00-unix-esme">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2012">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="./style.css">
+
+<LINK REL="next" HREF="node74.html">
+<LINK REL="previous" HREF="node72.html">
+<LINK REL="up" HREF="node72.html">
+<LINK REL="next" HREF="node74.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1810"
+  HREF="node74.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1804"
+  HREF="node72.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1798"
+  HREF="node72.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1806"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1808"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1811"
+  HREF="node74.html">Utilisation du m&#233;tacaract&#232;re &#171;&nbsp;?&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html1805"
+  HREF="node72.html">G&#233;n&#233;ration de noms de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1799"
+  HREF="node72.html">G&#233;n&#233;ration de noms de</A>
+ &nbsp; <B>  <A NAME="tex2html1807"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1809"
+  HREF="node277.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION03151000000000000000">
+Introduction</A>
+</H2>
+
+<P>
+Les <A NAME="8498"></A>m&#233;tacaract&#232;res ne sont pas des
+<A NAME="8045"></A>&#171;&nbsp;<I>wildcards</I>&nbsp;&#187;. Un wildcard est
+interpr&#233;t&#233; par une commande pour g&#233;n&#233;rer certains noms
+de fichiers. Par contre les m&#233;tacaract&#232;res sont
+interpr&#233;t&#233;s directement par le shell <B>avant
+l'ex&#233;cution de la commande</B>. Celle-ci re&#231;oit des noms de
+fichiers, comme si vous les aviez tap&#233;s au clavier.
+
+<P>
+Les m&#233;tacaract&#232;res ne sont pas une aide &#224; la frappe au clavier.
+Les m&#233;tacaract&#232;res disponibles sont&nbsp;:&nbsp;
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><A NAME="8501"></A><TT>?</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Masque un caract&#232;re, sauf le point en premi&#232;re position.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="8502"></A><TT>[]</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>D&#233;finit une classe de caract&#232;res&nbsp;:
+	<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><A NAME="8504"></A><TT>-</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>pour d&#233;finir une suite,</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="8505"></A><TT>!</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=142>pour exprimer une exclusion</TD>
+</TR>
+</TABLE>
+	Aucun s&#233;parateur n'est utilis&#233; pour exprimer une liste.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><A NAME="8506"></A><TT>*</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Masque toutes cha&#238;nes de caract&#232;res, sauf le point en premi&#232;re position.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+	<B>Remarque&nbsp;4..5&nbsp;:</B>
+<BR>	  <BR>
+<BR>
+	<BLOCKQUOTE>
+<I>Les expressions utilisant les m&#233;tacaract&#232;res suivent les r&#232;gles des expressions r&#233;guli&#232;res
+U<SMALL>NIX</SMALL>.
+	
+</I></BLOCKQUOTE>
+
+<P>
+Les m&#233;tacaract&#232;res ne masquent jamais les fichiers cach&#233;s. Le point en d&#233;but du nom d'un
+fichier doit &#234;tre tap&#233; explicitement.
+
+<P>
+Le tableau <A HREF="#tab-basenot-equiv-meta"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A> donne les &#233;quivalences entre U<SMALL>NIX</SMALL>
+OpenV<SMALL>MS</SMALL> et <I>MS-DOS</I> pour l'utilisation des m&#233;tacaract&#232;res sous U<SMALL>NIX</SMALL>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="8507"></A>
+<TABLE>
+<CAPTION><STRONG>Tableau:</STRONG>
+&#201;quivalence pour l'utilisation des m&#233;tacaract&#232;res
+entre U<SMALL>NIX</SMALL>, OpenV<SMALL>MS</SMALL> et <I>MS-DOS</I>.</CAPTION>
+<TR><TD>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER">U<SMALL>NIX</SMALL></TD>
+<TD ALIGN="CENTER">OpenV<SMALL>MS</SMALL></TD>
+<TD ALIGN="CENTER"><I>MS-DOS</I></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>*</TT></TD>
+<TD ALIGN="CENTER"><TT>*</TT></TD>
+<TD ALIGN="CENTER"><TT>*</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>?</TT></TD>
+<TD ALIGN="CENTER"><TT>%</TT></TD>
+<TD ALIGN="CENTER"><TT>?</TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><TT>[]</TT></TD>
+<TD ALIGN="CENTER">pas d'&#233;quivalence</TD>
+<TD ALIGN="CENTER">pas d'&#233;quivalence</TD>
+</TR>
+</TABLE>
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1810"
+  HREF="node74.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1804"
+  HREF="node72.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1798"
+  HREF="node72.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1806"
+  HREF="node3.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html1808"
+  HREF="node277.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> suivant:</B> <A NAME="tex2html1811"
+  HREF="node74.html">Utilisation du m&#233;tacaract&#232;re &#171;&nbsp;?&nbsp;&#187;</A>
+<B> monter:</B> <A NAME="tex2html1805"
+  HREF="node72.html">G&#233;n&#233;ration de noms de</A>
+<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html1799"
+  HREF="node72.html">G&#233;n&#233;ration de noms de</A>
+ &nbsp; <B>  <A NAME="tex2html1807"
+  HREF="node3.html">Table des mati&#232;res</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1809"
+  HREF="node277.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+<Sylvain Baudry> baudry@esme.fr
+</ADDRESS>
+</BODY>
+</HTML>
