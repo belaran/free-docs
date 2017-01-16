@@ -1,0 +1,9 @@
+*.aux
+*.dvi
+*.toc
+*.log
+*.lof
+*.idx
+*.lot
+*.out
+unix-initiation/work
